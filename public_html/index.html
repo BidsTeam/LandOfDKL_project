@@ -38,10 +38,9 @@
 	        });
 
 	        this.cache[url] = templateHtml;
-    }
-
-    return _.template(templateHtml, data, settings);
-}});
+    	}
+	    return _.template(templateHtml, data, settings);
+	}});
 	</script>
 	 
 	<script src="//localhost:35729/livereload.js"></script>
@@ -91,15 +90,17 @@
     		},
     		render: function(){    			
     			var template = this.model.get("template");    			
-            	$(this.el).html(this.template_list[template]());            	
+            	this.$el.html(this.template_list[template]());            	
             	return this;    			
     		}
 		});		
 		var controller = new Controller(); // Создаём контроллер
 		var cssmenu_model = new Cssmenu_Model();
+
 		Views = { 
             cssmenu1: new Cssmenu_View({model: cssmenu_model}),            
         };		
+
         cssmenu_model.trigger("change");
 
 		Backbone.history.start();  // todo От решетки в url можно избавиться подставив сюда {pushState: true}, но разберусь потом    
@@ -107,5 +108,4 @@
 		
 	</script>
 </body>
-
 </html>
