@@ -53,14 +53,13 @@ module.exports = function (grunt) {
 				files: ['public_html/**'],
 				options: {
 					livereload: true
-					atBegin: true
 				}
 			},
 			scripts: {
 				files : ['public_html/js/lib/*.js'],
 				tasks : ['concat', 'uglify'],
 				options : {
-					spawn : false
+					spawn : false,
 					atBegin: true
 				}
 			},
@@ -68,7 +67,7 @@ module.exports = function (grunt) {
 				files: 'public_html/css/scss/*.scss',
 				tasks: ['sass'],
 				options: {
-					livereload: true
+					livereload: true,
 					atBegin: true
 				}
 			}
