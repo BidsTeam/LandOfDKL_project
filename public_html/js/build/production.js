@@ -1,5 +1,5 @@
 /*!
- * jQuery JavaScript Library v2.1.3
+ * jQuery JavaScript Library v2.1.1
  * http://jquery.com/
  *
  * Includes Sizzle.js
@@ -9,19 +9,19 @@
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-12-18T15:11Z
+ * Date: 2014-05-01T17:11Z
  */
 
 (function( global, factory ) {
 
 	if ( typeof module === "object" && typeof module.exports === "object" ) {
-		// For CommonJS and CommonJS-like environments where a proper `window`
-		// is present, execute the factory and get jQuery.
-		// For environments that do not have a `window` with a `document`
-		// (such as Node.js), expose a factory as module.exports.
-		// This accentuates the need for the creation of a real `window`.
+		// For CommonJS and CommonJS-like environments where a proper window is present,
+		// execute the factory and get jQuery
+		// For environments that do not inherently posses a window with a document
+		// (such as Node.js), expose a jQuery-making factory as module.exports
+		// This accentuates the need for the creation of a real window
 		// e.g. var jQuery = require("jquery")(window);
-		// See ticket #14549 for more info.
+		// See ticket #14549 for more info
 		module.exports = global.document ?
 			factory( global, true ) :
 			function( w ) {
@@ -37,10 +37,10 @@
 // Pass this if window is not defined yet
 }(typeof window !== "undefined" ? window : this, function( window, noGlobal ) {
 
-// Support: Firefox 18+
-// Can't be in strict mode, several libs including ASP.NET trace
+// Can't do this because several apps including ASP.NET trace
 // the stack via arguments.caller.callee and Firefox dies if
 // you try to trace through "use strict" call chains. (#13335)
+// Support: Firefox 18+
 //
 
 var arr = [];
@@ -67,7 +67,7 @@ var
 	// Use the correct document accordingly with window argument (sandbox)
 	document = window.document,
 
-	version = "2.1.3",
+	version = "2.1.1",
 
 	// Define a local copy of jQuery
 	jQuery = function( selector, context ) {
@@ -185,7 +185,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 	if ( typeof target === "boolean" ) {
 		deep = target;
 
-		// Skip the boolean and the target
+		// skip the boolean and the target
 		target = arguments[ i ] || {};
 		i++;
 	}
@@ -195,7 +195,7 @@ jQuery.extend = jQuery.fn.extend = function() {
 		target = {};
 	}
 
-	// Extend jQuery itself if only one argument is passed
+	// extend jQuery itself if only one argument is passed
 	if ( i === length ) {
 		target = this;
 		i--;
@@ -252,6 +252,9 @@ jQuery.extend({
 
 	noop: function() {},
 
+	// See test/unit/core.js for details concerning isFunction.
+	// Since version 1.3, DOM methods and functions like alert
+	// aren't supported. They return false on IE (#2968).
 	isFunction: function( obj ) {
 		return jQuery.type(obj) === "function";
 	},
@@ -266,8 +269,7 @@ jQuery.extend({
 		// parseFloat NaNs numeric-cast false positives (null|true|false|"")
 		// ...but misinterprets leading-number strings, particularly hex literals ("0x...")
 		// subtraction forces infinities to NaN
-		// adding 1 corrects loss of precision from parseFloat (#15100)
-		return !jQuery.isArray( obj ) && (obj - parseFloat( obj ) + 1) >= 0;
+		return !jQuery.isArray( obj ) && obj - parseFloat( obj ) >= 0;
 	},
 
 	isPlainObject: function( obj ) {
@@ -301,7 +303,7 @@ jQuery.extend({
 		if ( obj == null ) {
 			return obj + "";
 		}
-		// Support: Android<4.0, iOS<6 (functionish RegExp)
+		// Support: Android < 4.0, iOS < 6 (functionish RegExp)
 		return typeof obj === "object" || typeof obj === "function" ?
 			class2type[ toString.call(obj) ] || "object" :
 			typeof obj;
@@ -331,7 +333,6 @@ jQuery.extend({
 	},
 
 	// Convert dashed to camelCase; used by the css and data modules
-	// Support: IE9-11+
 	// Microsoft forgot to hump their vendor prefix (#9572)
 	camelCase: function( string ) {
 		return string.replace( rmsPrefix, "ms-" ).replace( rdashAlpha, fcamelCase );
@@ -547,14 +548,14 @@ function isArraylike( obj ) {
 }
 var Sizzle =
 /*!
- * Sizzle CSS Selector Engine v2.2.0-pre
+ * Sizzle CSS Selector Engine v1.10.19
  * http://sizzlejs.com/
  *
- * Copyright 2008, 2014 jQuery Foundation, Inc. and other contributors
+ * Copyright 2013 jQuery Foundation, Inc. and other contributors
  * Released under the MIT license
  * http://jquery.org/license
  *
- * Date: 2014-12-16
+ * Date: 2014-04-18
  */
 (function( window ) {
 
@@ -581,7 +582,7 @@ var i,
 	contains,
 
 	// Instance-specific data
-	expando = "sizzle" + 1 * new Date(),
+	expando = "sizzle" + -(new Date()),
 	preferredDoc = window.document,
 	dirruns = 0,
 	done = 0,
@@ -596,6 +597,7 @@ var i,
 	},
 
 	// General-purpose constants
+	strundefined = typeof undefined,
 	MAX_NEGATIVE = 1 << 31,
 
 	// Instance methods
@@ -605,13 +607,12 @@ var i,
 	push_native = arr.push,
 	push = arr.push,
 	slice = arr.slice,
-	// Use a stripped-down indexOf as it's faster than native
-	// http://jsperf.com/thor-indexof-vs-for/5
-	indexOf = function( list, elem ) {
+	// Use a stripped-down indexOf if we can't use a native one
+	indexOf = arr.indexOf || function( elem ) {
 		var i = 0,
-			len = list.length;
+			len = this.length;
 		for ( ; i < len; i++ ) {
-			if ( list[i] === elem ) {
+			if ( this[i] === elem ) {
 				return i;
 			}
 		}
@@ -651,7 +652,6 @@ var i,
 		")\\)|)",
 
 	// Leading and non-escaped trailing whitespace, capturing some non-whitespace characters preceding the latter
-	rwhitespace = new RegExp( whitespace + "+", "g" ),
 	rtrim = new RegExp( "^" + whitespace + "+|((?:^|[^\\\\])(?:\\\\.)*)" + whitespace + "+$", "g" ),
 
 	rcomma = new RegExp( "^" + whitespace + "*," + whitespace + "*" ),
@@ -703,14 +703,6 @@ var i,
 				String.fromCharCode( high + 0x10000 ) :
 				// Supplemental Plane codepoint (surrogate pair)
 				String.fromCharCode( high >> 10 | 0xD800, high & 0x3FF | 0xDC00 );
-	},
-
-	// Used for iframes
-	// See setDocument()
-	// Removing the function wrapper causes a "Permission Denied"
-	// error in IE
-	unloadHandler = function() {
-		setDocument();
 	};
 
 // Optimize for push.apply( _, NodeList )
@@ -753,18 +745,19 @@ function Sizzle( selector, context, results, seed ) {
 
 	context = context || document;
 	results = results || [];
-	nodeType = context.nodeType;
 
-	if ( typeof selector !== "string" || !selector ||
-		nodeType !== 1 && nodeType !== 9 && nodeType !== 11 ) {
-
+	if ( !selector || typeof selector !== "string" ) {
 		return results;
 	}
 
-	if ( !seed && documentIsHTML ) {
+	if ( (nodeType = context.nodeType) !== 1 && nodeType !== 9 ) {
+		return [];
+	}
 
-		// Try to shortcut find operations when possible (e.g., not under DocumentFragment)
-		if ( nodeType !== 11 && (match = rquickExpr.exec( selector )) ) {
+	if ( documentIsHTML && !seed ) {
+
+		// Shortcuts
+		if ( (match = rquickExpr.exec( selector )) ) {
 			// Speed-up: Sizzle("#ID")
 			if ( (m = match[1]) ) {
 				if ( nodeType === 9 ) {
@@ -796,7 +789,7 @@ function Sizzle( selector, context, results, seed ) {
 				return results;
 
 			// Speed-up: Sizzle(".CLASS")
-			} else if ( (m = match[3]) && support.getElementsByClassName ) {
+			} else if ( (m = match[3]) && support.getElementsByClassName && context.getElementsByClassName ) {
 				push.apply( results, context.getElementsByClassName( m ) );
 				return results;
 			}
@@ -806,7 +799,7 @@ function Sizzle( selector, context, results, seed ) {
 		if ( support.qsa && (!rbuggyQSA || !rbuggyQSA.test( selector )) ) {
 			nid = old = expando;
 			newContext = context;
-			newSelector = nodeType !== 1 && selector;
+			newSelector = nodeType === 9 && selector;
 
 			// qSA works strangely on Element-rooted queries
 			// We can work around this by specifying an extra ID on the root
@@ -993,7 +986,7 @@ function createPositionalPseudo( fn ) {
  * @returns {Element|Object|Boolean} The input node if acceptable, otherwise a falsy value
  */
 function testContext( context ) {
-	return context && typeof context.getElementsByTagName !== "undefined" && context;
+	return context && typeof context.getElementsByTagName !== strundefined && context;
 }
 
 // Expose support vars for convenience
@@ -1017,8 +1010,9 @@ isXML = Sizzle.isXML = function( elem ) {
  * @returns {Object} Returns the current document
  */
 setDocument = Sizzle.setDocument = function( node ) {
-	var hasCompare, parent,
-		doc = node ? node.ownerDocument || node : preferredDoc;
+	var hasCompare,
+		doc = node ? node.ownerDocument || node : preferredDoc,
+		parent = doc.defaultView;
 
 	// If no document and documentElement is available, return
 	if ( doc === document || doc.nodeType !== 9 || !doc.documentElement ) {
@@ -1028,7 +1022,9 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Set our document
 	document = doc;
 	docElem = doc.documentElement;
-	parent = doc.defaultView;
+
+	// Support tests
+	documentIsHTML = !isXML( doc );
 
 	// Support: IE>8
 	// If iframe document is assigned to "document" variable and if iframe has been reloaded,
@@ -1037,22 +1033,21 @@ setDocument = Sizzle.setDocument = function( node ) {
 	if ( parent && parent !== parent.top ) {
 		// IE11 does not have attachEvent, so all must suffer
 		if ( parent.addEventListener ) {
-			parent.addEventListener( "unload", unloadHandler, false );
+			parent.addEventListener( "unload", function() {
+				setDocument();
+			}, false );
 		} else if ( parent.attachEvent ) {
-			parent.attachEvent( "onunload", unloadHandler );
+			parent.attachEvent( "onunload", function() {
+				setDocument();
+			});
 		}
 	}
-
-	/* Support tests
-	---------------------------------------------------------------------- */
-	documentIsHTML = !isXML( doc );
 
 	/* Attributes
 	---------------------------------------------------------------------- */
 
 	// Support: IE<8
-	// Verify that getAttribute really returns attributes and not properties
-	// (excepting IE8 booleans)
+	// Verify that getAttribute really returns attributes and not properties (excepting IE8 booleans)
 	support.attributes = assert(function( div ) {
 		div.className = "i";
 		return !div.getAttribute("className");
@@ -1067,8 +1062,17 @@ setDocument = Sizzle.setDocument = function( node ) {
 		return !div.getElementsByTagName("*").length;
 	});
 
-	// Support: IE<9
-	support.getElementsByClassName = rnative.test( doc.getElementsByClassName );
+	// Check if getElementsByClassName can be trusted
+	support.getElementsByClassName = rnative.test( doc.getElementsByClassName ) && assert(function( div ) {
+		div.innerHTML = "<div class='a'></div><div class='a i'></div>";
+
+		// Support: Safari<4
+		// Catch class over-caching
+		div.firstChild.className = "i";
+		// Support: Opera<10
+		// Catch gEBCN failure to find non-leading classes
+		return div.getElementsByClassName("i").length === 2;
+	});
 
 	// Support: IE<10
 	// Check if getElementById returns elements by name
@@ -1082,7 +1086,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// ID find and filter
 	if ( support.getById ) {
 		Expr.find["ID"] = function( id, context ) {
-			if ( typeof context.getElementById !== "undefined" && documentIsHTML ) {
+			if ( typeof context.getElementById !== strundefined && documentIsHTML ) {
 				var m = context.getElementById( id );
 				// Check parentNode to catch when Blackberry 4.6 returns
 				// nodes that are no longer in the document #6963
@@ -1103,7 +1107,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		Expr.filter["ID"] =  function( id ) {
 			var attrId = id.replace( runescape, funescape );
 			return function( elem ) {
-				var node = typeof elem.getAttributeNode !== "undefined" && elem.getAttributeNode("id");
+				var node = typeof elem.getAttributeNode !== strundefined && elem.getAttributeNode("id");
 				return node && node.value === attrId;
 			};
 		};
@@ -1112,20 +1116,14 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Tag
 	Expr.find["TAG"] = support.getElementsByTagName ?
 		function( tag, context ) {
-			if ( typeof context.getElementsByTagName !== "undefined" ) {
+			if ( typeof context.getElementsByTagName !== strundefined ) {
 				return context.getElementsByTagName( tag );
-
-			// DocumentFragment nodes don't have gEBTN
-			} else if ( support.qsa ) {
-				return context.querySelectorAll( tag );
 			}
 		} :
-
 		function( tag, context ) {
 			var elem,
 				tmp = [],
 				i = 0,
-				// By happy coincidence, a (broken) gEBTN appears on DocumentFragment nodes too
 				results = context.getElementsByTagName( tag );
 
 			// Filter out possible comments
@@ -1143,7 +1141,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 	// Class
 	Expr.find["CLASS"] = support.getElementsByClassName && function( className, context ) {
-		if ( documentIsHTML ) {
+		if ( typeof context.getElementsByClassName !== strundefined && documentIsHTML ) {
 			return context.getElementsByClassName( className );
 		}
 	};
@@ -1172,15 +1170,13 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// setting a boolean content attribute,
 			// since its presence should be enough
 			// http://bugs.jquery.com/ticket/12359
-			docElem.appendChild( div ).innerHTML = "<a id='" + expando + "'></a>" +
-				"<select id='" + expando + "-\f]' msallowcapture=''>" +
-				"<option selected=''></option></select>";
+			div.innerHTML = "<select msallowclip=''><option selected=''></option></select>";
 
 			// Support: IE8, Opera 11-12.16
 			// Nothing should be selected when empty strings follow ^= or $= or *=
 			// The test attribute must be unknown in Opera but "safe" for WinRT
 			// http://msdn.microsoft.com/en-us/library/ie/hh465388.aspx#attribute_section
-			if ( div.querySelectorAll("[msallowcapture^='']").length ) {
+			if ( div.querySelectorAll("[msallowclip^='']").length ) {
 				rbuggyQSA.push( "[*^$]=" + whitespace + "*(?:''|\"\")" );
 			}
 
@@ -1190,23 +1186,11 @@ setDocument = Sizzle.setDocument = function( node ) {
 				rbuggyQSA.push( "\\[" + whitespace + "*(?:value|" + booleans + ")" );
 			}
 
-			// Support: Chrome<29, Android<4.2+, Safari<7.0+, iOS<7.0+, PhantomJS<1.9.7+
-			if ( !div.querySelectorAll( "[id~=" + expando + "-]" ).length ) {
-				rbuggyQSA.push("~=");
-			}
-
 			// Webkit/Opera - :checked should return selected option elements
 			// http://www.w3.org/TR/2011/REC-css3-selectors-20110929/#checked
 			// IE8 throws error here and will not see later tests
 			if ( !div.querySelectorAll(":checked").length ) {
 				rbuggyQSA.push(":checked");
-			}
-
-			// Support: Safari 8+, iOS 8+
-			// https://bugs.webkit.org/show_bug.cgi?id=136851
-			// In-page `selector#id sibing-combinator selector` fails
-			if ( !div.querySelectorAll( "a#" + expando + "+*" ).length ) {
-				rbuggyQSA.push(".#.+[+~]");
 			}
 		});
 
@@ -1324,7 +1308,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Maintain original order
 			return sortInput ?
-				( indexOf( sortInput, a ) - indexOf( sortInput, b ) ) :
+				( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
 				0;
 		}
 
@@ -1351,7 +1335,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 				aup ? -1 :
 				bup ? 1 :
 				sortInput ?
-				( indexOf( sortInput, a ) - indexOf( sortInput, b ) ) :
+				( indexOf.call( sortInput, a ) - indexOf.call( sortInput, b ) ) :
 				0;
 
 		// If the nodes are siblings, we can do a quick check
@@ -1414,7 +1398,7 @@ Sizzle.matchesSelector = function( elem, expr ) {
 					elem.document && elem.document.nodeType !== 11 ) {
 				return ret;
 			}
-		} catch (e) {}
+		} catch(e) {}
 	}
 
 	return Sizzle( expr, document, null, [ elem ] ).length > 0;
@@ -1633,7 +1617,7 @@ Expr = Sizzle.selectors = {
 			return pattern ||
 				(pattern = new RegExp( "(^|" + whitespace + ")" + className + "(" + whitespace + "|$)" )) &&
 				classCache( className, function( elem ) {
-					return pattern.test( typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== "undefined" && elem.getAttribute("class") || "" );
+					return pattern.test( typeof elem.className === "string" && elem.className || typeof elem.getAttribute !== strundefined && elem.getAttribute("class") || "" );
 				});
 		},
 
@@ -1655,7 +1639,7 @@ Expr = Sizzle.selectors = {
 					operator === "^=" ? check && result.indexOf( check ) === 0 :
 					operator === "*=" ? check && result.indexOf( check ) > -1 :
 					operator === "$=" ? check && result.slice( -check.length ) === check :
-					operator === "~=" ? ( " " + result.replace( rwhitespace, " " ) + " " ).indexOf( check ) > -1 :
+					operator === "~=" ? ( " " + result + " " ).indexOf( check ) > -1 :
 					operator === "|=" ? result === check || result.slice( 0, check.length + 1 ) === check + "-" :
 					false;
 			};
@@ -1775,7 +1759,7 @@ Expr = Sizzle.selectors = {
 							matched = fn( seed, argument ),
 							i = matched.length;
 						while ( i-- ) {
-							idx = indexOf( seed, matched[i] );
+							idx = indexOf.call( seed, matched[i] );
 							seed[ idx ] = !( matches[ idx ] = matched[i] );
 						}
 					}) :
@@ -1814,8 +1798,6 @@ Expr = Sizzle.selectors = {
 				function( elem, context, xml ) {
 					input[0] = elem;
 					matcher( input, null, xml, results );
-					// Don't keep the element (issue #299)
-					input[0] = null;
 					return !results.pop();
 				};
 		}),
@@ -1827,7 +1809,6 @@ Expr = Sizzle.selectors = {
 		}),
 
 		"contains": markFunction(function( text ) {
-			text = text.replace( runescape, funescape );
 			return function( elem ) {
 				return ( elem.textContent || elem.innerText || getText( elem ) ).indexOf( text ) > -1;
 			};
@@ -2249,7 +2230,7 @@ function setMatcher( preFilter, selector, matcher, postFilter, postFinder, postS
 				i = matcherOut.length;
 				while ( i-- ) {
 					if ( (elem = matcherOut[i]) &&
-						(temp = postFinder ? indexOf( seed, elem ) : preMap[i]) > -1 ) {
+						(temp = postFinder ? indexOf.call( seed, elem ) : preMap[i]) > -1 ) {
 
 						seed[temp] = !(results[temp] = elem);
 					}
@@ -2284,16 +2265,13 @@ function matcherFromTokens( tokens ) {
 			return elem === checkContext;
 		}, implicitRelative, true ),
 		matchAnyContext = addCombinator( function( elem ) {
-			return indexOf( checkContext, elem ) > -1;
+			return indexOf.call( checkContext, elem ) > -1;
 		}, implicitRelative, true ),
 		matchers = [ function( elem, context, xml ) {
-			var ret = ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
+			return ( !leadingRelative && ( xml || context !== outermostContext ) ) || (
 				(checkContext = context).nodeType ?
 					matchContext( elem, context, xml ) :
 					matchAnyContext( elem, context, xml ) );
-			// Avoid hanging onto element (issue #299)
-			checkContext = null;
-			return ret;
 		} ];
 
 	for ( ; i < len; i++ ) {
@@ -2543,7 +2521,7 @@ select = Sizzle.select = function( selector, context, results, seed ) {
 // Sort stability
 support.sortStable = expando.split("").sort( sortOrder ).join("") === expando;
 
-// Support: Chrome 14-35+
+// Support: Chrome<14
 // Always assume duplicates if they aren't passed to the comparison function
 support.detectDuplicates = !!hasDuplicate;
 
@@ -2752,7 +2730,7 @@ var rootjQuery,
 				if ( match[1] ) {
 					context = context instanceof jQuery ? context[0] : context;
 
-					// Option to run scripts is true for back-compat
+					// scripts is true for back-compat
 					// Intentionally let the error be thrown if parseHTML is not present
 					jQuery.merge( this, jQuery.parseHTML(
 						match[1],
@@ -2780,8 +2758,8 @@ var rootjQuery,
 				} else {
 					elem = document.getElementById( match[2] );
 
-					// Support: Blackberry 4.6
-					// gEBID returns nodes no longer in the document (#6963)
+					// Check parentNode to catch when Blackberry 4.6 returns
+					// nodes that are no longer in the document #6963
 					if ( elem && elem.parentNode ) {
 						// Inject the element directly into the jQuery object
 						this.length = 1;
@@ -2834,7 +2812,7 @@ rootjQuery = jQuery( document );
 
 
 var rparentsprev = /^(?:parents|prev(?:Until|All))/,
-	// Methods guaranteed to produce a unique set when starting from a unique set
+	// methods guaranteed to produce a unique set when starting from a unique set
 	guaranteedUnique = {
 		children: true,
 		contents: true,
@@ -2914,7 +2892,8 @@ jQuery.fn.extend({
 		return this.pushStack( matched.length > 1 ? jQuery.unique( matched ) : matched );
 	},
 
-	// Determine the position of an element within the set
+	// Determine the position of an element within
+	// the matched set of elements
 	index: function( elem ) {
 
 		// No argument, return index in parent
@@ -2922,7 +2901,7 @@ jQuery.fn.extend({
 			return ( this[ 0 ] && this[ 0 ].parentNode ) ? this.first().prevAll().length : -1;
 		}
 
-		// Index in selector
+		// index in selector
 		if ( typeof elem === "string" ) {
 			return indexOf.call( jQuery( elem ), this[ 0 ] );
 		}
@@ -3338,7 +3317,7 @@ jQuery.extend({
 
 			progressValues, progressContexts, resolveContexts;
 
-		// Add listeners to Deferred subordinates; treat others as resolved
+		// add listeners to Deferred subordinates; treat others as resolved
 		if ( length > 1 ) {
 			progressValues = new Array( length );
 			progressContexts = new Array( length );
@@ -3355,7 +3334,7 @@ jQuery.extend({
 			}
 		}
 
-		// If we're not waiting on anything, resolve the master
+		// if we're not waiting on anything, resolve the master
 		if ( !remaining ) {
 			deferred.resolveWith( resolveContexts, resolveValues );
 		}
@@ -3434,7 +3413,7 @@ jQuery.ready.promise = function( obj ) {
 		readyList = jQuery.Deferred();
 
 		// Catch cases where $(document).ready() is called after the browser event has already occurred.
-		// We once tried to use readyState "interactive" here, but it caused issues like the one
+		// we once tried to use readyState "interactive" here, but it caused issues like the one
 		// discovered by ChrisS here: http://bugs.jquery.com/ticket/12282#comment:15
 		if ( document.readyState === "complete" ) {
 			// Handle it asynchronously to allow scripts the opportunity to delay ready
@@ -3528,7 +3507,7 @@ jQuery.acceptData = function( owner ) {
 
 
 function Data() {
-	// Support: Android<4,
+	// Support: Android < 4,
 	// Old WebKit does not have Object.preventExtensions/freeze method,
 	// return new empty object instead with no [[set]] accessor
 	Object.defineProperty( this.cache = {}, 0, {
@@ -3537,7 +3516,7 @@ function Data() {
 		}
 	});
 
-	this.expando = jQuery.expando + Data.uid++;
+	this.expando = jQuery.expando + Math.random();
 }
 
 Data.uid = 1;
@@ -3565,7 +3544,7 @@ Data.prototype = {
 				descriptor[ this.expando ] = { value: unlock };
 				Object.defineProperties( owner, descriptor );
 
-			// Support: Android<4
+			// Support: Android < 4
 			// Fallback to a less secure definition
 			} catch ( e ) {
 				descriptor[ this.expando ] = unlock;
@@ -3705,16 +3684,17 @@ var data_user = new Data();
 
 
 
-//	Implementation Summary
-//
-//	1. Enforce API surface and semantic compatibility with 1.9.x branch
-//	2. Improve the module's maintainability by reducing the storage
-//		paths to a single mechanism.
-//	3. Use the same single mechanism to support "private" and "user" data.
-//	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
-//	5. Avoid exposing implementation details on user objects (eg. expando properties)
-//	6. Provide a clear path for implementation upgrade to WeakMap in 2014
+/*
+	Implementation Summary
 
+	1. Enforce API surface and semantic compatibility with 1.9.x branch
+	2. Improve the module's maintainability by reducing the storage
+		paths to a single mechanism.
+	3. Use the same single mechanism to support "private" and "user" data.
+	4. _Never_ expose "private" data to user code (TODO: Drop _data, _removeData)
+	5. Avoid exposing implementation details on user objects (eg. expando properties)
+	6. Provide a clear path for implementation upgrade to WeakMap in 2014
+*/
 var rbrace = /^(?:\{[\w\W]*\}|\[[\w\W]*\])$/,
 	rmultiDash = /([A-Z])/g;
 
@@ -3919,7 +3899,7 @@ jQuery.extend({
 				queue.unshift( "inprogress" );
 			}
 
-			// Clear up the last queue stop function
+			// clear up the last queue stop function
 			delete hooks.stop;
 			fn.call( elem, next, hooks );
 		}
@@ -3929,7 +3909,7 @@ jQuery.extend({
 		}
 	},
 
-	// Not public - generate a queueHooks object, or return the current one
+	// not intended for public consumption - generates a queueHooks object, or returns the current one
 	_queueHooks: function( elem, type ) {
 		var key = type + "queueHooks";
 		return data_priv.get( elem, key ) || data_priv.access( elem, key, {
@@ -3959,7 +3939,7 @@ jQuery.fn.extend({
 			this.each(function() {
 				var queue = jQuery.queue( this, type, data );
 
-				// Ensure a hooks for this queue
+				// ensure a hooks for this queue
 				jQuery._queueHooks( this, type );
 
 				if ( type === "fx" && queue[0] !== "inprogress" ) {
@@ -4026,22 +4006,21 @@ var rcheckableType = (/^(?:checkbox|radio)$/i);
 		div = fragment.appendChild( document.createElement( "div" ) ),
 		input = document.createElement( "input" );
 
-	// Support: Safari<=5.1
-	// Check state lost if the name is set (#11217)
+	// #11217 - WebKit loses check when the name is after the checked attribute
 	// Support: Windows Web Apps (WWA)
-	// `name` and `type` must use .setAttribute for WWA (#14901)
+	// `name` and `type` need .setAttribute for WWA
 	input.setAttribute( "type", "radio" );
 	input.setAttribute( "checked", "checked" );
 	input.setAttribute( "name", "t" );
 
 	div.appendChild( input );
 
-	// Support: Safari<=5.1, Android<4.2
-	// Older WebKit doesn't clone checked state correctly in fragments
+	// Support: Safari 5.1, iOS 5.1, Android 4.x, Android 2.3
+	// old WebKit doesn't clone checked state correctly in fragments
 	support.checkClone = div.cloneNode( true ).cloneNode( true ).lastChild.checked;
 
-	// Support: IE<=11+
 	// Make sure textarea (and checkbox) defaultValue is properly cloned
+	// Support: IE9-IE11+
 	div.innerHTML = "<textarea>x</textarea>";
 	support.noCloneChecked = !!div.cloneNode( true ).lastChild.defaultValue;
 })();
@@ -4419,8 +4398,8 @@ jQuery.event = {
 			j = 0;
 			while ( (handleObj = matched.handlers[ j++ ]) && !event.isImmediatePropagationStopped() ) {
 
-				// Triggered event must either 1) have no namespace, or 2) have namespace(s)
-				// a subset or equal to those in the bound event (both can have no namespace).
+				// Triggered event must either 1) have no namespace, or
+				// 2) have namespace(s) a subset or equal to those in the bound event (both can have no namespace).
 				if ( !event.namespace_re || event.namespace_re.test( handleObj.namespace ) ) {
 
 					event.handleObj = handleObj;
@@ -4570,7 +4549,7 @@ jQuery.event = {
 			event.target = document;
 		}
 
-		// Support: Safari 6.0+, Chrome<28
+		// Support: Safari 6.0+, Chrome < 28
 		// Target should not be a text node (#504, #13143)
 		if ( event.target.nodeType === 3 ) {
 			event.target = event.target.parentNode;
@@ -4675,7 +4654,7 @@ jQuery.Event = function( src, props ) {
 		// by a handler lower down the tree; reflect the correct value.
 		this.isDefaultPrevented = src.defaultPrevented ||
 				src.defaultPrevented === undefined &&
-				// Support: Android<4.0
+				// Support: Android < 4.0
 				src.returnValue === false ?
 			returnTrue :
 			returnFalse;
@@ -4765,8 +4744,8 @@ jQuery.each({
 	};
 });
 
-// Support: Firefox, Chrome, Safari
 // Create "bubbling" focus and blur events
+// Support: Firefox, Chrome, Safari
 if ( !support.focusinBubbles ) {
 	jQuery.each({ focus: "focusin", blur: "focusout" }, function( orig, fix ) {
 
@@ -4919,7 +4898,7 @@ var
 	// We have to close these tags to support XHTML (#13200)
 	wrapMap = {
 
-		// Support: IE9
+		// Support: IE 9
 		option: [ 1, "<select multiple='multiple'>", "</select>" ],
 
 		thead: [ 1, "<table>", "</table>" ],
@@ -4930,7 +4909,7 @@ var
 		_default: [ 0, "", "" ]
 	};
 
-// Support: IE9
+// Support: IE 9
 wrapMap.optgroup = wrapMap.option;
 
 wrapMap.tbody = wrapMap.tfoot = wrapMap.colgroup = wrapMap.caption = wrapMap.thead;
@@ -5020,7 +4999,7 @@ function getAll( context, tag ) {
 		ret;
 }
 
-// Fix IE bugs, see support tests
+// Support: IE >= 9
 function fixInput( src, dest ) {
 	var nodeName = dest.nodeName.toLowerCase();
 
@@ -5040,7 +5019,8 @@ jQuery.extend({
 			clone = elem.cloneNode( true ),
 			inPage = jQuery.contains( elem.ownerDocument, elem );
 
-		// Fix IE cloning issues
+		// Support: IE >= 9
+		// Fix Cloning issues
 		if ( !support.noCloneChecked && ( elem.nodeType === 1 || elem.nodeType === 11 ) &&
 				!jQuery.isXMLDoc( elem ) ) {
 
@@ -5091,8 +5071,8 @@ jQuery.extend({
 
 				// Add nodes directly
 				if ( jQuery.type( elem ) === "object" ) {
-					// Support: QtWebKit, PhantomJS
-					// push.apply(_, arraylike) throws on ancient WebKit
+					// Support: QtWebKit
+					// jQuery.merge because push.apply(_, arraylike) throws
 					jQuery.merge( nodes, elem.nodeType ? [ elem ] : elem );
 
 				// Convert non-html into a text node
@@ -5114,14 +5094,15 @@ jQuery.extend({
 						tmp = tmp.lastChild;
 					}
 
-					// Support: QtWebKit, PhantomJS
-					// push.apply(_, arraylike) throws on ancient WebKit
+					// Support: QtWebKit
+					// jQuery.merge because push.apply(_, arraylike) throws
 					jQuery.merge( nodes, tmp.childNodes );
 
 					// Remember the top-level container
 					tmp = fragment.firstChild;
 
-					// Ensure the created nodes are orphaned (#12392)
+					// Fixes #12346
+					// Support: Webkit, IE
 					tmp.textContent = "";
 				}
 			}
@@ -5483,7 +5464,7 @@ function actualDisplay( name, doc ) {
 		// getDefaultComputedStyle might be reliably used only on attached element
 		display = window.getDefaultComputedStyle && ( style = window.getDefaultComputedStyle( elem[ 0 ] ) ) ?
 
-			// Use of this method is a temporary fix (more like optimization) until something better comes along,
+			// Use of this method is a temporary fix (more like optmization) until something better comes along,
 			// since it was removed from specification and supported only in FF
 			style.display : jQuery.css( elem[ 0 ], "display" );
 
@@ -5533,14 +5514,7 @@ var rmargin = (/^margin/);
 var rnumnonpx = new RegExp( "^(" + pnum + ")(?!px)[a-z%]+$", "i" );
 
 var getStyles = function( elem ) {
-		// Support: IE<=11+, Firefox<=30+ (#15098, #14150)
-		// IE throws on elements created in popups
-		// FF meanwhile throws on frame elements through "defaultView.getComputedStyle"
-		if ( elem.ownerDocument.defaultView.opener ) {
-			return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
-		}
-
-		return window.getComputedStyle( elem, null );
+		return elem.ownerDocument.defaultView.getComputedStyle( elem, null );
 	};
 
 
@@ -5552,7 +5526,7 @@ function curCSS( elem, name, computed ) {
 	computed = computed || getStyles( elem );
 
 	// Support: IE9
-	// getPropertyValue is only needed for .css('filter') (#12537)
+	// getPropertyValue is only needed for .css('filter') in IE9, see #12537
 	if ( computed ) {
 		ret = computed.getPropertyValue( name ) || computed[ name ];
 	}
@@ -5598,13 +5572,15 @@ function addGetHookIf( conditionFn, hookFn ) {
 	return {
 		get: function() {
 			if ( conditionFn() ) {
-				// Hook not needed (or it's not possible to use it due
-				// to missing dependency), remove it.
+				// Hook not needed (or it's not possible to use it due to missing dependency),
+				// remove it.
+				// Since there are no other hooks for marginRight, remove the whole object.
 				delete this.get;
 				return;
 			}
 
 			// Hook needed; redefine it so that the support test is not executed again.
+
 			return (this.get = hookFn).apply( this, arguments );
 		}
 	};
@@ -5621,8 +5597,6 @@ function addGetHookIf( conditionFn, hookFn ) {
 		return;
 	}
 
-	// Support: IE9-11+
-	// Style of cloned element affects source element cloned (#8908)
 	div.style.backgroundClip = "content-box";
 	div.cloneNode( true ).style.backgroundClip = "";
 	support.clearCloneStyle = div.style.backgroundClip === "content-box";
@@ -5655,7 +5629,6 @@ function addGetHookIf( conditionFn, hookFn ) {
 	if ( window.getComputedStyle ) {
 		jQuery.extend( support, {
 			pixelPosition: function() {
-
 				// This test is executed only once but we still do memoizing
 				// since we can use the boxSizingReliable pre-computing.
 				// No need to check if the test was already performed, though.
@@ -5669,7 +5642,6 @@ function addGetHookIf( conditionFn, hookFn ) {
 				return boxSizingReliableVal;
 			},
 			reliableMarginRight: function() {
-
 				// Support: Android 2.3
 				// Check if div with explicit width and no margin-right incorrectly
 				// gets computed margin-right based on width of container. (#3333)
@@ -5691,7 +5663,6 @@ function addGetHookIf( conditionFn, hookFn ) {
 				ret = !parseFloat( window.getComputedStyle( marginDiv, null ).marginRight );
 
 				docElem.removeChild( container );
-				div.removeChild( marginDiv );
 
 				return ret;
 			}
@@ -5723,8 +5694,8 @@ jQuery.swap = function( elem, options, callback, args ) {
 
 
 var
-	// Swappable if display is none or starts with table except "table", "table-cell", or "table-caption"
-	// See here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
+	// swappable if display is none or starts with table except "table", "table-cell", or "table-caption"
+	// see here for display values: https://developer.mozilla.org/en-US/docs/CSS/display
 	rdisplayswap = /^(none|table(?!-c[ea]).+)/,
 	rnumsplit = new RegExp( "^(" + pnum + ")(.*)$", "i" ),
 	rrelNum = new RegExp( "^([+-])=(" + pnum + ")", "i" ),
@@ -5737,15 +5708,15 @@ var
 
 	cssPrefixes = [ "Webkit", "O", "Moz", "ms" ];
 
-// Return a css property mapped to a potentially vendor prefixed property
+// return a css property mapped to a potentially vendor prefixed property
 function vendorPropName( style, name ) {
 
-	// Shortcut for names that are not vendor prefixed
+	// shortcut for names that are not vendor prefixed
 	if ( name in style ) {
 		return name;
 	}
 
-	// Check for vendor prefixed names
+	// check for vendor prefixed names
 	var capName = name[0].toUpperCase() + name.slice(1),
 		origName = name,
 		i = cssPrefixes.length;
@@ -5778,7 +5749,7 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 		val = 0;
 
 	for ( ; i < 4; i += 2 ) {
-		// Both box models exclude margin, so add it if we want it
+		// both box models exclude margin, so add it if we want it
 		if ( extra === "margin" ) {
 			val += jQuery.css( elem, extra + cssExpand[ i ], true, styles );
 		}
@@ -5789,15 +5760,15 @@ function augmentWidthOrHeight( elem, name, extra, isBorderBox, styles ) {
 				val -= jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 			}
 
-			// At this point, extra isn't border nor margin, so remove border
+			// at this point, extra isn't border nor margin, so remove border
 			if ( extra !== "margin" ) {
 				val -= jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
 		} else {
-			// At this point, extra isn't content, so add padding
+			// at this point, extra isn't content, so add padding
 			val += jQuery.css( elem, "padding" + cssExpand[ i ], true, styles );
 
-			// At this point, extra isn't content nor padding, so add border
+			// at this point, extra isn't content nor padding, so add border
 			if ( extra !== "padding" ) {
 				val += jQuery.css( elem, "border" + cssExpand[ i ] + "Width", true, styles );
 			}
@@ -5815,7 +5786,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		styles = getStyles( elem ),
 		isBorderBox = jQuery.css( elem, "boxSizing", false, styles ) === "border-box";
 
-	// Some non-html elements return undefined for offsetWidth, so check for null/undefined
+	// some non-html elements return undefined for offsetWidth, so check for null/undefined
 	// svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
 	// MathML - https://bugzilla.mozilla.org/show_bug.cgi?id=491668
 	if ( val <= 0 || val == null ) {
@@ -5830,7 +5801,7 @@ function getWidthOrHeight( elem, name, extra ) {
 			return val;
 		}
 
-		// Check for style in case a browser which returns unreliable values
+		// we need the check for style in case a browser which returns unreliable values
 		// for getComputedStyle silently falls back to the reliable elem.style
 		valueIsBorderBox = isBorderBox &&
 			( support.boxSizingReliable() || val === elem.style[ name ] );
@@ -5839,7 +5810,7 @@ function getWidthOrHeight( elem, name, extra ) {
 		val = parseFloat( val ) || 0;
 	}
 
-	// Use the active box-sizing model to add/subtract irrelevant styles
+	// use the active box-sizing model to add/subtract irrelevant styles
 	return ( val +
 		augmentWidthOrHeight(
 			elem,
@@ -5903,14 +5874,12 @@ function showHide( elements, show ) {
 }
 
 jQuery.extend({
-
 	// Add in style property hooks for overriding the default
 	// behavior of getting and setting a style property
 	cssHooks: {
 		opacity: {
 			get: function( elem, computed ) {
 				if ( computed ) {
-
 					// We should always get a number back from opacity
 					var ret = curCSS( elem, "opacity" );
 					return ret === "" ? "1" : ret;
@@ -5938,12 +5907,12 @@ jQuery.extend({
 	// Add in properties whose names you wish to fix before
 	// setting or getting the value
 	cssProps: {
+		// normalize float css property
 		"float": "cssFloat"
 	},
 
 	// Get and set the style property on a DOM Node
 	style: function( elem, name, value, extra ) {
-
 		// Don't set styles on text and comment nodes
 		if ( !elem || elem.nodeType === 3 || elem.nodeType === 8 || !elem.style ) {
 			return;
@@ -5956,32 +5925,33 @@ jQuery.extend({
 
 		name = jQuery.cssProps[ origName ] || ( jQuery.cssProps[ origName ] = vendorPropName( style, origName ) );
 
-		// Gets hook for the prefixed version, then unprefixed version
+		// gets hook for the prefixed version
+		// followed by the unprefixed version
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
 
 		// Check if we're setting a value
 		if ( value !== undefined ) {
 			type = typeof value;
 
-			// Convert "+=" or "-=" to relative numbers (#7345)
+			// convert relative number strings (+= or -=) to relative numbers. #7345
 			if ( type === "string" && (ret = rrelNum.exec( value )) ) {
 				value = ( ret[1] + 1 ) * ret[2] + parseFloat( jQuery.css( elem, name ) );
 				// Fixes bug #9237
 				type = "number";
 			}
 
-			// Make sure that null and NaN values aren't set (#7116)
+			// Make sure that null and NaN values aren't set. See: #7116
 			if ( value == null || value !== value ) {
 				return;
 			}
 
-			// If a number, add 'px' to the (except for certain CSS properties)
+			// If a number was passed in, add 'px' to the (except for certain CSS properties)
 			if ( type === "number" && !jQuery.cssNumber[ origName ] ) {
 				value += "px";
 			}
 
-			// Support: IE9-11+
-			// background-* props affect original clone's values
+			// Fixes #8908, it can be done more correctly by specifying setters in cssHooks,
+			// but it would mean to define eight (for every problematic property) identical functions
 			if ( !support.clearCloneStyle && value === "" && name.indexOf( "background" ) === 0 ) {
 				style[ name ] = "inherit";
 			}
@@ -6009,7 +5979,8 @@ jQuery.extend({
 		// Make sure that we're working with the right name
 		name = jQuery.cssProps[ origName ] || ( jQuery.cssProps[ origName ] = vendorPropName( elem.style, origName ) );
 
-		// Try prefixed name followed by the unprefixed name
+		// gets hook for the prefixed version
+		// followed by the unprefixed version
 		hooks = jQuery.cssHooks[ name ] || jQuery.cssHooks[ origName ];
 
 		// If a hook was provided get the computed value from there
@@ -6022,12 +5993,12 @@ jQuery.extend({
 			val = curCSS( elem, name, styles );
 		}
 
-		// Convert "normal" to computed value
+		//convert "normal" to computed value
 		if ( val === "normal" && name in cssNormalTransform ) {
 			val = cssNormalTransform[ name ];
 		}
 
-		// Make numeric if forced or a qualifier was provided and val looks numeric
+		// Return, converting to number if forced or a qualifier was provided and val looks numeric
 		if ( extra === "" || extra ) {
 			num = parseFloat( val );
 			return extra === true || jQuery.isNumeric( num ) ? num || 0 : val;
@@ -6040,9 +6011,8 @@ jQuery.each([ "height", "width" ], function( i, name ) {
 	jQuery.cssHooks[ name ] = {
 		get: function( elem, computed, extra ) {
 			if ( computed ) {
-
-				// Certain elements can have dimension info if we invisibly show them
-				// but it must have a current display style that would benefit
+				// certain elements can have dimension info if we invisibly show them
+				// however, it must have a current display style that would benefit from this
 				return rdisplayswap.test( jQuery.css( elem, "display" ) ) && elem.offsetWidth === 0 ?
 					jQuery.swap( elem, cssShow, function() {
 						return getWidthOrHeight( elem, name, extra );
@@ -6070,6 +6040,8 @@ jQuery.each([ "height", "width" ], function( i, name ) {
 jQuery.cssHooks.marginRight = addGetHookIf( support.reliableMarginRight,
 	function( elem, computed ) {
 		if ( computed ) {
+			// WebKit Bug 13343 - getComputedStyle returns wrong value for margin-right
+			// Work around by temporarily setting element display to inline-block
 			return jQuery.swap( elem, { "display": "inline-block" },
 				curCSS, [ elem, "marginRight" ] );
 		}
@@ -6087,7 +6059,7 @@ jQuery.each({
 			var i = 0,
 				expanded = {},
 
-				// Assumes a single number if not a string
+				// assumes a single number if not a string
 				parts = typeof value === "string" ? value.split(" ") : [ value ];
 
 			for ( ; i < 4; i++ ) {
@@ -6210,18 +6182,17 @@ Tween.propHooks = {
 				return tween.elem[ tween.prop ];
 			}
 
-			// Passing an empty string as a 3rd parameter to .css will automatically
-			// attempt a parseFloat and fallback to a string if the parse fails.
-			// Simple values such as "10px" are parsed to Float;
-			// complex values such as "rotate(1rad)" are returned as-is.
+			// passing an empty string as a 3rd parameter to .css will automatically
+			// attempt a parseFloat and fallback to a string if the parse fails
+			// so, simple values such as "10px" are parsed to Float.
+			// complex values such as "rotate(1rad)" are returned as is.
 			result = jQuery.css( tween.elem, tween.prop, "" );
 			// Empty strings, null, undefined and "auto" are converted to 0.
 			return !result || result === "auto" ? 0 : result;
 		},
 		set: function( tween ) {
-			// Use step hook for back compat.
-			// Use cssHook if its there.
-			// Use .style if available and use plain properties where available.
+			// use step hook for back compat - use cssHook if its there - use .style if its
+			// available and use plain properties where available
 			if ( jQuery.fx.step[ tween.prop ] ) {
 				jQuery.fx.step[ tween.prop ]( tween );
 			} else if ( tween.elem.style && ( tween.elem.style[ jQuery.cssProps[ tween.prop ] ] != null || jQuery.cssHooks[ tween.prop ] ) ) {
@@ -6235,6 +6206,7 @@ Tween.propHooks = {
 
 // Support: IE9
 // Panic based approach to setting things on disconnected nodes
+
 Tween.propHooks.scrollTop = Tween.propHooks.scrollLeft = {
 	set: function( tween ) {
 		if ( tween.elem.nodeType && tween.elem.parentNode ) {
@@ -6290,16 +6262,16 @@ var
 				start = +target || 1;
 
 				do {
-					// If previous iteration zeroed out, double until we get *something*.
-					// Use string for doubling so we don't accidentally see scale as unchanged below
+					// If previous iteration zeroed out, double until we get *something*
+					// Use a string for doubling factor so we don't accidentally see scale as unchanged below
 					scale = scale || ".5";
 
 					// Adjust and apply
 					start = start / scale;
 					jQuery.style( tween.elem, prop, start + unit );
 
-				// Update scale, tolerating zero or NaN from tween.cur(),
-				// break the loop if scale is unchanged or perfect, or if we've just had enough
+				// Update scale, tolerating zero or NaN from tween.cur()
+				// And breaking the loop if scale is unchanged or perfect, or if we've just had enough
 				} while ( scale !== (scale = tween.cur() / target) && scale !== 1 && --maxIterations );
 			}
 
@@ -6331,8 +6303,8 @@ function genFx( type, includeWidth ) {
 		i = 0,
 		attrs = { height: type };
 
-	// If we include width, step value is 1 to do all cssExpand values,
-	// otherwise step value is 2 to skip over Left and Right
+	// if we include width, step value is 1 to do all cssExpand values,
+	// if we don't include width, step value is 2 to skip over Left and Right
 	includeWidth = includeWidth ? 1 : 0;
 	for ( ; i < 4 ; i += 2 - includeWidth ) {
 		which = cssExpand[ i ];
@@ -6354,7 +6326,7 @@ function createTween( value, prop, animation ) {
 	for ( ; index < length; index++ ) {
 		if ( (tween = collection[ index ].call( animation, prop, value )) ) {
 
-			// We're done with this property
+			// we're done with this property
 			return tween;
 		}
 	}
@@ -6369,7 +6341,7 @@ function defaultPrefilter( elem, props, opts ) {
 		hidden = elem.nodeType && isHidden( elem ),
 		dataShow = data_priv.get( elem, "fxshow" );
 
-	// Handle queue: false promises
+	// handle queue: false promises
 	if ( !opts.queue ) {
 		hooks = jQuery._queueHooks( elem, "fx" );
 		if ( hooks.unqueued == null ) {
@@ -6384,7 +6356,8 @@ function defaultPrefilter( elem, props, opts ) {
 		hooks.unqueued++;
 
 		anim.always(function() {
-			// Ensure the complete handler is called before this completes
+			// doing this makes sure that the complete handler will be called
+			// before this completes
 			anim.always(function() {
 				hooks.unqueued--;
 				if ( !jQuery.queue( elem, "fx" ).length ) {
@@ -6394,7 +6367,7 @@ function defaultPrefilter( elem, props, opts ) {
 		});
 	}
 
-	// Height/width overflow pass
+	// height/width overflow pass
 	if ( elem.nodeType === 1 && ( "height" in props || "width" in props ) ) {
 		// Make sure that nothing sneaks out
 		// Record all 3 overflow attributes because IE9-10 do not
@@ -6456,7 +6429,7 @@ function defaultPrefilter( elem, props, opts ) {
 			dataShow = data_priv.access( elem, "fxshow", {} );
 		}
 
-		// Store state if its toggle - enables .stop().toggle() to "reverse"
+		// store state if its toggle - enables .stop().toggle() to "reverse"
 		if ( toggle ) {
 			dataShow.hidden = !hidden;
 		}
@@ -6516,8 +6489,8 @@ function propFilter( props, specialEasing ) {
 			value = hooks.expand( value );
 			delete props[ name ];
 
-			// Not quite $.extend, this won't overwrite existing keys.
-			// Reusing 'index' because we have the correct "name"
+			// not quite $.extend, this wont overwrite keys already present.
+			// also - reusing 'index' from above because we have the correct "name"
 			for ( index in value ) {
 				if ( !( index in props ) ) {
 					props[ index ] = value[ index ];
@@ -6536,7 +6509,7 @@ function Animation( elem, properties, options ) {
 		index = 0,
 		length = animationPrefilters.length,
 		deferred = jQuery.Deferred().always( function() {
-			// Don't match elem in the :animated selector
+			// don't match elem in the :animated selector
 			delete tick.elem;
 		}),
 		tick = function() {
@@ -6545,8 +6518,7 @@ function Animation( elem, properties, options ) {
 			}
 			var currentTime = fxNow || createFxNow(),
 				remaining = Math.max( 0, animation.startTime + animation.duration - currentTime ),
-				// Support: Android 2.3
-				// Archaic crash bug won't allow us to use `1 - ( 0.5 || 0 )` (#12497)
+				// archaic crash bug won't allow us to use 1 - ( 0.5 || 0 ) (#12497)
 				temp = remaining / animation.duration || 0,
 				percent = 1 - temp,
 				index = 0,
@@ -6582,7 +6554,7 @@ function Animation( elem, properties, options ) {
 			},
 			stop: function( gotoEnd ) {
 				var index = 0,
-					// If we are going to the end, we want to run all the tweens
+					// if we are going to the end, we want to run all the tweens
 					// otherwise we skip this part
 					length = gotoEnd ? animation.tweens.length : 0;
 				if ( stopped ) {
@@ -6593,7 +6565,8 @@ function Animation( elem, properties, options ) {
 					animation.tweens[ index ].run( 1 );
 				}
 
-				// Resolve when we played the last frame; otherwise, reject
+				// resolve when we played the last frame
+				// otherwise, reject
 				if ( gotoEnd ) {
 					deferred.resolveWith( elem, [ animation, gotoEnd ] );
 				} else {
@@ -6675,7 +6648,7 @@ jQuery.speed = function( speed, easing, fn ) {
 	opt.duration = jQuery.fx.off ? 0 : typeof opt.duration === "number" ? opt.duration :
 		opt.duration in jQuery.fx.speeds ? jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
 
-	// Normalize opt.queue - true/undefined/null -> "fx"
+	// normalize opt.queue - true/undefined/null -> "fx"
 	if ( opt.queue == null || opt.queue === true ) {
 		opt.queue = "fx";
 	}
@@ -6699,10 +6672,10 @@ jQuery.speed = function( speed, easing, fn ) {
 jQuery.fn.extend({
 	fadeTo: function( speed, to, easing, callback ) {
 
-		// Show any hidden elements after setting opacity to 0
+		// show any hidden elements after setting opacity to 0
 		return this.filter( isHidden ).css( "opacity", 0 ).show()
 
-			// Animate to the value specified
+			// animate to the value specified
 			.end().animate({ opacity: to }, speed, easing, callback );
 	},
 	animate: function( prop, speed, easing, callback ) {
@@ -6765,9 +6738,9 @@ jQuery.fn.extend({
 				}
 			}
 
-			// Start the next in the queue if the last step wasn't forced.
-			// Timers currently will call their complete callbacks, which
-			// will dequeue but only if they were gotoEnd.
+			// start the next in the queue if the last step wasn't forced
+			// timers currently will call their complete callbacks, which will dequeue
+			// but only if they were gotoEnd
 			if ( dequeue || !gotoEnd ) {
 				jQuery.dequeue( this, type );
 			}
@@ -6785,17 +6758,17 @@ jQuery.fn.extend({
 				timers = jQuery.timers,
 				length = queue ? queue.length : 0;
 
-			// Enable finishing flag on private data
+			// enable finishing flag on private data
 			data.finish = true;
 
-			// Empty the queue first
+			// empty the queue first
 			jQuery.queue( this, type, [] );
 
 			if ( hooks && hooks.stop ) {
 				hooks.stop.call( this, true );
 			}
 
-			// Look for any active animations, and finish them
+			// look for any active animations, and finish them
 			for ( index = timers.length; index--; ) {
 				if ( timers[ index ].elem === this && timers[ index ].queue === type ) {
 					timers[ index ].anim.stop( true );
@@ -6803,14 +6776,14 @@ jQuery.fn.extend({
 				}
 			}
 
-			// Look for any animations in the old queue and finish them
+			// look for any animations in the old queue and finish them
 			for ( index = 0; index < length; index++ ) {
 				if ( queue[ index ] && queue[ index ].finish ) {
 					queue[ index ].finish.call( this );
 				}
 			}
 
-			// Turn off finishing flag
+			// turn off finishing flag
 			delete data.finish;
 		});
 	}
@@ -6913,21 +6886,21 @@ jQuery.fn.delay = function( time, type ) {
 
 	input.type = "checkbox";
 
-	// Support: iOS<=5.1, Android<=4.2+
-	// Default value for a checkbox should be "on"
+	// Support: iOS 5.1, Android 4.x, Android 2.3
+	// Check the default checkbox/radio value ("" on old WebKit; "on" elsewhere)
 	support.checkOn = input.value !== "";
 
-	// Support: IE<=11+
-	// Must access selectedIndex to make default options select
+	// Must access the parent to make an option select properly
+	// Support: IE9, IE10
 	support.optSelected = opt.selected;
 
-	// Support: Android<=2.3
-	// Options inside disabled selects are incorrectly marked as disabled
+	// Make sure that the options inside disabled selects aren't marked as disabled
+	// (WebKit marks them as disabled)
 	select.disabled = true;
 	support.optDisabled = !opt.disabled;
 
-	// Support: IE<=11+
-	// An input loses its value after becoming a radio
+	// Check if an input maintains its value after becoming a radio
+	// Support: IE9, IE10
 	input = document.createElement( "input" );
 	input.value = "t";
 	input.type = "radio";
@@ -7024,6 +6997,8 @@ jQuery.extend({
 			set: function( elem, value ) {
 				if ( !support.radioValue && value === "radio" &&
 					jQuery.nodeName( elem, "input" ) ) {
+					// Setting the type on a radio button after the value resets the value in IE6-9
+					// Reset value to default in case type is set after value during creation
 					var val = elem.value;
 					elem.setAttribute( "type", value );
 					if ( val ) {
@@ -7093,7 +7068,7 @@ jQuery.extend({
 		var ret, hooks, notxml,
 			nType = elem.nodeType;
 
-		// Don't get/set properties on text, comment and attribute nodes
+		// don't get/set properties on text, comment and attribute nodes
 		if ( !elem || nType === 3 || nType === 8 || nType === 2 ) {
 			return;
 		}
@@ -7129,6 +7104,8 @@ jQuery.extend({
 	}
 });
 
+// Support: IE9+
+// Selectedness for an option in an optgroup can be inaccurate
 if ( !support.optSelected ) {
 	jQuery.propHooks.selected = {
 		get: function( elem ) {
@@ -7236,7 +7213,7 @@ jQuery.fn.extend({
 						}
 					}
 
-					// Only assign if different to avoid unneeded rendering.
+					// only assign if different to avoid unneeded rendering.
 					finalValue = value ? jQuery.trim( cur ) : "";
 					if ( elem.className !== finalValue ) {
 						elem.className = finalValue;
@@ -7263,14 +7240,14 @@ jQuery.fn.extend({
 
 		return this.each(function() {
 			if ( type === "string" ) {
-				// Toggle individual class names
+				// toggle individual class names
 				var className,
 					i = 0,
 					self = jQuery( this ),
 					classNames = value.match( rnotwhite ) || [];
 
 				while ( (className = classNames[ i++ ]) ) {
-					// Check each className given, space separated list
+					// check each className given, space separated list
 					if ( self.hasClass( className ) ) {
 						self.removeClass( className );
 					} else {
@@ -7285,7 +7262,7 @@ jQuery.fn.extend({
 					data_priv.set( this, "__className__", this.className );
 				}
 
-				// If the element has a class name or if we're passed `false`,
+				// If the element has a class name or if we're passed "false",
 				// then remove the whole classname (if there was one, the above saved it).
 				// Otherwise bring back whatever was previously saved (if anything),
 				// falling back to the empty string if nothing was stored.
@@ -7329,9 +7306,9 @@ jQuery.fn.extend({
 				ret = elem.value;
 
 				return typeof ret === "string" ?
-					// Handle most common string cases
+					// handle most common string cases
 					ret.replace(rreturn, "") :
-					// Handle cases where value is null/undef or number
+					// handle cases where value is null/undef or number
 					ret == null ? "" : ret;
 			}
 
@@ -7439,7 +7416,7 @@ jQuery.extend({
 					}
 				}
 
-				// Force browsers to behave consistently when non-matching value is set
+				// force browsers to behave consistently when non-matching value is set
 				if ( !optionSet ) {
 					elem.selectedIndex = -1;
 				}
@@ -7460,6 +7437,8 @@ jQuery.each([ "radio", "checkbox" ], function() {
 	};
 	if ( !support.checkOn ) {
 		jQuery.valHooks[ this ].get = function( elem ) {
+			// Support: Webkit
+			// "" is returned instead of "on" if a value isn't specified
 			return elem.getAttribute("value") === null ? "on" : elem.value;
 		};
 	}
@@ -7541,6 +7520,10 @@ jQuery.parseXML = function( data ) {
 
 
 var
+	// Document location
+	ajaxLocParts,
+	ajaxLocation,
+
 	rhash = /#.*$/,
 	rts = /([?&])_=[^&]*/,
 	rheaders = /^(.*?):[ \t]*([^\r\n]*)$/mg,
@@ -7569,13 +7552,22 @@ var
 	transports = {},
 
 	// Avoid comment-prolog char sequence (#10098); must appease lint and evade compression
-	allTypes = "*/".concat( "*" ),
+	allTypes = "*/".concat("*");
 
-	// Document location
-	ajaxLocation = window.location.href,
+// #8138, IE may throw an exception when accessing
+// a field from window.location if document.domain has been set
+try {
+	ajaxLocation = location.href;
+} catch( e ) {
+	// Use the href attribute of an A element
+	// since IE will modify it given document.location
+	ajaxLocation = document.createElement( "a" );
+	ajaxLocation.href = "";
+	ajaxLocation = ajaxLocation.href;
+}
 
-	// Segment location into parts
-	ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
+// Segment location into parts
+ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
 
 // Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
@@ -8054,8 +8046,7 @@ jQuery.extend({
 		}
 
 		// We can fire global events as of now if asked to
-		// Don't fire events if jQuery.event is undefined in an AMD-usage scenario (#15118)
-		fireGlobals = jQuery.event && s.global;
+		fireGlobals = s.global;
 
 		// Watch for a new set of requests
 		if ( fireGlobals && jQuery.active++ === 0 ) {
@@ -8128,7 +8119,7 @@ jQuery.extend({
 			return jqXHR.abort();
 		}
 
-		// Aborting is no longer a cancellation
+		// aborting is no longer a cancellation
 		strAbort = "abort";
 
 		// Install callbacks on deferreds
@@ -8240,7 +8231,8 @@ jQuery.extend({
 					isSuccess = !error;
 				}
 			} else {
-				// Extract error from statusText and normalize for non-aborts
+				// We extract error from statusText
+				// then normalize statusText and status for non-aborts
 				error = statusText;
 				if ( status || !statusText ) {
 					statusText = "error";
@@ -8296,7 +8288,7 @@ jQuery.extend({
 
 jQuery.each( [ "get", "post" ], function( i, method ) {
 	jQuery[ method ] = function( url, data, callback, type ) {
-		// Shift arguments if data argument was omitted
+		// shift arguments if data argument was omitted
 		if ( jQuery.isFunction( data ) ) {
 			type = type || callback;
 			callback = data;
@@ -8310,6 +8302,13 @@ jQuery.each( [ "get", "post" ], function( i, method ) {
 			data: data,
 			success: callback
 		});
+	};
+});
+
+// Attach a bunch of functions for handling common AJAX events
+jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
+	jQuery.fn[ type ] = function( fn ) {
+		return this.on( type, fn );
 	};
 });
 
@@ -8530,9 +8529,8 @@ var xhrId = 0,
 
 // Support: IE9
 // Open requests must be manually aborted on unload (#5280)
-// See https://support.microsoft.com/kb/2856746 for more info
-if ( window.attachEvent ) {
-	window.attachEvent( "onunload", function() {
+if ( window.ActiveXObject ) {
+	jQuery( window ).on( "unload", function() {
 		for ( var key in xhrCallbacks ) {
 			xhrCallbacks[ key ]();
 		}
@@ -8885,16 +8883,6 @@ jQuery.fn.load = function( url, params, callback ) {
 
 
 
-// Attach a bunch of functions for handling common AJAX events
-jQuery.each( [ "ajaxStart", "ajaxStop", "ajaxComplete", "ajaxError", "ajaxSuccess", "ajaxSend" ], function( i, type ) {
-	jQuery.fn[ type ] = function( fn ) {
-		return this.on( type, fn );
-	};
-});
-
-
-
-
 jQuery.expr.filters.animated = function( elem ) {
 	return jQuery.grep(jQuery.timers, function( fn ) {
 		return elem === fn.elem;
@@ -8931,8 +8919,7 @@ jQuery.offset = {
 		calculatePosition = ( position === "absolute" || position === "fixed" ) &&
 			( curCSSTop + curCSSLeft ).indexOf("auto") > -1;
 
-		// Need to be able to calculate position if either
-		// top or left is auto and position is either absolute or fixed
+		// Need to be able to calculate position if either top or left is auto and position is either absolute or fixed
 		if ( calculatePosition ) {
 			curPosition = curElem.position();
 			curTop = curPosition.top;
@@ -8989,8 +8976,8 @@ jQuery.fn.extend({
 			return box;
 		}
 
-		// Support: BlackBerry 5, iOS 3 (original iPhone)
 		// If we don't have gBCR, just use 0,0 rather than error
+		// BlackBerry 5, iOS 3 (original iPhone)
 		if ( typeof elem.getBoundingClientRect !== strundefined ) {
 			box = elem.getBoundingClientRect();
 		}
@@ -9012,7 +8999,7 @@ jQuery.fn.extend({
 
 		// Fixed elements are offset from window (parentOffset = {top:0, left: 0}, because it is its only offset parent
 		if ( jQuery.css( elem, "position" ) === "fixed" ) {
-			// Assume getBoundingClientRect is there when computed position is fixed
+			// We assume that getBoundingClientRect is available when computed position is fixed
 			offset = elem.getBoundingClientRect();
 
 		} else {
@@ -9075,18 +9062,16 @@ jQuery.each( { scrollLeft: "pageXOffset", scrollTop: "pageYOffset" }, function( 
 	};
 });
 
-// Support: Safari<7+, Chrome<37+
 // Add the top/left cssHooks using jQuery.fn.position
 // Webkit bug: https://bugs.webkit.org/show_bug.cgi?id=29084
-// Blink bug: https://code.google.com/p/chromium/issues/detail?id=229280
-// getComputedStyle returns percent when specified for top/left/bottom/right;
-// rather than make the css module depend on the offset module, just check for it here
+// getComputedStyle returns percent when specified for top/left/bottom/right
+// rather than make the css module depend on the offset module, we just check for it here
 jQuery.each( [ "top", "left" ], function( i, prop ) {
 	jQuery.cssHooks[ prop ] = addGetHookIf( support.pixelPosition,
 		function( elem, computed ) {
 			if ( computed ) {
 				computed = curCSS( elem, prop );
-				// If curCSS returns percentage, fallback to offset
+				// if curCSS returns percentage, fallback to offset
 				return rnumnonpx.test( computed ) ?
 					jQuery( elem ).position()[ prop ] + "px" :
 					computed;
@@ -9099,7 +9084,7 @@ jQuery.each( [ "top", "left" ], function( i, prop ) {
 // Create innerHeight, innerWidth, height, width, outerHeight and outerWidth methods
 jQuery.each( { Height: "height", Width: "width" }, function( name, type ) {
 	jQuery.each( { padding: "inner" + name, content: type, "": "outer" + name }, function( defaultExtra, funcName ) {
-		// Margin is only for outerHeight, outerWidth
+		// margin is only for outerHeight, outerWidth
 		jQuery.fn[ funcName ] = function( margin, value ) {
 			var chainable = arguments.length && ( defaultExtra || typeof margin !== "boolean" ),
 				extra = defaultExtra || ( margin === true || value === true ? "margin" : "border" );
@@ -9190,8 +9175,8 @@ jQuery.noConflict = function( deep ) {
 	return jQuery;
 };
 
-// Expose jQuery and $ identifiers, even in AMD
-// (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
+// Expose jQuery and $ identifiers, even in
+// AMD (#7102#comment:10, https://github.com/jquery/jquery/pull/557)
 // and CommonJS for browser emulators (#13566)
 if ( typeof noGlobal === strundefined ) {
 	window.jQuery = window.$ = jQuery;
@@ -9201,5 +9186,2977 @@ if ( typeof noGlobal === strundefined ) {
 
 
 return jQuery;
+
+}));
+
+/**
+ * @license
+ * lodash 3.0.1 (Custom Build) lodash.com/license | Underscore.js 1.7.0 underscorejs.org/LICENSE
+ * Build: `lodash modern -o ./lodash.js`
+ */
+;(function(){function n(n,t){if(n!==t){var r=n===n,e=t===t;if(n>t||!r||typeof n=="undefined"&&e)return 1;if(n<t||!e||typeof t=="undefined"&&r)return-1}return 0}function t(n,t,r){if(t!==t)return p(n,r);r=(r||0)-1;for(var e=n.length;++r<e;)if(n[r]===t)return r;return-1}function r(n,t){var r=n.length;for(n.sort(t);r--;)n[r]=n[r].c;return n}function e(n){return typeof n=="string"?n:null==n?"":n+""}function u(n){return n.charCodeAt(0)}function o(n,t){for(var r=-1,e=n.length;++r<e&&-1<t.indexOf(n.charAt(r)););return r
+}function i(n,t){for(var r=n.length;r--&&-1<t.indexOf(n.charAt(r)););return r}function a(t,r){return n(t.a,r.a)||t.b-r.b}function f(t,r){for(var e=-1,u=t.a,o=r.a,i=u.length;++e<i;){var a=n(u[e],o[e]);if(a)return a}return t.b-r.b}function l(n){return Wt[n]}function c(n){return Nt[n]}function s(n){return"\\"+Lt[n]}function p(n,t,r){var e=n.length;for(t=r?t||e:(t||0)-1;r?t--:++t<e;){var u=n[t];if(u!==u)return t}return-1}function h(n){return n&&typeof n=="object"||false}function g(n){return 160>=n&&9<=n&&13>=n||32==n||160==n||5760==n||6158==n||8192<=n&&(8202>=n||8232==n||8233==n||8239==n||8287==n||12288==n||65279==n)
+}function v(n,t){for(var r=-1,e=n.length,u=-1,o=[];++r<e;)n[r]===t&&(n[r]=B,o[++u]=r);return o}function d(n){for(var t=-1,r=n.length;++t<r&&g(n.charCodeAt(t)););return t}function y(n){for(var t=n.length;t--&&g(n.charCodeAt(t)););return t}function _(n){return Ft[n]}function m(g){function Wt(n){if(h(n)&&!To(n)){if(n instanceof Nt)return n;if(Nu.call(n,"__wrapped__"))return new Nt(n.__wrapped__,n.__chain__,zt(n.__actions__))}return new Nt(n)}function Nt(n,t,r){this.__actions__=r||[],this.__chain__=!!t,this.__wrapped__=n
+}function Ft(n){this.actions=null,this.dir=1,this.dropCount=0,this.filtered=false,this.iteratees=null,this.takeCount=co,this.views=null,this.wrapped=n}function Ut(){this.__data__={}}function Lt(n){var t=n?n.length:0;for(this.data={hash:no(null),set:new Yu};t--;)this.push(n[t])}function Bt(n,t){var r=n.data;return(typeof t=="string"||Ge(t)?r.set.has(t):r.hash[t])?0:-1}function zt(n,t){var r=-1,e=n.length;for(t||(t=mu(e));++r<e;)t[r]=n[r];return t}function Mt(n,t){for(var r=-1,e=n.length;++r<e&&false!==t(n[r],r,n););return n
+}function qt(n,t){for(var r=-1,e=n.length;++r<e;)if(!t(n[r],r,n))return false;return true}function Pt(n,t){for(var r=-1,e=n.length,u=-1,o=[];++r<e;){var i=n[r];t(i,r,n)&&(o[++u]=i)}return o}function Kt(n,t){for(var r=-1,e=n.length,u=mu(e);++r<e;)u[r]=t(n[r],r,n);return u}function Vt(n){for(var t=-1,r=n.length,e=lo;++t<r;){var u=n[t];u>e&&(e=u)}return e}function Yt(n,t,r,e){var u=-1,o=n.length;for(e&&o&&(r=n[++u]);++u<o;)r=t(r,n[u],u,n);return r}function Zt(n,t,r,e){var u=n.length;for(e&&u&&(r=n[--u]);u--;)r=t(r,n[u],u,n);
+return r}function Gt(n,t){for(var r=-1,e=n.length;++r<e;)if(t(n[r],r,n))return true;return false}function Jt(n,t){return typeof n=="undefined"?t:n}function Xt(n,t,r,e){return typeof n!="undefined"&&Nu.call(e,r)?n:t}function Ht(n,t,r){var e=Fo(t);if(!r)return nr(t,n,e);for(var u=-1,o=e.length;++u<o;){var i=e[u],a=n[i],f=r(a,t[i],i,n,t);(f===f?f===a:a!==a)&&(typeof a!="undefined"||i in n)||(n[i]=f)}return n}function Qt(n,t){for(var r=-1,e=n.length,u=ue(e),o=t.length,i=mu(o);++r<o;){var a=t[r];u?(a=parseFloat(a),i[r]=re(a,e)?n[a]:b):i[r]=n[a]
+}return i}function nr(n,t,r){r||(r=t,t={});for(var e=-1,u=r.length;++e<u;){var o=r[e];t[o]=n[o]}return t}function tr(n,t,r){var e=typeof n;if("function"==e){if(e=typeof t!="undefined"){var e=Wt.support,u=!(e.funcNames?n.name:e.funcDecomp);if(!u){var o=Su.call(n);e.funcNames||(u=!_t.test(o)),u||(u=kt.test(o)||Je(n),bo(n,u))}e=u}n=e?Wr(n,t,r):n}else n=null==n?gu:"object"==e?wr(n,!r):Ar(n+"");return n}function rr(n,t,r,e,u,o,i){var a;if(r&&(a=u?r(n,e,u):r(n)),typeof a!="undefined")return a;if(!Ge(n))return n;
+if(e=To(n)){if(a=Qr(n),!t)return zt(n,a)}else{var f=Uu.call(n),l=f==K;if(f!=Y&&f!=z&&(!l||u))return Tt[f]?te(n,f,t):u?n:{};if(a=ne(l?{}:n),!t)return nr(n,a,Fo(n))}for(o||(o=[]),i||(i=[]),u=o.length;u--;)if(o[u]==n)return i[u];return o.push(n),i.push(a),(e?Mt:gr)(n,function(e,u){a[u]=rr(e,t,r,u,n,o,i)}),a}function er(n,t,r,e){if(!Ze(n))throw new Iu($);return Zu(function(){n.apply(b,Er(r,e))},t)}function ur(n,r){var e=n?n.length:0,u=[];if(!e)return u;var o=-1,i=Hr(),a=i==t,f=a&&200<=r.length&&wo(r),l=r.length;
+f&&(i=Bt,a=false,r=f);n:for(;++o<e;)if(f=n[o],a&&f===f){for(var c=l;c--;)if(r[c]===f)continue n;u.push(f)}else 0>i(r,f)&&u.push(f);return u}function or(n,t){var r=n?n.length:0;if(!ue(r))return gr(n,t);for(var e=-1,u=se(n);++e<r&&false!==t(u[e],e,u););return n}function ir(n,t){var r=n?n.length:0;if(!ue(r))return vr(n,t);for(var e=se(n);r--&&false!==t(e[r],r,e););return n}function ar(n,t){var r=true;return or(n,function(n,e,u){return r=!!t(n,e,u)}),r}function fr(n,t){var r=[];return or(n,function(n,e,u){t(n,e,u)&&r.push(n)
+}),r}function lr(n,t,r,e){var u;return r(n,function(n,r,o){return t(n,r,o)?(u=e?r:n,false):void 0}),u}function cr(n,t,r,e){e=(e||0)-1;for(var u=n.length,o=-1,i=[];++e<u;){var a=n[e];if(h(a)&&ue(a.length)&&(To(a)||Ke(a))){t&&(a=cr(a,t,r));var f=-1,l=a.length;for(i.length+=l;++f<l;)i[++o]=a[f]}else r||(i[++o]=a)}return i}function sr(n,t,r){var e=-1,u=se(n);r=r(n);for(var o=r.length;++e<o;){var i=r[e];if(false===t(u[i],i,u))break}return n}function pr(n,t,r){var e=se(n);r=r(n);for(var u=r.length;u--;){var o=r[u];
+if(false===t(e[o],o,e))break}return n}function hr(n,t){sr(n,t,eu)}function gr(n,t){return sr(n,t,Fo)}function vr(n,t){return pr(n,t,Fo)}function dr(n,t){for(var r=-1,e=t.length,u=-1,o=[];++r<e;){var i=t[r];Ze(n[i])&&(o[++u]=i)}return o}function yr(n,t,r){var e=-1,u=typeof t=="function",o=n?n.length:0,i=ue(o)?mu(o):[];return or(n,function(n){var o=u?t:null!=n&&n[t];i[++e]=o?o.apply(n,r):b}),i}function _r(n,t,r,e,u,o){if(n===t)return 0!==n||1/n==1/t;var i=typeof n,a=typeof t;if("function"!=i&&"object"!=i&&"function"!=a&&"object"!=a||null==n||null==t)n=n!==n&&t!==t;
+else n:{var i=_r,a=To(n),f=To(t),l=D,c=D;a||(l=Uu.call(n),l==z?l=Y:l!=Y&&(a=nu(n))),f||(c=Uu.call(t),c==z?c=Y:c!=Y&&nu(t));var s=l==Y,f=c==Y,c=l==c;if(!c||a||s)if(l=s&&Nu.call(n,"__wrapped__"),f=f&&Nu.call(t,"__wrapped__"),l||f)n=i(l?n.value():n,f?t.value():t,r,e,u,o);else if(c){for(u||(u=[]),o||(o=[]),l=u.length;l--;)if(u[l]==n){n=o[l]==t;break n}u.push(n),o.push(t),n=(a?Yr:Gr)(n,t,i,r,e,u,o),u.pop(),o.pop()}else n=false;else n=Zr(n,t,l)}return n}function mr(n,t,r,e,u){var o=t.length;if(null==n)return!o;
+for(var i=-1,a=!u;++i<o;)if(a&&e[i]?r[i]!==n[t[i]]:!Nu.call(n,t[i]))return false;for(i=-1;++i<o;){var f=t[i];if(a&&e[i])f=Nu.call(n,f);else{var l=n[f],c=r[i],f=u?u(l,c,f):b;typeof f=="undefined"&&(f=_r(c,l,u,true))}if(!f)return false}return true}function br(n,t){var r=[];return or(n,function(n,e,u){r.push(t(n,e,u))}),r}function wr(n,t){var r=Fo(n),e=r.length;if(1==e){var u=r[0],o=n[u];if(oe(o))return function(n){return null!=n&&o===n[u]&&Nu.call(n,u)}}t&&(n=rr(n,true));for(var i=mu(e),a=mu(e);e--;)o=n[r[e]],i[e]=o,a[e]=oe(o);
+return function(n){return mr(n,r,i,a)}}function xr(n,t,r,e,u){var o=ue(t.length)&&(To(t)||nu(t));return(o?Mt:gr)(t,function(t,i,a){if(h(t)){e||(e=[]),u||(u=[]);n:{t=e;for(var f=u,l=t.length,c=a[i];l--;)if(t[l]==c){n[i]=f[l],i=void 0;break n}l=n[i],a=r?r(l,c,i,n,a):b;var s=typeof a=="undefined";s&&(a=c,ue(c.length)&&(To(c)||nu(c))?a=To(l)?l:l?zt(l):[]:Wo(c)||Ke(c)?a=Ke(l)?tu(l):Wo(l)?l:{}:s=false),t.push(c),f.push(a),s?n[i]=xr(a,c,r,t,f):(a===a?a!==l:l===l)&&(n[i]=a),i=void 0}return i}f=n[i],a=r?r(f,t,i,n,a):b,(c=typeof a=="undefined")&&(a=t),!o&&typeof a=="undefined"||!c&&(a===a?a===f:f!==f)||(n[i]=a)
+}),n}function Ar(n){return function(t){return null==t?b:t[n]}}function jr(n,t){return n+qu(fo()*(t-n+1))}function kr(n,t,r,e,u){return u(n,function(n,u,o){r=e?(e=false,n):t(r,n,u,o)}),r}function Er(n,t,r){var e=-1,u=n.length;for(t=null==t?0:+t||0,0>t&&(t=-t>u?0:u+t),r=typeof r=="undefined"||r>u?u:+r||0,0>r&&(r+=u),u=t>r?0:r-t>>>0,t>>>=0,r=mu(u);++e<u;)r[e]=n[e+t];return r}function Rr(n,t){var r;return or(n,function(n,e,u){return r=t(n,e,u),!r}),!!r}function Ir(n,r){var e=-1,u=Hr(),o=n.length,i=u==t,a=i&&200<=o,f=a&&wo(),l=[];
+f?(u=Bt,i=false):(a=false,f=r?[]:l);n:for(;++e<o;){var c=n[e],s=r?r(c,e,n):c;if(i&&c===c){for(var p=f.length;p--;)if(f[p]===s)continue n;r&&f.push(s),l.push(c)}else 0>u(f,s)&&((r||a)&&f.push(s),l.push(c))}return l}function Or(n,t){for(var r=-1,e=t.length,u=mu(e);++r<e;)u[r]=n[t[r]];return u}function Cr(n,t){var r=n;r instanceof Ft&&(r=r.value());for(var e=-1,u=t.length;++e<u;){var r=[r],o=t[e];Ku.apply(r,o.args),r=o.func.apply(o.thisArg,r)}return r}function Tr(n,t,r){var e=0,u=n?n.length:e;if(typeof t=="number"&&t===t&&u<=ho){for(;e<u;){var o=e+u>>>1,i=n[o];
+(r?i<=t:i<t)?e=o+1:u=o}return u}return Sr(n,t,gu,r)}function Sr(n,t,r,e){t=r(t);for(var u=0,o=n?n.length:0,i=t!==t,a=typeof t=="undefined";u<o;){var f=qu((u+o)/2),l=r(n[f]),c=l===l;(i?c||e:a?c&&(e||typeof l!="undefined"):e?l<=t:l<t)?u=f+1:o=f}return uo(o,po)}function Wr(n,t,r){if(typeof n!="function")return gu;if(typeof t=="undefined")return n;switch(r){case 1:return function(r){return n.call(t,r)};case 3:return function(r,e,u){return n.call(t,r,e,u)};case 4:return function(r,e,u,o){return n.call(t,r,e,u,o)
+};case 5:return function(r,e,u,o,i){return n.call(t,r,e,u,o,i)}}return function(){return n.apply(t,arguments)}}function Nr(n){return zu.call(n,0)}function Fr(n,t,r){for(var e=r.length,u=-1,o=eo(n.length-e,0),i=-1,a=t.length,f=mu(o+a);++i<a;)f[i]=t[i];for(;++u<e;)f[r[u]]=n[u];for(;o--;)f[i++]=n[u++];return f}function Ur(n,t,r){for(var e=-1,u=r.length,o=-1,i=eo(n.length-u,0),a=-1,f=t.length,l=mu(i+f);++o<i;)l[o]=n[o];for(i=o;++a<f;)l[i+a]=t[a];for(;++e<u;)l[i+r[e]]=n[o++];return l}function Lr(n,t){return function(r,e,u){var o=t?t():{};
+if(e=Xr(e,u,3),To(r)){u=-1;for(var i=r.length;++u<i;){var a=r[u];n(o,a,e(a,u,r),r)}}else or(r,function(t,r,u){n(o,t,e(t,r,u),u)});return o}}function $r(n){return function(){var t=arguments.length,r=arguments[0];if(2>t||null==r)return r;if(3<t&&ee(arguments[1],arguments[2],arguments[3])&&(t=2),3<t&&"function"==typeof arguments[t-2])var e=Wr(arguments[--t-1],arguments[t--],5);else 2<t&&"function"==typeof arguments[t-1]&&(e=arguments[--t]);for(var u=0;++u<t;){var o=arguments[u];o&&n(r,o,e)}return r}
+}function Br(n,t){function r(){return(this instanceof r?e:n).apply(t,arguments)}var e=Dr(n);return r}function zr(n){return function(t){var r=-1;t=cu(ou(t));for(var e=t.length,u="";++r<e;)u=n(u,t[r],r);return u}}function Dr(n){return function(){var t=mo(n.prototype),r=n.apply(t,arguments);return Ge(r)?r:t}}function Mr(n,t){return function(r,e,o){o&&ee(r,e,o)&&(e=null);var i=Xr(),a=null==e;if(i===tr&&a||(a=false,e=i(e,o,3)),a){if(e=To(r),e||!Qe(r))return n(e?r:ce(r));e=u}return Jr(r,e,t)}}function qr(n,t,r,e,u,o,i,a,f,l){function c(){for(var w=arguments.length,j=w,k=mu(w);j--;)k[j]=arguments[j];
+if(e&&(k=Fr(k,e,u)),o&&(k=Ur(k,o,i)),g||y){var j=c.placeholder,E=v(k,j),w=w-E.length;if(w<l){var O=a?zt(a):null,w=eo(l-w,0),C=g?E:null,E=g?null:E,T=g?k:null,k=g?null:k;return t|=g?R:I,t&=~(g?I:R),d||(t&=~(x|A)),k=qr(n,t,r,T,C,k,E,O,f,w),k.placeholder=j,k}}if(j=p?r:this,h&&(n=j[m]),a)for(O=k.length,w=uo(a.length,O),C=zt(k);w--;)E=a[w],k[w]=re(E,O)?C[E]:b;return s&&f<k.length&&(k.length=f),(this instanceof c?_||Dr(n):n).apply(j,k)}var s=t&C,p=t&x,h=t&A,g=t&k,d=t&j,y=t&E,_=!h&&Dr(n),m=n;return c}function Pr(n,t,r){return n=n.length,t=+t,n<t&&to(t)?(t-=n,r=null==r?" ":r+"",fu(r,Du(t/r.length)).slice(0,t)):""
+}function Kr(n,t,r,e){function u(){for(var t=-1,a=arguments.length,f=-1,l=e.length,c=mu(a+l);++f<l;)c[f]=e[f];for(;a--;)c[f++]=arguments[++t];return(this instanceof u?i:n).apply(o?r:this,c)}var o=t&x,i=Dr(n);return u}function Vr(n,t,r,e,u,o,i,a){var f=t&A;if(!f&&!Ze(n))throw new Iu($);var l=e?e.length:0;if(l||(t&=~(R|I),e=u=null),l-=u?u.length:0,t&I){var c=e,s=u;e=u=null}var p=!f&&xo(n);if(r=[n,t,r,e,u,c,s,o,i,a],p&&true!==p){e=r[1],t=p[1],a=e|t,o=C|O,u=x|A,i=o|u|j|E;var c=e&C&&!(t&C),s=e&O&&!(t&O),h=(s?r:p)[7],g=(c?r:p)[8];
+o=a>=o&&a<=i&&(e<O||(s||c)&&h.length<=g),(!(e>=O&&t>u||e>u&&t>=O)||o)&&(t&x&&(r[2]=p[2],a|=e&x?0:j),(e=p[3])&&(u=r[3],r[3]=u?Fr(u,e,p[4]):zt(e),r[4]=u?v(r[3],B):zt(p[4])),(e=p[5])&&(u=r[5],r[5]=u?Ur(u,e,p[6]):zt(e),r[6]=u?v(r[5],B):zt(p[6])),(e=p[7])&&(r[7]=zt(e)),t&C&&(r[8]=null==r[8]?p[8]:uo(r[8],p[8])),null==r[9]&&(r[9]=p[9]),r[0]=p[0],r[1]=a),t=r[1],a=r[9]}return r[9]=null==a?f?0:n.length:eo(a-l,0)||0,(p?bo:Ao)(t==x?Br(r[0],r[2]):t!=R&&t!=(x|R)||r[4].length?qr.apply(null,r):Kr.apply(null,r),r)
+}function Yr(n,t,r,e,u,o,i){var a=-1,f=n.length,l=t.length,c=true;if(f!=l&&(!u||l<=f))return false;for(;c&&++a<f;){var s=n[a],p=t[a],c=b;if(e&&(c=u?e(p,s,a):e(s,p,a)),typeof c=="undefined")if(u)for(var h=l;h--&&(p=t[h],!(c=s&&s===p||r(s,p,e,u,o,i))););else c=s&&s===p||r(s,p,e,u,o,i)}return!!c}function Zr(n,t,r){switch(r){case M:case q:return+n==+t;case P:return n.name==t.name&&n.message==t.message;case V:return n!=+n?t!=+t:0==n?1/n==1/t:n==+t;case Z:case G:return n==t+""}return false}function Gr(n,t,r,e,u,o,i){var a=Fo(n),f=a.length,l=Fo(t).length;
+if(f!=l&&!u)return false;for(var c,l=-1;++l<f;){var s=a[l],p=Nu.call(t,s);if(p){var h=n[s],g=t[s],p=b;e&&(p=u?e(g,h,s):e(h,g,s)),typeof p=="undefined"&&(p=h&&h===g||r(h,g,e,u,o,i))}if(!p)return false;c||(c="constructor"==s)}return c||(r=n.constructor,e=t.constructor,!(r!=e&&"constructor"in n&&"constructor"in t)||typeof r=="function"&&r instanceof r&&typeof e=="function"&&e instanceof e)?true:false}function Jr(n,t,r){var e=r?co:lo,u=e,o=u;return or(n,function(n,i,a){i=t(n,i,a),((r?i<u:i>u)||i===e&&i===o)&&(u=i,o=n)
+}),o}function Xr(n,t,r){var e=Wt.callback||pu,e=e===pu?tr:e;return r?e(n,t,r):e}function Hr(n,r,e){var u=Wt.indexOf||de,u=u===de?t:u;return n?u(n,r,e):u}function Qr(n){var t=n.length,r=new n.constructor(t);return t&&"string"==typeof n[0]&&Nu.call(n,"index")&&(r.index=n.index,r.input=n.input),r}function ne(n){return n=n.constructor,typeof n=="function"&&n instanceof n||(n=ku),new n}function te(n,t,r){var e=n.constructor;switch(t){case J:return Nr(n);case M:case q:return new e(+n);case X:case H:case Q:case nt:case tt:case rt:case et:case ut:case ot:return t=n.buffer,new e(r?Nr(t):t,n.byteOffset,n.length);
+case V:case G:return new e(n);case Z:var u=new e(n.source,yt.exec(n));u.lastIndex=n.lastIndex}return u}function re(n,t){return n=+n,t=null==t?vo:t,-1<n&&0==n%1&&n<t}function ee(n,t,r){if(!Ge(r))return false;var e=typeof t;return"number"==e?(e=r.length,e=ue(e)&&re(t,e)):e="string"==e&&t in n,e&&r[t]===n}function ue(n){return typeof n=="number"&&-1<n&&0==n%1&&n<=vo}function oe(n){return n===n&&(0===n?0<1/n:!Ge(n))}function ie(n,t){n=se(n);for(var r=-1,e=t.length,u={};++r<e;){var o=t[r];o in n&&(u[o]=n[o])
+}return u}function ae(n,t){var r={};return hr(n,function(n,e,u){t(n,e,u)&&(r[e]=n)}),r}function fe(n){var t;if(!h(n)||Uu.call(n)!=Y||!(Nu.call(n,"constructor")||(t=n.constructor,typeof t!="function"||t instanceof t)))return false;var r;return hr(n,function(n,t){r=t}),typeof r=="undefined"||Nu.call(n,r)}function le(n){for(var t=eu(n),r=t.length,e=r&&n.length,u=Wt.support,u=e&&ue(e)&&(To(n)||u.nonEnumArgs&&Ke(n)),o=-1,i=[];++o<r;){var a=t[o];(u&&re(a,e)||Nu.call(n,a))&&i.push(a)}return i}function ce(n){return null==n?[]:ue(n.length)?Ge(n)?n:ku(n):uu(n)
+}function se(n){return Ge(n)?n:ku(n)}function pe(n,t,r){return n&&n.length?((r?ee(n,t,r):null==t)&&(t=1),Er(n,0>t?0:t)):[]}function he(n,t,r){var e=n?n.length:0;return e?((r?ee(n,t,r):null==t)&&(t=1),t=e-(+t||0),Er(n,0,0>t?0:t)):[]}function ge(n,t,r){var e=-1,u=n?n.length:0;for(t=Xr(t,r,3);++e<u;)if(t(n[e],e,n))return e;return-1}function ve(n){return n?n[0]:b}function de(n,r,e){var u=n?n.length:0;if(!u)return-1;if(typeof e=="number")e=0>e?eo(u+e,0):e||0;else if(e)return e=Tr(n,r),n=n[e],(r===r?r===n:n!==n)?e:-1;
+return t(n,r,e)}function ye(n){return pe(n,1)}function _e(n,r,e,u){if(!n||!n.length)return[];typeof r!="boolean"&&null!=r&&(u=e,e=ee(n,r,u)?null:r,r=false);var o=Xr();if((o!==tr||null!=e)&&(e=o(e,u,3)),r&&Hr()==t){r=e;var i;e=-1,u=n.length;for(var o=-1,a=[];++e<u;){var f=n[e],l=r?r(f,e,n):f;e&&i===l||(i=l,a[++o]=f)}n=a}else n=Ir(n,e);return n}function me(n){for(var t=-1,r=(n&&n.length&&Vt(Kt(n,Wu)))>>>0,e=mu(r);++t<r;)e[t]=Kt(n,Ar(t));return e}function be(n,t){var r=-1,e=n?n.length:0,u={};for(!e||t||To(n[0])||(t=[]);++r<e;){var o=n[r];
+t?u[o]=t[r]:o&&(u[o[0]]=o[1])}return u}function we(n){return n=Wt(n),n.__chain__=true,n}function xe(n,t,r){return t.call(r,n)}function Ae(n,t,r){var e=n?n.length:0;return ue(e)||(n=uu(n),e=n.length),e?(r=typeof r=="number"?0>r?eo(e+r,0):r||0:0,typeof n=="string"||!To(n)&&Qe(n)?r<e&&-1<n.indexOf(t,r):-1<Hr(n,t,r)):false}function je(n,t,r){var e=To(n)?qt:ar;return(typeof t!="function"||typeof r!="undefined")&&(t=Xr(t,r,3)),e(n,t)}function ke(n,t,r){var e=To(n)?Pt:fr;return t=Xr(t,r,3),e(n,t)}function Ee(n,t,r){return To(n)?(t=ge(n,t,r),-1<t?n[t]:b):(t=Xr(t,r,3),lr(n,t,or))
+}function Re(n,t,r){return typeof t=="function"&&typeof r=="undefined"&&To(n)?Mt(n,t):or(n,Wr(t,r,3))}function Ie(n,t,r){if(typeof t=="function"&&typeof r=="undefined"&&To(n))for(r=n.length;r--&&false!==t(n[r],r,n););else n=ir(n,Wr(t,r,3));return n}function Oe(n,t,r){var e=To(n)?Kt:br;return t=Xr(t,r,3),e(n,t)}function Ce(n,t,r,e){return(To(n)?Yt:kr)(n,Xr(t,e,4),r,3>arguments.length,or)}function Te(n,t,r,e){return(To(n)?Zt:kr)(n,Xr(t,e,4),r,3>arguments.length,ir)}function Se(n,t,r){return(r?ee(n,t,r):null==t)?(n=ce(n),t=n.length,0<t?n[jr(0,t-1)]:b):(n=We(n),n.length=uo(0>t?0:+t||0,n.length),n)
+}function We(n){n=ce(n);for(var t=-1,r=n.length,e=mu(r);++t<r;){var u=jr(0,t);t!=u&&(e[t]=e[u]),e[u]=n[t]}return e}function Ne(n,t,r){var e=To(n)?Gt:Rr;return(typeof t!="function"||typeof r!="undefined")&&(t=Xr(t,r,3)),e(n,t)}function Fe(n,t){var r;if(!Ze(t)){if(!Ze(n))throw new Iu($);var e=n;n=t,t=e}return function(){return 0<--n?r=t.apply(this,arguments):t=null,r}}function Ue(n,t){var r=x;if(2<arguments.length)var e=Er(arguments,2),u=v(e,Ue.placeholder),r=r|R;return Vr(n,r,t,e,u)}function Le(n,t){var r=x|A;
+if(2<arguments.length)var e=Er(arguments,2),u=v(e,Le.placeholder),r=r|R;return Vr(t,r,n,e,u)}function $e(n,t,r){return r&&ee(n,t,r)&&(t=null),n=Vr(n,k,null,null,null,null,null,t),n.placeholder=$e.placeholder,n}function Be(n,t,r){return r&&ee(n,t,r)&&(t=null),n=Vr(n,E,null,null,null,null,null,t),n.placeholder=Be.placeholder,n}function ze(n,t,r){function e(){var r=t-(Co()-l);0>=r||r>t?(a&&Mu(a),r=p,a=s=p=b,r&&(h=Co(),f=n.apply(c,i),s||a||(i=c=null))):s=Zu(e,r)}function u(){s&&Mu(s),a=s=p=b,(v||g!==t)&&(h=Co(),f=n.apply(c,i),s||a||(i=c=null))
+}function o(){if(i=arguments,l=Co(),c=this,p=v&&(s||!d),false===g)var r=d&&!s;else{a||d||(h=l);var o=g-(l-h),y=0>=o||o>g;y?(a&&(a=Mu(a)),h=l,f=n.apply(c,i)):a||(a=Zu(u,o))}return y&&s?s=Mu(s):s||t===g||(s=Zu(e,t)),r&&(y=true,f=n.apply(c,i)),!y||s||a||(i=c=null),f}var i,a,f,l,c,s,p,h=0,g=false,v=true;if(!Ze(n))throw new Iu($);if(t=0>t?0:t,true===r)var d=true,v=false;else Ge(r)&&(d=r.leading,g="maxWait"in r&&eo(+r.maxWait||0,t),v="trailing"in r?r.trailing:v);return o.cancel=function(){s&&Mu(s),a&&Mu(a),a=s=p=b},o}function De(){var n=arguments,t=n.length-1;
+if(0>t)return function(){};if(!qt(n,Ze))throw new Iu($);return function(){for(var r=t,e=n[r].apply(this,arguments);r--;)e=n[r].call(this,e);return e}}function Me(n,t){function r(){var e=r.cache,u=t?t.apply(this,arguments):arguments[0];if(e.has(u))return e.get(u);var o=n.apply(this,arguments);return e.set(u,o),o}if(!Ze(n)||t&&!Ze(t))throw new Iu($);return r.cache=new Me.Cache,r}function qe(n){var t=Er(arguments,1),r=v(t,qe.placeholder);return Vr(n,R,null,t,r)}function Pe(n){var t=Er(arguments,1),r=v(t,Pe.placeholder);
+return Vr(n,I,null,t,r)}function Ke(n){return ue(h(n)?n.length:b)&&Uu.call(n)==z||false}function Ve(n){return n&&1===n.nodeType&&h(n)&&-1<Uu.call(n).indexOf("Element")||false}function Ye(n){return h(n)&&typeof n.message=="string"&&Uu.call(n)==P||false}function Ze(n){return typeof n=="function"||false}function Ge(n){var t=typeof n;return"function"==t||n&&"object"==t||false}function Je(n){return null==n?false:Uu.call(n)==K?$u.test(Su.call(n)):h(n)&&bt.test(n)||false}function Xe(n){return typeof n=="number"||h(n)&&Uu.call(n)==V||false
+}function He(n){return h(n)&&Uu.call(n)==Z||false}function Qe(n){return typeof n=="string"||h(n)&&Uu.call(n)==G||false}function nu(n){return h(n)&&ue(n.length)&&Ct[Uu.call(n)]||false}function tu(n){return nr(n,eu(n))}function ru(n){return dr(n,eu(n))}function eu(n){if(null==n)return[];Ge(n)||(n=ku(n));for(var t=n.length,t=t&&ue(t)&&(To(n)||_o.nonEnumArgs&&Ke(n))&&t||0,r=n.constructor,e=-1,r=typeof r=="function"&&r.prototype==n,u=mu(t),o=0<t;++e<t;)u[e]=e+"";for(var i in n)o&&re(i,t)||"constructor"==i&&(r||!Nu.call(n,i))||u.push(i);
+return u}function uu(n){return Or(n,Fo(n))}function ou(n){return(n=e(n))&&n.replace(wt,l)}function iu(n){return(n=e(n))&&jt.test(n)?n.replace(At,"\\$&"):n}function au(n,t,r){return r&&ee(n,t,r)&&(t=0),ao(n,t)}function fu(n,t){var r="";if(n=e(n),t=+t,1>t||!n||!to(t))return r;do t%2&&(r+=n),t=qu(t/2),n+=n;while(t);return r}function lu(n,t,r){var u=n;return(n=e(n))?(r?ee(u,t,r):null==t)?n.slice(d(n),y(n)+1):(t=e(t),n.slice(o(n,t),i(n,t)+1)):n}function cu(n,t,r){return r&&ee(n,t,r)&&(t=null),n=e(n),n.match(t||Rt)||[]
+}function su(n){try{return n()}catch(t){return Ye(t)?t:wu(t)}}function pu(n,t,r){return r&&ee(n,t,r)&&(t=null),tr(n,t)}function hu(n){return function(){return n}}function gu(n){return n}function vu(n){return wr(n,true)}function du(n,t,r){if(null==r){var e=Ge(t),u=e&&Fo(t);((u=u&&u.length&&dr(t,u))?u.length:e)||(u=false,r=t,t=n,n=this)}u||(u=dr(t,Fo(t)));var o=true,e=-1,i=Ze(n),a=u.length;false===r?o=false:Ge(r)&&"chain"in r&&(o=r.chain);for(;++e<a;){r=u[e];var f=t[r];n[r]=f,i&&(n.prototype[r]=function(t){return function(){var r=this.__chain__;
+if(o||r){var e=n(this.__wrapped__);return(e.__actions__=zt(this.__actions__)).push({func:t,args:arguments,thisArg:n}),e.__chain__=r,e}return r=[this.value()],Ku.apply(r,arguments),t.apply(n,r)}}(f))}return n}function yu(){}function _u(n){return Ar(n+"")}g=g?Dt.defaults($t.Object(),g,Dt.pick($t,Ot)):$t;var mu=g.Array,bu=g.Date,wu=g.Error,xu=g.Function,Au=g.Math,ju=g.Number,ku=g.Object,Eu=g.RegExp,Ru=g.String,Iu=g.TypeError,Ou=mu.prototype,Cu=ku.prototype,Tu=(Tu=g.window)&&Tu.document,Su=xu.prototype.toString,Wu=Ar("length"),Nu=Cu.hasOwnProperty,Fu=0,Uu=Cu.toString,Lu=g._,$u=Eu("^"+iu(Uu).replace(/toString|(function).*?(?=\\\()| for .+?(?=\\\])/g,"$1.*?")+"$"),Bu=Je(Bu=g.ArrayBuffer)&&Bu,zu=Je(zu=Bu&&new Bu(0).slice)&&zu,Du=Au.ceil,Mu=g.clearTimeout,qu=Au.floor,Pu=Je(Pu=ku.getPrototypeOf)&&Pu,Ku=Ou.push,Vu=Cu.propertyIsEnumerable,Yu=Je(Yu=g.Set)&&Yu,Zu=g.setTimeout,Gu=Ou.splice,Ju=Je(Ju=g.Uint8Array)&&Ju,Xu=Je(Xu=g.WeakMap)&&Xu,Hu=function(){try{var n=Je(n=g.Float64Array)&&n,t=new n(new Bu(10),0,1)&&n
+}catch(r){}return t}(),Qu=Je(Qu=mu.isArray)&&Qu,no=Je(no=ku.create)&&no,to=g.isFinite,ro=Je(ro=ku.keys)&&ro,eo=Au.max,uo=Au.min,oo=Je(oo=bu.now)&&oo,io=Je(io=ju.isFinite)&&io,ao=g.parseInt,fo=Au.random,lo=ju.NEGATIVE_INFINITY,co=ju.POSITIVE_INFINITY,so=Au.pow(2,32)-1,po=so-1,ho=so>>>1,go=Hu?Hu.BYTES_PER_ELEMENT:0,vo=Au.pow(2,53)-1,yo=Xu&&new Xu,_o=Wt.support={};!function(n){_o.funcDecomp=!Je(g.WinRTError)&&kt.test(m),_o.funcNames=typeof xu.name=="string";try{_o.dom=11===Tu.createDocumentFragment().nodeType
+}catch(t){_o.dom=false}try{_o.nonEnumArgs=!Vu.call(arguments,1)}catch(r){_o.nonEnumArgs=true}}(0,0),Wt.templateSettings={escape:ht,evaluate:gt,interpolate:vt,variable:"",imports:{_:Wt}};var mo=function(){function n(){}return function(t){if(Ge(t)){n.prototype=t;var r=new n;n.prototype=null}return r||g.Object()}}(),bo=yo?function(n,t){return yo.set(n,t),n}:gu;zu||(Nr=Bu&&Ju?function(n){var t=n.byteLength,r=Hu?qu(t/go):0,e=r*go,u=new Bu(t);if(r){var o=new Hu(u,0,r);o.set(new Hu(n,0,r))}return t!=e&&(o=new Ju(u,e),o.set(new Ju(n,e))),u
+}:hu(null));var wo=no&&Yu?function(n){return new Lt(n)}:hu(null),xo=yo?function(n){return yo.get(n)}:yu,Ao=function(){var n=0,t=0;return function(r,e){var u=Co(),o=N-(u-t);if(t=u,0<o){if(++n>=W)return r}else n=0;return bo(r,e)}}(),jo=Lr(function(n,t,r){Nu.call(n,r)?++n[r]:n[r]=1}),ko=Lr(function(n,t,r){Nu.call(n,r)?n[r].push(t):n[r]=[t]}),Eo=Lr(function(n,t,r){n[r]=t}),Ro=Mr(Vt),Io=Mr(function(n){for(var t=-1,r=n.length,e=co;++t<r;){var u=n[t];u<e&&(e=u)}return e},true),Oo=Lr(function(n,t,r){n[r?0:1].push(t)
+},function(){return[[],[]]}),Co=oo||function(){return(new bu).getTime()},To=Qu||function(n){return h(n)&&ue(n.length)&&Uu.call(n)==D||false};_o.dom||(Ve=function(n){return n&&1===n.nodeType&&h(n)&&!Wo(n)||false});var So=io||function(n){return typeof n=="number"&&to(n)};(Ze(/x/)||Ju&&!Ze(Ju))&&(Ze=function(n){return Uu.call(n)==K});var Wo=Pu?function(n){if(!n||Uu.call(n)!=Y)return false;var t=n.valueOf,r=Je(t)&&(r=Pu(t))&&Pu(r);return r?n==r||Pu(n)==r:fe(n)}:fe,No=$r(Ht),Fo=ro?function(n){if(n)var t=n.constructor,r=n.length;
+return typeof t=="function"&&t.prototype===n||typeof n!="function"&&r&&ue(r)?le(n):Ge(n)?ro(n):[]}:le,Uo=$r(xr),Lo=zr(function(n,t,r){return t=t.toLowerCase(),r?n+t.charAt(0).toUpperCase()+t.slice(1):t}),$o=zr(function(n,t,r){return n+(r?"-":"")+t.toLowerCase()});8!=ao(It+"08")&&(au=function(n,t,r){return(r?ee(n,t,r):null==t)?t=0:t&&(t=+t),n=lu(n),ao(n,t||(mt.test(n)?16:10))});var Bo=zr(function(n,t,r){return n+(r?"_":"")+t.toLowerCase()});return Nt.prototype=Wt.prototype,Ut.prototype["delete"]=function(n){return this.has(n)&&delete this.__data__[n]
+},Ut.prototype.get=function(n){return"__proto__"==n?b:this.__data__[n]},Ut.prototype.has=function(n){return"__proto__"!=n&&Nu.call(this.__data__,n)},Ut.prototype.set=function(n,t){return"__proto__"!=n&&(this.__data__[n]=t),this},Lt.prototype.push=function(n){var t=this.data;typeof n=="string"||Ge(n)?t.set.add(n):t.hash[n]=true},Me.Cache=Ut,Wt.after=function(n,t){if(!Ze(t)){if(!Ze(n))throw new Iu($);var r=n;n=t,t=r}return n=to(n=+n)?n:0,function(){return 1>--n?t.apply(this,arguments):void 0}},Wt.ary=function(n,t,r){return r&&ee(n,t,r)&&(t=null),t=n&&null==t?n.length:eo(+t||0,0),Vr(n,C,null,null,null,null,t)
+},Wt.assign=No,Wt.at=function(n){return ue(n?n.length:0)&&(n=ce(n)),Qt(n,cr(arguments,false,false,1))},Wt.before=Fe,Wt.bind=Ue,Wt.bindAll=function(n){for(var t=n,r=1<arguments.length?cr(arguments,false,false,1):ru(n),e=-1,u=r.length;++e<u;){var o=r[e];t[o]=Vr(t[o],x,t)}return t},Wt.bindKey=Le,Wt.callback=pu,Wt.chain=we,Wt.chunk=function(n,t,r){t=(r?ee(n,t,r):null==t)?1:eo(+t||1,1),r=0;for(var e=n?n.length:0,u=-1,o=mu(Du(e/t));r<e;)o[++u]=Er(n,r,r+=t);return o},Wt.compact=function(n){for(var t=-1,r=n?n.length:0,e=-1,u=[];++t<r;){var o=n[t];
+o&&(u[++e]=o)}return u},Wt.constant=hu,Wt.countBy=jo,Wt.create=function(n,t,r){var e=mo(n);return r&&ee(n,t,r)&&(t=null),t?nr(t,e,Fo(t)):e},Wt.curry=$e,Wt.curryRight=Be,Wt.debounce=ze,Wt.defaults=function(n){if(null==n)return n;var t=zt(arguments);return t.push(Jt),No.apply(b,t)},Wt.defer=function(n){return er(n,1,arguments,1)},Wt.delay=function(n,t){return er(n,t,arguments,2)},Wt.difference=function(){for(var n=-1,t=arguments.length;++n<t;){var r=arguments[n];if(To(r)||Ke(r))break}return ur(r,cr(arguments,false,true,++n))
+},Wt.drop=pe,Wt.dropRight=he,Wt.dropRightWhile=function(n,t,r){var e=n?n.length:0;if(!e)return[];for(t=Xr(t,r,3);e--&&t(n[e],e,n););return Er(n,0,e+1)},Wt.dropWhile=function(n,t,r){var e=n?n.length:0;if(!e)return[];var u=-1;for(t=Xr(t,r,3);++u<e&&t(n[u],u,n););return Er(n,u)},Wt.filter=ke,Wt.flatten=function(n,t,r){var e=n?n.length:0;return r&&ee(n,t,r)&&(t=false),e?cr(n,t):[]},Wt.flattenDeep=function(n){return n&&n.length?cr(n,true):[]},Wt.flow=function(){var n=arguments,t=n.length;if(!t)return function(){};
+if(!qt(n,Ze))throw new Iu($);return function(){for(var r=0,e=n[r].apply(this,arguments);++r<t;)e=n[r].call(this,e);return e}},Wt.flowRight=De,Wt.forEach=Re,Wt.forEachRight=Ie,Wt.forIn=function(n,t,r){return(typeof t!="function"||typeof r!="undefined")&&(t=Wr(t,r,3)),sr(n,t,eu)},Wt.forInRight=function(n,t,r){return t=Wr(t,r,3),pr(n,t,eu)},Wt.forOwn=function(n,t,r){return(typeof t!="function"||typeof r!="undefined")&&(t=Wr(t,r,3)),gr(n,t)},Wt.forOwnRight=function(n,t,r){return t=Wr(t,r,3),pr(n,t,Fo)
+},Wt.functions=ru,Wt.groupBy=ko,Wt.indexBy=Eo,Wt.initial=function(n){return he(n,1)},Wt.intersection=function(){for(var n=[],r=-1,e=arguments.length,u=[],o=Hr(),i=o==t;++r<e;){var a=arguments[r];(To(a)||Ke(a))&&(n.push(a),u.push(i&&120<=a.length&&wo(r&&a)))}var e=n.length,i=n[0],f=-1,l=i?i.length:0,c=[],s=u[0];n:for(;++f<l;)if(a=i[f],0>(s?Bt(s,a):o(c,a))){for(r=e;--r;){var p=u[r];if(0>(p?Bt(p,a):o(n[r],a)))continue n}s&&s.push(a),c.push(a)}return c},Wt.invert=function(n,t,r){r&&ee(n,t,r)&&(t=null),r=-1;
+for(var e=Fo(n),u=e.length,o={};++r<u;){var i=e[r],a=n[i];t?Nu.call(o,a)?o[a].push(i):o[a]=[i]:o[a]=i}return o},Wt.invoke=function(n,t){return yr(n,t,Er(arguments,2))},Wt.keys=Fo,Wt.keysIn=eu,Wt.map=Oe,Wt.mapValues=function(n,t,r){var e={};return t=Xr(t,r,3),gr(n,function(n,r,u){e[r]=t(n,r,u)}),e},Wt.matches=vu,Wt.memoize=Me,Wt.merge=Uo,Wt.mixin=du,Wt.negate=function(n){if(!Ze(n))throw new Iu($);return function(){return!n.apply(this,arguments)}},Wt.omit=function(n,t,r){if(null==n)return{};if(typeof t!="function"){var e=Kt(cr(arguments,false,false,1),Ru);
+return ie(n,ur(eu(n),e))}return t=Wr(t,r,3),ae(n,function(n,r,e){return!t(n,r,e)})},Wt.once=function(n){return Fe(n,2)},Wt.pairs=function(n){for(var t=-1,r=Fo(n),e=r.length,u=mu(e);++t<e;){var o=r[t];u[t]=[o,n[o]]}return u},Wt.partial=qe,Wt.partialRight=Pe,Wt.partition=Oo,Wt.pick=function(n,t,r){return null==n?{}:typeof t=="function"?ae(n,Wr(t,r,3)):ie(n,cr(arguments,false,false,1))},Wt.pluck=function(n,t){return Oe(n,_u(t))},Wt.property=_u,Wt.propertyOf=function(n){return function(t){return null==n?b:n[t]
+}},Wt.pull=function(){var n=arguments[0];if(!n||!n.length)return n;for(var t=0,r=Hr(),e=arguments.length;++t<e;)for(var u=0,o=arguments[t];-1<(u=r(n,o,u));)Gu.call(n,u,1);return n},Wt.pullAt=function(t){var r=t||[],e=cr(arguments,false,false,1),u=e.length,o=Qt(r,e);for(e.sort(n);u--;){var i=parseFloat(e[u]);if(i!=a&&re(i)){var a=i;Gu.call(r,i,1)}}return o},Wt.range=function(n,t,r){r&&ee(n,t,r)&&(t=r=null),n=+n||0,r=null==r?1:+r||0,null==t?(t=n,n=0):t=+t||0;var e=-1;t=eo(Du((t-n)/(r||1)),0);for(var u=mu(t);++e<t;)u[e]=n,n+=r;
+return u},Wt.rearg=function(n){var t=cr(arguments,false,false,1);return Vr(n,O,null,null,null,t)},Wt.reject=function(n,t,r){var e=To(n)?Pt:fr;return t=Xr(t,r,3),e(n,function(n,r,e){return!t(n,r,e)})},Wt.remove=function(n,t,r){var e=-1,u=n?n.length:0,o=[];for(t=Xr(t,r,3);++e<u;)r=n[e],t(r,e,n)&&(o.push(r),Gu.call(n,e--,1),u--);return o},Wt.rest=ye,Wt.shuffle=We,Wt.slice=function(n,t,r){var e=n?n.length:0;return e?(r&&typeof r!="number"&&ee(n,t,r)&&(t=0,r=e),Er(n,t,r)):[]},Wt.sortBy=function(n,t,e){var u=-1,o=n?n.length:0,i=ue(o)?mu(o):[];
+return e&&ee(n,t,e)&&(t=null),t=Xr(t,e,3),or(n,function(n,r,e){i[++u]={a:t(n,r,e),b:u,c:n}}),r(i,a)},Wt.sortByAll=function(n){var t=arguments;3<t.length&&ee(t[1],t[2],t[3])&&(t=[n,t[1]]);var e=-1,u=n?n.length:0,o=cr(t,false,false,1),i=ue(u)?mu(u):[];return or(n,function(n){for(var t=o.length,r=mu(t);t--;)r[t]=null==n?b:n[o[t]];i[++e]={a:r,b:e,c:n}}),r(i,f)},Wt.take=function(n,t,r){return n&&n.length?((r?ee(n,t,r):null==t)&&(t=1),Er(n,0,0>t?0:t)):[]},Wt.takeRight=function(n,t,r){var e=n?n.length:0;return e?((r?ee(n,t,r):null==t)&&(t=1),t=e-(+t||0),Er(n,0>t?0:t)):[]
+},Wt.takeRightWhile=function(n,t,r){var e=n?n.length:0;if(!e)return[];for(t=Xr(t,r,3);e--&&t(n[e],e,n););return Er(n,e+1)},Wt.takeWhile=function(n,t,r){var e=n?n.length:0;if(!e)return[];var u=-1;for(t=Xr(t,r,3);++u<e&&t(n[u],u,n););return Er(n,0,u)},Wt.tap=function(n,t,r){return t.call(r,n),n},Wt.throttle=function(n,t,r){var e=true,u=true;if(!Ze(n))throw new Iu($);return false===r?e=false:Ge(r)&&(e="leading"in r?!!r.leading:e,u="trailing"in r?!!r.trailing:u),St.leading=e,St.maxWait=+t,St.trailing=u,ze(n,t,St)
+},Wt.thru=xe,Wt.times=function(n,t,r){if(n=+n,1>n||!to(n))return[];var e=-1,u=mu(uo(n,so));for(t=Wr(t,r,1);++e<n;)e<so?u[e]=t(e):t(e);return u},Wt.toArray=function(n){var t=n?n.length:0;return ue(t)?t?zt(n):[]:uu(n)},Wt.toPlainObject=tu,Wt.transform=function(n,t,r,e){var u=To(n)||nu(n);return t=Xr(t,e,4),null==r&&(u||Ge(n)?(e=n.constructor,r=u?To(n)?new e:[]:mo(typeof e=="function"&&e.prototype)):r={}),(u?Mt:gr)(n,function(n,e,u){return t(r,n,e,u)}),r},Wt.union=function(){return Ir(cr(arguments,false,true))
+},Wt.uniq=_e,Wt.unzip=me,Wt.values=uu,Wt.valuesIn=function(n){return Or(n,eu(n))},Wt.where=function(n,t){return ke(n,vu(t))},Wt.without=function(n){return ur(n,Er(arguments,1))},Wt.wrap=function(n,t){return t=null==t?gu:t,Vr(t,R,null,[n],[])},Wt.xor=function(){for(var n=-1,t=arguments.length;++n<t;){var r=arguments[n];if(To(r)||Ke(r))var e=e?ur(e,r).concat(ur(r,e)):r}return e?Ir(e):[]},Wt.zip=function(){for(var n=arguments.length,t=mu(n);n--;)t[n]=arguments[n];return me(t)},Wt.zipObject=be,Wt.backflow=De,Wt.collect=Oe,Wt.compose=De,Wt.each=Re,Wt.eachRight=Ie,Wt.extend=No,Wt.iteratee=pu,Wt.methods=ru,Wt.object=be,Wt.select=ke,Wt.tail=ye,Wt.unique=_e,du(Wt,Wt),Wt.attempt=su,Wt.camelCase=Lo,Wt.capitalize=function(n){return(n=e(n))&&n.charAt(0).toUpperCase()+n.slice(1)
+},Wt.clone=function(n,t,r,e){return typeof t!="boolean"&&null!=t&&(e=r,r=ee(n,t,e)?null:t,t=false),r=typeof r=="function"&&Wr(r,e,1),rr(n,t,r)},Wt.cloneDeep=function(n,t,r){return t=typeof t=="function"&&Wr(t,r,1),rr(n,true,t)},Wt.deburr=ou,Wt.endsWith=function(n,t,r){n=e(n),t+="";var u=n.length;return r=(typeof r=="undefined"?u:uo(0>r?0:+r||0,u))-t.length,0<=r&&n.indexOf(t,r)==r},Wt.escape=function(n){return(n=e(n))&&pt.test(n)?n.replace(ct,c):n},Wt.escapeRegExp=iu,Wt.every=je,Wt.find=Ee,Wt.findIndex=ge,Wt.findKey=function(n,t,r){return t=Xr(t,r,3),lr(n,t,gr,true)
+},Wt.findLast=function(n,t,r){return t=Xr(t,r,3),lr(n,t,ir)},Wt.findLastIndex=function(n,t,r){var e=n?n.length:0;for(t=Xr(t,r,3);e--;)if(t(n[e],e,n))return e;return-1},Wt.findLastKey=function(n,t,r){return t=Xr(t,r,3),lr(n,t,vr,true)},Wt.findWhere=function(n,t){return Ee(n,vu(t))},Wt.first=ve,Wt.has=function(n,t){return n?Nu.call(n,t):false},Wt.identity=gu,Wt.includes=Ae,Wt.indexOf=de,Wt.isArguments=Ke,Wt.isArray=To,Wt.isBoolean=function(n){return true===n||false===n||h(n)&&Uu.call(n)==M||false},Wt.isDate=function(n){return h(n)&&Uu.call(n)==q||false
+},Wt.isElement=Ve,Wt.isEmpty=function(n){if(null==n)return true;var t=n.length;return ue(t)&&(To(n)||Qe(n)||Ke(n)||h(n)&&Ze(n.splice))?!t:!Fo(n).length},Wt.isEqual=function(n,t,r,e){return r=typeof r=="function"&&Wr(r,e,3),!r&&oe(n)&&oe(t)?n===t:(e=r?r(n,t):b,typeof e=="undefined"?_r(n,t,r):!!e)},Wt.isError=Ye,Wt.isFinite=So,Wt.isFunction=Ze,Wt.isMatch=function(n,t,r,e){var u=Fo(t),o=u.length;if(r=typeof r=="function"&&Wr(r,e,3),!r&&1==o){var i=u[0];if(e=t[i],oe(e))return null!=n&&e===n[i]&&Nu.call(n,i)
+}for(var i=mu(o),a=mu(o);o--;)e=i[o]=t[u[o]],a[o]=oe(e);return mr(n,u,i,a,r)},Wt.isNaN=function(n){return Xe(n)&&n!=+n},Wt.isNative=Je,Wt.isNull=function(n){return null===n},Wt.isNumber=Xe,Wt.isObject=Ge,Wt.isPlainObject=Wo,Wt.isRegExp=He,Wt.isString=Qe,Wt.isTypedArray=nu,Wt.isUndefined=function(n){return typeof n=="undefined"},Wt.kebabCase=$o,Wt.last=function(n){var t=n?n.length:0;return t?n[t-1]:b},Wt.lastIndexOf=function(n,t,r){var e=n?n.length:0;if(!e)return-1;var u=e;if(typeof r=="number")u=(0>r?eo(e+r,0):uo(r||0,e-1))+1;
+else if(r)return u=Tr(n,t,true)-1,n=n[u],(t===t?t===n:n!==n)?u:-1;if(t!==t)return p(n,u,true);for(;u--;)if(n[u]===t)return u;return-1},Wt.max=Ro,Wt.min=Io,Wt.noConflict=function(){return g._=Lu,this},Wt.noop=yu,Wt.now=Co,Wt.pad=function(n,t,r){n=e(n),t=+t;var u=n.length;return u<t&&to(t)?(u=(t-u)/2,t=qu(u),u=Du(u),r=Pr("",u,r),r.slice(0,t)+n+r):n},Wt.padLeft=function(n,t,r){return(n=e(n))&&Pr(n,t,r)+n},Wt.padRight=function(n,t,r){return(n=e(n))&&n+Pr(n,t,r)},Wt.parseInt=au,Wt.random=function(n,t,r){r&&ee(n,t,r)&&(t=r=null);
+var e=null==n,u=null==t;return null==r&&(u&&typeof n=="boolean"?(r=n,n=1):typeof t=="boolean"&&(r=t,u=true)),e&&u&&(t=1,u=false),n=+n||0,u?(t=n,n=0):t=+t||0,r||n%1||t%1?(r=fo(),uo(n+r*(t-n+parseFloat("1e-"+((r+"").length-1))),t)):jr(n,t)},Wt.reduce=Ce,Wt.reduceRight=Te,Wt.repeat=fu,Wt.result=function(n,t,r){return t=null==n?b:n[t],typeof t=="undefined"&&(t=r),Ze(t)?t.call(n):t},Wt.runInContext=m,Wt.size=function(n){var t=n?n.length:0;return ue(t)?t:Fo(n).length},Wt.snakeCase=Bo,Wt.some=Ne,Wt.sortedIndex=function(n,t,r,e){var u=Xr(r);
+return u===tr&&null==r?Tr(n,t):Sr(n,t,u(r,e,1))},Wt.sortedLastIndex=function(n,t,r,e){var u=Xr(r);return u===tr&&null==r?Tr(n,t,true):Sr(n,t,u(r,e,1),true)},Wt.startsWith=function(n,t,r){return n=e(n),r=null==r?0:uo(0>r?0:+r||0,n.length),n.lastIndexOf(t,r)==r},Wt.template=function(n,t,r){var u=Wt.templateSettings;r&&ee(n,t,r)&&(t=r=null),n=e(n),t=Ht(Ht({},r||t),u,Xt),r=Ht(Ht({},t.imports),u.imports,Xt);var o,i,a=Fo(r),f=Or(r,a),l=0;r=t.interpolate||xt;var c="__p+='";r=Eu((t.escape||xt).source+"|"+r.source+"|"+(r===vt?dt:xt).source+"|"+(t.evaluate||xt).source+"|$","g");
+var p="sourceURL"in t?"//# sourceURL="+t.sourceURL+"\n":"";if(n.replace(r,function(t,r,e,u,a,f){return e||(e=u),c+=n.slice(l,f).replace(Et,s),r&&(o=true,c+="'+__e("+r+")+'"),a&&(i=true,c+="';"+a+";\n__p+='"),e&&(c+="'+((__t=("+e+"))==null?'':__t)+'"),l=f+t.length,t}),c+="';",(t=t.variable)||(c="with(obj){"+c+"}"),c=(i?c.replace(it,""):c).replace(at,"$1").replace(ft,"$1;"),c="function("+(t||"obj")+"){"+(t?"":"obj||(obj={});")+"var __t,__p=''"+(o?",__e=_.escape":"")+(i?",__j=Array.prototype.join;function print(){__p+=__j.call(arguments,'')}":";")+c+"return __p}",t=su(function(){return xu(a,p+"return "+c).apply(b,f)
+}),t.source=c,Ye(t))throw t;return t},Wt.trim=lu,Wt.trimLeft=function(n,t,r){var u=n;return(n=e(n))?n.slice((r?ee(u,t,r):null==t)?d(n):o(n,e(t))):n},Wt.trimRight=function(n,t,r){var u=n;return(n=e(n))?(r?ee(u,t,r):null==t)?n.slice(0,y(n)+1):n.slice(0,i(n,e(t))+1):n},Wt.trunc=function(n,t,r){r&&ee(n,t,r)&&(t=null);var u=T;if(r=S,null!=t)if(Ge(t)){var o="separator"in t?t.separator:o,u="length"in t?+t.length||0:u;r="omission"in t?e(t.omission):r}else u=+t||0;if(n=e(n),u>=n.length)return n;if(u-=r.length,1>u)return r;
+if(t=n.slice(0,u),null==o)return t+r;if(He(o)){if(n.slice(u).search(o)){var i,a=n.slice(0,u);for(o.global||(o=Eu(o.source,(yt.exec(o)||"")+"g")),o.lastIndex=0;n=o.exec(a);)i=n.index;t=t.slice(0,null==i?u:i)}}else n.indexOf(o,u)!=u&&(o=t.lastIndexOf(o),-1<o&&(t=t.slice(0,o)));return t+r},Wt.unescape=function(n){return(n=e(n))&&st.test(n)?n.replace(lt,_):n},Wt.uniqueId=function(n){var t=++Fu;return e(n)+t},Wt.words=cu,Wt.all=je,Wt.any=Ne,Wt.contains=Ae,Wt.detect=Ee,Wt.foldl=Ce,Wt.foldr=Te,Wt.head=ve,Wt.include=Ae,Wt.inject=Ce,du(Wt,function(){var n={};
+return gr(Wt,function(t,r){Wt.prototype[r]||(n[r]=t)}),n}(),false),Wt.sample=Se,Wt.prototype.sample=function(n){return this.__chain__||null!=n?this.thru(function(t){return Se(t,n)}):Se(this.value())},Wt.VERSION=w,Mt("bind bindKey curry curryRight partial partialRight".split(" "),function(n){Wt[n].placeholder=Wt}),Mt(["filter","map","takeWhile"],function(n,t){var r=t==F;Ft.prototype[n]=function(n,e){var u=this.clone(),o=u.filtered,i=u.iteratees||(u.iteratees=[]);return u.filtered=o||r||t==L&&0>u.dir,i.push({iteratee:Xr(n,e,3),type:t}),u
+}}),Mt(["drop","take"],function(n,t){var r=n+"Count",e=n+"While";Ft.prototype[n]=function(e){e=null==e?1:eo(+e||0,0);var u=this.clone();if(u.filtered){var o=u[r];u[r]=t?uo(o,e):o+e}else(u.views||(u.views=[])).push({size:e,type:n+(0>u.dir?"Right":"")});return u},Ft.prototype[n+"Right"]=function(t){return this.reverse()[n](t).reverse()},Ft.prototype[n+"RightWhile"]=function(n,t){return this.reverse()[e](n,t).reverse()}}),Mt(["first","last"],function(n,t){var r="take"+(t?"Right":"");Ft.prototype[n]=function(){return this[r](1).value()[0]
+}}),Mt(["initial","rest"],function(n,t){var r="drop"+(t?"":"Right");Ft.prototype[n]=function(){return this[r](1)}}),Mt(["pluck","where"],function(n,t){var r=t?"filter":"map",e=t?vu:_u;Ft.prototype[n]=function(n){return this[r](e(n))}}),Ft.prototype.dropWhile=function(n,t){var r,e,u=0>this.dir;return n=Xr(n,t,3),this.filter(function(t,o,i){return r=r&&(u?o<e:o>e),e=o,r||(r=!n(t,o,i))})},Ft.prototype.reject=function(n,t){return n=Xr(n,t,3),this.filter(function(t,r,e){return!n(t,r,e)})},Ft.prototype.slice=function(n,t){n=null==n?0:+n||0;
+var r=0>n?this.takeRight(-n):this.drop(n);return typeof t!="undefined"&&(t=+t||0,r=0>t?r.dropRight(-t):r.take(t-n)),r},gr(Ft.prototype,function(n,t){var r=Wt[t],e=/^(?:first|last)$/.test(t);Wt.prototype[t]=function(){function t(n){return n=[n],Ku.apply(n,o),r.apply(Wt,n)}var u=this.__wrapped__,o=arguments,i=this.__chain__,a=!!this.__actions__.length,f=u instanceof Ft,l=f&&!a;return e&&!i?l?n.call(u):r.call(Wt,this.value()):f||To(u)?(u=n.apply(l?u:new Ft(this),o),e||!a&&!u.actions||(u.actions||(u.actions=[])).push({func:xe,args:[t],thisArg:Wt}),new Nt(u,i)):this.thru(t)
+}}),Mt("concat join pop push shift sort splice unshift".split(" "),function(n){var t=Ou[n],r=/^(?:push|sort|unshift)$/.test(n)?"tap":"thru",e=/^(?:join|pop|shift)$/.test(n);Wt.prototype[n]=function(){var n=arguments;return e&&!this.__chain__?t.apply(this.value(),n):this[r](function(r){return t.apply(r,n)})}}),Ft.prototype.clone=function(){var n=this.actions,t=this.iteratees,r=this.views,e=new Ft(this.wrapped);return e.actions=n?zt(n):null,e.dir=this.dir,e.dropCount=this.dropCount,e.filtered=this.filtered,e.iteratees=t?zt(t):null,e.takeCount=this.takeCount,e.views=r?zt(r):null,e
+},Ft.prototype.reverse=function(){if(this.filtered){var n=new Ft(this);n.dir=-1,n.filtered=true}else n=this.clone(),n.dir*=-1;return n},Ft.prototype.value=function(){var n=this.wrapped.value();if(!To(n))return Cr(n,this.actions);var t,r=this.dir,e=0>r;t=n.length;for(var u=this.views,o=0,i=-1,a=u?u.length:0;++i<a;){var f=u[i],l=f.size;switch(f.type){case"drop":o+=l;break;case"dropRight":t-=l;break;case"take":t=uo(t,o+l);break;case"takeRight":o=eo(o,t-l)}}t={start:o,end:t},i=t.start,a=t.end,t=a-i,u=this.dropCount,o=uo(t,this.takeCount-u),e=e?a:i-1,a=(i=this.iteratees)?i.length:0,f=0,l=[];
+n:for(;t--&&f<o;){for(var e=e+r,c=-1,s=n[e];++c<a;){var p=i[c],h=p.iteratee(s,e,n),p=p.type;if(p==U)s=h;else if(!h){if(p==F)continue n;break n}}u?u--:l[f++]=s}return l},Wt.prototype.chain=function(){return we(this)},Wt.prototype.reverse=function(){var n=this.__wrapped__;return n instanceof Ft?(this.__actions__.length&&(n=new Ft(this)),new Nt(n.reverse())):this.thru(function(n){return n.reverse()})},Wt.prototype.toString=function(){return this.value()+""},Wt.prototype.toJSON=Wt.prototype.valueOf=Wt.prototype.value=function(){return Cr(this.__wrapped__,this.__actions__)
+},Wt.prototype.collect=Wt.prototype.map,Wt.prototype.head=Wt.prototype.first,Wt.prototype.select=Wt.prototype.filter,Wt.prototype.tail=Wt.prototype.rest,Wt}var b,w="3.0.1",x=1,A=2,j=4,k=8,E=16,R=32,I=64,O=128,C=256,T=30,S="...",W=150,N=16,F=0,U=1,L=2,$="Expected a function",B="__lodash_placeholder__",z="[object Arguments]",D="[object Array]",M="[object Boolean]",q="[object Date]",P="[object Error]",K="[object Function]",V="[object Number]",Y="[object Object]",Z="[object RegExp]",G="[object String]",J="[object ArrayBuffer]",X="[object Float32Array]",H="[object Float64Array]",Q="[object Int8Array]",nt="[object Int16Array]",tt="[object Int32Array]",rt="[object Uint8Array]",et="[object Uint8ClampedArray]",ut="[object Uint16Array]",ot="[object Uint32Array]",it=/\b__p\+='';/g,at=/\b(__p\+=)''\+/g,ft=/(__e\(.*?\)|\b__t\))\+'';/g,lt=/&(?:amp|lt|gt|quot|#39|#96);/g,ct=/[&<>"'`]/g,st=RegExp(lt.source),pt=RegExp(ct.source),ht=/<%-([\s\S]+?)%>/g,gt=/<%([\s\S]+?)%>/g,vt=/<%=([\s\S]+?)%>/g,dt=/\$\{([^\\}]*(?:\\.[^\\}]*)*)\}/g,yt=/\w*$/,_t=/^\s*function[ \n\r\t]+\w/,mt=/^0[xX]/,bt=/^\[object .+?Constructor\]$/,wt=/[\xc0-\xd6\xd8-\xde\xdf-\xf6\xf8-\xff]/g,xt=/($^)/,At=/[.*+?^${}()|[\]\/\\]/g,jt=RegExp(At.source),kt=/\bthis\b/,Et=/['\n\r\u2028\u2029\\]/g,Rt=RegExp("[A-Z\\xc0-\\xd6\\xd8-\\xde]{2,}(?=[A-Z\\xc0-\\xd6\\xd8-\\xde][a-z\\xdf-\\xf6\\xf8-\\xff]+)|[A-Z\\xc0-\\xd6\\xd8-\\xde]?[a-z\\xdf-\\xf6\\xf8-\\xff]+|[A-Z\\xc0-\\xd6\\xd8-\\xde]+|[0-9]+","g"),It=" \t\x0b\f\xa0\ufeff\n\r\u2028\u2029\u1680\u180e\u2000\u2001\u2002\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200a\u202f\u205f\u3000",Ot="Array ArrayBuffer Date Error Float32Array Float64Array Function Int8Array Int16Array Int32Array Math Number Object RegExp Set String _ clearTimeout document isFinite parseInt setTimeout TypeError Uint8Array Uint8ClampedArray Uint16Array Uint32Array WeakMap window WinRTError".split(" "),Ct={};
+Ct[X]=Ct[H]=Ct[Q]=Ct[nt]=Ct[tt]=Ct[rt]=Ct[et]=Ct[ut]=Ct[ot]=true,Ct[z]=Ct[D]=Ct[J]=Ct[M]=Ct[q]=Ct[P]=Ct[K]=Ct["[object Map]"]=Ct[V]=Ct[Y]=Ct[Z]=Ct["[object Set]"]=Ct[G]=Ct["[object WeakMap]"]=false;var Tt={};Tt[z]=Tt[D]=Tt[J]=Tt[M]=Tt[q]=Tt[X]=Tt[H]=Tt[Q]=Tt[nt]=Tt[tt]=Tt[V]=Tt[Y]=Tt[Z]=Tt[G]=Tt[rt]=Tt[et]=Tt[ut]=Tt[ot]=true,Tt[P]=Tt[K]=Tt["[object Map]"]=Tt["[object Set]"]=Tt["[object WeakMap]"]=false;var St={leading:false,maxWait:0,trailing:false},Wt={"\xc0":"A","\xc1":"A","\xc2":"A","\xc3":"A","\xc4":"A","\xc5":"A","\xe0":"a","\xe1":"a","\xe2":"a","\xe3":"a","\xe4":"a","\xe5":"a","\xc7":"C","\xe7":"c","\xd0":"D","\xf0":"d","\xc8":"E","\xc9":"E","\xca":"E","\xcb":"E","\xe8":"e","\xe9":"e","\xea":"e","\xeb":"e","\xcc":"I","\xcd":"I","\xce":"I","\xcf":"I","\xec":"i","\xed":"i","\xee":"i","\xef":"i","\xd1":"N","\xf1":"n","\xd2":"O","\xd3":"O","\xd4":"O","\xd5":"O","\xd6":"O","\xd8":"O","\xf2":"o","\xf3":"o","\xf4":"o","\xf5":"o","\xf6":"o","\xf8":"o","\xd9":"U","\xda":"U","\xdb":"U","\xdc":"U","\xf9":"u","\xfa":"u","\xfb":"u","\xfc":"u","\xdd":"Y","\xfd":"y","\xff":"y","\xc6":"Ae","\xe6":"ae","\xde":"Th","\xfe":"th","\xdf":"ss"},Nt={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;","`":"&#96;"},Ft={"&amp;":"&","&lt;":"<","&gt;":">","&quot;":'"',"&#39;":"'","&#96;":"`"},Ut={"function":true,object:true},Lt={"\\":"\\","'":"'","\n":"n","\r":"r","\u2028":"u2028","\u2029":"u2029"},$t=Ut[typeof window]&&window!==(this&&this.window)?window:this,Bt=Ut[typeof exports]&&exports&&!exports.nodeType&&exports,Ut=Ut[typeof module]&&module&&!module.nodeType&&module,zt=Bt&&Ut&&typeof global=="object"&&global;
+!zt||zt.global!==zt&&zt.window!==zt&&zt.self!==zt||($t=zt);var zt=Ut&&Ut.exports===Bt&&Bt,Dt=m();typeof define=="function"&&typeof define.amd=="object"&&define.amd?($t._=Dt, define(function(){return Dt})):Bt&&Ut?zt?(Ut.exports=Dt)._=Dt:Bt._=Dt:$t._=Dt}).call(this);
+//     Backbone.js 1.1.2
+
+//     (c) 2010-2014 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
+//     Backbone may be freely distributed under the MIT license.
+//     For all details and documentation:
+//     http://backbonejs.org
+
+(function(root, factory) {
+
+  // Set up Backbone appropriately for the environment. Start with AMD.
+  if (typeof define === 'function' && define.amd) {
+    define(['underscore', 'jquery', 'exports'], function(_, $, exports) {
+      // Export global even in AMD case in case this script is loaded with
+      // others that may still expect a global Backbone.
+      root.Backbone = factory(root, exports, _, $);
+    });
+
+  // Next for Node.js or CommonJS. jQuery may not be needed as a module.
+  } else if (typeof exports !== 'undefined') {
+    var _ = require('underscore');
+    factory(root, exports, _);
+
+  // Finally, as a browser global.
+  } else {
+    root.Backbone = factory(root, {}, root._, (root.jQuery || root.Zepto || root.ender || root.$));
+  }
+
+}(this, function(root, Backbone, _, $) {
+
+  // Initial Setup
+  // -------------
+
+  // Save the previous value of the `Backbone` variable, so that it can be
+  // restored later on, if `noConflict` is used.
+  var previousBackbone = root.Backbone;
+
+  // Create local references to array methods we'll want to use later.
+  var array = [];
+  var push = array.push;
+  var slice = array.slice;
+  var splice = array.splice;
+
+  // Current version of the library. Keep in sync with `package.json`.
+  Backbone.VERSION = '1.1.2';
+
+  // For Backbone's purposes, jQuery, Zepto, Ender, or My Library (kidding) owns
+  // the `$` variable.
+  Backbone.$ = $;
+
+  // Runs Backbone.js in *noConflict* mode, returning the `Backbone` variable
+  // to its previous owner. Returns a reference to this Backbone object.
+  Backbone.noConflict = function() {
+    root.Backbone = previousBackbone;
+    return this;
+  };
+
+  // Turn on `emulateHTTP` to support legacy HTTP servers. Setting this option
+  // will fake `"PATCH"`, `"PUT"` and `"DELETE"` requests via the `_method` parameter and
+  // set a `X-Http-Method-Override` header.
+  Backbone.emulateHTTP = false;
+
+  // Turn on `emulateJSON` to support legacy servers that can't deal with direct
+  // `application/json` requests ... will encode the body as
+  // `application/x-www-form-urlencoded` instead and will send the model in a
+  // form param named `model`.
+  Backbone.emulateJSON = false;
+
+  // Backbone.Events
+  // ---------------
+
+  // A module that can be mixed in to *any object* in order to provide it with
+  // custom events. You may bind with `on` or remove with `off` callback
+  // functions to an event; `trigger`-ing an event fires all callbacks in
+  // succession.
+  //
+  //     var object = {};
+  //     _.extend(object, Backbone.Events);
+  //     object.on('expand', function(){ alert('expanded'); });
+  //     object.trigger('expand');
+  //
+  var Events = Backbone.Events = {
+
+    // Bind an event to a `callback` function. Passing `"all"` will bind
+    // the callback to all events fired.
+    on: function(name, callback, context) {
+      if (!eventsApi(this, 'on', name, [callback, context]) || !callback) return this;
+      this._events || (this._events = {});
+      var events = this._events[name] || (this._events[name] = []);
+      events.push({callback: callback, context: context, ctx: context || this});
+      return this;
+    },
+
+    // Bind an event to only be triggered a single time. After the first time
+    // the callback is invoked, it will be removed.
+    once: function(name, callback, context) {
+      if (!eventsApi(this, 'once', name, [callback, context]) || !callback) return this;
+      var self = this;
+      var once = _.once(function() {
+        self.off(name, once);
+        callback.apply(this, arguments);
+      });
+      once._callback = callback;
+      return this.on(name, once, context);
+    },
+
+    // Remove one or many callbacks. If `context` is null, removes all
+    // callbacks with that function. If `callback` is null, removes all
+    // callbacks for the event. If `name` is null, removes all bound
+    // callbacks for all events.
+    off: function(name, callback, context) {
+      var retain, ev, events, names, i, l, j, k;
+      if (!this._events || !eventsApi(this, 'off', name, [callback, context])) return this;
+      if (!name && !callback && !context) {
+        this._events = void 0;
+        return this;
+      }
+      names = name ? [name] : _.keys(this._events);
+      for (i = 0, l = names.length; i < l; i++) {
+        name = names[i];
+        if (events = this._events[name]) {
+          this._events[name] = retain = [];
+          if (callback || context) {
+            for (j = 0, k = events.length; j < k; j++) {
+              ev = events[j];
+              if ((callback && callback !== ev.callback && callback !== ev.callback._callback) ||
+                  (context && context !== ev.context)) {
+                retain.push(ev);
+              }
+            }
+          }
+          if (!retain.length) delete this._events[name];
+        }
+      }
+
+      return this;
+    },
+
+    // Trigger one or many events, firing all bound callbacks. Callbacks are
+    // passed the same arguments as `trigger` is, apart from the event name
+    // (unless you're listening on `"all"`, which will cause your callback to
+    // receive the true name of the event as the first argument).
+    trigger: function(name) {
+      if (!this._events) return this;
+      var args = slice.call(arguments, 1);
+      if (!eventsApi(this, 'trigger', name, args)) return this;
+      var events = this._events[name];
+      var allEvents = this._events.all;
+      if (events) triggerEvents(events, args);
+      if (allEvents) triggerEvents(allEvents, arguments);
+      return this;
+    },
+
+    // Tell this object to stop listening to either specific events ... or
+    // to every object it's currently listening to.
+    stopListening: function(obj, name, callback) {
+      var listeningTo = this._listeningTo;
+      if (!listeningTo) return this;
+      var remove = !name && !callback;
+      if (!callback && typeof name === 'object') callback = this;
+      if (obj) (listeningTo = {})[obj._listenId] = obj;
+      for (var id in listeningTo) {
+        obj = listeningTo[id];
+        obj.off(name, callback, this);
+        if (remove || _.isEmpty(obj._events)) delete this._listeningTo[id];
+      }
+      return this;
+    }
+
+  };
+
+  // Regular expression used to split event strings.
+  var eventSplitter = /\s+/;
+
+  // Implement fancy features of the Events API such as multiple event
+  // names `"change blur"` and jQuery-style event maps `{change: action}`
+  // in terms of the existing API.
+  var eventsApi = function(obj, action, name, rest) {
+    if (!name) return true;
+
+    // Handle event maps.
+    if (typeof name === 'object') {
+      for (var key in name) {
+        obj[action].apply(obj, [key, name[key]].concat(rest));
+      }
+      return false;
+    }
+
+    // Handle space separated event names.
+    if (eventSplitter.test(name)) {
+      var names = name.split(eventSplitter);
+      for (var i = 0, l = names.length; i < l; i++) {
+        obj[action].apply(obj, [names[i]].concat(rest));
+      }
+      return false;
+    }
+
+    return true;
+  };
+
+  // A difficult-to-believe, but optimized internal dispatch function for
+  // triggering events. Tries to keep the usual cases speedy (most internal
+  // Backbone events have 3 arguments).
+  var triggerEvents = function(events, args) {
+    var ev, i = -1, l = events.length, a1 = args[0], a2 = args[1], a3 = args[2];
+    switch (args.length) {
+      case 0: while (++i < l) (ev = events[i]).callback.call(ev.ctx); return;
+      case 1: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1); return;
+      case 2: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2); return;
+      case 3: while (++i < l) (ev = events[i]).callback.call(ev.ctx, a1, a2, a3); return;
+      default: while (++i < l) (ev = events[i]).callback.apply(ev.ctx, args); return;
+    }
+  };
+
+  var listenMethods = {listenTo: 'on', listenToOnce: 'once'};
+
+  // Inversion-of-control versions of `on` and `once`. Tell *this* object to
+  // listen to an event in another object ... keeping track of what it's
+  // listening to.
+  _.each(listenMethods, function(implementation, method) {
+    Events[method] = function(obj, name, callback) {
+      var listeningTo = this._listeningTo || (this._listeningTo = {});
+      var id = obj._listenId || (obj._listenId = _.uniqueId('l'));
+      listeningTo[id] = obj;
+      if (!callback && typeof name === 'object') callback = this;
+      obj[implementation](name, callback, this);
+      return this;
+    };
+  });
+
+  // Aliases for backwards compatibility.
+  Events.bind   = Events.on;
+  Events.unbind = Events.off;
+
+  // Allow the `Backbone` object to serve as a global event bus, for folks who
+  // want global "pubsub" in a convenient place.
+  _.extend(Backbone, Events);
+
+  // Backbone.Model
+  // --------------
+
+  // Backbone **Models** are the basic data object in the framework --
+  // frequently representing a row in a table in a database on your server.
+  // A discrete chunk of data and a bunch of useful, related methods for
+  // performing computations and transformations on that data.
+
+  // Create a new model with the specified attributes. A client id (`cid`)
+  // is automatically generated and assigned for you.
+  var Model = Backbone.Model = function(attributes, options) {
+    var attrs = attributes || {};
+    options || (options = {});
+    this.cid = _.uniqueId('c');
+    this.attributes = {};
+    if (options.collection) this.collection = options.collection;
+    if (options.parse) attrs = this.parse(attrs, options) || {};
+    attrs = _.defaults({}, attrs, _.result(this, 'defaults'));
+    this.set(attrs, options);
+    this.changed = {};
+    this.initialize.apply(this, arguments);
+  };
+
+  // Attach all inheritable methods to the Model prototype.
+  _.extend(Model.prototype, Events, {
+
+    // A hash of attributes whose current and previous value differ.
+    changed: null,
+
+    // The value returned during the last failed validation.
+    validationError: null,
+
+    // The default name for the JSON `id` attribute is `"id"`. MongoDB and
+    // CouchDB users may want to set this to `"_id"`.
+    idAttribute: 'id',
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // Return a copy of the model's `attributes` object.
+    toJSON: function(options) {
+      return _.clone(this.attributes);
+    },
+
+    // Proxy `Backbone.sync` by default -- but override this if you need
+    // custom syncing semantics for *this* particular model.
+    sync: function() {
+      return Backbone.sync.apply(this, arguments);
+    },
+
+    // Get the value of an attribute.
+    get: function(attr) {
+      return this.attributes[attr];
+    },
+
+    // Get the HTML-escaped value of an attribute.
+    escape: function(attr) {
+      return _.escape(this.get(attr));
+    },
+
+    // Returns `true` if the attribute contains a value that is not null
+    // or undefined.
+    has: function(attr) {
+      return this.get(attr) != null;
+    },
+
+    // Set a hash of model attributes on the object, firing `"change"`. This is
+    // the core primitive operation of a model, updating the data and notifying
+    // anyone who needs to know about the change in state. The heart of the beast.
+    set: function(key, val, options) {
+      var attr, attrs, unset, changes, silent, changing, prev, current;
+      if (key == null) return this;
+
+      // Handle both `"key", value` and `{key: value}` -style arguments.
+      if (typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options || (options = {});
+
+      // Run validation.
+      if (!this._validate(attrs, options)) return false;
+
+      // Extract attributes and options.
+      unset           = options.unset;
+      silent          = options.silent;
+      changes         = [];
+      changing        = this._changing;
+      this._changing  = true;
+
+      if (!changing) {
+        this._previousAttributes = _.clone(this.attributes);
+        this.changed = {};
+      }
+      current = this.attributes, prev = this._previousAttributes;
+
+      // Check for changes of `id`.
+      if (this.idAttribute in attrs) this.id = attrs[this.idAttribute];
+
+      // For each `set` attribute, update or delete the current value.
+      for (attr in attrs) {
+        val = attrs[attr];
+        if (!_.isEqual(current[attr], val)) changes.push(attr);
+        if (!_.isEqual(prev[attr], val)) {
+          this.changed[attr] = val;
+        } else {
+          delete this.changed[attr];
+        }
+        unset ? delete current[attr] : current[attr] = val;
+      }
+
+      // Trigger all relevant attribute changes.
+      if (!silent) {
+        if (changes.length) this._pending = options;
+        for (var i = 0, l = changes.length; i < l; i++) {
+          this.trigger('change:' + changes[i], this, current[changes[i]], options);
+        }
+      }
+
+      // You might be wondering why there's a `while` loop here. Changes can
+      // be recursively nested within `"change"` events.
+      if (changing) return this;
+      if (!silent) {
+        while (this._pending) {
+          options = this._pending;
+          this._pending = false;
+          this.trigger('change', this, options);
+        }
+      }
+      this._pending = false;
+      this._changing = false;
+      return this;
+    },
+
+    // Remove an attribute from the model, firing `"change"`. `unset` is a noop
+    // if the attribute doesn't exist.
+    unset: function(attr, options) {
+      return this.set(attr, void 0, _.extend({}, options, {unset: true}));
+    },
+
+    // Clear all attributes on the model, firing `"change"`.
+    clear: function(options) {
+      var attrs = {};
+      for (var key in this.attributes) attrs[key] = void 0;
+      return this.set(attrs, _.extend({}, options, {unset: true}));
+    },
+
+    // Determine if the model has changed since the last `"change"` event.
+    // If you specify an attribute name, determine if that attribute has changed.
+    hasChanged: function(attr) {
+      if (attr == null) return !_.isEmpty(this.changed);
+      return _.has(this.changed, attr);
+    },
+
+    // Return an object containing all the attributes that have changed, or
+    // false if there are no changed attributes. Useful for determining what
+    // parts of a view need to be updated and/or what attributes need to be
+    // persisted to the server. Unset attributes will be set to undefined.
+    // You can also pass an attributes object to diff against the model,
+    // determining if there *would be* a change.
+    changedAttributes: function(diff) {
+      if (!diff) return this.hasChanged() ? _.clone(this.changed) : false;
+      var val, changed = false;
+      var old = this._changing ? this._previousAttributes : this.attributes;
+      for (var attr in diff) {
+        if (_.isEqual(old[attr], (val = diff[attr]))) continue;
+        (changed || (changed = {}))[attr] = val;
+      }
+      return changed;
+    },
+
+    // Get the previous value of an attribute, recorded at the time the last
+    // `"change"` event was fired.
+    previous: function(attr) {
+      if (attr == null || !this._previousAttributes) return null;
+      return this._previousAttributes[attr];
+    },
+
+    // Get all of the attributes of the model at the time of the previous
+    // `"change"` event.
+    previousAttributes: function() {
+      return _.clone(this._previousAttributes);
+    },
+
+    // Fetch the model from the server. If the server's representation of the
+    // model differs from its current attributes, they will be overridden,
+    // triggering a `"change"` event.
+    fetch: function(options) {
+      options = options ? _.clone(options) : {};
+      if (options.parse === void 0) options.parse = true;
+      var model = this;
+      var success = options.success;
+      options.success = function(resp) {
+        if (!model.set(model.parse(resp, options), options)) return false;
+        if (success) success(model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+
+    // Set a hash of model attributes, and sync the model to the server.
+    // If the server returns an attributes hash that differs, the model's
+    // state will be `set` again.
+    save: function(key, val, options) {
+      var attrs, method, xhr, attributes = this.attributes;
+
+      // Handle both `"key", value` and `{key: value}` -style arguments.
+      if (key == null || typeof key === 'object') {
+        attrs = key;
+        options = val;
+      } else {
+        (attrs = {})[key] = val;
+      }
+
+      options = _.extend({validate: true}, options);
+
+      // If we're not waiting and attributes exist, save acts as
+      // `set(attr).save(null, opts)` with validation. Otherwise, check if
+      // the model will be valid when the attributes, if any, are set.
+      if (attrs && !options.wait) {
+        if (!this.set(attrs, options)) return false;
+      } else {
+        if (!this._validate(attrs, options)) return false;
+      }
+
+      // Set temporary attributes if `{wait: true}`.
+      if (attrs && options.wait) {
+        this.attributes = _.extend({}, attributes, attrs);
+      }
+
+      // After a successful server-side save, the client is (optionally)
+      // updated with the server-side state.
+      if (options.parse === void 0) options.parse = true;
+      var model = this;
+      var success = options.success;
+      options.success = function(resp) {
+        // Ensure attributes are restored during synchronous saves.
+        model.attributes = attributes;
+        var serverAttrs = model.parse(resp, options);
+        if (options.wait) serverAttrs = _.extend(attrs || {}, serverAttrs);
+        if (_.isObject(serverAttrs) && !model.set(serverAttrs, options)) {
+          return false;
+        }
+        if (success) success(model, resp, options);
+        model.trigger('sync', model, resp, options);
+      };
+      wrapError(this, options);
+
+      method = this.isNew() ? 'create' : (options.patch ? 'patch' : 'update');
+      if (method === 'patch') options.attrs = attrs;
+      xhr = this.sync(method, this, options);
+
+      // Restore attributes.
+      if (attrs && options.wait) this.attributes = attributes;
+
+      return xhr;
+    },
+
+    // Destroy this model on the server if it was already persisted.
+    // Optimistically removes the model from its collection, if it has one.
+    // If `wait: true` is passed, waits for the server to respond before removal.
+    destroy: function(options) {
+      options = options ? _.clone(options) : {};
+      var model = this;
+      var success = options.success;
+
+      var destroy = function() {
+        model.trigger('destroy', model, model.collection, options);
+      };
+
+      options.success = function(resp) {
+        if (options.wait || model.isNew()) destroy();
+        if (success) success(model, resp, options);
+        if (!model.isNew()) model.trigger('sync', model, resp, options);
+      };
+
+      if (this.isNew()) {
+        options.success();
+        return false;
+      }
+      wrapError(this, options);
+
+      var xhr = this.sync('delete', this, options);
+      if (!options.wait) destroy();
+      return xhr;
+    },
+
+    // Default URL for the model's representation on the server -- if you're
+    // using Backbone's restful methods, override this to change the endpoint
+    // that will be called.
+    url: function() {
+      var base =
+        _.result(this, 'urlRoot') ||
+        _.result(this.collection, 'url') ||
+        urlError();
+      if (this.isNew()) return base;
+      return base.replace(/([^\/])$/, '$1/') + encodeURIComponent(this.id);
+    },
+
+    // **parse** converts a response into the hash of attributes to be `set` on
+    // the model. The default implementation is just to pass the response along.
+    parse: function(resp, options) {
+      return resp;
+    },
+
+    // Create a new model with identical attributes to this one.
+    clone: function() {
+      return new this.constructor(this.attributes);
+    },
+
+    // A model is new if it has never been saved to the server, and lacks an id.
+    isNew: function() {
+      return !this.has(this.idAttribute);
+    },
+
+    // Check if the model is currently in a valid state.
+    isValid: function(options) {
+      return this._validate({}, _.extend(options || {}, { validate: true }));
+    },
+
+    // Run validation against the next complete set of model attributes,
+    // returning `true` if all is well. Otherwise, fire an `"invalid"` event.
+    _validate: function(attrs, options) {
+      if (!options.validate || !this.validate) return true;
+      attrs = _.extend({}, this.attributes, attrs);
+      var error = this.validationError = this.validate(attrs, options) || null;
+      if (!error) return true;
+      this.trigger('invalid', this, error, _.extend(options, {validationError: error}));
+      return false;
+    }
+
+  });
+
+  // Underscore methods that we want to implement on the Model.
+  var modelMethods = ['keys', 'values', 'pairs', 'invert', 'pick', 'omit'];
+
+  // Mix in each Underscore method as a proxy to `Model#attributes`.
+  _.each(modelMethods, function(method) {
+    Model.prototype[method] = function() {
+      var args = slice.call(arguments);
+      args.unshift(this.attributes);
+      return _[method].apply(_, args);
+    };
+  });
+
+  // Backbone.Collection
+  // -------------------
+
+  // If models tend to represent a single row of data, a Backbone Collection is
+  // more analagous to a table full of data ... or a small slice or page of that
+  // table, or a collection of rows that belong together for a particular reason
+  // -- all of the messages in this particular folder, all of the documents
+  // belonging to this particular author, and so on. Collections maintain
+  // indexes of their models, both in order, and for lookup by `id`.
+
+  // Create a new **Collection**, perhaps to contain a specific type of `model`.
+  // If a `comparator` is specified, the Collection will maintain
+  // its models in sort order, as they're added and removed.
+  var Collection = Backbone.Collection = function(models, options) {
+    options || (options = {});
+    if (options.model) this.model = options.model;
+    if (options.comparator !== void 0) this.comparator = options.comparator;
+    this._reset();
+    this.initialize.apply(this, arguments);
+    if (models) this.reset(models, _.extend({silent: true}, options));
+  };
+
+  // Default options for `Collection#set`.
+  var setOptions = {add: true, remove: true, merge: true};
+  var addOptions = {add: true, remove: false};
+
+  // Define the Collection's inheritable methods.
+  _.extend(Collection.prototype, Events, {
+
+    // The default model for a collection is just a **Backbone.Model**.
+    // This should be overridden in most cases.
+    model: Model,
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // The JSON representation of a Collection is an array of the
+    // models' attributes.
+    toJSON: function(options) {
+      return this.map(function(model){ return model.toJSON(options); });
+    },
+
+    // Proxy `Backbone.sync` by default.
+    sync: function() {
+      return Backbone.sync.apply(this, arguments);
+    },
+
+    // Add a model, or list of models to the set.
+    add: function(models, options) {
+      return this.set(models, _.extend({merge: false}, options, addOptions));
+    },
+
+    // Remove a model, or a list of models from the set.
+    remove: function(models, options) {
+      var singular = !_.isArray(models);
+      models = singular ? [models] : _.clone(models);
+      options || (options = {});
+      var i, l, index, model;
+      for (i = 0, l = models.length; i < l; i++) {
+        model = models[i] = this.get(models[i]);
+        if (!model) continue;
+        delete this._byId[model.id];
+        delete this._byId[model.cid];
+        index = this.indexOf(model);
+        this.models.splice(index, 1);
+        this.length--;
+        if (!options.silent) {
+          options.index = index;
+          model.trigger('remove', model, this, options);
+        }
+        this._removeReference(model, options);
+      }
+      return singular ? models[0] : models;
+    },
+
+    // Update a collection by `set`-ing a new list of models, adding new ones,
+    // removing models that are no longer present, and merging models that
+    // already exist in the collection, as necessary. Similar to **Model#set**,
+    // the core operation for updating the data contained by the collection.
+    set: function(models, options) {
+      options = _.defaults({}, options, setOptions);
+      if (options.parse) models = this.parse(models, options);
+      var singular = !_.isArray(models);
+      models = singular ? (models ? [models] : []) : _.clone(models);
+      var i, l, id, model, attrs, existing, sort;
+      var at = options.at;
+      var targetModel = this.model;
+      var sortable = this.comparator && (at == null) && options.sort !== false;
+      var sortAttr = _.isString(this.comparator) ? this.comparator : null;
+      var toAdd = [], toRemove = [], modelMap = {};
+      var add = options.add, merge = options.merge, remove = options.remove;
+      var order = !sortable && add && remove ? [] : false;
+
+      // Turn bare objects into model references, and prevent invalid models
+      // from being added.
+      for (i = 0, l = models.length; i < l; i++) {
+        attrs = models[i] || {};
+        if (attrs instanceof Model) {
+          id = model = attrs;
+        } else {
+          id = attrs[targetModel.prototype.idAttribute || 'id'];
+        }
+
+        // If a duplicate is found, prevent it from being added and
+        // optionally merge it into the existing model.
+        if (existing = this.get(id)) {
+          if (remove) modelMap[existing.cid] = true;
+          if (merge) {
+            attrs = attrs === model ? model.attributes : attrs;
+            if (options.parse) attrs = existing.parse(attrs, options);
+            existing.set(attrs, options);
+            if (sortable && !sort && existing.hasChanged(sortAttr)) sort = true;
+          }
+          models[i] = existing;
+
+        // If this is a new, valid model, push it to the `toAdd` list.
+        } else if (add) {
+          model = models[i] = this._prepareModel(attrs, options);
+          if (!model) continue;
+          toAdd.push(model);
+          this._addReference(model, options);
+        }
+
+        // Do not add multiple models with the same `id`.
+        model = existing || model;
+        if (order && (model.isNew() || !modelMap[model.id])) order.push(model);
+        modelMap[model.id] = true;
+      }
+
+      // Remove nonexistent models if appropriate.
+      if (remove) {
+        for (i = 0, l = this.length; i < l; ++i) {
+          if (!modelMap[(model = this.models[i]).cid]) toRemove.push(model);
+        }
+        if (toRemove.length) this.remove(toRemove, options);
+      }
+
+      // See if sorting is needed, update `length` and splice in new models.
+      if (toAdd.length || (order && order.length)) {
+        if (sortable) sort = true;
+        this.length += toAdd.length;
+        if (at != null) {
+          for (i = 0, l = toAdd.length; i < l; i++) {
+            this.models.splice(at + i, 0, toAdd[i]);
+          }
+        } else {
+          if (order) this.models.length = 0;
+          var orderedModels = order || toAdd;
+          for (i = 0, l = orderedModels.length; i < l; i++) {
+            this.models.push(orderedModels[i]);
+          }
+        }
+      }
+
+      // Silently sort the collection if appropriate.
+      if (sort) this.sort({silent: true});
+
+      // Unless silenced, it's time to fire all appropriate add/sort events.
+      if (!options.silent) {
+        for (i = 0, l = toAdd.length; i < l; i++) {
+          (model = toAdd[i]).trigger('add', model, this, options);
+        }
+        if (sort || (order && order.length)) this.trigger('sort', this, options);
+      }
+
+      // Return the added (or merged) model (or models).
+      return singular ? models[0] : models;
+    },
+
+    // When you have more items than you want to add or remove individually,
+    // you can reset the entire set with a new list of models, without firing
+    // any granular `add` or `remove` events. Fires `reset` when finished.
+    // Useful for bulk operations and optimizations.
+    reset: function(models, options) {
+      options || (options = {});
+      for (var i = 0, l = this.models.length; i < l; i++) {
+        this._removeReference(this.models[i], options);
+      }
+      options.previousModels = this.models;
+      this._reset();
+      models = this.add(models, _.extend({silent: true}, options));
+      if (!options.silent) this.trigger('reset', this, options);
+      return models;
+    },
+
+    // Add a model to the end of the collection.
+    push: function(model, options) {
+      return this.add(model, _.extend({at: this.length}, options));
+    },
+
+    // Remove a model from the end of the collection.
+    pop: function(options) {
+      var model = this.at(this.length - 1);
+      this.remove(model, options);
+      return model;
+    },
+
+    // Add a model to the beginning of the collection.
+    unshift: function(model, options) {
+      return this.add(model, _.extend({at: 0}, options));
+    },
+
+    // Remove a model from the beginning of the collection.
+    shift: function(options) {
+      var model = this.at(0);
+      this.remove(model, options);
+      return model;
+    },
+
+    // Slice out a sub-array of models from the collection.
+    slice: function() {
+      return slice.apply(this.models, arguments);
+    },
+
+    // Get a model from the set by id.
+    get: function(obj) {
+      if (obj == null) return void 0;
+      return this._byId[obj] || this._byId[obj.id] || this._byId[obj.cid];
+    },
+
+    // Get the model at the given index.
+    at: function(index) {
+      return this.models[index];
+    },
+
+    // Return models with matching attributes. Useful for simple cases of
+    // `filter`.
+    where: function(attrs, first) {
+      if (_.isEmpty(attrs)) return first ? void 0 : [];
+      return this[first ? 'find' : 'filter'](function(model) {
+        for (var key in attrs) {
+          if (attrs[key] !== model.get(key)) return false;
+        }
+        return true;
+      });
+    },
+
+    // Return the first model with matching attributes. Useful for simple cases
+    // of `find`.
+    findWhere: function(attrs) {
+      return this.where(attrs, true);
+    },
+
+    // Force the collection to re-sort itself. You don't need to call this under
+    // normal circumstances, as the set will maintain sort order as each item
+    // is added.
+    sort: function(options) {
+      if (!this.comparator) throw new Error('Cannot sort a set without a comparator');
+      options || (options = {});
+
+      // Run sort based on type of `comparator`.
+      if (_.isString(this.comparator) || this.comparator.length === 1) {
+        this.models = this.sortBy(this.comparator, this);
+      } else {
+        this.models.sort(_.bind(this.comparator, this));
+      }
+
+      if (!options.silent) this.trigger('sort', this, options);
+      return this;
+    },
+
+    // Pluck an attribute from each model in the collection.
+    pluck: function(attr) {
+      return _.invoke(this.models, 'get', attr);
+    },
+
+    // Fetch the default set of models for this collection, resetting the
+    // collection when they arrive. If `reset: true` is passed, the response
+    // data will be passed through the `reset` method instead of `set`.
+    fetch: function(options) {
+      options = options ? _.clone(options) : {};
+      if (options.parse === void 0) options.parse = true;
+      var success = options.success;
+      var collection = this;
+      options.success = function(resp) {
+        var method = options.reset ? 'reset' : 'set';
+        collection[method](resp, options);
+        if (success) success(collection, resp, options);
+        collection.trigger('sync', collection, resp, options);
+      };
+      wrapError(this, options);
+      return this.sync('read', this, options);
+    },
+
+    // Create a new instance of a model in this collection. Add the model to the
+    // collection immediately, unless `wait: true` is passed, in which case we
+    // wait for the server to agree.
+    create: function(model, options) {
+      options = options ? _.clone(options) : {};
+      if (!(model = this._prepareModel(model, options))) return false;
+      if (!options.wait) this.add(model, options);
+      var collection = this;
+      var success = options.success;
+      options.success = function(model, resp) {
+        if (options.wait) collection.add(model, options);
+        if (success) success(model, resp, options);
+      };
+      model.save(null, options);
+      return model;
+    },
+
+    // **parse** converts a response into a list of models to be added to the
+    // collection. The default implementation is just to pass it through.
+    parse: function(resp, options) {
+      return resp;
+    },
+
+    // Create a new collection with an identical list of models as this one.
+    clone: function() {
+      return new this.constructor(this.models);
+    },
+
+    // Private method to reset all internal state. Called when the collection
+    // is first initialized or reset.
+    _reset: function() {
+      this.length = 0;
+      this.models = [];
+      this._byId  = {};
+    },
+
+    // Prepare a hash of attributes (or other model) to be added to this
+    // collection.
+    _prepareModel: function(attrs, options) {
+      if (attrs instanceof Model) return attrs;
+      options = options ? _.clone(options) : {};
+      options.collection = this;
+      var model = new this.model(attrs, options);
+      if (!model.validationError) return model;
+      this.trigger('invalid', this, model.validationError, options);
+      return false;
+    },
+
+    // Internal method to create a model's ties to a collection.
+    _addReference: function(model, options) {
+      this._byId[model.cid] = model;
+      if (model.id != null) this._byId[model.id] = model;
+      if (!model.collection) model.collection = this;
+      model.on('all', this._onModelEvent, this);
+    },
+
+    // Internal method to sever a model's ties to a collection.
+    _removeReference: function(model, options) {
+      if (this === model.collection) delete model.collection;
+      model.off('all', this._onModelEvent, this);
+    },
+
+    // Internal method called every time a model in the set fires an event.
+    // Sets need to update their indexes when models change ids. All other
+    // events simply proxy through. "add" and "remove" events that originate
+    // in other collections are ignored.
+    _onModelEvent: function(event, model, collection, options) {
+      if ((event === 'add' || event === 'remove') && collection !== this) return;
+      if (event === 'destroy') this.remove(model, options);
+      if (model && event === 'change:' + model.idAttribute) {
+        delete this._byId[model.previous(model.idAttribute)];
+        if (model.id != null) this._byId[model.id] = model;
+      }
+      this.trigger.apply(this, arguments);
+    }
+
+  });
+
+  // Underscore methods that we want to implement on the Collection.
+  // 90% of the core usefulness of Backbone Collections is actually implemented
+  // right here:
+  var methods = ['forEach', 'each', 'map', 'collect', 'reduce', 'foldl',
+    'inject', 'reduceRight', 'foldr', 'find', 'detect', 'filter', 'select',
+    'reject', 'every', 'all', 'some', 'any', 'include', 'contains', 'invoke',
+    'max', 'min', 'toArray', 'size', 'first', 'head', 'take', 'initial', 'rest',
+    'tail', 'drop', 'last', 'without', 'difference', 'indexOf', 'shuffle',
+    'lastIndexOf', 'isEmpty', 'chain', 'sample'];
+
+  // Mix in each Underscore method as a proxy to `Collection#models`.
+  _.each(methods, function(method) {
+    Collection.prototype[method] = function() {
+      var args = slice.call(arguments);
+      args.unshift(this.models);
+      return _[method].apply(_, args);
+    };
+  });
+
+  // Underscore methods that take a property name as an argument.
+  var attributeMethods = ['groupBy', 'countBy', 'sortBy', 'indexBy'];
+
+  // Use attributes instead of properties.
+  _.each(attributeMethods, function(method) {
+    Collection.prototype[method] = function(value, context) {
+      var iterator = _.isFunction(value) ? value : function(model) {
+        return model.get(value);
+      };
+      return _[method](this.models, iterator, context);
+    };
+  });
+
+  // Backbone.View
+  // -------------
+
+  // Backbone Views are almost more convention than they are actual code. A View
+  // is simply a JavaScript object that represents a logical chunk of UI in the
+  // DOM. This might be a single item, an entire list, a sidebar or panel, or
+  // even the surrounding frame which wraps your whole app. Defining a chunk of
+  // UI as a **View** allows you to define your DOM events declaratively, without
+  // having to worry about render order ... and makes it easy for the view to
+  // react to specific changes in the state of your models.
+
+  // Creating a Backbone.View creates its initial element outside of the DOM,
+  // if an existing element is not provided...
+  var View = Backbone.View = function(options) {
+    this.cid = _.uniqueId('view');
+    options || (options = {});
+    _.extend(this, _.pick(options, viewOptions));
+    this._ensureElement();
+    this.initialize.apply(this, arguments);
+    this.delegateEvents();
+  };
+
+  // Cached regex to split keys for `delegate`.
+  var delegateEventSplitter = /^(\S+)\s*(.*)$/;
+
+  // List of view options to be merged as properties.
+  var viewOptions = ['model', 'collection', 'el', 'id', 'attributes', 'className', 'tagName', 'events'];
+
+  // Set up all inheritable **Backbone.View** properties and methods.
+  _.extend(View.prototype, Events, {
+
+    // The default `tagName` of a View's element is `"div"`.
+    tagName: 'div',
+
+    // jQuery delegate for element lookup, scoped to DOM elements within the
+    // current view. This should be preferred to global lookups where possible.
+    $: function(selector) {
+      return this.$el.find(selector);
+    },
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // **render** is the core function that your view should override, in order
+    // to populate its element (`this.el`), with the appropriate HTML. The
+    // convention is for **render** to always return `this`.
+    render: function() {
+      return this;
+    },
+
+    // Remove this view by taking the element out of the DOM, and removing any
+    // applicable Backbone.Events listeners.
+    remove: function() {
+      this.$el.remove();
+      this.stopListening();
+      return this;
+    },
+
+    // Change the view's element (`this.el` property), including event
+    // re-delegation.
+    setElement: function(element, delegate) {
+      if (this.$el) this.undelegateEvents();
+      this.$el = element instanceof Backbone.$ ? element : Backbone.$(element);
+      this.el = this.$el[0];
+      if (delegate !== false) this.delegateEvents();
+      return this;
+    },
+
+    // Set callbacks, where `this.events` is a hash of
+    //
+    // *{"event selector": "callback"}*
+    //
+    //     {
+    //       'mousedown .title':  'edit',
+    //       'click .button':     'save',
+    //       'click .open':       function(e) { ... }
+    //     }
+    //
+    // pairs. Callbacks will be bound to the view, with `this` set properly.
+    // Uses event delegation for efficiency.
+    // Omitting the selector binds the event to `this.el`.
+    // This only works for delegate-able events: not `focus`, `blur`, and
+    // not `change`, `submit`, and `reset` in Internet Explorer.
+    delegateEvents: function(events) {
+      if (!(events || (events = _.result(this, 'events')))) return this;
+      this.undelegateEvents();
+      for (var key in events) {
+        var method = events[key];
+        if (!_.isFunction(method)) method = this[events[key]];
+        if (!method) continue;
+
+        var match = key.match(delegateEventSplitter);
+        var eventName = match[1], selector = match[2];
+        method = _.bind(method, this);
+        eventName += '.delegateEvents' + this.cid;
+        if (selector === '') {
+          this.$el.on(eventName, method);
+        } else {
+          this.$el.on(eventName, selector, method);
+        }
+      }
+      return this;
+    },
+
+    // Clears all callbacks previously bound to the view with `delegateEvents`.
+    // You usually don't need to use this, but may wish to if you have multiple
+    // Backbone views attached to the same DOM element.
+    undelegateEvents: function() {
+      this.$el.off('.delegateEvents' + this.cid);
+      return this;
+    },
+
+    // Ensure that the View has a DOM element to render into.
+    // If `this.el` is a string, pass it through `$()`, take the first
+    // matching element, and re-assign it to `el`. Otherwise, create
+    // an element from the `id`, `className` and `tagName` properties.
+    _ensureElement: function() {
+      if (!this.el) {
+        var attrs = _.extend({}, _.result(this, 'attributes'));
+        if (this.id) attrs.id = _.result(this, 'id');
+        if (this.className) attrs['class'] = _.result(this, 'className');
+        var $el = Backbone.$('<' + _.result(this, 'tagName') + '>').attr(attrs);
+        this.setElement($el, false);
+      } else {
+        this.setElement(_.result(this, 'el'), false);
+      }
+    }
+
+  });
+
+  // Backbone.sync
+  // -------------
+
+  // Override this function to change the manner in which Backbone persists
+  // models to the server. You will be passed the type of request, and the
+  // model in question. By default, makes a RESTful Ajax request
+  // to the model's `url()`. Some possible customizations could be:
+  //
+  // * Use `setTimeout` to batch rapid-fire updates into a single request.
+  // * Send up the models as XML instead of JSON.
+  // * Persist models via WebSockets instead of Ajax.
+  //
+  // Turn on `Backbone.emulateHTTP` in order to send `PUT` and `DELETE` requests
+  // as `POST`, with a `_method` parameter containing the true HTTP method,
+  // as well as all requests with the body as `application/x-www-form-urlencoded`
+  // instead of `application/json` with the model in a param named `model`.
+  // Useful when interfacing with server-side languages like **PHP** that make
+  // it difficult to read the body of `PUT` requests.
+  Backbone.sync = function(method, model, options) {
+    var type = methodMap[method];
+
+    // Default options, unless specified.
+    _.defaults(options || (options = {}), {
+      emulateHTTP: Backbone.emulateHTTP,
+      emulateJSON: Backbone.emulateJSON
+    });
+
+    // Default JSON-request options.
+    var params = {type: type, dataType: 'json'};
+
+    // Ensure that we have a URL.
+    if (!options.url) {
+      params.url = _.result(model, 'url') || urlError();
+    }
+
+    // Ensure that we have the appropriate request data.
+    if (options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+      params.contentType = 'application/json';
+      params.data = JSON.stringify(options.attrs || model.toJSON(options));
+    }
+
+    // For older servers, emulate JSON by encoding the request into an HTML-form.
+    if (options.emulateJSON) {
+      params.contentType = 'application/x-www-form-urlencoded';
+      params.data = params.data ? {model: params.data} : {};
+    }
+
+    // For older servers, emulate HTTP by mimicking the HTTP method with `_method`
+    // And an `X-HTTP-Method-Override` header.
+    if (options.emulateHTTP && (type === 'PUT' || type === 'DELETE' || type === 'PATCH')) {
+      params.type = 'POST';
+      if (options.emulateJSON) params.data._method = type;
+      var beforeSend = options.beforeSend;
+      options.beforeSend = function(xhr) {
+        xhr.setRequestHeader('X-HTTP-Method-Override', type);
+        if (beforeSend) return beforeSend.apply(this, arguments);
+      };
+    }
+
+    // Don't process data on a non-GET request.
+    if (params.type !== 'GET' && !options.emulateJSON) {
+      params.processData = false;
+    }
+
+    // If we're sending a `PATCH` request, and we're in an old Internet Explorer
+    // that still has ActiveX enabled by default, override jQuery to use that
+    // for XHR instead. Remove this line when jQuery supports `PATCH` on IE8.
+    if (params.type === 'PATCH' && noXhrPatch) {
+      params.xhr = function() {
+        return new ActiveXObject("Microsoft.XMLHTTP");
+      };
+    }
+
+    // Make the request, allowing the user to override any Ajax options.
+    var xhr = options.xhr = Backbone.ajax(_.extend(params, options));
+    model.trigger('request', model, xhr, options);
+    return xhr;
+  };
+
+  var noXhrPatch =
+    typeof window !== 'undefined' && !!window.ActiveXObject &&
+      !(window.XMLHttpRequest && (new XMLHttpRequest).dispatchEvent);
+
+  // Map from CRUD to HTTP for our default `Backbone.sync` implementation.
+  var methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'patch':  'PATCH',
+    'delete': 'DELETE',
+    'read':   'GET'
+  };
+
+  // Set the default implementation of `Backbone.ajax` to proxy through to `$`.
+  // Override this if you'd like to use a different library.
+  Backbone.ajax = function() {
+    return Backbone.$.ajax.apply(Backbone.$, arguments);
+  };
+
+  // Backbone.Router
+  // ---------------
+
+  // Routers map faux-URLs to actions, and fire events when routes are
+  // matched. Creating a new one sets its `routes` hash, if not set statically.
+  var Router = Backbone.Router = function(options) {
+    options || (options = {});
+    if (options.routes) this.routes = options.routes;
+    this._bindRoutes();
+    this.initialize.apply(this, arguments);
+  };
+
+  // Cached regular expressions for matching named param parts and splatted
+  // parts of route strings.
+  var optionalParam = /\((.*?)\)/g;
+  var namedParam    = /(\(\?)?:\w+/g;
+  var splatParam    = /\*\w+/g;
+  var escapeRegExp  = /[\-{}\[\]+?.,\\\^$|#\s]/g;
+
+  // Set up all inheritable **Backbone.Router** properties and methods.
+  _.extend(Router.prototype, Events, {
+
+    // Initialize is an empty function by default. Override it with your own
+    // initialization logic.
+    initialize: function(){},
+
+    // Manually bind a single named route to a callback. For example:
+    //
+    //     this.route('search/:query/p:num', 'search', function(query, num) {
+    //       ...
+    //     });
+    //
+    route: function(route, name, callback) {
+      if (!_.isRegExp(route)) route = this._routeToRegExp(route);
+      if (_.isFunction(name)) {
+        callback = name;
+        name = '';
+      }
+      if (!callback) callback = this[name];
+      var router = this;
+      Backbone.history.route(route, function(fragment) {
+        var args = router._extractParameters(route, fragment);
+        router.execute(callback, args);
+        router.trigger.apply(router, ['route:' + name].concat(args));
+        router.trigger('route', name, args);
+        Backbone.history.trigger('route', router, name, args);
+      });
+      return this;
+    },
+
+    // Execute a route handler with the provided parameters.  This is an
+    // excellent place to do pre-route setup or post-route cleanup.
+    execute: function(callback, args) {
+      if (callback) callback.apply(this, args);
+    },
+
+    // Simple proxy to `Backbone.history` to save a fragment into the history.
+    navigate: function(fragment, options) {
+      Backbone.history.navigate(fragment, options);
+      return this;
+    },
+
+    // Bind all defined routes to `Backbone.history`. We have to reverse the
+    // order of the routes here to support behavior where the most general
+    // routes can be defined at the bottom of the route map.
+    _bindRoutes: function() {
+      if (!this.routes) return;
+      this.routes = _.result(this, 'routes');
+      var route, routes = _.keys(this.routes);
+      while ((route = routes.pop()) != null) {
+        this.route(route, this.routes[route]);
+      }
+    },
+
+    // Convert a route string into a regular expression, suitable for matching
+    // against the current location hash.
+    _routeToRegExp: function(route) {
+      route = route.replace(escapeRegExp, '\\$&')
+                   .replace(optionalParam, '(?:$1)?')
+                   .replace(namedParam, function(match, optional) {
+                     return optional ? match : '([^/?]+)';
+                   })
+                   .replace(splatParam, '([^?]*?)');
+      return new RegExp('^' + route + '(?:\\?([\\s\\S]*))?$');
+    },
+
+    // Given a route, and a URL fragment that it matches, return the array of
+    // extracted decoded parameters. Empty or unmatched parameters will be
+    // treated as `null` to normalize cross-browser behavior.
+    _extractParameters: function(route, fragment) {
+      var params = route.exec(fragment).slice(1);
+      return _.map(params, function(param, i) {
+        // Don't decode the search params.
+        if (i === params.length - 1) return param || null;
+        return param ? decodeURIComponent(param) : null;
+      });
+    }
+
+  });
+
+  // Backbone.History
+  // ----------------
+
+  // Handles cross-browser history management, based on either
+  // [pushState](http://diveintohtml5.info/history.html) and real URLs, or
+  // [onhashchange](https://developer.mozilla.org/en-US/docs/DOM/window.onhashchange)
+  // and URL fragments. If the browser supports neither (old IE, natch),
+  // falls back to polling.
+  var History = Backbone.History = function() {
+    this.handlers = [];
+    _.bindAll(this, 'checkUrl');
+
+    // Ensure that `History` can be used outside of the browser.
+    if (typeof window !== 'undefined') {
+      this.location = window.location;
+      this.history = window.history;
+    }
+  };
+
+  // Cached regex for stripping a leading hash/slash and trailing space.
+  var routeStripper = /^[#\/]|\s+$/g;
+
+  // Cached regex for stripping leading and trailing slashes.
+  var rootStripper = /^\/+|\/+$/g;
+
+  // Cached regex for detecting MSIE.
+  var isExplorer = /msie [\w.]+/;
+
+  // Cached regex for removing a trailing slash.
+  var trailingSlash = /\/$/;
+
+  // Cached regex for stripping urls of hash.
+  var pathStripper = /#.*$/;
+
+  // Has the history handling already been started?
+  History.started = false;
+
+  // Set up all inheritable **Backbone.History** properties and methods.
+  _.extend(History.prototype, Events, {
+
+    // The default interval to poll for hash changes, if necessary, is
+    // twenty times a second.
+    interval: 50,
+
+    // Are we at the app root?
+    atRoot: function() {
+      return this.location.pathname.replace(/[^\/]$/, '$&/') === this.root;
+    },
+
+    // Gets the true hash value. Cannot use location.hash directly due to bug
+    // in Firefox where location.hash will always be decoded.
+    getHash: function(window) {
+      var match = (window || this).location.href.match(/#(.*)$/);
+      return match ? match[1] : '';
+    },
+
+    // Get the cross-browser normalized URL fragment, either from the URL,
+    // the hash, or the override.
+    getFragment: function(fragment, forcePushState) {
+      if (fragment == null) {
+        if (this._hasPushState || !this._wantsHashChange || forcePushState) {
+          fragment = decodeURI(this.location.pathname + this.location.search);
+          var root = this.root.replace(trailingSlash, '');
+          if (!fragment.indexOf(root)) fragment = fragment.slice(root.length);
+        } else {
+          fragment = this.getHash();
+        }
+      }
+      return fragment.replace(routeStripper, '');
+    },
+
+    // Start the hash change handling, returning `true` if the current URL matches
+    // an existing route, and `false` otherwise.
+    start: function(options) {
+      if (History.started) throw new Error("Backbone.history has already been started");
+      History.started = true;
+
+      // Figure out the initial configuration. Do we need an iframe?
+      // Is pushState desired ... is it available?
+      this.options          = _.extend({root: '/'}, this.options, options);
+      this.root             = this.options.root;
+      this._wantsHashChange = this.options.hashChange !== false;
+      this._wantsPushState  = !!this.options.pushState;
+      this._hasPushState    = !!(this.options.pushState && this.history && this.history.pushState);
+      var fragment          = this.getFragment();
+      var docMode           = document.documentMode;
+      var oldIE             = (isExplorer.exec(navigator.userAgent.toLowerCase()) && (!docMode || docMode <= 7));
+
+      // Normalize root to always include a leading and trailing slash.
+      this.root = ('/' + this.root + '/').replace(rootStripper, '/');
+
+      if (oldIE && this._wantsHashChange) {
+        var frame = Backbone.$('<iframe src="javascript:0" tabindex="-1">');
+        this.iframe = frame.hide().appendTo('body')[0].contentWindow;
+        this.navigate(fragment);
+      }
+
+      // Depending on whether we're using pushState or hashes, and whether
+      // 'onhashchange' is supported, determine how we check the URL state.
+      if (this._hasPushState) {
+        Backbone.$(window).on('popstate', this.checkUrl);
+      } else if (this._wantsHashChange && ('onhashchange' in window) && !oldIE) {
+        Backbone.$(window).on('hashchange', this.checkUrl);
+      } else if (this._wantsHashChange) {
+        this._checkUrlInterval = setInterval(this.checkUrl, this.interval);
+      }
+
+      // Determine if we need to change the base url, for a pushState link
+      // opened by a non-pushState browser.
+      this.fragment = fragment;
+      var loc = this.location;
+
+      // Transition from hashChange to pushState or vice versa if both are
+      // requested.
+      if (this._wantsHashChange && this._wantsPushState) {
+
+        // If we've started off with a route from a `pushState`-enabled
+        // browser, but we're currently in a browser that doesn't support it...
+        if (!this._hasPushState && !this.atRoot()) {
+          this.fragment = this.getFragment(null, true);
+          this.location.replace(this.root + '#' + this.fragment);
+          // Return immediately as browser will do redirect to new url
+          return true;
+
+        // Or if we've started out with a hash-based route, but we're currently
+        // in a browser where it could be `pushState`-based instead...
+        } else if (this._hasPushState && this.atRoot() && loc.hash) {
+          this.fragment = this.getHash().replace(routeStripper, '');
+          this.history.replaceState({}, document.title, this.root + this.fragment);
+        }
+
+      }
+
+      if (!this.options.silent) return this.loadUrl();
+    },
+
+    // Disable Backbone.history, perhaps temporarily. Not useful in a real app,
+    // but possibly useful for unit testing Routers.
+    stop: function() {
+      Backbone.$(window).off('popstate', this.checkUrl).off('hashchange', this.checkUrl);
+      if (this._checkUrlInterval) clearInterval(this._checkUrlInterval);
+      History.started = false;
+    },
+
+    // Add a route to be tested when the fragment changes. Routes added later
+    // may override previous routes.
+    route: function(route, callback) {
+      this.handlers.unshift({route: route, callback: callback});
+    },
+
+    // Checks the current URL to see if it has changed, and if it has,
+    // calls `loadUrl`, normalizing across the hidden iframe.
+    checkUrl: function(e) {
+      var current = this.getFragment();
+      if (current === this.fragment && this.iframe) {
+        current = this.getFragment(this.getHash(this.iframe));
+      }
+      if (current === this.fragment) return false;
+      if (this.iframe) this.navigate(current);
+      this.loadUrl();
+    },
+
+    // Attempt to load the current URL fragment. If a route succeeds with a
+    // match, returns `true`. If no defined routes matches the fragment,
+    // returns `false`.
+    loadUrl: function(fragment) {
+      fragment = this.fragment = this.getFragment(fragment);
+      return _.any(this.handlers, function(handler) {
+        if (handler.route.test(fragment)) {
+          handler.callback(fragment);
+          return true;
+        }
+      });
+    },
+
+    // Save a fragment into the hash history, or replace the URL state if the
+    // 'replace' option is passed. You are responsible for properly URL-encoding
+    // the fragment in advance.
+    //
+    // The options object can contain `trigger: true` if you wish to have the
+    // route callback be fired (not usually desirable), or `replace: true`, if
+    // you wish to modify the current URL without adding an entry to the history.
+    navigate: function(fragment, options) {
+      if (!History.started) return false;
+      if (!options || options === true) options = {trigger: !!options};
+
+      var url = this.root + (fragment = this.getFragment(fragment || ''));
+
+      // Strip the hash for matching.
+      fragment = fragment.replace(pathStripper, '');
+
+      if (this.fragment === fragment) return;
+      this.fragment = fragment;
+
+      // Don't include a trailing slash on the root.
+      if (fragment === '' && url !== '/') url = url.slice(0, -1);
+
+      // If pushState is available, we use it to set the fragment as a real URL.
+      if (this._hasPushState) {
+        this.history[options.replace ? 'replaceState' : 'pushState']({}, document.title, url);
+
+      // If hash changes haven't been explicitly disabled, update the hash
+      // fragment to store history.
+      } else if (this._wantsHashChange) {
+        this._updateHash(this.location, fragment, options.replace);
+        if (this.iframe && (fragment !== this.getFragment(this.getHash(this.iframe)))) {
+          // Opening and closing the iframe tricks IE7 and earlier to push a
+          // history entry on hash-tag change.  When replace is true, we don't
+          // want this.
+          if(!options.replace) this.iframe.document.open().close();
+          this._updateHash(this.iframe.location, fragment, options.replace);
+        }
+
+      // If you've told us that you explicitly don't want fallback hashchange-
+      // based history, then `navigate` becomes a page refresh.
+      } else {
+        return this.location.assign(url);
+      }
+      if (options.trigger) return this.loadUrl(fragment);
+    },
+
+    // Update the hash location, either replacing the current entry, or adding
+    // a new one to the browser history.
+    _updateHash: function(location, fragment, replace) {
+      if (replace) {
+        var href = location.href.replace(/(javascript:|#).*$/, '');
+        location.replace(href + '#' + fragment);
+      } else {
+        // Some browsers require that `hash` contains a leading #.
+        location.hash = '#' + fragment;
+      }
+    }
+
+  });
+
+  // Create the default Backbone.history.
+  Backbone.history = new History;
+
+  // Helpers
+  // -------
+
+  // Helper function to correctly set up the prototype chain, for subclasses.
+  // Similar to `goog.inherits`, but uses a hash of prototype properties and
+  // class properties to be extended.
+  var extend = function(protoProps, staticProps) {
+    var parent = this;
+    var child;
+
+    // The constructor function for the new subclass is either defined by you
+    // (the "constructor" property in your `extend` definition), or defaulted
+    // by us to simply call the parent's constructor.
+    if (protoProps && _.has(protoProps, 'constructor')) {
+      child = protoProps.constructor;
+    } else {
+      child = function(){ return parent.apply(this, arguments); };
+    }
+
+    // Add static properties to the constructor function, if supplied.
+    _.extend(child, parent, staticProps);
+
+    // Set the prototype chain to inherit from `parent`, without calling
+    // `parent`'s constructor function.
+    var Surrogate = function(){ this.constructor = child; };
+    Surrogate.prototype = parent.prototype;
+    child.prototype = new Surrogate;
+
+    // Add prototype properties (instance properties) to the subclass,
+    // if supplied.
+    if (protoProps) _.extend(child.prototype, protoProps);
+
+    // Set a convenience property in case the parent's prototype is needed
+    // later.
+    child.__super__ = parent.prototype;
+
+    return child;
+  };
+
+  // Set up inheritance for the model, collection, router, view and history.
+  Model.extend = Collection.extend = Router.extend = View.extend = History.extend = extend;
+
+  // Throw an error when a URL is needed, and none is supplied.
+  var urlError = function() {
+    throw new Error('A "url" property or function must be specified');
+  };
+
+  // Wrap an optional error callback with a fallback error event.
+  var wrapError = function(model, options) {
+    var error = options.error;
+    options.error = function(resp) {
+      if (error) error(model, resp, options);
+      model.trigger('error', model, resp, options);
+    };
+  };
+
+  return Backbone;
+
+}));
+
+/*!
+ * jQuery Form Plugin
+ * version: 3.51.0-2014.06.20
+ * Requires jQuery v1.5 or later
+ * Copyright (c) 2014 M. Alsup
+ * Examples and documentation at: http://malsup.com/jquery/form/
+ * Project repository: https://github.com/malsup/form
+ * Dual licensed under the MIT and GPL licenses.
+ * https://github.com/malsup/form#copyright-and-license
+ */
+/*global ActiveXObject */
+
+// AMD support
+(function (factory) {
+    "use strict";
+    if (typeof define === 'function' && define.amd) {
+        // using AMD; register as anon module
+        define(['jquery'], factory);
+    } else {
+        // no AMD; invoke directly
+        factory( (typeof(jQuery) != 'undefined') ? jQuery : window.Zepto );
+    }
+}
+
+(function($) {
+"use strict";
+
+/*
+    Usage Note:
+    -----------
+    Do not use both ajaxSubmit and ajaxForm on the same form.  These
+    functions are mutually exclusive.  Use ajaxSubmit if you want
+    to bind your own submit handler to the form.  For example,
+
+    $(document).ready(function() {
+        $('#myForm').on('submit', function(e) {
+            e.preventDefault(); // <-- important
+            $(this).ajaxSubmit({
+                target: '#output'
+            });
+        });
+    });
+
+    Use ajaxForm when you want the plugin to manage all the event binding
+    for you.  For example,
+
+    $(document).ready(function() {
+        $('#myForm').ajaxForm({
+            target: '#output'
+        });
+    });
+
+    You can also use ajaxForm with delegation (requires jQuery v1.7+), so the
+    form does not have to exist when you invoke ajaxForm:
+
+    $('#myForm').ajaxForm({
+        delegation: true,
+        target: '#output'
+    });
+
+    When using ajaxForm, the ajaxSubmit function will be invoked for you
+    at the appropriate time.
+*/
+
+/**
+ * Feature detection
+ */
+var feature = {};
+feature.fileapi = $("<input type='file'/>").get(0).files !== undefined;
+feature.formdata = window.FormData !== undefined;
+
+var hasProp = !!$.fn.prop;
+
+// attr2 uses prop when it can but checks the return type for
+// an expected string.  this accounts for the case where a form 
+// contains inputs with names like "action" or "method"; in those
+// cases "prop" returns the element
+$.fn.attr2 = function() {
+    if ( ! hasProp ) {
+        return this.attr.apply(this, arguments);
+    }
+    var val = this.prop.apply(this, arguments);
+    if ( ( val && val.jquery ) || typeof val === 'string' ) {
+        return val;
+    }
+    return this.attr.apply(this, arguments);
+};
+
+/**
+ * ajaxSubmit() provides a mechanism for immediately submitting
+ * an HTML form using AJAX.
+ */
+$.fn.ajaxSubmit = function(options) {
+    /*jshint scripturl:true */
+
+    // fast fail if nothing selected (http://dev.jquery.com/ticket/2752)
+    if (!this.length) {
+        log('ajaxSubmit: skipping submit process - no element selected');
+        return this;
+    }
+
+    var method, action, url, $form = this;
+
+    if (typeof options == 'function') {
+        options = { success: options };
+    }
+    else if ( options === undefined ) {
+        options = {};
+    }
+
+    method = options.type || this.attr2('method');
+    action = options.url  || this.attr2('action');
+
+    url = (typeof action === 'string') ? $.trim(action) : '';
+    url = url || window.location.href || '';
+    if (url) {
+        // clean url (don't include hash vaue)
+        url = (url.match(/^([^#]+)/)||[])[1];
+    }
+
+    options = $.extend(true, {
+        url:  url,
+        success: $.ajaxSettings.success,
+        type: method || $.ajaxSettings.type,
+        iframeSrc: /^https/i.test(window.location.href || '') ? 'javascript:false' : 'about:blank'
+    }, options);
+
+    // hook for manipulating the form data before it is extracted;
+    // convenient for use with rich editors like tinyMCE or FCKEditor
+    var veto = {};
+    this.trigger('form-pre-serialize', [this, options, veto]);
+    if (veto.veto) {
+        log('ajaxSubmit: submit vetoed via form-pre-serialize trigger');
+        return this;
+    }
+
+    // provide opportunity to alter form data before it is serialized
+    if (options.beforeSerialize && options.beforeSerialize(this, options) === false) {
+        log('ajaxSubmit: submit aborted via beforeSerialize callback');
+        return this;
+    }
+
+    var traditional = options.traditional;
+    if ( traditional === undefined ) {
+        traditional = $.ajaxSettings.traditional;
+    }
+
+    var elements = [];
+    var qx, a = this.formToArray(options.semantic, elements);
+    if (options.data) {
+        options.extraData = options.data;
+        qx = $.param(options.data, traditional);
+    }
+
+    // give pre-submit callback an opportunity to abort the submit
+    if (options.beforeSubmit && options.beforeSubmit(a, this, options) === false) {
+        log('ajaxSubmit: submit aborted via beforeSubmit callback');
+        return this;
+    }
+
+    // fire vetoable 'validate' event
+    this.trigger('form-submit-validate', [a, this, options, veto]);
+    if (veto.veto) {
+        log('ajaxSubmit: submit vetoed via form-submit-validate trigger');
+        return this;
+    }
+
+    var q = $.param(a, traditional);
+    if (qx) {
+        q = ( q ? (q + '&' + qx) : qx );
+    }
+    if (options.type.toUpperCase() == 'GET') {
+        options.url += (options.url.indexOf('?') >= 0 ? '&' : '?') + q;
+        options.data = null;  // data is null for 'get'
+    }
+    else {
+        options.data = q; // data is the query string for 'post'
+    }
+
+    var callbacks = [];
+    if (options.resetForm) {
+        callbacks.push(function() { $form.resetForm(); });
+    }
+    if (options.clearForm) {
+        callbacks.push(function() { $form.clearForm(options.includeHidden); });
+    }
+
+    // perform a load on the target only if dataType is not provided
+    if (!options.dataType && options.target) {
+        var oldSuccess = options.success || function(){};
+        callbacks.push(function(data) {
+            var fn = options.replaceTarget ? 'replaceWith' : 'html';
+            $(options.target)[fn](data).each(oldSuccess, arguments);
+        });
+    }
+    else if (options.success) {
+        callbacks.push(options.success);
+    }
+
+    options.success = function(data, status, xhr) { // jQuery 1.4+ passes xhr as 3rd arg
+        var context = options.context || this ;    // jQuery 1.4+ supports scope context
+        for (var i=0, max=callbacks.length; i < max; i++) {
+            callbacks[i].apply(context, [data, status, xhr || $form, $form]);
+        }
+    };
+
+    if (options.error) {
+        var oldError = options.error;
+        options.error = function(xhr, status, error) {
+            var context = options.context || this;
+            oldError.apply(context, [xhr, status, error, $form]);
+        };
+    }
+
+     if (options.complete) {
+        var oldComplete = options.complete;
+        options.complete = function(xhr, status) {
+            var context = options.context || this;
+            oldComplete.apply(context, [xhr, status, $form]);
+        };
+    }
+
+    // are there files to upload?
+
+    // [value] (issue #113), also see comment:
+    // https://github.com/malsup/form/commit/588306aedba1de01388032d5f42a60159eea9228#commitcomment-2180219
+    var fileInputs = $('input[type=file]:enabled', this).filter(function() { return $(this).val() !== ''; });
+
+    var hasFileInputs = fileInputs.length > 0;
+    var mp = 'multipart/form-data';
+    var multipart = ($form.attr('enctype') == mp || $form.attr('encoding') == mp);
+
+    var fileAPI = feature.fileapi && feature.formdata;
+    log("fileAPI :" + fileAPI);
+    var shouldUseFrame = (hasFileInputs || multipart) && !fileAPI;
+
+    var jqxhr;
+
+    // options.iframe allows user to force iframe mode
+    // 06-NOV-09: now defaulting to iframe mode if file input is detected
+    if (options.iframe !== false && (options.iframe || shouldUseFrame)) {
+        // hack to fix Safari hang (thanks to Tim Molendijk for this)
+        // see:  http://groups.google.com/group/jquery-dev/browse_thread/thread/36395b7ab510dd5d
+        if (options.closeKeepAlive) {
+            $.get(options.closeKeepAlive, function() {
+                jqxhr = fileUploadIframe(a);
+            });
+        }
+        else {
+            jqxhr = fileUploadIframe(a);
+        }
+    }
+    else if ((hasFileInputs || multipart) && fileAPI) {
+        jqxhr = fileUploadXhr(a);
+    }
+    else {
+        jqxhr = $.ajax(options);
+    }
+
+    $form.removeData('jqxhr').data('jqxhr', jqxhr);
+
+    // clear element array
+    for (var k=0; k < elements.length; k++) {
+        elements[k] = null;
+    }
+
+    // fire 'notify' event
+    this.trigger('form-submit-notify', [this, options]);
+    return this;
+
+    // utility fn for deep serialization
+    function deepSerialize(extraData){
+        var serialized = $.param(extraData, options.traditional).split('&');
+        var len = serialized.length;
+        var result = [];
+        var i, part;
+        for (i=0; i < len; i++) {
+            // #252; undo param space replacement
+            serialized[i] = serialized[i].replace(/\+/g,' ');
+            part = serialized[i].split('=');
+            // #278; use array instead of object storage, favoring array serializations
+            result.push([decodeURIComponent(part[0]), decodeURIComponent(part[1])]);
+        }
+        return result;
+    }
+
+     // XMLHttpRequest Level 2 file uploads (big hat tip to francois2metz)
+    function fileUploadXhr(a) {
+        var formdata = new FormData();
+
+        for (var i=0; i < a.length; i++) {
+            formdata.append(a[i].name, a[i].value);
+        }
+
+        if (options.extraData) {
+            var serializedData = deepSerialize(options.extraData);
+            for (i=0; i < serializedData.length; i++) {
+                if (serializedData[i]) {
+                    formdata.append(serializedData[i][0], serializedData[i][1]);
+                }
+            }
+        }
+
+        options.data = null;
+
+        var s = $.extend(true, {}, $.ajaxSettings, options, {
+            contentType: false,
+            processData: false,
+            cache: false,
+            type: method || 'POST'
+        });
+
+        if (options.uploadProgress) {
+            // workaround because jqXHR does not expose upload property
+            s.xhr = function() {
+                var xhr = $.ajaxSettings.xhr();
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function(event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position; /*event.position is deprecated*/
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        }
+                        options.uploadProgress(event, position, total, percent);
+                    }, false);
+                }
+                return xhr;
+            };
+        }
+
+        s.data = null;
+        var beforeSend = s.beforeSend;
+        s.beforeSend = function(xhr, o) {
+            //Send FormData() provided by user
+            if (options.formData) {
+                o.data = options.formData;
+            }
+            else {
+                o.data = formdata;
+            }
+            if(beforeSend) {
+                beforeSend.call(this, xhr, o);
+            }
+        };
+        return $.ajax(s);
+    }
+
+    // private function for handling file uploads (hat tip to YAHOO!)
+    function fileUploadIframe(a) {
+        var form = $form[0], el, i, s, g, id, $io, io, xhr, sub, n, timedOut, timeoutHandle;
+        var deferred = $.Deferred();
+
+        // #341
+        deferred.abort = function(status) {
+            xhr.abort(status);
+        };
+
+        if (a) {
+            // ensure that every serialized input is still enabled
+            for (i=0; i < elements.length; i++) {
+                el = $(elements[i]);
+                if ( hasProp ) {
+                    el.prop('disabled', false);
+                }
+                else {
+                    el.removeAttr('disabled');
+                }
+            }
+        }
+
+        s = $.extend(true, {}, $.ajaxSettings, options);
+        s.context = s.context || s;
+        id = 'jqFormIO' + (new Date().getTime());
+        if (s.iframeTarget) {
+            $io = $(s.iframeTarget);
+            n = $io.attr2('name');
+            if (!n) {
+                $io.attr2('name', id);
+            }
+            else {
+                id = n;
+            }
+        }
+        else {
+            $io = $('<iframe name="' + id + '" src="'+ s.iframeSrc +'" />');
+            $io.css({ position: 'absolute', top: '-1000px', left: '-1000px' });
+        }
+        io = $io[0];
+
+
+        xhr = { // mock object
+            aborted: 0,
+            responseText: null,
+            responseXML: null,
+            status: 0,
+            statusText: 'n/a',
+            getAllResponseHeaders: function() {},
+            getResponseHeader: function() {},
+            setRequestHeader: function() {},
+            abort: function(status) {
+                var e = (status === 'timeout' ? 'timeout' : 'aborted');
+                log('aborting upload... ' + e);
+                this.aborted = 1;
+
+                try { // #214, #257
+                    if (io.contentWindow.document.execCommand) {
+                        io.contentWindow.document.execCommand('Stop');
+                    }
+                }
+                catch(ignore) {}
+
+                $io.attr('src', s.iframeSrc); // abort op in progress
+                xhr.error = e;
+                if (s.error) {
+                    s.error.call(s.context, xhr, e, status);
+                }
+                if (g) {
+                    $.event.trigger("ajaxError", [xhr, s, e]);
+                }
+                if (s.complete) {
+                    s.complete.call(s.context, xhr, e);
+                }
+            }
+        };
+
+        g = s.global;
+        // trigger ajax global events so that activity/block indicators work like normal
+        if (g && 0 === $.active++) {
+            $.event.trigger("ajaxStart");
+        }
+        if (g) {
+            $.event.trigger("ajaxSend", [xhr, s]);
+        }
+
+        if (s.beforeSend && s.beforeSend.call(s.context, xhr, s) === false) {
+            if (s.global) {
+                $.active--;
+            }
+            deferred.reject();
+            return deferred;
+        }
+        if (xhr.aborted) {
+            deferred.reject();
+            return deferred;
+        }
+
+        // add submitting element to data if we know it
+        sub = form.clk;
+        if (sub) {
+            n = sub.name;
+            if (n && !sub.disabled) {
+                s.extraData = s.extraData || {};
+                s.extraData[n] = sub.value;
+                if (sub.type == "image") {
+                    s.extraData[n+'.x'] = form.clk_x;
+                    s.extraData[n+'.y'] = form.clk_y;
+                }
+            }
+        }
+
+        var CLIENT_TIMEOUT_ABORT = 1;
+        var SERVER_ABORT = 2;
+                
+        function getDoc(frame) {
+            /* it looks like contentWindow or contentDocument do not
+             * carry the protocol property in ie8, when running under ssl
+             * frame.document is the only valid response document, since
+             * the protocol is know but not on the other two objects. strange?
+             * "Same origin policy" http://en.wikipedia.org/wiki/Same_origin_policy
+             */
+            
+            var doc = null;
+            
+            // IE8 cascading access check
+            try {
+                if (frame.contentWindow) {
+                    doc = frame.contentWindow.document;
+                }
+            } catch(err) {
+                // IE8 access denied under ssl & missing protocol
+                log('cannot get iframe.contentWindow document: ' + err);
+            }
+
+            if (doc) { // successful getting content
+                return doc;
+            }
+
+            try { // simply checking may throw in ie8 under ssl or mismatched protocol
+                doc = frame.contentDocument ? frame.contentDocument : frame.document;
+            } catch(err) {
+                // last attempt
+                log('cannot get iframe.contentDocument: ' + err);
+                doc = frame.document;
+            }
+            return doc;
+        }
+
+        // Rails CSRF hack (thanks to Yvan Barthelemy)
+        var csrf_token = $('meta[name=csrf-token]').attr('content');
+        var csrf_param = $('meta[name=csrf-param]').attr('content');
+        if (csrf_param && csrf_token) {
+            s.extraData = s.extraData || {};
+            s.extraData[csrf_param] = csrf_token;
+        }
+
+        // take a breath so that pending repaints get some cpu time before the upload starts
+        function doSubmit() {
+            // make sure form attrs are set
+            var t = $form.attr2('target'), 
+                a = $form.attr2('action'), 
+                mp = 'multipart/form-data',
+                et = $form.attr('enctype') || $form.attr('encoding') || mp;
+
+            // update form attrs in IE friendly way
+            form.setAttribute('target',id);
+            if (!method || /post/i.test(method) ) {
+                form.setAttribute('method', 'POST');
+            }
+            if (a != s.url) {
+                form.setAttribute('action', s.url);
+            }
+
+            // ie borks in some cases when setting encoding
+            if (! s.skipEncodingOverride && (!method || /post/i.test(method))) {
+                $form.attr({
+                    encoding: 'multipart/form-data',
+                    enctype:  'multipart/form-data'
+                });
+            }
+
+            // support timout
+            if (s.timeout) {
+                timeoutHandle = setTimeout(function() { timedOut = true; cb(CLIENT_TIMEOUT_ABORT); }, s.timeout);
+            }
+
+            // look for server aborts
+            function checkState() {
+                try {
+                    var state = getDoc(io).readyState;
+                    log('state = ' + state);
+                    if (state && state.toLowerCase() == 'uninitialized') {
+                        setTimeout(checkState,50);
+                    }
+                }
+                catch(e) {
+                    log('Server abort: ' , e, ' (', e.name, ')');
+                    cb(SERVER_ABORT);
+                    if (timeoutHandle) {
+                        clearTimeout(timeoutHandle);
+                    }
+                    timeoutHandle = undefined;
+                }
+            }
+
+            // add "extra" data to form if provided in options
+            var extraInputs = [];
+            try {
+                if (s.extraData) {
+                    for (var n in s.extraData) {
+                        if (s.extraData.hasOwnProperty(n)) {
+                           // if using the $.param format that allows for multiple values with the same name
+                           if($.isPlainObject(s.extraData[n]) && s.extraData[n].hasOwnProperty('name') && s.extraData[n].hasOwnProperty('value')) {
+                               extraInputs.push(
+                               $('<input type="hidden" name="'+s.extraData[n].name+'">').val(s.extraData[n].value)
+                                   .appendTo(form)[0]);
+                           } else {
+                               extraInputs.push(
+                               $('<input type="hidden" name="'+n+'">').val(s.extraData[n])
+                                   .appendTo(form)[0]);
+                           }
+                        }
+                    }
+                }
+
+                if (!s.iframeTarget) {
+                    // add iframe to doc and submit the form
+                    $io.appendTo('body');
+                }
+                if (io.attachEvent) {
+                    io.attachEvent('onload', cb);
+                }
+                else {
+                    io.addEventListener('load', cb, false);
+                }
+                setTimeout(checkState,15);
+
+                try {
+                    form.submit();
+                } catch(err) {
+                    // just in case form has element with name/id of 'submit'
+                    var submitFn = document.createElement('form').submit;
+                    submitFn.apply(form);
+                }
+            }
+            finally {
+                // reset attrs and remove "extra" input elements
+                form.setAttribute('action',a);
+                form.setAttribute('enctype', et); // #380
+                if(t) {
+                    form.setAttribute('target', t);
+                } else {
+                    $form.removeAttr('target');
+                }
+                $(extraInputs).remove();
+            }
+        }
+
+        if (s.forceSync) {
+            doSubmit();
+        }
+        else {
+            setTimeout(doSubmit, 10); // this lets dom updates render
+        }
+
+        var data, doc, domCheckCount = 50, callbackProcessed;
+
+        function cb(e) {
+            if (xhr.aborted || callbackProcessed) {
+                return;
+            }
+            
+            doc = getDoc(io);
+            if(!doc) {
+                log('cannot access response document');
+                e = SERVER_ABORT;
+            }
+            if (e === CLIENT_TIMEOUT_ABORT && xhr) {
+                xhr.abort('timeout');
+                deferred.reject(xhr, 'timeout');
+                return;
+            }
+            else if (e == SERVER_ABORT && xhr) {
+                xhr.abort('server abort');
+                deferred.reject(xhr, 'error', 'server abort');
+                return;
+            }
+
+            if (!doc || doc.location.href == s.iframeSrc) {
+                // response not received yet
+                if (!timedOut) {
+                    return;
+                }
+            }
+            if (io.detachEvent) {
+                io.detachEvent('onload', cb);
+            }
+            else {
+                io.removeEventListener('load', cb, false);
+            }
+
+            var status = 'success', errMsg;
+            try {
+                if (timedOut) {
+                    throw 'timeout';
+                }
+
+                var isXml = s.dataType == 'xml' || doc.XMLDocument || $.isXMLDoc(doc);
+                log('isXml='+isXml);
+                if (!isXml && window.opera && (doc.body === null || !doc.body.innerHTML)) {
+                    if (--domCheckCount) {
+                        // in some browsers (Opera) the iframe DOM is not always traversable when
+                        // the onload callback fires, so we loop a bit to accommodate
+                        log('requeing onLoad callback, DOM not available');
+                        setTimeout(cb, 250);
+                        return;
+                    }
+                    // let this fall through because server response could be an empty document
+                    //log('Could not access iframe DOM after mutiple tries.');
+                    //throw 'DOMException: not available';
+                }
+
+                //log('response detected');
+                var docRoot = doc.body ? doc.body : doc.documentElement;
+                xhr.responseText = docRoot ? docRoot.innerHTML : null;
+                xhr.responseXML = doc.XMLDocument ? doc.XMLDocument : doc;
+                if (isXml) {
+                    s.dataType = 'xml';
+                }
+                xhr.getResponseHeader = function(header){
+                    var headers = {'content-type': s.dataType};
+                    return headers[header.toLowerCase()];
+                };
+                // support for XHR 'status' & 'statusText' emulation :
+                if (docRoot) {
+                    xhr.status = Number( docRoot.getAttribute('status') ) || xhr.status;
+                    xhr.statusText = docRoot.getAttribute('statusText') || xhr.statusText;
+                }
+
+                var dt = (s.dataType || '').toLowerCase();
+                var scr = /(json|script|text)/.test(dt);
+                if (scr || s.textarea) {
+                    // see if user embedded response in textarea
+                    var ta = doc.getElementsByTagName('textarea')[0];
+                    if (ta) {
+                        xhr.responseText = ta.value;
+                        // support for XHR 'status' & 'statusText' emulation :
+                        xhr.status = Number( ta.getAttribute('status') ) || xhr.status;
+                        xhr.statusText = ta.getAttribute('statusText') || xhr.statusText;
+                    }
+                    else if (scr) {
+                        // account for browsers injecting pre around json response
+                        var pre = doc.getElementsByTagName('pre')[0];
+                        var b = doc.getElementsByTagName('body')[0];
+                        if (pre) {
+                            xhr.responseText = pre.textContent ? pre.textContent : pre.innerText;
+                        }
+                        else if (b) {
+                            xhr.responseText = b.textContent ? b.textContent : b.innerText;
+                        }
+                    }
+                }
+                else if (dt == 'xml' && !xhr.responseXML && xhr.responseText) {
+                    xhr.responseXML = toXml(xhr.responseText);
+                }
+
+                try {
+                    data = httpData(xhr, dt, s);
+                }
+                catch (err) {
+                    status = 'parsererror';
+                    xhr.error = errMsg = (err || status);
+                }
+            }
+            catch (err) {
+                log('error caught: ',err);
+                status = 'error';
+                xhr.error = errMsg = (err || status);
+            }
+
+            if (xhr.aborted) {
+                log('upload aborted');
+                status = null;
+            }
+
+            if (xhr.status) { // we've set xhr.status
+                status = (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) ? 'success' : 'error';
+            }
+
+            // ordering of these callbacks/triggers is odd, but that's how $.ajax does it
+            if (status === 'success') {
+                if (s.success) {
+                    s.success.call(s.context, data, 'success', xhr);
+                }
+                deferred.resolve(xhr.responseText, 'success', xhr);
+                if (g) {
+                    $.event.trigger("ajaxSuccess", [xhr, s]);
+                }
+            }
+            else if (status) {
+                if (errMsg === undefined) {
+                    errMsg = xhr.statusText;
+                }
+                if (s.error) {
+                    s.error.call(s.context, xhr, status, errMsg);
+                }
+                deferred.reject(xhr, 'error', errMsg);
+                if (g) {
+                    $.event.trigger("ajaxError", [xhr, s, errMsg]);
+                }
+            }
+
+            if (g) {
+                $.event.trigger("ajaxComplete", [xhr, s]);
+            }
+
+            if (g && ! --$.active) {
+                $.event.trigger("ajaxStop");
+            }
+
+            if (s.complete) {
+                s.complete.call(s.context, xhr, status);
+            }
+
+            callbackProcessed = true;
+            if (s.timeout) {
+                clearTimeout(timeoutHandle);
+            }
+
+            // clean up
+            setTimeout(function() {
+                if (!s.iframeTarget) {
+                    $io.remove();
+                }
+                else { //adding else to clean up existing iframe response.
+                    $io.attr('src', s.iframeSrc);
+                }
+                xhr.responseXML = null;
+            }, 100);
+        }
+
+        var toXml = $.parseXML || function(s, doc) { // use parseXML if available (jQuery 1.5+)
+            if (window.ActiveXObject) {
+                doc = new ActiveXObject('Microsoft.XMLDOM');
+                doc.async = 'false';
+                doc.loadXML(s);
+            }
+            else {
+                doc = (new DOMParser()).parseFromString(s, 'text/xml');
+            }
+            return (doc && doc.documentElement && doc.documentElement.nodeName != 'parsererror') ? doc : null;
+        };
+        var parseJSON = $.parseJSON || function(s) {
+            /*jslint evil:true */
+            return window['eval']('(' + s + ')');
+        };
+
+        var httpData = function( xhr, type, s ) { // mostly lifted from jq1.4.4
+
+            var ct = xhr.getResponseHeader('content-type') || '',
+                xml = type === 'xml' || !type && ct.indexOf('xml') >= 0,
+                data = xml ? xhr.responseXML : xhr.responseText;
+
+            if (xml && data.documentElement.nodeName === 'parsererror') {
+                if ($.error) {
+                    $.error('parsererror');
+                }
+            }
+            if (s && s.dataFilter) {
+                data = s.dataFilter(data, type);
+            }
+            if (typeof data === 'string') {
+                if (type === 'json' || !type && ct.indexOf('json') >= 0) {
+                    data = parseJSON(data);
+                } else if (type === "script" || !type && ct.indexOf("javascript") >= 0) {
+                    $.globalEval(data);
+                }
+            }
+            return data;
+        };
+
+        return deferred;
+    }
+};
+
+/**
+ * ajaxForm() provides a mechanism for fully automating form submission.
+ *
+ * The advantages of using this method instead of ajaxSubmit() are:
+ *
+ * 1: This method will include coordinates for <input type="image" /> elements (if the element
+ *    is used to submit the form).
+ * 2. This method will include the submit element's name/value data (for the element that was
+ *    used to submit the form).
+ * 3. This method binds the submit() method to the form for you.
+ *
+ * The options argument for ajaxForm works exactly as it does for ajaxSubmit.  ajaxForm merely
+ * passes the options argument along after properly binding events for submit elements and
+ * the form itself.
+ */
+$.fn.ajaxForm = function(options) {
+    options = options || {};
+    options.delegation = options.delegation && $.isFunction($.fn.on);
+
+    // in jQuery 1.3+ we can fix mistakes with the ready state
+    if (!options.delegation && this.length === 0) {
+        var o = { s: this.selector, c: this.context };
+        if (!$.isReady && o.s) {
+            log('DOM not ready, queuing ajaxForm');
+            $(function() {
+                $(o.s,o.c).ajaxForm(options);
+            });
+            return this;
+        }
+        // is your DOM ready?  http://docs.jquery.com/Tutorials:Introducing_$(document).ready()
+        log('terminating; zero elements found by selector' + ($.isReady ? '' : ' (DOM not ready)'));
+        return this;
+    }
+
+    if ( options.delegation ) {
+        $(document)
+            .off('submit.form-plugin', this.selector, doAjaxSubmit)
+            .off('click.form-plugin', this.selector, captureSubmittingElement)
+            .on('submit.form-plugin', this.selector, options, doAjaxSubmit)
+            .on('click.form-plugin', this.selector, options, captureSubmittingElement);
+        return this;
+    }
+
+    return this.ajaxFormUnbind()
+        .bind('submit.form-plugin', options, doAjaxSubmit)
+        .bind('click.form-plugin', options, captureSubmittingElement);
+};
+
+// private event handlers
+function doAjaxSubmit(e) {
+    /*jshint validthis:true */
+    var options = e.data;
+    if (!e.isDefaultPrevented()) { // if event has been canceled, don't proceed
+        e.preventDefault();
+        $(e.target).ajaxSubmit(options); // #365
+    }
+}
+
+function captureSubmittingElement(e) {
+    /*jshint validthis:true */
+    var target = e.target;
+    var $el = $(target);
+    if (!($el.is("[type=submit],[type=image]"))) {
+        // is this a child element of the submit el?  (ex: a span within a button)
+        var t = $el.closest('[type=submit]');
+        if (t.length === 0) {
+            return;
+        }
+        target = t[0];
+    }
+    var form = this;
+    form.clk = target;
+    if (target.type == 'image') {
+        if (e.offsetX !== undefined) {
+            form.clk_x = e.offsetX;
+            form.clk_y = e.offsetY;
+        } else if (typeof $.fn.offset == 'function') {
+            var offset = $el.offset();
+            form.clk_x = e.pageX - offset.left;
+            form.clk_y = e.pageY - offset.top;
+        } else {
+            form.clk_x = e.pageX - target.offsetLeft;
+            form.clk_y = e.pageY - target.offsetTop;
+        }
+    }
+    // clear form vars
+    setTimeout(function() { form.clk = form.clk_x = form.clk_y = null; }, 100);
+}
+
+
+// ajaxFormUnbind unbinds the event handlers that were bound by ajaxForm
+$.fn.ajaxFormUnbind = function() {
+    return this.unbind('submit.form-plugin click.form-plugin');
+};
+
+/**
+ * formToArray() gathers form element data into an array of objects that can
+ * be passed to any of the following ajax functions: $.get, $.post, or load.
+ * Each object in the array has both a 'name' and 'value' property.  An example of
+ * an array for a simple login form might be:
+ *
+ * [ { name: 'username', value: 'jresig' }, { name: 'password', value: 'secret' } ]
+ *
+ * It is this array that is passed to pre-submit callback functions provided to the
+ * ajaxSubmit() and ajaxForm() methods.
+ */
+$.fn.formToArray = function(semantic, elements) {
+    var a = [];
+    if (this.length === 0) {
+        return a;
+    }
+
+    var form = this[0];
+    var formId = this.attr('id');
+    var els = semantic ? form.getElementsByTagName('*') : form.elements;
+    var els2;
+
+    if (els && !/MSIE [678]/.test(navigator.userAgent)) { // #390
+        els = $(els).get();  // convert to standard array
+    }
+
+    // #386; account for inputs outside the form which use the 'form' attribute
+    if ( formId ) {
+        els2 = $(':input[form="' + formId + '"]').get(); // hat tip @thet
+        if ( els2.length ) {
+            els = (els || []).concat(els2);
+        }
+    }
+
+    if (!els || !els.length) {
+        return a;
+    }
+
+    var i,j,n,v,el,max,jmax;
+    for(i=0, max=els.length; i < max; i++) {
+        el = els[i];
+        n = el.name;
+        if (!n || el.disabled) {
+            continue;
+        }
+
+        if (semantic && form.clk && el.type == "image") {
+            // handle image inputs on the fly when semantic == true
+            if(form.clk == el) {
+                a.push({name: n, value: $(el).val(), type: el.type });
+                a.push({name: n+'.x', value: form.clk_x}, {name: n+'.y', value: form.clk_y});
+            }
+            continue;
+        }
+
+        v = $.fieldValue(el, true);
+        if (v && v.constructor == Array) {
+            if (elements) {
+                elements.push(el);
+            }
+            for(j=0, jmax=v.length; j < jmax; j++) {
+                a.push({name: n, value: v[j]});
+            }
+        }
+        else if (feature.fileapi && el.type == 'file') {
+            if (elements) {
+                elements.push(el);
+            }
+            var files = el.files;
+            if (files.length) {
+                for (j=0; j < files.length; j++) {
+                    a.push({name: n, value: files[j], type: el.type});
+                }
+            }
+            else {
+                // #180
+                a.push({ name: n, value: '', type: el.type });
+            }
+        }
+        else if (v !== null && typeof v != 'undefined') {
+            if (elements) {
+                elements.push(el);
+            }
+            a.push({name: n, value: v, type: el.type, required: el.required});
+        }
+    }
+
+    if (!semantic && form.clk) {
+        // input type=='image' are not found in elements array! handle it here
+        var $input = $(form.clk), input = $input[0];
+        n = input.name;
+        if (n && !input.disabled && input.type == 'image') {
+            a.push({name: n, value: $input.val()});
+            a.push({name: n+'.x', value: form.clk_x}, {name: n+'.y', value: form.clk_y});
+        }
+    }
+    return a;
+};
+
+/**
+ * Serializes form data into a 'submittable' string. This method will return a string
+ * in the format: name1=value1&amp;name2=value2
+ */
+$.fn.formSerialize = function(semantic) {
+    //hand off to jQuery.param for proper encoding
+    return $.param(this.formToArray(semantic));
+};
+
+/**
+ * Serializes all field elements in the jQuery object into a query string.
+ * This method will return a string in the format: name1=value1&amp;name2=value2
+ */
+$.fn.fieldSerialize = function(successful) {
+    var a = [];
+    this.each(function() {
+        var n = this.name;
+        if (!n) {
+            return;
+        }
+        var v = $.fieldValue(this, successful);
+        if (v && v.constructor == Array) {
+            for (var i=0,max=v.length; i < max; i++) {
+                a.push({name: n, value: v[i]});
+            }
+        }
+        else if (v !== null && typeof v != 'undefined') {
+            a.push({name: this.name, value: v});
+        }
+    });
+    //hand off to jQuery.param for proper encoding
+    return $.param(a);
+};
+
+/**
+ * Returns the value(s) of the element in the matched set.  For example, consider the following form:
+ *
+ *  <form><fieldset>
+ *      <input name="A" type="text" />
+ *      <input name="A" type="text" />
+ *      <input name="B" type="checkbox" value="B1" />
+ *      <input name="B" type="checkbox" value="B2"/>
+ *      <input name="C" type="radio" value="C1" />
+ *      <input name="C" type="radio" value="C2" />
+ *  </fieldset></form>
+ *
+ *  var v = $('input[type=text]').fieldValue();
+ *  // if no values are entered into the text inputs
+ *  v == ['','']
+ *  // if values entered into the text inputs are 'foo' and 'bar'
+ *  v == ['foo','bar']
+ *
+ *  var v = $('input[type=checkbox]').fieldValue();
+ *  // if neither checkbox is checked
+ *  v === undefined
+ *  // if both checkboxes are checked
+ *  v == ['B1', 'B2']
+ *
+ *  var v = $('input[type=radio]').fieldValue();
+ *  // if neither radio is checked
+ *  v === undefined
+ *  // if first radio is checked
+ *  v == ['C1']
+ *
+ * The successful argument controls whether or not the field element must be 'successful'
+ * (per http://www.w3.org/TR/html4/interact/forms.html#successful-controls).
+ * The default value of the successful argument is true.  If this value is false the value(s)
+ * for each element is returned.
+ *
+ * Note: This method *always* returns an array.  If no valid value can be determined the
+ *    array will be empty, otherwise it will contain one or more values.
+ */
+$.fn.fieldValue = function(successful) {
+    for (var val=[], i=0, max=this.length; i < max; i++) {
+        var el = this[i];
+        var v = $.fieldValue(el, successful);
+        if (v === null || typeof v == 'undefined' || (v.constructor == Array && !v.length)) {
+            continue;
+        }
+        if (v.constructor == Array) {
+            $.merge(val, v);
+        }
+        else {
+            val.push(v);
+        }
+    }
+    return val;
+};
+
+/**
+ * Returns the value of the field element.
+ */
+$.fieldValue = function(el, successful) {
+    var n = el.name, t = el.type, tag = el.tagName.toLowerCase();
+    if (successful === undefined) {
+        successful = true;
+    }
+
+    if (successful && (!n || el.disabled || t == 'reset' || t == 'button' ||
+        (t == 'checkbox' || t == 'radio') && !el.checked ||
+        (t == 'submit' || t == 'image') && el.form && el.form.clk != el ||
+        tag == 'select' && el.selectedIndex == -1)) {
+            return null;
+    }
+
+    if (tag == 'select') {
+        var index = el.selectedIndex;
+        if (index < 0) {
+            return null;
+        }
+        var a = [], ops = el.options;
+        var one = (t == 'select-one');
+        var max = (one ? index+1 : ops.length);
+        for(var i=(one ? index : 0); i < max; i++) {
+            var op = ops[i];
+            if (op.selected) {
+                var v = op.value;
+                if (!v) { // extra pain for IE...
+                    v = (op.attributes && op.attributes.value && !(op.attributes.value.specified)) ? op.text : op.value;
+                }
+                if (one) {
+                    return v;
+                }
+                a.push(v);
+            }
+        }
+        return a;
+    }
+    return $(el).val();
+};
+
+/**
+ * Clears the form data.  Takes the following actions on the form's input fields:
+ *  - input text fields will have their 'value' property set to the empty string
+ *  - select elements will have their 'selectedIndex' property set to -1
+ *  - checkbox and radio inputs will have their 'checked' property set to false
+ *  - inputs of type submit, button, reset, and hidden will *not* be effected
+ *  - button elements will *not* be effected
+ */
+$.fn.clearForm = function(includeHidden) {
+    return this.each(function() {
+        $('input,select,textarea', this).clearFields(includeHidden);
+    });
+};
+
+/**
+ * Clears the selected form elements.
+ */
+$.fn.clearFields = $.fn.clearInputs = function(includeHidden) {
+    var re = /^(?:color|date|datetime|email|month|number|password|range|search|tel|text|time|url|week)$/i; // 'hidden' is not in this list
+    return this.each(function() {
+        var t = this.type, tag = this.tagName.toLowerCase();
+        if (re.test(t) || tag == 'textarea') {
+            this.value = '';
+        }
+        else if (t == 'checkbox' || t == 'radio') {
+            this.checked = false;
+        }
+        else if (tag == 'select') {
+            this.selectedIndex = -1;
+        }
+        else if (t == "file") {
+            if (/MSIE/.test(navigator.userAgent)) {
+                $(this).replaceWith($(this).clone(true));
+            } else {
+                $(this).val('');
+            }
+        }
+        else if (includeHidden) {
+            // includeHidden can be the value true, or it can be a selector string
+            // indicating a special test; for example:
+            //  $('#myForm').clearForm('.special:hidden')
+            // the above would clean hidden inputs that have the class of 'special'
+            if ( (includeHidden === true && /hidden/.test(t)) ||
+                 (typeof includeHidden == 'string' && $(this).is(includeHidden)) ) {
+                this.value = '';
+            }
+        }
+    });
+};
+
+/**
+ * Resets the form data.  Causes all form elements to be reset to their original value.
+ */
+$.fn.resetForm = function() {
+    return this.each(function() {
+        // guard against an input with the name of 'reset'
+        // note that IE reports the reset function as an 'object'
+        if (typeof this.reset == 'function' || (typeof this.reset == 'object' && !this.reset.nodeType)) {
+            this.reset();
+        }
+    });
+};
+
+/**
+ * Enables or disables any matching elements.
+ */
+$.fn.enable = function(b) {
+    if (b === undefined) {
+        b = true;
+    }
+    return this.each(function() {
+        this.disabled = !b;
+    });
+};
+
+/**
+ * Checks/unchecks any matching checkboxes or radio buttons and
+ * selects/deselects and matching option elements.
+ */
+$.fn.selected = function(select) {
+    if (select === undefined) {
+        select = true;
+    }
+    return this.each(function() {
+        var t = this.type;
+        if (t == 'checkbox' || t == 'radio') {
+            this.checked = select;
+        }
+        else if (this.tagName.toLowerCase() == 'option') {
+            var $sel = $(this).parent('select');
+            if (select && $sel[0] && $sel[0].type == 'select-one') {
+                // deselect all other options
+                $sel.find('option').selected(false);
+            }
+            this.selected = select;
+        }
+    });
+};
+
+// expose debug var
+$.fn.ajaxSubmit.debug = false;
+
+// helper fn for console logging
+function log() {
+    if (!$.fn.ajaxSubmit.debug) {
+        return;
+    }
+    var msg = '[jquery.form] ' + Array.prototype.join.call(arguments,'');
+    if (window.console && window.console.log) {
+        window.console.log(msg);
+    }
+    else if (window.opera && window.opera.postError) {
+        window.opera.postError(msg);
+    }
+}
 
 }));

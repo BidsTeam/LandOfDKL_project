@@ -23,6 +23,24 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+		concat : {
+		    dist : {
+		        src : [
+		            "public_html/js/lib/jquery.js",
+		            "public_html/js/lib/lodash.min.js",
+		            "public_html/js/lib/backbone.js",
+		            "public_html/js/lib/bootstrap.min.js",
+		            "public_html/js/lib/jquery.form.js"
+		        ],
+		        dest : 'public_html/js/build/production.js'
+		    }
+		},
+		uglify : {
+		    build : {
+		        src : 'public_html/js/build/production.js',
+		        dest : 'public_html/js/build/production.min.js'
+		    }
+		},
 		watch:{
 			fest: {
 				files: ['templates/*.xml'],
@@ -32,10 +50,18 @@ module.exports = function (grunt) {
 				}
 			},
 			server: {
-			//files: ['public_html/js/**/*.js','public_html/*.html','public_html/css/*.css'],
 				files: ['public_html/**'],
 				options: {
 					livereload: true
+					atBegin: true
+				}
+			},
+			scripts: {
+				files : ['public_html/js/lib/*.js'],
+				tasks : ['concat', 'uglify'],
+				options : {
+					spawn : false
+					atBegin: true
 				}
 			},
 			css: {
@@ -43,10 +69,10 @@ module.exports = function (grunt) {
 				tasks: ['sass'],
 				options: {
 					livereload: true
+					atBegin: true
 				}
 			}
 		},
-		
 		concurrent: {
     	  	target: ['watch', 'shell'],
     	  	options: {
@@ -61,18 +87,19 @@ module.exports = function (grunt) {
 			        src: ['*.scss'],
 			        dest: 'public_html/css',
 			        ext: '.css'
-			    }]	
-					//'public_html/css/*.css' : 'public_html/css/scss/*.scss'
-				
+			    }]
 			}
 		},
 	});
 
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-fest');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+
 	grunt.registerTask('default',['concurrent']);
 };
 

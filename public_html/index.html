@@ -1,111 +1,20 @@
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="utf-8">
-	<link rel="stylesheet" href="/css/main.css" >
-	<script src="/js/lib/jquery-2.1.3.js"></script>
-	<script src="/js/lib/lodash.js"></script>
-	<script src="/js/lib/backbone.js"></script>
-	<script src="/js/tmpl/main.js"></script>
-	
+	<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
 </head>
 <body>
-	<div id="block">
 
+<div class="col-md-2"></div>
 
-	</div>
-	<script>
-	_.mixin({templateFromUrl: function (url, data, settings) {
-	    var templateHtml = "";
-	    this.cache = this.cache || {};
+<div id="app-container" class="col-md-8"></div>
 
-	    if (this.cache[url]) {
-	        templateHtml = this.cache[url];
-	    } else {
-	        $.ajax({
-	            url: url,
-	            method: "GET",
-	            async: false, // Говнокод, буду решать
-	            beforeSend: function( xhr ) {
-   					 xhr.overrideMimeType( "text/plain; charset=utf-8" ); // без этого, он попадает в error
-  				},
-	            success: function(data) {	            		            	
-	                templateHtml = data;
-	            },	            
-	            error: function(data){	            	
-	            	console.log("ERROR templateFromUrl");	            	
-	            }
+<div class="col-md-2"></div>
 
-	        });
+<script src="js/build/production.min.js"></script>
+<script src="js/src/script.js"></script>
 
-	        this.cache[url] = templateHtml;
-    	}
-	    return _.template(templateHtml, data, settings);
-	}});
-	</script>
-	 
-	<script src="//localhost:35729/livereload.js"></script>
-	<script>
-		var Controller = Backbone.Router.extend({
-		    routes: {
-		        "": "start", // Пустой hash-тэг
-		        "!/": "start", // Начальная страница
-		        "!/success": "success"		        
-		    },
-
-		    start: function () {
-		    	
-		    	cssmenu_model.set({template:"cssmenu1"});
-		    },
-
-		    success: function () {
-		        cssmenu_model.set({template:"cssmenu2"});
-		    },
-		});
-		var Cssmenu_Model = Backbone.Model.extend({
-   			defaults: {        		
-        		template: "cssmenu1"
-    		}
-		});
-
-		var Cssmenu_View = Backbone.View.extend({
-    		el: $("#block"), 
-
-    		template_list:{
-    			"cssmenu1": _.templateFromUrl('/templates/cssmenu.js'),
-            	"cssmenu2": _.templateFromUrl('/templates/cssmenu2.js')
-    		},
-    		
-    		events: {
-        		"click a": "check" // Обработчик клика на кнопке "Проверить"
-    		},
-    	    initialize: function () { // Подписка на событие модели    	    	
-        	    this.model.bind('change', this.render, this);
-        	},
-    		check: function () {
-    			if (this.model.get("template") == 'cssmenu1'){
-        			controller.navigate("!/success", true); 
-        		} else {
-        			controller.navigate("start",true)
-        		}
-    		},
-    		render: function(){    			
-    			var template = this.model.get("template");    			
-            	this.$el.html(this.template_list[template]());            	
-            	return this;    			
-    		}
-		});		
-		var controller = new Controller(); // Создаём контроллер
-		var cssmenu_model = new Cssmenu_Model();
-
-		Views = { 
-            cssmenu1: new Cssmenu_View({model: cssmenu_model}),            
-        };		
-
-        cssmenu_model.trigger("change");
-
-		Backbone.history.start();  // todo От решетки в url можно избавиться подставив сюда {pushState: true}, но разберусь потом    
-		
-		
-	</script>
 </body>
 </html>
