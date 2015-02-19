@@ -2,7 +2,7 @@ package logic;
 
 
 /**
- * Created by andreybondar on 17.02.15.
+ * класс описывающий одну отдельную карту
  */
 public class Card {
     //
