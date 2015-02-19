@@ -16,8 +16,8 @@ module.exports = function (grunt) {
 				options : {
 					template: function (data){
 						return grunt.template.process(
-								'var <%= name %>Tmpl = <%= contents %>; ',
-								{data: data}
+							'var <%= name %>Tmpl = <%= contents %>; ',
+							{data: data}
 						)
 					}
 				}

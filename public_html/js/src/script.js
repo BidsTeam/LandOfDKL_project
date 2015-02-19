@@ -34,7 +34,7 @@ $(function(){
 
 
 	Game.PageView = Backbone.View.extend({
-		id : "app-container",
+		el : "#app-container",
 		initialize : function(options) {
 			this.model.bind('change', this.render, this);
 		},
@@ -46,7 +46,7 @@ $(function(){
 		},
 		render : function() {
 			var template = this.model.get("template");    			
-        	$("#"+this.id).html(this.template_list[template]());            	
+        	this.$el.html(this.template_list[template]());            	
         	return this;
 		}
 	});
