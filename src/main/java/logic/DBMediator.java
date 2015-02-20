@@ -31,7 +31,7 @@ public class DBMediator {
         }
         try {
             dbConnection = DriverManager
-                    .getConnection("jdbc:mysql://localhost:3306/dkl_db", "java_user", "dklpassword145");
+                    .getConnection("jdbc:mysql://localhost:3306/dkl_db", "root", "dklpassword145");
             return dbConnection;
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -80,14 +80,15 @@ public class DBMediator {
                     return;
                 }
                 else {
-
-                    String insertSQL = "INSERT INTO USERS"
-                            + "(USERNAME, PASSWORD) " + "VALUES"
-                            + "(" + json.get("username").toString() + "," + json.get("password").toString() + ")";
-
+                    //System.out.println("before");
+                    String insertSQL = "INSERT INTO USERS "
+                            + "(username, password) " + "VALUES"
+                            + "('" + json.get("username").toString() + "','" + json.get("password").toString() + "')";
+                    //System.out.println("after");
 //                  dbConnection = this.getDBConnection();
 //                   Statement statement = dbConnection.createStatement();
                     statement.executeUpdate(insertSQL);
+                   // System.out.println("after longer");
                     System.out.println("user" + json.get("username").toString() + "created");
                 }
             } catch (SQLException e) {
@@ -101,7 +102,7 @@ public class DBMediator {
         ResultSet rs = null;
         if (json.get("action").toString() == "find_user" ||
                 json.get("action").toString() == "create_new_user") {
-            String findSQL = "SELECT USERNAME from USERS where USERNAME = " + json.get("username").toString();
+            String findSQL = "SELECT * from USERS where username = " + "'" + json.get("username").toString() + "';";
             try {
 //                dbConnection = this.getDBConnection();
 //                Statement statement = dbConnection.createStatement();

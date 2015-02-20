@@ -1,5 +1,6 @@
 package frontend;
 
+import logic.DBMediator;
 import logic.FightFinder;
 import logic.FightInstance;
 import org.json.simple.JSONObject;
@@ -22,6 +23,7 @@ public class Frontend extends HttpServlet {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
+    DBMediator dbTalker = new DBMediator();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -59,11 +61,15 @@ public class Frontend extends HttpServlet {
 
     public void parseJson(JSONObject jObj) {
         String action = jObj.get("action").toString();
+        System.out.println(action);
         if (action == "create_game") {
-
+            //Do later
         }
         else if (action == "attack_in_game") {
-
+            //Do later
+        }
+        else if (action == "create_new_user") {
+            dbTalker.insertTableSQL(jObj);
         }
     }
 
