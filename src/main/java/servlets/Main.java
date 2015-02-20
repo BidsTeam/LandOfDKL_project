@@ -16,15 +16,16 @@ public class Main {
 
         JSONObject json = new JSONObject();
         json.put("action", "create_new_user");
-        json.put("username", "First_User");
+        json.put("username", "First_User2");
         json.put("password", "firstpassword");
         frontend.parseJson(json);
 
         Server server = new Server(8080);
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-        server.setHandler(context);
 
         context.addServlet(new ServletHolder(frontend), "/authform");
+
+        server.setHandler(context);
 
         server.start();
         server.join();

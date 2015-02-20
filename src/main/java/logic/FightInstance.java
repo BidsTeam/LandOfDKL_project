@@ -13,8 +13,7 @@ public class FightInstance {
     public FightInstance() {
         Random random = new Random();
         int cardArr[] = new int[15];
-        for (int i = 0; i < 15; i++)
-        {
+        for (int i = 0; i < 15; i++) {
             cardArr[i] = random.nextInt(20);
         }
         // предлагаю поле разделить на две части, зеленое и красное, тогда будет проще ориентироватсья в коде,

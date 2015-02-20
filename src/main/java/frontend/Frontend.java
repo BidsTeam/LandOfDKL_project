@@ -41,7 +41,7 @@ public class Frontend extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
-        login = request.getParameter("login");
+        String login = request.getParameter("login");
 
         response.setContentType("text/html;charset=utf-8");
 
@@ -64,11 +64,9 @@ public class Frontend extends HttpServlet {
         System.out.println(action);
         if (action == "create_game") {
             //Do later
-        }
-        else if (action == "attack_in_game") {
+        } else if (action == "attack_in_game") {
             //Do later
-        }
-        else if (action == "create_new_user") {
+        } else if (action == "create_new_user") {
             dbTalker.insertTableSQL(jObj);
         }
     }
