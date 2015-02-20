@@ -1,6 +1,5 @@
-package logic;
+package app.logic;
 
-import java.util.HashMap;
 import java.util.Random;
 
 /**

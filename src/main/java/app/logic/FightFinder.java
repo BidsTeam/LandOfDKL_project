@@ -1,4 +1,4 @@
-package logic;
+package app.logic;
 
 import org.json.simple.JSONObject;
 
