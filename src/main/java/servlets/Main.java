@@ -16,8 +16,8 @@ public class Main {
 
         JSONObject json = new JSONObject();
         json.put("action", "create_new_user");
-        json.put("username", "First_User");
-        json.put("password", "firstpassword");
+        json.put("username", "Second_User");
+        json.put("password", "secondpassword");
         frontend.parseJson(json);
 
         Server server = new Server(8080);

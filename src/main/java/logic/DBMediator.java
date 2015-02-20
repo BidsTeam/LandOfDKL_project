@@ -70,32 +70,24 @@ public class DBMediator {
 //        }
 //    }
 
-    public void insertTableSQL(JSONObject json) {
-        if (json.get("action").toString() == "create_new_user") {
-            ResultSet rs = selectTableSQL(json);
-            try {
-                if (rs.next()) {
-                    System.out.println("User already exits");
-                    //TODO - send that to back to server
-                    return;
-                }
-                else {
-                    //System.out.println("before");
-                    String insertSQL = "INSERT INTO USERS "
-                            + "(username, password) " + "VALUES"
-                            + "('" + json.get("username").toString() + "','" + json.get("password").toString() + "')";
-                    //System.out.println("after");
-//                  dbConnection = this.getDBConnection();
-//                   Statement statement = dbConnection.createStatement();
-                    statement.executeUpdate(insertSQL);
-                   // System.out.println("after longer");
-                    System.out.println("user" + json.get("username").toString() + "created");
-                }
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
+    public void newUserTableSQL(JSONObject json) {
+        ResultSet rs = selectTableSQL(json);
+        try {
+            if (rs.next()) {
+                System.out.println("User already exits");
+                //TODO - send that to back to server
+                return;
             }
+            else {
+                String insertSQL = "INSERT INTO USERS "
+                        + "(username, password) " + "VALUES"
+                        + "('" + json.get("username").toString() + "','" + json.get("password").toString() + "')";
+                statement.executeUpdate(insertSQL);
+                System.out.println("user" + json.get("username").toString() + "created");
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
         }
-
     }
 
     public ResultSet selectTableSQL(JSONObject json) {
@@ -114,5 +106,38 @@ public class DBMediator {
         return rs;
     }
 
+    public JSONObject loginCheck(JSONObject json) {
+        String username = json.get("username").toString();
+        String password = json.get("password").toString();
+        ResultSet rs = selectTableSQL(json);
+        JSONObject jsonResult = new JSONObject();
+        try {
+            if (rs.next()) {
+                if (username == rs.getString("username") && password == rs.getString("password")) {
+                    jsonResult.put("result", "success");
+                    jsonResult.put("message", "OK");
+                    return jsonResult;
+                }
+                else {
+                    jsonResult.put("result", "fail");
+                    jsonResult.put("message", "Wrong login or pas");
+                    return jsonResult;
+                }
+            }
+            else {
+                jsonResult.put("result", "fail");
+                jsonResult.put("message", "Wrong login or pas");
+                return jsonResult;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            jsonResult.put("result", "fail");
+            jsonResult.put("message", "Unknown error");
+            return jsonResult;
+        }
+    }
 
 }
+
+
