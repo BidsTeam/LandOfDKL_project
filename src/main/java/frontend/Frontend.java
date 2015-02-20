@@ -64,10 +64,14 @@ public class Frontend extends HttpServlet {
         System.out.println(action);
         if (action == "create_game") {
             //Do later
-        } else if (action == "attack_in_game") {
+        }
+        else if (action == "attack_in_game") {
             //Do later
         } else if (action == "create_new_user") {
-            dbTalker.insertTableSQL(jObj);
+            dbTalker.newUserTableSQL(jObj);
+        } else if (action == "login") {
+            JSONObject jsonResult = dbTalker.loginCheck(jObj);
+            //send jsonResult back to front
         }
     }
 
