@@ -37,7 +37,6 @@ public class Router extends HttpServlet {
 //        }
         String url = request.getServletPath();
         try {
-
             System.out.println(url);
             String[] urlParts = url.split("/");
             Class<?> cls = Class.forName("app.Controller."+urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
@@ -55,19 +54,19 @@ public class Router extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
-//        String login = request.getParameter("login");
-//
-//        response.setContentType("text/html;charset=utf-8");
-//
-//        if (login == null || login.isEmpty()) {
-//            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//        } else {
-//            response.setStatus(HttpServletResponse.SC_OK);
-//        }
-//
-//        Map<String, Object> pageVariables = new HashMap<>();
-//        pageVariables.put("lastLogin", login == null ? "" : login);
-//
-//        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        String url = request.getServletPath();
+        try {
+            System.out.println(url);
+            String[] urlParts = url.split("/");
+            Class<?> cls = Class.forName("app.Controller."+urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
+            Object obj = cls.newInstance();
+            Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
+            Method method = cls.getMethod(urlParts[2], paramTypes);
+            Object[] args = new Object[] {request, response};
+            method.invoke(obj, args) ;
+        } catch (Exception e){
+            System.out.println(e.getMessage()+" In Router");
+        }
+        return;
     }
 }

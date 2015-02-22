@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author v.chibrikov
  */
-public class Login extends HttpServlet {
+public class Login {
 
     private String login = "";
 
@@ -63,16 +63,32 @@ public class Login extends HttpServlet {
 
         response.setContentType("text/html;charset=utf-8");
 
-        if (login == null || login.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
+//        if (login == null || login.isEmpty()) {
+//            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//        } else {
+//            response.setStatus(HttpServletResponse.SC_OK);
+//        }
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
         try {
             response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void name(HttpServletRequest request,
+                     HttpServletResponse response) {
+
+        response.setContentType("text/html;charset=utf-8");
+
+        response.setStatus(HttpServletResponse.SC_OK);
+
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("lastLogin", login == null ? "" : login);
+        try {
+            response.getWriter().println("bondar");
         } catch (Exception e){
             System.out.println(e.getMessage());
         }
