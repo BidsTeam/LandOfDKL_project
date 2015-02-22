@@ -1,4 +1,4 @@
-package app.Frontend;
+package app.Controller;
 
 import DataBase.Controller.User;
 import DataBase.DB;
@@ -17,14 +17,14 @@ import java.util.Map;
 /**
  * @author v.chibrikov
  */
-public class Frontend extends HttpServlet {
+public class Login extends HttpServlet {
 
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
     User user = new User(DB.getStatement());
 
-    public void doGet(HttpServletRequest request,
+    public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = new HashMap<>();
@@ -37,9 +37,28 @@ public class Frontend extends HttpServlet {
 
     }
 
-    public void doPost(HttpServletRequest request,
-                       HttpServletResponse response) throws ServletException, IOException {
+    public void auth(HttpServletRequest request,
+                          HttpServletResponse response) {
 
+        JSONObject jObj = new JSONObject();
+        jObj.put("action", "create_new_user");
+        jObj.put("username", "Secosnd_Users");
+        jObj.put("password", "secondpassword");
+
+        String action = jObj.get("action").toString();
+        System.out.println(action);
+        if (action == "create_game") {
+            //Do later
+        }
+        else if (action == "attack_in_game") {
+            //Do later
+        } else if (action == "create_new_user") {
+            user.add(jObj);
+
+        } else if (action == "login") {
+//            JSONObject jsonResult = dbTalker.loginCheck(jObj);
+//            send jsonResult back to front
+        }
         String login = request.getParameter("login");
 
         response.setContentType("text/html;charset=utf-8");
@@ -52,25 +71,10 @@ public class Frontend extends HttpServlet {
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
-
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
-    }
-
-
-
-    public void parseJson(JSONObject jObj) {
-        String action = jObj.get("action").toString();
-        System.out.println(action);
-        if (action == "create_game") {
-            //Do later
-        }
-        else if (action == "attack_in_game") {
-            //Do later
-        } else if (action == "create_new_user") {
-            user.add(jObj);
-        } else if (action == "login") {
-//            JSONObject jsonResult = dbTalker.loginCheck(jObj);
-//            send jsonResult back to front
+        try {
+            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        } catch (Exception e){
+            System.out.println(e.getMessage());
         }
     }
 
