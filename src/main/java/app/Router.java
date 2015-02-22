@@ -39,14 +39,14 @@ public class Router extends HttpServlet {
         try {
             System.out.println(url);
             String[] urlParts = url.split("/");
-            Class<?> cls = Class.forName("app.Controller."+urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
+            Class<?> cls = Class.forName("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
             Method method = cls.getMethod(urlParts[2], paramTypes);
             Object[] args = new Object[] {request, response};
             method.invoke(obj, args) ;
         } catch (Exception e){
-            System.out.println(e.getMessage()+" In Router");
+            System.err.println(e.getMessage()+" In Router");
         }
         return;
     }
@@ -65,7 +65,8 @@ public class Router extends HttpServlet {
             Object[] args = new Object[] {request, response};
             method.invoke(obj, args) ;
         } catch (Exception e){
-            System.out.println(e.getMessage()+" In Router");
+            System.err.println(e.getMessage()+" In Router");
+            e.printStackTrace();
         }
         return;
     }

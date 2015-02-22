@@ -10,17 +10,25 @@ public class DB {
 
     private static Connection dbConnection;
     private static Statement statement;
-
+    private static DB db;
     public static Statement getStatement(){
+        //Statement stat = null;
         try{
             if (dbConnection == null || dbConnection.isClosed()) {
-                new DB();
+                db = new DB();
             }
         } catch (SQLException e) {
             System.out.printf(e.getMessage());
         }
         return statement;
-    };
+//        try {
+//             stat = dbConnection.createStatement();
+//        } catch(Exception e){
+//            System.out.println("DB GetStatement Error");
+//
+//        }
+//        return stat; //todo  Ололо говнокодер, возвращаю null , хотя приложение поидеи должно умереть
+    }
 
     private DB() {
         //joining the Db driver

@@ -74,7 +74,7 @@ public class Login {
         try {
             response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage() + " In Login");
         }
     }
 
@@ -90,7 +90,8 @@ public class Login {
         try {
             response.getWriter().println("bondar");
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage() +" In Login");
+            e.printStackTrace();
         }
     }
 

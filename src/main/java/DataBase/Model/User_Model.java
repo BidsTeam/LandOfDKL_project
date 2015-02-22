@@ -37,7 +37,7 @@ public class User_Model {
                 System.out.println("user" + json.get("username").toString() + "created");
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage() +" In User_Model1");
             return false;
         }
         return true;
@@ -53,7 +53,7 @@ public class User_Model {
 //                Statement statement = dbConnection.createStatement();
                 rs = statement.executeQuery(findSQL);
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                System.err.println(e.getMessage() + " In User_Model get");
             }
         }
         return rs;
