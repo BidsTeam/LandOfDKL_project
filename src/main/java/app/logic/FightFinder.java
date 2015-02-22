@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
  * Класс который будет хранить все идущие битвы, который будет искать их, и распредялять всё это дело
  */
 public class FightFinder {
-    LinkedHashMap<Integer, FightInstance > listOfGames;
+    LinkedHashMap<Integer, FightInstance > listOfGames = new LinkedHashMap<>();
 
     public void createNewGame(JSONObject json) {
         FightInstance newFight = new FightInstance();

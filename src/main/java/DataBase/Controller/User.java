@@ -6,6 +6,7 @@ import DataBase.View.User_View;
 import org.json.simple.JSONObject;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 
 public class User {
@@ -20,7 +21,19 @@ public class User {
     public void add(JSONObject json){
         model.add(json);
     }
-    public ResultSet get(JSONObject json){
-        return model.get(json); // Поидеи User_View должна распарсить ResultSet и вернуть уже удобную форму ответа
+
+    public boolean checkLogin(JSONObject json) {
+        String password = json.get("password").toString();
+        ResultSet rs = model.getByUsername(json);
+        try {
+            if (password == rs.getString("password"))
+                return true;
+            else
+                return false;
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
     }
+
 }

@@ -16,7 +16,7 @@ public class User_Model {
     }
 
     public boolean add(JSONObject json) {
-        ResultSet rs = get(json);
+        ResultSet rs = getByUsername(json);
         try {
             if (rs.next()) {
                 System.out.println("User already exits");
@@ -43,52 +43,15 @@ public class User_Model {
         return true;
     }
 
-    public ResultSet get(JSONObject json) {
+    public ResultSet getByUsername(JSONObject json) {
         ResultSet rs = null;
-        if (json.get("action").toString() == "find_user" ||
-                json.get("action").toString() == "create_new_user") {
-            String findSQL = "SELECT * from users where username = " + "'" + json.get("username").toString() + "';";
-            try {
-//                dbConnection = this.getDBConnection();
-//                Statement statement = dbConnection.createStatement();
-                rs = statement.executeQuery(findSQL);
-            } catch (SQLException e) {
-                System.out.println(e.getMessage());
-            }
-        }
-        return rs;
-    }
-
-    public JSONObject isLogin(JSONObject json) {
-        String username = json.get("username").toString();
-        String password = json.get("password").toString();
-        ResultSet rs = get(json);
-        JSONObject jsonResult = new JSONObject();
+        String findSQL = "SELECT * from users where username = " + "'" + json.get("username").toString() + "';";
         try {
-            if (rs.next()) {
-                if (username == rs.getString("username") && password == rs.getString("password")) {
-                    jsonResult.put("result", "success");
-                    jsonResult.put("message", "OK");
-                    return jsonResult;
-                }
-                else {
-                    jsonResult.put("result", "fail");
-                    jsonResult.put("message", "Wrong login or pas");
-                    return jsonResult;
-                }
-            }
-            else {
-                jsonResult.put("result", "fail");
-                jsonResult.put("message", "Wrong login or pas");
-                return jsonResult;
-            }
+            rs = statement.executeQuery(findSQL);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-        } finally {
-            jsonResult.put("result", "fail");
-            jsonResult.put("message", "Unknown error");
-            return jsonResult;
         }
+        return rs;
     }
 }
 

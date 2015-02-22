@@ -10,11 +10,11 @@ public class DB {
 
     private static Connection dbConnection;
     private static Statement statement;
-
+    private  static DB db;
     public static Statement getStatement(){
         try{
             if (dbConnection == null || dbConnection.isClosed()) {
-                new DB();
+                db = new DB();
             }
         } catch (SQLException e) {
             System.out.printf(e.getMessage());

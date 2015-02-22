@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,26 +41,22 @@ public class Login extends HttpServlet {
     public void auth(HttpServletRequest request,
                           HttpServletResponse response) {
 
-        JSONObject jObj = new JSONObject();
-        jObj.put("action", "create_new_user");
-        jObj.put("username", "Secosnd_Users");
-        jObj.put("password", "secondpassword");
-
-        String action = jObj.get("action").toString();
-        System.out.println(action);
-        if (action == "create_game") {
-            //Do later
-        }
-        else if (action == "attack_in_game") {
-            //Do later
-        } else if (action == "create_new_user") {
-            user.add(jObj);
-
-        } else if (action == "login") {
-//            JSONObject jsonResult = dbTalker.loginCheck(jObj);
-//            send jsonResult back to front
-        }
         String login = request.getParameter("login");
+        String password = request.getParameter("password");
+
+        JSONObject json = new JSONObject();
+        json.put("username", login);
+        json.put("password", password);
+
+        //String action = jObj.get("action").toString();
+        //System.out.println(action);
+
+        User userDB = new User(DB.getStatement());
+
+        if (userDB.checkLogin(json)) {
+            response.setStatus(HttpServletResponse.SC_OK);
+            request.getSession().setAttribute("userID", json.get("username").toString());
+        }
 
         response.setContentType("text/html;charset=utf-8");
 
