@@ -2,7 +2,7 @@ package app.Controller;
 
 import DataBase.Controller.User;
 import app.logic.FightFinder;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import app.templater.PageGenerator;
 
 import javax.servlet.ServletException;

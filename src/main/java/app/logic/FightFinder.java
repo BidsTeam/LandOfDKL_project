@@ -1,6 +1,6 @@
 package app.logic;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.util.LinkedHashMap;
 

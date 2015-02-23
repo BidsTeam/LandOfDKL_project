@@ -3,7 +3,7 @@ package app;
 import DataBase.Controller.User;
 import app.logic.FightFinder;
 import app.templater.PageGenerator;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import javax.servlet.ServletException;
@@ -45,7 +45,7 @@ public class Router extends HttpServlet {
             method.invoke(obj, args) ;
         } catch (Exception e){
             e.printStackTrace();
-            System.err.println(e.getMessage()+" In Router");
+            System.err.println(e.getMessage() + " In Router");
         }
         return;
     }

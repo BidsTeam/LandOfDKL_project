@@ -1,7 +1,8 @@
 package DataBase.DAO;
 
 import DataBase.DataSource;
-import org.json.simple.JSONObject;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.beans.PropertyVetoException;
 import java.io.IOException;
@@ -9,6 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Iterator;
+import java.util.Map;
 
 
 public class UserDAO {
@@ -19,56 +22,107 @@ public class UserDAO {
     }
 
     public boolean add(JSONObject json) {
+
+        JSONObject def = new JSONObject();
+        def.put("username","");
+        def.put("password","");
+        def.put("test","");
+
+        JSONObject queryObj = new JSONObject();
+        // Этот цикл было бы круто перенести в какую-нибудь глобальную функцию.
+        for(String key : JSONObject.getNames(def)) {
+            try {
+                queryObj.put(key, json.get(key));
+            } catch (NullPointerException | JSONException e ) {
+                queryObj.put(key, def.get(key));
+            }
+        }
+
         int rs = get(json);
+
+        boolean flag = true;
+        JSONObject result = new JSONObject();
+
         try {
             if (rs != 0) {
                 System.out.println("User already exits");
-                //TODO - send that to back to server
-                return false;
+                flag = false; //todo THROW EXCEPTION USER ALREADY EXISTS
             }
             else {
-                if (json.get("password") == null || json.get("password").toString() == ""){
-                    return false;
+                Iterator<?> keys = json.keys();
+
+                while( keys.hasNext() ){
+                    String key = (String)keys.next();
+                    flag = false; // todo THROW EXCEPTION Bla bla bla
                 }
-                if (json.get("username") == null || json.get("username").toString() == ""){
-                    return false;
+                if (queryObj.get("password").toString() == ""){
+                    flag = false; // todo THROW EXCEPTION Bla bla bla
                 }
-                try {
-                    connection = DataSource.getInstance().getConnection();
-                    statement = connection.createStatement();
-                } catch (Exception e) {
-                    e.printStackTrace();
+                if (queryObj.get("username").toString() == ""){
+                    flag = false; // todo THROW EXCEPTION Bla bla bla
                 }
-                String insertSQL = "INSERT INTO users "
-                        + "(username, password) " + "VALUES"
-                        + "('" + json.get("username").toString() + "','" + json.get("password").toString() + "')";
-                statement.executeUpdate(insertSQL);
-                System.out.println("user" + json.get("username").toString() + "created");
+                if (flag) {
+                    boolean first = true;
+                    String query = "";
+                    for(String key : queryObj.getNames(def)){
+                        if (!first){
+                            query += ",";
+                        }
+                        query += key + "=" + queryObj.get(key);
+                    }
+                    try {
+                        connection = DataSource.getInstance().getConnection();
+                        statement = connection.createStatement();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                    String insertSQL = "INSERT INTO users SET " + query;
+                    statement.executeUpdate(insertSQL);
+                    System.out.println("user" + queryObj.get("username").toString() + "created");
+                }
             }
         } catch (SQLException e) {
             System.err.println(e.getMessage() +" In User_Model1");
-            return false;
+            return false; // todo THROW
         }
         if (statement != null) try { statement.close(); } catch (SQLException e) {e.printStackTrace();}
         if (connection != null) try { connection.close(); } catch (SQLException e) {e.printStackTrace();}
-        return true;
+        return true; //todo change format
     }
 
-    public int get(JSONObject json) {
+    public int get(JSONObject json) { //todo NOT INT, return Object
         ResultSet rs = null;
         int result = 0;
-        if (json.get("action").toString() == "find_user" ||
-                json.get("action").toString() == "create_new_user") {
+        JSONObject def = new JSONObject();
+        def.put("username","");
+        def.put("test","");
+
+        JSONObject queryObj = new JSONObject();
+        // Этот цикл было бы круто перенести в какую-нибудь глобальную функцию.
+        boolean bool = false;
+        for(String key : JSONObject.getNames(def)) {
+            try {
+                queryObj.put(key, json.get(key));
+                bool = true;
+            } catch (NullPointerException | JSONException e ) {
+//                queryObj.put(key, def.get(key));
+            }
+        }
+        if (bool) {
+            String query = "1 = 1 ";
+            for (String key : JSONObject.getNames(queryObj)) {
+                query += " AND " + key + " = '" + queryObj.get(key)+"'"; // Не проверил, будет-ли корректно с числовыми полями работать
+            }
             try {
                 connection = DataSource.getInstance().getConnection();
                 statement = connection.createStatement();
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String findSQL = "SELECT * from users where username = " + "'" + json.get("username").toString() + "';";
+            String findSQL = "SELECT * from users where " + query;
             try {
                 rs = statement.executeQuery(findSQL);
-                if(rs.next()){
+                if (rs.next()) {
                     result = rs.getInt("id");
                 }
 

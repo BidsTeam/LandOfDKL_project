@@ -2,7 +2,7 @@ package DataBase.Controller;
 
 import DataBase.DAO.UserDAO;
 
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
