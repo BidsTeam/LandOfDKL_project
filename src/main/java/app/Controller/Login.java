@@ -1,7 +1,6 @@
 package app.Controller;
 
 import DataBase.Controller.User;
-import DataBase.DB;
 import app.logic.FightFinder;
 import org.json.simple.JSONObject;
 import app.templater.PageGenerator;
@@ -22,7 +21,7 @@ public class Login {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
-    User user = new User(DB.getStatement());
+    User user = new User();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {

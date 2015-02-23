@@ -1,7 +1,6 @@
 package app;
 
 import DataBase.Controller.User;
-import DataBase.DB;
 import app.logic.FightFinder;
 import app.templater.PageGenerator;
 import org.json.simple.JSONObject;
@@ -25,7 +24,6 @@ public class Router extends HttpServlet {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
-    User user = new User(DB.getStatement());
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -46,6 +44,7 @@ public class Router extends HttpServlet {
             Object[] args = new Object[] {request, response};
             method.invoke(obj, args) ;
         } catch (Exception e){
+            e.printStackTrace();
             System.err.println(e.getMessage()+" In Router");
         }
         return;
