@@ -29,7 +29,7 @@ public class Login {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
 
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -39,39 +39,34 @@ public class Login {
     public void auth(HttpServletRequest request,
                           HttpServletResponse response) {
 
-        JSONObject jObj = new JSONObject();
-        jObj.put("action", "create_new_user");
-        jObj.put("username", "Secosnd_Users");
-        jObj.put("password", "secondpassword");
-
-        String action = jObj.get("action").toString();
-        System.out.println(action);
-        if (action == "create_game") {
-            //Do later
-        }
-        else if (action == "attack_in_game") {
-            //Do later
-        } else if (action == "create_new_user") {
-            user.add(jObj);
-
-        } else if (action == "login") {
-//            JSONObject jsonResult = dbTalker.loginCheck(jObj);
-//            send jsonResult back to front
-        }
-        String login = request.getParameter("login");
-
-        response.setContentType("text/html;charset=utf-8");
-
-//        if (login == null || login.isEmpty()) {
-//            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//        } else {
-//            response.setStatus(HttpServletResponse.SC_OK);
-//        }
 
         Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("lastLogin", login == null ? "" : login);
+        response.setContentType("text/html;charset=utf-8");
         try {
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+            int id = 0;
+            try {
+                id = (int)request.getSession().getAttribute("id");
+            } catch (Exception e){
+                id = 0;
+            }
+            System.out.println(id);
+            if (id == 0) {
+                if (request.getMethod().equalsIgnoreCase("GET")) {
+                    response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("login", request.getParameter("login"));
+                    jsonObject.put("password", request.getParameter("password"));
+                    pageVariables.put("id", user.get(jsonObject));
+                    if ((int) pageVariables.get("id") > 0) {
+                        request.getSession().setAttribute("id", pageVariables.get("id"));
+                    }
+                    response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
+                }
+            } else {
+                pageVariables.put("id", id);
+                response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
+            }
         } catch (Exception e){
             System.err.println(e.getMessage() + " In Login");
         }

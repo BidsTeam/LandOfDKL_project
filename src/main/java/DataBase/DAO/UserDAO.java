@@ -95,6 +95,7 @@ public class UserDAO {
         int result = 0;
         JSONObject def = new JSONObject();
         def.put("username","");
+        def.put("password","");
         def.put("test","");
 
         JSONObject queryObj = new JSONObject();

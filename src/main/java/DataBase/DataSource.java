@@ -18,12 +18,10 @@ public class DataSource {
         cpds.setJdbcUrl("jdbc:mysql://89.188.104.45/land_of_dkl_db");
         cpds.setUser("land_of_dkl_user");
         cpds.setPassword("V0WTy7TL");
+
         cpds.setIdleConnectionTestPeriod(4); // Очень важная настройка, иначе мускуль рвет коннект и все, пизда
 
-//        cpds.setMinPoolSize(5);
-//        cpds.setAcquireIncrement(5);
-//        cpds.setMaxPoolSize(20);
-//        cpds.setMaxStatements(180);
+
 
     }
 
