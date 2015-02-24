@@ -36,7 +36,15 @@ public class Router extends HttpServlet {
         String url = request.getServletPath();
         try {
             System.out.println(url);
-            String[] urlParts = url.split("/");
+            String[] urlBuf = url.split("/");
+            String[] urlParts;
+            if (urlBuf.length < 3){
+                urlParts = new String[3];
+                System.arraycopy(urlBuf,0,urlParts,0,urlBuf.length);
+                urlParts[2] = "main";
+            } else {
+                urlParts = urlBuf;
+            }
             Class<?> cls = Class.forName("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};

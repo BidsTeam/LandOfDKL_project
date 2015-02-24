@@ -14,15 +14,12 @@ public class DataSource {
 
     private DataSource() throws IOException, SQLException, PropertyVetoException {
         cpds = new ComboPooledDataSource();
-        cpds.setDriverClass("com.mysql.jdbc.Driver"); //loads the jdbc driver
+        cpds.setDriverClass("com.mysql.jdbc.Driver");
         cpds.setJdbcUrl("jdbc:mysql://89.188.104.45/land_of_dkl_db");
         cpds.setUser("land_of_dkl_user");
         cpds.setPassword("V0WTy7TL");
 
         cpds.setIdleConnectionTestPeriod(4); // Очень важная настройка, иначе мускуль рвет коннект и все, пизда
-
-
-
     }
 
     public static DataSource getInstance() throws IOException, SQLException, PropertyVetoException {
