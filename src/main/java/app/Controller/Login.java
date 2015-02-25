@@ -1,9 +1,8 @@
 package app.Controller;
 
 import DataBase.Controller.User;
-import DataBase.DB;
 import app.logic.FightFinder;
-import org.json.simple.JSONObject;
+import org.json.JSONObject;
 import app.templater.PageGenerator;
 
 import javax.servlet.ServletException;
@@ -11,19 +10,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author v.chibrikov
  */
-public class Login extends HttpServlet {
+public class Login {
 
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
-    User user = new User(DB.getStatement());
+    User user = new User();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -31,7 +29,7 @@ public class Login extends HttpServlet {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
 
-        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+        response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -41,37 +39,53 @@ public class Login extends HttpServlet {
     public void auth(HttpServletRequest request,
                           HttpServletResponse response) {
 
-        String login = request.getParameter("login");
-        String password = request.getParameter("password");
 
-        JSONObject json = new JSONObject();
-        json.put("username", login);
-        json.put("password", password);
-
-        //String action = jObj.get("action").toString();
-        //System.out.println(action);
-
-        User userDB = new User(DB.getStatement());
-
-        if (userDB.checkLogin(json)) {
-            response.setStatus(HttpServletResponse.SC_OK);
-            request.getSession().setAttribute("userID", json.get("username").toString());
+        Map<String, Object> pageVariables = new HashMap<>();
+        response.setContentType("text/html;charset=utf-8");
+        try {
+            int id = 0;
+            try {
+                id = (int)request.getSession().getAttribute("id");
+            } catch (Exception e){
+                id = 0;
+            }
+            System.out.println(id);
+            if (id == 0) {
+                if (request.getMethod().equalsIgnoreCase("GET")) {
+                    response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("login", request.getParameter("login"));
+                    jsonObject.put("password", request.getParameter("password"));
+                    pageVariables.put("id", user.get(jsonObject));
+                    if ((int) pageVariables.get("id") > 0) {
+                        request.getSession().setAttribute("id", pageVariables.get("id"));
+                    }
+                    response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
+                }
+            } else {
+                pageVariables.put("id", id);
+                response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
+            }
+        } catch (Exception e){
+            System.err.println(e.getMessage() + " In Login");
         }
+    }
+
+    public void name(HttpServletRequest request,
+                     HttpServletResponse response) {
 
         response.setContentType("text/html;charset=utf-8");
 
-        if (login == null || login.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
+        response.setStatus(HttpServletResponse.SC_OK);
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
         try {
-            response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
+            response.getWriter().println("bondar");
         } catch (Exception e){
-            System.out.println(e.getMessage());
+            System.err.println(e.getMessage() +" In Login");
+            e.printStackTrace();
         }
     }
 
