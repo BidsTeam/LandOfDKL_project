@@ -60,7 +60,7 @@ public class UserDAO {
                             if (!first) {
                                 query += ",";
                             }
-                            query += key + "=" + queryObj.get(key);
+                            query += key + "='" + queryObj.get(key) + "'";
                             first = false;
                         }
                         try {

@@ -112,10 +112,10 @@ public class Login {
                 json.put("password", request.getParameter("password"));
                 if (user.get(json) == 0) {
                     if (user.add(json)) {
+                        //request.getSession().setAttribute("id", userID);
                         response.sendRedirect("/Login/auth");
                     }
                     else {
-                        System.out.println("wut?");
                         response.sendRedirect("/Login/signup");
                     }
                 } else {
