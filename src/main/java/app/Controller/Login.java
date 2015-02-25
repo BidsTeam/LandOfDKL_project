@@ -2,11 +2,10 @@ package app.Controller;
 
 import DataBase.Controller.User;
 import app.logic.FightFinder;
-import org.json.JSONObject;
 import app.templater.PageGenerator;
+import org.json.JSONObject;
 
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -41,6 +40,7 @@ public class Login {
 
 
         Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("error", "");
         response.setContentType("text/html;charset=utf-8");
         try {
             int id = 0;
@@ -57,11 +57,17 @@ public class Login {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("login", request.getParameter("login"));
                     jsonObject.put("password", request.getParameter("password"));
-                    pageVariables.put("id", user.get(jsonObject));
-                    if ((int) pageVariables.get("id") > 0) {
+                    int userID = user.get(jsonObject);
+                    pageVariables.put("id", userID);
+                    if (userID != 0) {
+                        pageVariables.put("id", userID);
                         request.getSession().setAttribute("id", pageVariables.get("id"));
+                        response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
+                    } else {
+
+                        pageVariables.put("error", "Wrong login or password");
+                        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
                     }
-                    response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
                 }
             } else {
                 pageVariables.put("id", id);
