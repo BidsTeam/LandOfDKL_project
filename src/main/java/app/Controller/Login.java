@@ -95,4 +95,37 @@ public class Login {
         }
     }
 
+    public void signup(HttpServletRequest request,
+                       HttpServletResponse response) {
+        Map<String, Object> pageVariables = new HashMap<>();
+        pageVariables.put("loginError", "");
+        pageVariables.put("passwordError", "");
+        pageVariables.put("emailError", "");
+        response.setContentType("text/html;charset=utf-8");
+        try {
+            if (request.getMethod().equalsIgnoreCase("GET")) {
+                response.getWriter().println(PageGenerator.getPage("signUpForm.html", pageVariables));
+            }
+            else {
+                JSONObject json = new JSONObject();
+                json.put("username", request.getParameter("username"));
+                json.put("password", request.getParameter("password"));
+                if (user.get(json) == 0) {
+                    if (user.add(json)) {
+                        response.sendRedirect("/Login/auth");
+                    }
+                    else {
+                        System.out.println("wut?");
+                        response.sendRedirect("/Login/signup");
+                    }
+                } else {
+                    pageVariables.put("loginError", "Username taken");
+                    response.getWriter().println(PageGenerator.getPage("signUpForm.html", pageVariables));
+                }
+            }
+        } catch(Exception e) {
+            System.out.println(e.getMessage() + "in Registration");
+        }
+    }
+
 }

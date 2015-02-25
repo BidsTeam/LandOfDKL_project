@@ -4,14 +4,10 @@ import DataBase.DataSource;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.beans.PropertyVetoException;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Iterator;
-import java.util.Map;
 
 
 public class UserDAO {
@@ -26,69 +22,75 @@ public class UserDAO {
         JSONObject def = new JSONObject();
         def.put("username","");
         def.put("password","");
-        def.put("test","");
+        //def.put("test","");
 
         JSONObject queryObj = new JSONObject();
-        // Этот цикл было бы круто перенести в какую-нибудь глобальную функцию.
+        // Этот цикл было бы круто перенести в какую-нибудь глобальную функцию
+        boolean bool = false;
         for(String key : JSONObject.getNames(def)) {
             try {
                 queryObj.put(key, json.get(key));
+                bool = true;
             } catch (NullPointerException | JSONException e ) {
                 queryObj.put(key, def.get(key));
             }
         }
+        if(bool) {
+            int rs = get(json);
 
-        int rs = get(json);
+            boolean flag = true;
+            JSONObject result = new JSONObject();
 
-        boolean flag = true;
-        JSONObject result = new JSONObject();
+            try {
+                if (rs != 0) {
+                    System.out.println("User already exits");
+                    flag = false; //todo THROW EXCEPTION USER ALREADY EXISTS
+                } else {
 
-        try {
-            if (rs != 0) {
-                System.out.println("User already exits");
-                flag = false; //todo THROW EXCEPTION USER ALREADY EXISTS
-            }
-            else {
-                Iterator<?> keys = json.keys();
-
-                while( keys.hasNext() ){
-                    String key = (String)keys.next();
-                    flag = false; // todo THROW EXCEPTION Bla bla bla
-                }
-                if (queryObj.get("password").toString() == ""){
-                    flag = false; // todo THROW EXCEPTION Bla bla bla
-                }
-                if (queryObj.get("username").toString() == ""){
-                    flag = false; // todo THROW EXCEPTION Bla bla bla
-                }
-                if (flag) {
-                    boolean first = true;
-                    String query = "";
-                    for(String key : queryObj.getNames(def)){
-                        if (!first){
-                            query += ",";
+                    if (queryObj.get("password").toString() == "") {
+                        flag = false; // todo THROW EXCEPTION Bla bla bla
+                    }
+                    if (queryObj.get("username").toString() == "") {
+                        flag = false; // todo THROW EXCEPTION Bla bla bla
+                    }
+                    if (flag) {
+                        boolean first = true;
+                        String query = "";
+                        for (String key : queryObj.getNames(def)) {
+                            if (!first) {
+                                query += ",";
+                            }
+                            query += key + "=" + queryObj.get(key);
+                            first = false;
                         }
-                        query += key + "=" + queryObj.get(key);
+                        try {
+                            connection = DataSource.getInstance().getConnection();
+                            statement = connection.createStatement();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        String insertSQL = "INSERT INTO users SET " + query;
+                        statement.executeUpdate(insertSQL);
+                        System.out.println("user" + queryObj.get("username").toString() + "created");
+                    } else {
+                        System.out.println("help2");
+                        return false;
                     }
-                    try {
-                        connection = DataSource.getInstance().getConnection();
-                        statement = connection.createStatement();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                    String insertSQL = "INSERT INTO users SET " + query;
-                    statement.executeUpdate(insertSQL);
-                    System.out.println("user" + queryObj.get("username").toString() + "created");
                 }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage() + " In User_Model1");
+
+                return false; // todo THROW
             }
-        } catch (SQLException e) {
-            System.err.println(e.getMessage() +" In User_Model1");
-            return false; // todo THROW
+        }else {
+            System.out.println("help");
+            return false;
         }
         if (statement != null) try { statement.close(); } catch (SQLException e) {e.printStackTrace();}
         if (connection != null) try { connection.close(); } catch (SQLException e) {e.printStackTrace();}
         return true; //todo change format
     }
+
 
     public int get(JSONObject json) { //todo NOT INT, return Object
         ResultSet rs = null;
