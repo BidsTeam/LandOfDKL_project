@@ -1,0 +1,29 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Admin</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+</head>
+<body>
+    <div>
+        Users registrated: ${regCounter}
+    </div>
+    <button id="stop_server">
+    	Stop
+    </button>
+<script>
+    $('#stop_server').click(function(){
+        $.ajax({ // Вообще для таких случаев удобнее использовать метод $.GET переделай на него, просто так....
+            url: "/admin/",
+            data: {
+                action: "stop"
+            },
+            method: "POST"
+        }).done(function(data) {
+            console.log(data);
+        });
+    })
+</script>
+
+</body>
+</html>

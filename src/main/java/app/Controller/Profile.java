@@ -21,12 +21,17 @@ public class Profile {
     }
 
     public void show(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        int userID = (int) request.getSession().getAttribute("id");
+        int userID;
+        try {
+            userID = (int) request.getSession().getAttribute("id");
+        } catch (NullPointerException e) {
+            userID = 0;
+        }
         response.setContentType("text/html;charset=utf-8");
-        if (userID != 0) {
+        if (userID != 0 ) {
             Map<String, Object> pageVariables = new HashMap<>();
             if (request.getMethod().equalsIgnoreCase("GET")) {
-                JSONObject json = new JSONObject();
+                JSONObject json;
                 json = user.getByID(userID);
                 System.out.println(json.get("username").toString());
                 pageVariables.put("username", json.get("username").toString());

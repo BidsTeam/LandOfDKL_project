@@ -20,4 +20,8 @@ public class User {
     public JSONObject getByID(int id) {
         return model.getByID(id);
     }
+
+    public int getRegisterCounter() {
+        return model.getRegisterCounter();
+    }
 }

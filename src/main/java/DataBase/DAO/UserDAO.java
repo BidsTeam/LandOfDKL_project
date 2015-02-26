@@ -144,6 +144,7 @@ public class UserDAO {
         JSONObject result = new JSONObject();
         result.put("username", "");
         result.put("email", "");
+        result.put("isAdmin", 0);
         //System.out.println(id.toString());
         try {
             connection = DataSource.getInstance().getConnection();
@@ -153,11 +154,12 @@ public class UserDAO {
         }
         if (id != 0) {
             String findSQL = "SELECT * from users where id = " + id.toString();
-            System.out.println(findSQL);
+            //System.out.println(findSQL);
             try {
                 rs = statement.executeQuery(findSQL);
                 if (rs.next()) {
                     result.put("username", rs.getString("username"));
+                    result.put("isAdmin", rs.getBoolean("is_admin"));
                     return result;
                 }
             } catch (SQLException e) {
@@ -187,6 +189,30 @@ public class UserDAO {
             return jsonResult;
         }
     }
+
+    public int getRegisterCounter() {
+        try {
+            connection = DataSource.getInstance().getConnection();
+            statement = connection.createStatement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        String countUsers = "SELECT MAX(id) AS id FROM users";
+        try {
+            ResultSet rs = statement.executeQuery(countUsers);
+            if (rs.next()) {
+                //System.out.println("????");
+                int counter = 0;
+                counter = rs.getInt("id");
+                System.out.println(counter);
+                return counter;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return 0;
+    }
+
 }
 
 
