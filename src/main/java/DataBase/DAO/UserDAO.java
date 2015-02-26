@@ -139,6 +139,37 @@ public class UserDAO {
         return result;
     }
 
+    public JSONObject getByID(Integer id) {
+        ResultSet rs = null;
+        JSONObject result = new JSONObject();
+        result.put("username", "");
+        result.put("email", "");
+        //System.out.println(id.toString());
+        try {
+            connection = DataSource.getInstance().getConnection();
+            statement = connection.createStatement();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (id != 0) {
+            String findSQL = "SELECT * from users where id = " + id.toString();
+            System.out.println(findSQL);
+            try {
+                rs = statement.executeQuery(findSQL);
+                if (rs.next()) {
+                    result.put("username", rs.getString("username"));
+                    return result;
+                }
+            } catch (SQLException e) {
+                System.err.println(e.getMessage() + " In User_Moder getByID");
+                return result;
+            }
+        }
+        return result; //говнокод, надо сделать так, чтобы он не возвращал пустой джейсон, а выкидывал отсюда эксепшн
+
+    }
+
+
     public JSONObject isLogin(JSONObject json) {
         String username = json.get("username").toString();
         String password = json.get("password").toString();

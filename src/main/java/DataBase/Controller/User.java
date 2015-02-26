@@ -16,4 +16,8 @@ public class User {
     public int get(JSONObject json){
         return model.get(json); // Поидеи User_View должна распарсить ResultSet и вернуть уже удобную форму ответа
     }
+
+    public JSONObject getByID(int id) {
+        return model.getByID(id);
+    }
 }

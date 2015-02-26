@@ -1,4 +1,4 @@
-package app;
+package app.servlets;
 
 import app.logic.FightFinder;
 
@@ -36,12 +36,13 @@ public class Router extends HttpServlet {
             } else {
                 urlParts = urlBuf;
             }
+            System.out.println("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
             Class<?> cls = Class.forName("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
             Method method = cls.getMethod(urlParts[2].toLowerCase(), paramTypes);
             Object[] args = new Object[] {request, response};
-            method.invoke(obj, args) ;
+            method.invoke(obj, args);
         } catch (Exception e){
             e.printStackTrace();
             System.err.println(e.getMessage() + " In Router");

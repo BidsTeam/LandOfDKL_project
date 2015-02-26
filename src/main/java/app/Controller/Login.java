@@ -20,7 +20,7 @@ public class Login {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
-    User user = new User();
+    private User user = new User();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -112,7 +112,7 @@ public class Login {
                 json.put("password", request.getParameter("password"));
                 if (user.get(json) == 0) {
                     if (user.add(json)) {
-                        //request.getSession().setAttribute("id", userID);
+                        request.getSession().setAttribute("id", user.get(json)); //TODO - user.add return ID
                         response.sendRedirect("/Login/auth");
                     }
                     else {
