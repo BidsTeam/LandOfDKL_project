@@ -1,6 +1,7 @@
 package app.Controller;
 
-import DataBase.Controller.User;
+import DAO.Factory;
+import DAO.logic.User;
 import app.logic.FightFinder;
 import app.templater.PageGenerator;
 import org.json.JSONObject;
@@ -57,14 +58,17 @@ public class Login {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("login", request.getParameter("login"));
                     jsonObject.put("password", request.getParameter("password"));
-                    int userID = user.get(jsonObject);
-                    pageVariables.put("id", userID);
-                    if (userID != 0) {
-                        pageVariables.put("id", userID);
+                    User user = Factory.getInstance().getUserDAO().getUserById(id);
+                    int userId = 0;
+                    if (user != null){
+                        userId = user.getId();
+                    }
+                    pageVariables.put("id", userId);
+                    if (userId != 0) {
+                        pageVariables.put("id", userId);
                         request.getSession().setAttribute("id", pageVariables.get("id"));
                         response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
                     } else {
-
                         pageVariables.put("error", "Wrong login or password");
                         response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
                     }
@@ -108,17 +112,15 @@ public class Login {
             }
             else {
                 JSONObject json = new JSONObject();
-                json.put("username", request.getParameter("username"));
-                json.put("password", request.getParameter("password"));
-                if (user.get(json) == 0) {
-                    if (user.add(json)) {
-                        request.getSession().setAttribute("id", user.get(json)); //TODO - user.add return ID
-                        response.sendRedirect("/Login/auth");
-                    }
-                    else {
-                        response.sendRedirect("/Login/signup");
-                    }
-                } else {
+                User user = new User();
+                user.setUsername((request.getParameter("username")));
+                user.setPassword(request.getParameter("password"));
+                try {
+                    Factory.getInstance().getUserDAO().addUser(user);
+                    request.getSession().setAttribute("id", user.getId());
+                    response.sendRedirect("/Login/auth");
+                } catch (Exception e) { // Должно быть два эксептиона, один наш, другой реально ошибка
+                        //response.sendRedirect("/Login/signup");
                     pageVariables.put("loginError", "Username taken");
                     response.getWriter().println(PageGenerator.getPage("signUpForm.html", pageVariables));
                 }

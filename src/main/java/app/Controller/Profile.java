@@ -1,6 +1,7 @@
 package app.Controller;
 
-import DataBase.Controller.User;
+import DAO.Factory;
+import DAO.logic.User;
 import app.templater.PageGenerator;
 import org.json.JSONObject;
 
@@ -32,11 +33,15 @@ public class Profile {
             Map<String, Object> pageVariables = new HashMap<>();
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 JSONObject json;
-                json = user.getByID(userID);
-                System.out.println(json.get("username").toString());
-                pageVariables.put("username", json.get("username").toString());
-                pageVariables.put("email", json.get("email").toString() + " - test");
-                response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
+                try {
+                    User user = Factory.getInstance().getUserDAO().getUserById(userID);
+                    System.out.println(user.getUsername());
+                    pageVariables.put("username", user.getUsername());
+                    pageVariables.put("email", " test");
+                    response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
+                } catch (Exception e) {
+
+                }
             } else {
                 //TODO - можно будет менять инфу свою внутри профиля
             }

@@ -1,0 +1,27 @@
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+    <session-factory>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://89.188.104.45/land_of_dkl_db</property>
+        <property name="connection.username">land_of_dkl_user</property>
+        <property name="connection.password">V0WTy7TL</property>
+        <property name="connection.pool_size">10</property>
+        <!-- Возможно потом нужно будет поставить MySQLInnoDBDialect диалект -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+        <!-- Логирование sql запросов в консоль -->
+        <property name="show_sql">true</property>
+        <!-- Есть недокументированная возможность none вместо validate, но вроде validate нас устраивает -->
+        <property name="hbm2ddl.auto">validate</property>
+        <!-- Спросить у преподов, что значит Enables autocommit for JDBC pooled connection -->
+        <property name="hibernate.connection.autocommit">false</property>
+
+        <property name="current_session_context_class">thread</property>
+        <!-- Пингую базу данных каждые 4 секунды -->
+        <property name="hibernate.c3p0.idle_test_period">4</property>
+
+        <mapping class="DAO.logic.User" />
+
+    </session-factory>
+</hibernate-configuration>
