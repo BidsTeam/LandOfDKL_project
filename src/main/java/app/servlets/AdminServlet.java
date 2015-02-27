@@ -60,7 +60,7 @@ public class AdminServlet extends HttpServlet {
             //Map<String, Object> pageVariables = new HashMap<>();
             JSONObject json;
             json = user.getByID(id);
-            if ((boolean) json.get("isAdmin") == false) {
+            if (!(boolean)json.get("isAdmin")) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {
                 String action = request.getParameter("action");
