@@ -69,7 +69,7 @@ public class UserDAO {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        String insertSQL = "INSERT INTO users SET " + query;
+                        String insertSQL = "INSERT INTO user SET " + query;
                         statement.executeUpdate(insertSQL);
                         System.out.println("user" + queryObj.get("username").toString() + "created");
                     } else {
@@ -122,7 +122,8 @@ public class UserDAO {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            String findSQL = "SELECT * from users where " + query;
+            String findSQL = "SELECT * from user where " + query;
+            System.out.println(findSQL);
             try {
                 rs = statement.executeQuery(findSQL);
                 if (rs.next()) {
@@ -153,7 +154,7 @@ public class UserDAO {
             e.printStackTrace();
         }
         if (id != 0) {
-            String findSQL = "SELECT * from users where id = " + id.toString();
+            String findSQL = "SELECT * from user where id = " + id.toString();
             //System.out.println(findSQL);
             try {
                 rs = statement.executeQuery(findSQL);
@@ -197,7 +198,7 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        String countUsers = "SELECT MAX(id) AS id FROM users";
+        String countUsers = "SELECT MAX(id) AS id FROM user";
         try {
             ResultSet rs = statement.executeQuery(countUsers);
             if (rs.next()) {
