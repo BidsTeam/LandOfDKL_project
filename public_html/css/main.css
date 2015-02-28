@@ -4,6 +4,13 @@
     width: 300px;
     margin-bottom: 10px; }
 
+#logo {
+  width: 100%;
+  height: 400px; }
+
+a.underline {
+  text-decoration: underline; }
+
 .menu-name {
   font-size: 20px;
   margin-bottom: 13px; }
@@ -12,10 +19,13 @@
   display: block; }
 
 .menu-container {
-  margin-top: 20%; }
+  margin-top: 50px; }
 
-#auth-page {
+.center {
   text-align: center; }
+
+.invalid {
+  border: solid red 2px; }
 
 #auth-form {
   margin-top: 30px; }
@@ -61,5 +71,10 @@
   font-size: 18px;
   padding: 10px;
   border: solid black 1px; }
+
+#signup-form .form-group label {
+  width: 200px; }
+#signup-form .form-group input {
+  width: 300px; }
 
 /*# sourceMappingURL=main.css.map */

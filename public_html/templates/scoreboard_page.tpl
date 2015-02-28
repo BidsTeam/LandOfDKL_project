@@ -1,3 +1,4 @@
+<img src="/images/background_1.jpg" id="logo">
 <div class="menu-container">
 	<div id="scoreboard-page">
 		<div class="menu-name">Scoreboard</div>

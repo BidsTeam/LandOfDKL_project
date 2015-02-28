@@ -27,6 +27,7 @@ module.exports = function (grunt) {
 		    dist : {
 		        src : [
 		            "public_html/js/lib/jquery.js",
+		            "public_html/js/lib/jquery.inputmask.js",
 		            "public_html/js/lib/lodash.min.js",
 		            "public_html/js/lib/backbone.js",
 		            "public_html/js/lib/bootstrap.min.js",
@@ -88,7 +89,7 @@ module.exports = function (grunt) {
 			        ext: '.css'
 			    }]
 			}
-		},
+		}
 	});
 
 	grunt.loadNpmTasks('grunt-shell');
