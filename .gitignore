@@ -3,3 +3,6 @@ node_modules/*
 node_modules
 L1.2-1.0-jar-with-dependencies.jar
 npm-debug.log
+.idea
+.idea/
+.idea/*
