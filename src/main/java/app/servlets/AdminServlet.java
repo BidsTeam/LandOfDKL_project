@@ -1,6 +1,7 @@
 package app.servlets;
 
-import DataBase.Controller.User;
+import DAO.Factory;
+import DAO.logic.User;
 import app.templater.PageGenerator;
 import org.eclipse.jetty.server.Server;
 import org.json.JSONObject;
@@ -36,13 +37,13 @@ public class AdminServlet extends HttpServlet {
         if (id != 0) {
             Map<String, Object> pageVariables = new HashMap<>();
             JSONObject json;
-            json = user.getByID(id);
-            if ((boolean) json.get("isAdmin") == false) {
-                response.sendRedirect("/profile/show");
-            } else {
-                pageVariables.put("regCounter", user.getRegisterCounter());
-                response.getWriter().println(PageGenerator.getPage("adminPage.html", pageVariables));
-            }
+//            json = user.getByID(id);
+//            if ((boolean) json.get("isAdmin") == false) {
+//                response.sendRedirect("/profile/show");
+//            } else {
+//                pageVariables.put("regCounter", user.getRegisterCounter());
+//                response.getWriter().println(PageGenerator.getPage("adminPage.html", pageVariables));
+//            } todo ОЛООЛО я забил на админку, ОЛОЛОЛО я багодел
         } else {
             response.sendRedirect("/login/auth");
         }
@@ -59,23 +60,23 @@ public class AdminServlet extends HttpServlet {
         if (id != 0) {
             //Map<String, Object> pageVariables = new HashMap<>();
             JSONObject json;
-            json = user.getByID(id);
-            if (!(boolean)json.get("isAdmin")) {
-                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            } else {
-                String action = request.getParameter("action");
-                if (action.equalsIgnoreCase("stop")) {
-                    try {
-                        System.out.println("Shutting down");
-                        System.exit(0);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage() + "Cant stop server, machines are rising");
-                        response.setStatus(HttpServletResponse.SC_OK);
-                    }
-                } else {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                }
-            }
+//            json = user.getByID(id);
+//            if (!(boolean)json.get("isAdmin")) {
+//                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+//            } else {
+//                String action = request.getParameter("action");
+//                if (action.equalsIgnoreCase("stop")) {
+//                    try {
+//                        System.out.println("Shutting down");
+//                        System.exit(0);
+//                    } catch (Exception e) {
+//                        System.out.println(e.getMessage() + "Cant stop server, machines are rising");
+//                        response.setStatus(HttpServletResponse.SC_OK);
+//                    }
+//                } else {
+//                    response.setStatus(HttpServletResponse.SC_OK);
+//                }
+//            }
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }

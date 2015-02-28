@@ -29,18 +29,18 @@ public class Router extends HttpServlet {
             System.out.println(url);
             String[] urlBuf = url.split("/");
             String[] urlParts;
-            if (urlBuf.length < 3){
-                urlParts = new String[3];
+            if (urlBuf.length < 4){
+                urlParts = new String[4];
                 System.arraycopy(urlBuf,0,urlParts,0,urlBuf.length);
-                urlParts[2] = "main";
+                urlParts[3] = "main";
             } else {
                 urlParts = urlBuf;
             }
-            System.out.println("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
-            Class<?> cls = Class.forName("app.Controller." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
+            System.out.println("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
+            Class<?> cls = Class.forName("app.Api." + urlParts[3].substring(0, 1).toUpperCase() + urlParts[3].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
-            Method method = cls.getMethod(urlParts[2].toLowerCase(), paramTypes);
+            Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
             Object[] args = new Object[] {request, response};
             method.invoke(obj, args);
         } catch (Exception e){
@@ -53,19 +53,28 @@ public class Router extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
-        String url = request.getServletPath();
+        String url = request.getRequestURI();
         try {
             System.out.println(url);
-            String[] urlParts = url.split("/");
-            Class<?> cls = Class.forName("app.Controller."+urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
+            String[] urlBuf = url.split("/");
+            String[] urlParts;
+            if (urlBuf.length < 4){
+                urlParts = new String[4];
+                System.arraycopy(urlBuf,0,urlParts,0,urlBuf.length);
+                urlParts[3] = "main";
+            } else {
+                urlParts = urlBuf;
+            }
+            System.out.println("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
+            Class<?> cls = Class.forName("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
-            Method method = cls.getMethod(urlParts[2], paramTypes);
+            Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
             Object[] args = new Object[] {request, response};
-            method.invoke(obj, args) ;
+            method.invoke(obj, args);
         } catch (Exception e){
-            System.err.println(e.getMessage()+" In Router");
             e.printStackTrace();
+            System.err.println(e.getMessage() + " In Router");
         }
         return;
     }

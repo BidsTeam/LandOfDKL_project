@@ -61,6 +61,13 @@
             <version>20140107</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+
         <!--<dependency>-->
             <!--<groupId>com.googlecode.json-simple</groupId>-->
             <!--<artifactId>json-simple</artifactId>-->
@@ -82,6 +89,18 @@
                     <target>1.7</target>
                 </configuration>
             </plugin>
+            <!--Плагин для сборки java-->
+            <!--<plugin>-->
+                <!--&lt;!&ndash;<groupId>org.apache.maven.plugins</groupId>&ndash;&gt;-->
+                <!--<artifactId>maven-assembly-plugin</artifactId>-->
+                <!--<configuration>-->
+                    <!--<descriptorRefs>-->
+                        <!--<descriptorRef>-->
+                            <!--jar-with-dependencies-->
+                        <!--</descriptorRef>-->
+                    <!--</descriptorRefs>-->
+                <!--</configuration>-->
+            <!--</plugin>-->
         </plugins>
     </build>
 

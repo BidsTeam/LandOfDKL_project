@@ -1,4 +1,4 @@
-package app.Controller;
+package app.Api;
 
 import DAO.Factory;
 import DAO.logic.User;

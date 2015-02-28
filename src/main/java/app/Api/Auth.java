@@ -1,23 +1,25 @@
-package app.Controller;
+package app.Api;
 
 import DAO.Factory;
 import DAO.logic.User;
 import app.logic.FightFinder;
 import app.templater.PageGenerator;
+import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
 /**
  * @author v.chibrikov
  */
-public class Login {
-
+public class Auth {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
@@ -101,33 +103,81 @@ public class Login {
 
     public void signup(HttpServletRequest request,
                        HttpServletResponse response) {
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("loginError", "");
-        pageVariables.put("passwordError", "");
-        pageVariables.put("emailError", "");
-        response.setContentType("text/html;charset=utf-8");
-        try {
+        Map<String, Object> result = new HashMap<>();
+        result.put("error", "");
+        try{
             if (request.getMethod().equalsIgnoreCase("GET")) {
-                response.getWriter().println(PageGenerator.getPage("signUpForm.html", pageVariables));
-            }
-            else {
+                result.put("error","Please use POST method");
+            } else {
                 JSONObject json = new JSONObject();
                 User user = new User();
-                user.setUsername((request.getParameter("username")));
+                user.setUsername((request.getParameter("login")));
                 user.setPassword(request.getParameter("password"));
+                user.setEmail((request.getParameter("email"))); //todo Проверять регекспом на валидный email
                 try {
                     Factory.getInstance().getUserDAO().addUser(user);
                     request.getSession().setAttribute("id", user.getId());
-                    response.sendRedirect("/Login/auth");
-                } catch (Exception e) { // Должно быть два эксептиона, один наш, другой реально ошибка
-                        //response.sendRedirect("/Login/signup");
-                    pageVariables.put("loginError", "Username taken");
-                    response.getWriter().println(PageGenerator.getPage("signUpForm.html", pageVariables));
+                    putAllUserInformation(user,result);
+                } catch (Exception e) { // Должно быть два exception, один наш, другой реально ошибка
+                    result.put("error", "Username or email error");
                 }
             }
-        } catch(Exception e) {
-            System.out.println(e.getMessage() + "in Registration");
+            Gson gson = new Gson();
+            String json = gson.toJson(result);
+            response.getWriter().println(json);
+        } catch (Exception e){
+            System.err.println(e.getMessage() + " In Login");
         }
+    }
+    public void signin(HttpServletRequest request,
+                     HttpServletResponse response) {
+        Map<String, Object> result = new HashMap<>();
+        result.put("error", "");
+        try {
+            int id = 0;
+            try {
+                id = (int)request.getSession().getAttribute("id");
+            } catch (Exception e){
+                id = 0;
+            }
+            if (id == 0) {
+                if (request.getMethod().equalsIgnoreCase("GET")) {
+                    result.put("error","Please use POST method");
+                } else {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("login", request.getParameter("login"));
+                    jsonObject.put("password", request.getParameter("password"));
+                    System.out.println("test");
+                    User user = Factory.getInstance().getUserDAO().getUserByAuth(request.getParameter("login"),request.getParameter("password"));
+
+                    if (user == null){
+                        result.put("error","Wrong password");
+                    } else {
+                        putAllUserInformation(user,result);
+                    }
+                }
+            } else {
+                User user = Factory.getInstance().getUserDAO().getUserById(id);
+                if (user == null){
+                    result.put("error","Wrong session");
+                } else {
+                    putAllUserInformation(user,result);
+                }
+            }
+            Gson gson = new Gson();
+            String json = gson.toJson(result);
+            response.getWriter().println(json);
+        } catch (Exception e){
+            System.err.println(e.getMessage() + " In Login");
+        }
+    }
+    private void putAllUserInformation(User user,Map<String, Object> result){
+        result.put("id",        user.getId());
+        result.put("username",  user.getUsername());
+        result.put("registration",user.getRegistration().getTime());
+        result.put("is_admin",  user.isAdmin());
+        result.put("email",     user.getEmail());
+        return;
     }
 
 }

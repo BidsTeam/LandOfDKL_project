@@ -20,14 +20,12 @@ public class Main {
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
-        context.addServlet(new ServletHolder(router), "/");
+        context.addServlet(new ServletHolder(router), "/api/*");
 
         server.setHandler(context);
 
         server.start();
         server.join();
-
-
 
     }
 }

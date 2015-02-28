@@ -15,15 +15,21 @@ public class User {
     private String password;
     private String username;
 
+    private String email;
+    //todo to BONDAR Как сделать так, чтобы registration превращался в long
     private Date registration;
+
+    private boolean admin;
 
     public User(){
         username = null;
+        registration = new Date(); // TODO Спросить у Чибрикова, как сделать так, чтобы в save происходила эта ересь (текущий timestamp)
+        // todo мы сделали @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
+        // todo Но тогда при save. Отданный юзер не хранит в себе registration, а хранит нулл
     }
 
-
 //    public User(User u){
-//        username = u.getUsername();
+//        username = u.getUsername();н
 //    }
     @Id
     @GeneratedValue(generator="increment")
@@ -33,16 +39,26 @@ public class User {
         return id;
     }
 
+
     public void setId(int id) {
         this.id = id;
     }
-    @Column(name="username")
+
+    @Column(name="username",unique = true)
     public String getUsername() {
         return username;
     }
-
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    @Column(name="email",unique = true)
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Column(name="password")
@@ -53,7 +69,8 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-    @Column(name="registration")
+
+    @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
     @Type(type="timestamp")
     public Date getRegistration() {
         return registration;
@@ -61,5 +78,15 @@ public class User {
 
     public void setRegistration(Date registration) {
         this.registration = registration;
+    }
+
+    @Column(name="is_admin", columnDefinition = "BIT", length = 1)
+    @Type(type = "org.hibernate.type.NumericBooleanType")
+    public boolean isAdmin() {
+        return admin;
+    }
+
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
     }
 }

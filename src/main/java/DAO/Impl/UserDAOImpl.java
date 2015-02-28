@@ -20,14 +20,12 @@ public class UserDAOImpl implements UserDAO {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-            if (getUserByUsername(user.getUsername()) == null) {
-                session.save(user);
-            } else {
-                throw new Exception("Username busy"); // todo переделать на собственный тип Exception
-            }
+//            if (getUserByUsername(user.getUsername()) == null) {
+            session.save(user);
+//            } else {
+//                throw new Exception("Username busy"); // todo переделать на собственный тип Exception
+//            }
             session.getTransaction().commit();
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
             if (session != null && session.isOpen()) {
                 session.close(); // close автоматически делает transaction ROLLBACK
@@ -77,6 +75,26 @@ public class UserDAOImpl implements UserDAO {
             session = HibernateUtil.getSessionFactory().openSession();
             user = (User) session.createCriteria( User.class ).
                     add( Restrictions.eq("username", username) ).
+                    uniqueResult();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return user;
+    }
+
+    @Override
+    public User getUserByAuth(String username, String password) {
+        Session session = null;
+        User user = null;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            user = (User) session.createCriteria( User.class ).
+                    add(Restrictions.eq("username", username)).
+                    add( Restrictions.eq("password", password) ).
                     uniqueResult();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
