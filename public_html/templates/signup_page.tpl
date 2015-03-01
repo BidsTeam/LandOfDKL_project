@@ -1,4 +1,6 @@
-<img src="/images/background_1.jpg" id="logo">
+<div class="logo-container">
+    <img src="/images/background_1.jpg" id="logo">
+</div>
 <div class="menu-container">
     <div id="signup-page" class="center">
         <div class="menu-name">Signup</div>

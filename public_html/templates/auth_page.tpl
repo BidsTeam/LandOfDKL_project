@@ -1,4 +1,6 @@
-<img src="/images/background_1.jpg" id="logo">
+<div class="logo-container">
+    <img src="/images/background_1.jpg" id="logo">
+</div>
 <div class="menu-container">
 	<div id="auth-page" class="center">
 		<div class="menu-name">Login</div>

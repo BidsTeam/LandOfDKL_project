@@ -12,7 +12,7 @@ $(function(){
     Game.Routers = {};
     var Forms = {};
 
-    var emailRegexp = new RegExp("[a-zA-Z]+[a-zA-z0-9]+@[a-zA-z]+\.[a-z]{2,}");
+    var emailRegexp = /^[a-zA-Z]+[a-zA-Z0-9_-]*@[a-zA-Z]+\.[a-z]{2,}$/;
 
 	_.mixin({templateFromUrl: function (url, data, settings) {
 	    var templateHtml = "";
@@ -63,6 +63,9 @@ $(function(){
             "input" : "render"
         },
         initialize : function(options) {
+            if( _.has(options, "beforeInit") ) {
+                options.beforeInit.call(this);
+            }
             this.model = new (Backbone.Model.extend({}))();
             this.validate = options.validate.bind(this);
             this.model.bind("change", this.changeValidStatus, this);
@@ -249,6 +252,20 @@ $(function(){
                             }
                         }
                     }),
+                    repeatPassword : new Game.Views.formFieldView({
+                        el: "#signup-password-repeat-field",
+                        validate: function() {
+                            if( this.getVal() != $("#signup-password-field").val() ||
+                                this.getVal() == ""
+                            ) {
+                                this.setInvalid();
+                                return false;
+                            } else {
+                                this.setSuccess();
+                                return true;
+                            }
+                        }
+                    }),
                     username : new Game.Views.formFieldView({
                         el : "#signup-username-field",
                         validate: function() {
@@ -271,10 +288,9 @@ $(function(){
                             break;
                         }
                     }
-                    if( $("#signup-password-field").val() !== $("#signup-password-repeat-field").val() ) {
+                    if( !this.fields.repeatPassword.validate() ) {
                         valid = false;
                     }
-
                     if( valid ) {
                         this.$el.find("input[type='submit']").removeAttr("disabled");
                         return true;
