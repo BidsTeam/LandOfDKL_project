@@ -13,12 +13,13 @@
                 <label for="signup-password-field"> Пароль </label> <input type="password" name="password" id="signup-password-field">
             </div>
             <div class="form-group">
-                <label for="signup-password-repeat-field"> Повторите пароль </label> <input type="password" name="repeat-password" id="signup-password-repeat-field">
+                <label for="signup-password-repeat-field"> Повторите пароль </label> <input type="password" name="repeat_password" id="signup-password-repeat-field">
             </div>
             <div class="form-group">
                 <input type="submit" value="Войти" class="btn btn-large btn-success" disabled>
             </div>
         </form>
         <a href="#" class="btn btn-large btn-primary"> Назад </a>
+
     </div>
 </div>
