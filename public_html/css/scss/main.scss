@@ -22,6 +22,9 @@
   margin-left:100px;
 }
 
+.logo-container {
+  @extend .center;
+}
 a.underline {
   text-decoration: underline;
 }
@@ -103,9 +106,5 @@ a.underline {
     input {
       width: 300px;
     }
-  }
-  .error{
-    color:red;
-    margin-right:100px;
   }
 }
