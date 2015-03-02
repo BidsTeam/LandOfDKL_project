@@ -29,13 +29,15 @@ $(function(){
 		},
 
 		mainPageInit : function() {
+            Views.mainView.render("mainPage");
 		},
 
 		gamePageInit : function() {
+            Views.mainView.render("gamePage");
 		},
 
 		authPageInit : function() {
-
+            Views.mainView.render("authPage");
 		},
 
 		signupPageInit : function() {
@@ -43,14 +45,15 @@ $(function(){
 
         },
 		scoreboardPageInit : function() {
-
+            Views.mainView.render("scoreboardPage");
 		}
 	});
     Models = {
         signupModel: new SignupModel()
     };
     Views = {
-        signupView: new SignupView()
+        signupView: new SignupView(),
+        mainView: new MainView()
     };
 
 	router = new Router();
