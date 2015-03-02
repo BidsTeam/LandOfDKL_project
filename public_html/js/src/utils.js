@@ -22,6 +22,9 @@ var Util = {
             this.cache[url] = templateHtml;
         }
         return _.template(templateHtml, data, settings);
+    },
+    isValidString: function isValid(str){
+        return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str) && str != "";
     }
 
 }

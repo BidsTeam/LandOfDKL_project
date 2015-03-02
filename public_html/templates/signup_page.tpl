@@ -19,7 +19,7 @@
                 <input type="password" name="repeat_password" class="form-control" id="signup-password-repeat-field">
             </div>
             <div class="form-group">
-                <input type="submit" value="Войти" class="btn btn-large btn-success" disabled style="margin-right:70px;">
+                <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success" disabled style="margin-right:70px;">
             </div>
         </form>
         <a href="#" class="btn btn-large btn-primary"> Назад </a>

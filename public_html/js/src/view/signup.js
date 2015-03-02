@@ -48,6 +48,12 @@ var SignupView = Backbone.View.extend({
                 this.resetInputErrors(this.$el.find("[name="+val.key+"]"));
             }
         },this)
+        this.checkForm();
+    },
+
+    checkForm : function(){
+        var flag = this.model.validateForm(this.model.toJSON());
+        this.$el.find("[type=submit]").attr("disabled",!flag);
     },
 
     resetInputErrors: function(target) {

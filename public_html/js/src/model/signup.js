@@ -8,6 +8,8 @@ SignupModel = Backbone.Model.extend({
         repeat_password: ''
     },
 
+    specialChars:  "<>@!#$%^&*()_+[]{}?:;|'\"\\,./~`-=", //todo Вынести куда-нибудь, ведь валидация много где нжуно
+
     validateOne: function(key,val){
         // Вообще есть библиотека https://github.com/thedersen/backbone.validation , хз нужна она или нет, пока решил не нагружать проект
         // У нее лучше решение проблем с паролями
@@ -16,7 +18,6 @@ SignupModel = Backbone.Model.extend({
         switch(key) {
             case "email": {
                 var emailRegexp = /^[a-zA-Z]+[a-zA-Z0-9_-]*@[a-zA-Z]+\.[a-z]{2,}$/;
-                console.log(val);
                 if ( !emailRegexp.test(val)  || val == "") {
                     obj.push({key:key,result:"Please enter valid email. \n Example: SBTeam@mail.ru"});
                 } else {
@@ -30,8 +31,12 @@ SignupModel = Backbone.Model.extend({
                     obj.push({key:key,result:"Password's not match"});
                     obj.push({key:"repeat_password",result:"Password's not match"});
                 } else {
-                    obj.push({key:key,result:true});
-                    obj.push({key:"repeat_password",result:true});
+                    if (!Util.isValidString((val))){
+                        obj.push({key:key,result:"Please not use special chars"});
+                    } else {
+                        obj.push({key: key, result: true});
+                        obj.push({key: "repeat_password", result: true});
+                    }
                 }
                 break;
             }
@@ -41,14 +46,19 @@ SignupModel = Backbone.Model.extend({
                     obj.push({key:key,result:"Password's not match"});
                     obj.push({key:"repeat_password",result:"Password's not match"});
                 } else {
+                    if (!Util.isValidString((val))){
+                        obj.push({key:key,result:"Please not use special chars"});
+                    }
                     obj.push({key:key,result:true});
                     obj.push({key:"repeat_password",result:true});
                 }
                 break;
             }
             default: {
-                if (!val) {
+                if (!Util.isValidString((val))) {
                     obj.push({key:key,result:"Not empty field"})
+                } else {
+                    obj.push({key: key, result: true})
                 }
                 break;
             }
@@ -56,11 +66,21 @@ SignupModel = Backbone.Model.extend({
         return obj;
     },
 
-    validate: function(fields) {
+    validateForm: function(fields) {
         var bool = true;
         _.forEach(fields,function(val,key){
-            console.log(key);
-        });
+            var validateResult = this.validateOne(key,val);
+            _.forEach(validateResult,function(val,key){
+                if (val.result !== true){
+                    bool = false;
+                    return false; // return выходит из forEach, а не функции
+                }
+            })
+            if (!bool){
+                return false;
+            }
+
+        },this);
         return bool;
     }
 });
