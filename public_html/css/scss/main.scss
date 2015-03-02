@@ -31,9 +31,6 @@ a.underline {
   text-align: center;
 }
 
-.invalid {
-  border: solid red 2px;
-}
 
 #auth-form {
   margin-top: 30px;
@@ -99,5 +96,9 @@ a.underline {
     input {
       width: 300px;
     }
+  }
+  .error{
+    color:red;
+    margin-right:100px;
   }
 }

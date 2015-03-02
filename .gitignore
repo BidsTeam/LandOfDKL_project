@@ -5,3 +5,5 @@ L1.2-1.0-jar-with-dependencies.jar
 npm-debug.log
 .idea
 .sass-cache
+public_html/css/main.css
+public_html/css/main.css.map
