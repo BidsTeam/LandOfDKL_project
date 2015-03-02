@@ -1,5 +1,5 @@
 var SignupView = Backbone.View.extend({
-    el : "#app-container",
+    el : "#template-container",
 
 
     events: {
