@@ -7,7 +7,7 @@
 .hide {
   display: none; }
 
-.center {
+.center, .logo-container {
   text-align: center; }
 
 #logo {
@@ -78,7 +78,6 @@ a.underline {
 #signup-form .form-group input {
   width: 300px; }
 #signup-form .error {
-  color: red;
-  margin-right: 100px; }
+  color: red; }
 
 /*# sourceMappingURL=main.css.map */
