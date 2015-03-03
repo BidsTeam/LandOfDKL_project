@@ -31,8 +31,11 @@ var SignupView = Backbone.View.extend({
         e.preventDefault();
         var model = this.model;
 
-        this.$el.find('input[name]').each(function() {
-            model.set(this.name, this.value);
+        this.$el.find('input[name]').each(function(key,val) {
+            $(val).trigger("change"); //Идеологически неправильно имитировать действия пользователя, но ничего умнее не придумал
+        });
+        $.post( "/api/v1/auth/signup", model.toJSON(), function( data ) {
+            console.log(data);
         });
         //todo this.model.save(); Я настрою потом sync
     },
@@ -47,7 +50,7 @@ var SignupView = Backbone.View.extend({
             } else {
                 this.resetInputErrors(this.$el.find("[name="+val.key+"]"));
             }
-        },this)
+        },this);
         this.checkForm();
     },
 

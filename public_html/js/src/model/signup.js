@@ -42,9 +42,8 @@ SignupModel = Backbone.Model.extend({
             }
             case "repeat_password":{
                 if ( (this.get("password") != val) || (val == "") ) {
-                    console.log("false");
                     obj.push({key:key,result:"Password's not match"});
-                    obj.push({key:"repeat_password",result:"Password's not match"});
+                    obj.push({key:"password",result:"Password's not match"});
                 } else {
                     if (!Util.isValidString((val))){
                         obj.push({key:key,result:"Please not use special chars"});
