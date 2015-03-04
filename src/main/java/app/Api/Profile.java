@@ -1,7 +1,7 @@
 package app.Api;
 
 import DAO.logic.User;
-import app.utlit.AccountCache;
+import app.util.AccountCache;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +37,7 @@ public class Profile {
                     //User user = Factory.getInstance().getUserDAO().getUserById(userID);
                     System.out.println("test1");
                     User user = cacheAcc.getUser(userID);
-                    System.out.println("test2" + user.getUsername());
+                    //System.out.println("test2" + user.getUsername());
                     result.put("username", user.getUsername());
                     result.put("email", user.getEmail());
                     Gson gson = new Gson();

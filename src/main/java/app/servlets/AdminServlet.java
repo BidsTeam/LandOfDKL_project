@@ -2,7 +2,8 @@ package app.servlets;
 
 import DAO.Factory;
 import DAO.logic.User;
-import app.templater.PageGenerator;
+import app.util.AccountCache;
+import com.google.gson.Gson;
 import org.eclipse.jetty.server.Server;
 import org.json.JSONObject;
 
@@ -16,11 +17,15 @@ import java.util.Map;
 
 /**
  * Created by andreybondar on 26.02.15.
+ *
+ *
+ *
  */
 public class AdminServlet extends HttpServlet {
 
     private Server server;
-    private User user = new User();
+    //private User user = new User();
+    private AccountCache accountCache = new AccountCache();
 
     public AdminServlet(Server serverLink) {
         server = serverLink;
@@ -28,55 +33,68 @@ public class AdminServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
+        Map<String, Object> result = new HashMap<>();
         int id = 0;
         try {
             id = (int)request.getSession().getAttribute("id");
         } catch (Exception e){
             id = 0;
         }
-        if (id != 0) {
-            Map<String, Object> pageVariables = new HashMap<>();
-            JSONObject json;
-//            json = user.getByID(id);
-//            if ((boolean) json.get("isAdmin") == false) {
-//                response.sendRedirect("/profile/show");
-//            } else {
-//                pageVariables.put("regCounter", user.getRegisterCounter());
-//                response.getWriter().println(PageGenerator.getPage("adminPage.html", pageVariables));
-//            } todo ОЛООЛО я забил на админку, ОЛОЛОЛО я багодел
-        } else {
-            response.sendRedirect("/login/auth");
+        try {
+            if (id != 0) {
+                Map<String, Object> pageVariables = new HashMap<>();
+                JSONObject json;
+                User user = accountCache.getUser(id);
+                if (user.isAdmin() == false) {
+                    response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+                } else {
+                    int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
+                    int loginedCounter = accountCache.getLogedCounter();
+                    result.put("logined", loginedCounter);
+                    result.put("registrated", usersCounter);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }
+            } else {
+                result.put("error", "unauthorized");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+        response.getWriter().println(json);
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         int id = 0;
+        //Map<String, Object> result = new HashMap<>();
         try {
             id = (int)request.getSession().getAttribute("id");
         } catch (Exception e){
             id = 0;
         }
         if (id != 0) {
-            //Map<String, Object> pageVariables = new HashMap<>();
-            JSONObject json;
-//            json = user.getByID(id);
-//            if (!(boolean)json.get("isAdmin")) {
-//                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-//            } else {
-//                String action = request.getParameter("action");
-//                if (action.equalsIgnoreCase("stop")) {
-//                    try {
-//                        System.out.println("Shutting down");
-//                        System.exit(0);
-//                    } catch (Exception e) {
-//                        System.out.println(e.getMessage() + "Cant stop server, machines are rising");
-//                        response.setStatus(HttpServletResponse.SC_OK);
-//                    }
-//                } else {
-//                    response.setStatus(HttpServletResponse.SC_OK);
-//                }
-//            }
+            User user = accountCache.getUser(id);
+            if (!user.isAdmin()) {
+                response.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            } else {
+                String action = request.getParameter("action");
+                if (action.equalsIgnoreCase("stop")) {
+                    try {
+                        System.out.println("Shutting down");
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        System.exit(0);
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage() + "Cant stop server, machines are rising");
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
+                }
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         }

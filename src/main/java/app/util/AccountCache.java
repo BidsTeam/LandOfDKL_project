@@ -1,16 +1,17 @@
-package app.utlit;
+package app.util;
 
 import DAO.logic.User;
 
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 /**
  * Created by andreybondar on 04.03.15.
  */
 public class AccountCache {
-    static int logedCounter = 0;
+    private static int logedCounter = 0;
 
-    static LinkedHashMap <Integer, User> CachedAccounts = new LinkedHashMap<>();
+    private static HashMap<Integer, User> CachedAccounts = new LinkedHashMap<>();
 
     public void putUser(User user) {
         logedCounter++;
@@ -20,8 +21,12 @@ public class AccountCache {
     }
 
     public User getUser(int id) {
-        System.out.println("test3");
         return CachedAccounts.get(id);
     }
+
+    public int getLogedCounter() {
+        return logedCounter;
+    }
+
 
 }

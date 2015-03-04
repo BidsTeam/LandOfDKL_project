@@ -3,7 +3,7 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.User;
 import app.logic.FightFinder;
-import app.utlit.AccountCache;
+import app.util.AccountCache;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 
@@ -16,13 +16,16 @@ import java.util.Map;
 
 /**
  * @author v.chibrikov
+ *
+ * 
+ *
  */
 public class Auth {
     private String login = "";
 
     FightFinder fightFinder = new FightFinder();
     private User user = new User();
-    AccountCache accountCache = new AccountCache();
+    private AccountCache accountCache = new AccountCache();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {

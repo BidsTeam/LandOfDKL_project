@@ -1,9 +1,9 @@
 package DAO;
 
+import DAO.logic.User;
+
 import java.sql.SQLException;
 import java.util.List;
-
-import DAO.logic.User;
 
 public interface UserDAO {
     public void addUser(User user) throws SQLException;   //добавить студента
@@ -13,4 +13,5 @@ public interface UserDAO {
     public User getUserByAuth(String username, String password);
     public List getAllUsers() throws SQLException;              //получить всех студентов
     public void deleteUser(User user) throws SQLException;//удалить студента
+    public int getUserCounter() throws SQLException;
 }

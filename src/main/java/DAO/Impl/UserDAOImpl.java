@@ -1,16 +1,16 @@
 package DAO.Impl;
 
+import DAO.UserDAO;
+import DAO.logic.User;
+import org.hibernate.Session;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
+import util.HibernateUtil;
+
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
-
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
-import util.HibernateUtil;
-import DAO.UserDAO;
-import DAO.logic.User;
 
 public class UserDAOImpl implements UserDAO {
 
@@ -140,6 +140,28 @@ public class UserDAOImpl implements UserDAO {
                 session.close();
             }
         }
+    }
+
+    @Override
+    public int getUserCounter() {
+        Session session = null;
+        int counter = 0;
+        try {
+            session = HibernateUtil.getSessionFactory().openSession();
+            User user = (User) session.createCriteria(User.class).
+                    addOrder(Order.desc("id")).
+                    setMaxResults(1).
+                    uniqueResult();
+            counter = user.getId();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return counter;
     }
 
 
