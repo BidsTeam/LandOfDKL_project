@@ -24,7 +24,7 @@ public class Router extends HttpServlet {
 //        while(m.find()){
 //            url = m.group();
 //        }
-        String url = request.getServletPath();
+        String url = request.getRequestURI();
         try {
             System.out.println(url);
             String[] urlBuf = url.split("/");
@@ -37,7 +37,7 @@ public class Router extends HttpServlet {
                 urlParts = urlBuf;
             }
             System.out.println("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
-            Class<?> cls = Class.forName("app.Api." + urlParts[3].substring(0, 1).toUpperCase() + urlParts[3].substring(1));
+            Class<?> cls = Class.forName("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
             Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);

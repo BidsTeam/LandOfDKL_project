@@ -3,16 +3,14 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.User;
 import app.logic.FightFinder;
-import app.templater.PageGenerator;
+import app.utlit.AccountCache;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,6 +22,7 @@ public class Auth {
 
     FightFinder fightFinder = new FightFinder();
     private User user = new User();
+    AccountCache accountCache = new AccountCache();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -31,74 +30,11 @@ public class Auth {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
 
-        response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
+        //response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 
-    }
-
-    public void auth(HttpServletRequest request,
-                          HttpServletResponse response) {
-
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("error", "");
-        response.setContentType("text/html;charset=utf-8");
-        try {
-            int id = 0;
-            try {
-                id = (int)request.getSession().getAttribute("id");
-            } catch (Exception e){
-                id = 0;
-            }
-            System.out.println(id);
-            if (id == 0) {
-                if (request.getMethod().equalsIgnoreCase("GET")) {
-                    response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
-                } else {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("login", request.getParameter("login"));
-                    jsonObject.put("password", request.getParameter("password"));
-                    User user = Factory.getInstance().getUserDAO().getUserById(id);
-                    int userId = 0;
-                    if (user != null){
-                        userId = user.getId();
-                    }
-                    pageVariables.put("id", userId);
-                    if (userId != 0) {
-                        pageVariables.put("id", userId);
-                        request.getSession().setAttribute("id", pageVariables.get("id"));
-                        response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
-                    } else {
-                        pageVariables.put("error", "Wrong login or password");
-                        response.getWriter().println(PageGenerator.getPage("authform.html", pageVariables));
-                    }
-                }
-            } else {
-                pageVariables.put("id", id);
-                response.getWriter().println(PageGenerator.getPage("login.html", pageVariables));
-            }
-        } catch (Exception e){
-            System.err.println(e.getMessage() + " In Login");
-        }
-    }
-
-    public void name(HttpServletRequest request,
-                     HttpServletResponse response) {
-
-        response.setContentType("text/html;charset=utf-8");
-
-        response.setStatus(HttpServletResponse.SC_OK);
-
-        Map<String, Object> pageVariables = new HashMap<>();
-        pageVariables.put("lastLogin", login == null ? "" : login);
-        try {
-            response.getWriter().println("bondar");
-        } catch (Exception e){
-            System.err.println(e.getMessage() +" In Login");
-            e.printStackTrace();
-        }
     }
 
     public void signup(HttpServletRequest request,
@@ -108,6 +44,7 @@ public class Auth {
         try{
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error","Please use POST method");
+                response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
                 JSONObject json = new JSONObject();
                 User user = new User();
@@ -118,8 +55,10 @@ public class Auth {
                     Factory.getInstance().getUserDAO().addUser(user);
                     request.getSession().setAttribute("id", user.getId());
                     putAllUserInformation(user,result);
+                    response.setStatus(HttpServletResponse.SC_OK);
                 } catch (Exception e) { // Должно быть два exception, один наш, другой реально ошибка
                     result.put("error", "Username or email error");
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
             }
             Gson gson = new Gson();
@@ -127,6 +66,7 @@ public class Auth {
             response.getWriter().println(json);
         } catch (Exception e){
             System.err.println(e.getMessage() + " In Login");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
     public void signin(HttpServletRequest request,
@@ -154,6 +94,8 @@ public class Auth {
                         result.put("error","Wrong password");
                     } else {
                         putAllUserInformation(user,result);
+                        accountCache.putUser(user);
+                        request.getSession().setAttribute("id", user.getId());
                     }
                 }
             } else {
@@ -179,5 +121,4 @@ public class Auth {
         result.put("email",     user.getEmail());
         return;
     }
-
 }
