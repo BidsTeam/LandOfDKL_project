@@ -10,6 +10,9 @@ import org.json.JSONObject;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,24 +52,36 @@ public class Auth {
                 result.put("error","Please use POST method");
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                JSONObject json = new JSONObject();
                 User user = new User();
                 user.setUsername((request.getParameter("username")));
                 user.setPassword(request.getParameter("password"));
-                user.setEmail((request.getParameter("email"))); //todo Проверять регекспом на валидный email
-                try {
-                    Factory.getInstance().getUserDAO().addUser(user);
-                    request.getSession().setAttribute("id", user.getId());
-                    putAllUserInformation(user, body);
-                    result.put("status", 200);
+                user.setEmail((request.getParameter("email")));
+                ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
+                Validator validator = vf.getValidator();
+                HashMap<String,String> validateResult = User.validate(user,validator);
+                if (validateResult.isEmpty()){
+                    try {
+                        Factory.getInstance().getUserDAO().addUser(user);
+                        request.getSession().setAttribute("id", user.getId());
+                        putAllUserInformation(user, body);
+                        result.put("status", 200);
+                        response.setStatus(HttpServletResponse.SC_OK);
+                    } catch (Exception e) {
+                        result.put("status", 500);
+                        body.put("error", "Undefined error in server");
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    }
+                } else {
+                    result.put("status", 400);
+                    HashMap<String,String> errorList = new HashMap<>();
+                    for(Map.Entry<String, String> entry : validateResult.entrySet()) {
+                        errorList.put(entry.getKey(), entry.getValue());
+                    }
+                    body.put("error",errorList);
                     response.setStatus(HttpServletResponse.SC_OK);
-                } catch (Exception e) { // Должно быть два exception, один наш, другой реально ошибка
-                    result.put("status", 500);
-                    body.put("error", "Username or email error");
-                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
             }
-            result.put("body", body);
+            result.put("response", body);
             Gson gson = new Gson();
             String json = gson.toJson(result);
             response.getWriter().println(json);

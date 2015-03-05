@@ -5,17 +5,31 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 @Entity
 @Table(name="user")
 public class User {
     private int id;
-
-    private String password;
+    @NotNull(message = "Имя пользователя должно быть задано")
     private String username;
+    @NotNull(message = "Пароль не должен быть пустым")
+    @Size(min = 3, message = "Минимальная длина пароля 3 символа")
+    private String password;
 
+    @NotNull(message="Email не должен быть пустым")
+    @Pattern(regexp = "^[a-zA-Z]+[a-zA-Z0-9_-]*@[a-zA-Z]+\\.[a-z]{2,}$",
+            message = "Введите настоящий email")
     private String email;
+
     //todo to BONDAR Как сделать так, чтобы registration превращался в long
     private Date registration;
 
@@ -88,5 +102,21 @@ public class User {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public static HashMap<String,String> validate(Object object, Validator validator) {
+        HashMap<String,String> result = new HashMap<>();
+        Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
+        System.out.println(object);
+        System.out.println(String.format("Кол-во ошибок: %d",
+                constraintViolations.size()));
+        for (ConstraintViolation<Object> cv : constraintViolations) {
+            System.out.println(String.format(
+                    "Внимание, ошибка! property: [%s], value: [%s], message: [%s]",
+                    cv.getPropertyPath(), cv.getInvalidValue(), cv.getMessage()));
+            result.put(cv.getPropertyPath().toString(),cv.getMessage() +" UTF 8 problem");
+        }
+
+        return result;
     }
 }
