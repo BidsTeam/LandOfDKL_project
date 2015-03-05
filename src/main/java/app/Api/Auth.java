@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * @author v.chibrikov
  *
- * 
+ * Контр
  *
  */
 public class Auth {
@@ -43,7 +43,7 @@ public class Auth {
     public void signup(HttpServletRequest request,
                        HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
-        result.put("error", "");
+        Map<String, Object> body = new HashMap<>();
         try{
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error","Please use POST method");
@@ -57,13 +57,16 @@ public class Auth {
                 try {
                     Factory.getInstance().getUserDAO().addUser(user);
                     request.getSession().setAttribute("id", user.getId());
-                    putAllUserInformation(user,result);
+                    putAllUserInformation(user, body);
+                    result.put("status", 200);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } catch (Exception e) { // Должно быть два exception, один наш, другой реально ошибка
-                    result.put("error", "Username or email error");
+                    result.put("status", 500);
+                    body.put("error", "Username or email error");
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                 }
             }
+            result.put("body", body);
             Gson gson = new Gson();
             String json = gson.toJson(result);
             response.getWriter().println(json);
@@ -75,7 +78,7 @@ public class Auth {
     public void signin(HttpServletRequest request,
                      HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
-        result.put("error", "");
+        Map<String, Object> body = new HashMap<>();
         try {
             int id = 0;
             try {
@@ -85,35 +88,45 @@ public class Auth {
             }
             if (id == 0) {
                 if (request.getMethod().equalsIgnoreCase("GET")) {
-                    result.put("error","Please use POST method");
+                    result.put("status", 405);
+                    body.put("error","Please use POST method");
+                    response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 } else {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("login", request.getParameter("login"));
                     jsonObject.put("password", request.getParameter("password"));
-                    System.out.println("test");
+                    //System.out.println("test");
                     User user = Factory.getInstance().getUserDAO().getUserByAuth(request.getParameter("login"),request.getParameter("password"));
-
                     if (user == null){
-                        result.put("error","Wrong password");
+                        result.put("status", 400);
+                        body.put("error","Wrong password");
+                        response.setStatus(HttpServletResponse.SC_OK);
                     } else {
-                        putAllUserInformation(user,result);
+                        result.put("status", 200);
+                        putAllUserInformation(user, body);
                         accountCache.putUser(user);
                         request.getSession().setAttribute("id", user.getId());
+                        response.setStatus(HttpServletResponse.SC_OK);
                     }
                 }
             } else {
                 User user = Factory.getInstance().getUserDAO().getUserById(id);
                 if (user == null){
-                    result.put("error","Wrong session");
+                    result.put("status", 301);
+                    body.put("error","Wrong session");
+                    response.setStatus(HttpServletResponse.SC_OK);
                 } else {
-                    putAllUserInformation(user,result);
+                    putAllUserInformation(user,body);
+                    response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
+            result.put("body", body);
             Gson gson = new Gson();
             String json = gson.toJson(result);
             response.getWriter().println(json);
         } catch (Exception e){
             System.err.println(e.getMessage() + " In Login");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
     private void putAllUserInformation(User user,Map<String, Object> result){

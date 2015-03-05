@@ -18,8 +18,6 @@ import java.util.Map;
 /**
  * Created by andreybondar on 26.02.15.
  *
- *
- *
  */
 public class AdminServlet extends HttpServlet {
 
@@ -34,6 +32,7 @@ public class AdminServlet extends HttpServlet {
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
         Map<String, Object> result = new HashMap<>();
+        Map<String, Object> body = new HashMap<>();
         int id = 0;
         try {
             id = (int)request.getSession().getAttribute("id");
@@ -50,18 +49,21 @@ public class AdminServlet extends HttpServlet {
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
                     int loginedCounter = accountCache.getLogedCounter();
-                    result.put("logined", loginedCounter);
-                    result.put("registrated", usersCounter);
+                    body.put("logined", loginedCounter);
+                    body.put("registrated", usersCounter);
+                    result.put("status", 200);
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             } else {
-                result.put("error", "unauthorized");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                body.put("error", "unauthorized");
+                result.put("status", 401);
+                response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+        result.put("body", body);
         Gson gson = new Gson();
         String json = gson.toJson(result);
         response.getWriter().println(json);
