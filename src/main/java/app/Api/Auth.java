@@ -51,7 +51,7 @@ public class Auth {
             } else {
                 JSONObject json = new JSONObject();
                 User user = new User();
-                user.setUsername((request.getParameter("login")));
+                user.setUsername((request.getParameter("username")));
                 user.setPassword(request.getParameter("password"));
                 user.setEmail((request.getParameter("email"))); //todo Проверять регекспом на валидный email
                 try {
@@ -107,6 +107,7 @@ public class Auth {
                         accountCache.putUser(user);
                         request.getSession().setAttribute("id", user.getId());
                         response.setStatus(HttpServletResponse.SC_OK);
+                        response.setStatus(HttpServletResponse.SC_OK);
                     }
                 }
             } else {
@@ -115,17 +116,20 @@ public class Auth {
                     result.put("status", 301);
                     body.put("error","Wrong session");
                     response.setStatus(HttpServletResponse.SC_OK);
+                    response.setStatus(HttpServletResponse.SC_OK);
                 } else {
                     putAllUserInformation(user,body);
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
             result.put("body", body);
+            result.put("body", body);
             Gson gson = new Gson();
             String json = gson.toJson(result);
             response.getWriter().println(json);
         } catch (Exception e){
             System.err.println(e.getMessage() + " In Login");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
