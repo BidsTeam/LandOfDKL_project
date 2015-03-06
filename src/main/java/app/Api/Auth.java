@@ -135,7 +135,6 @@ public class Auth {
         } catch (Exception e){
             System.err.println(e.getMessage() + " In Login");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
     private void putAllUserInformation(User user,Map<String, Object> result){
