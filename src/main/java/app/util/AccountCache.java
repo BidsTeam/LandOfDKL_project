@@ -5,9 +5,7 @@ import DAO.logic.User;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-/**
- * Created by andreybondar on 04.03.15.
- */
+
 public class AccountCache {
     private static int logedCounter = 0;
 

@@ -11,9 +11,9 @@
         <!-- Возможно потом нужно будет поставить MySQLInnoDBDialect диалект -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
         <!-- Логирование sql запросов в консоль -->
-        <property name="show_sql">true</property>
-        <property name="format_sql">true</property>
-        <!-- Есть недокументированная возможность none вместо validate, но вроде validate нас устраивает -->
+        <!--<property name="show_sql">true</property>-->
+        <!--<property name="format_sql">true</property>-->
+        <!--&lt;!&ndash; Есть недокументированная возможность none вместо validate, но вроде validate нас устраивает &ndash;&gt;-->
         <property name="hbm2ddl.auto">validate</property>
         <!-- Спросить у преподов, что значит Enables autocommit for JDBC pooled connection -->
         <property name="hibernate.connection.autocommit">false</property>

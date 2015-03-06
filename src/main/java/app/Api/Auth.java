@@ -28,7 +28,6 @@ public class Auth {
 
     FightFinder fightFinder = new FightFinder();
     private User user = new User();
-    private AccountCache accountCache = new AccountCache();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -56,8 +55,7 @@ public class Auth {
                 user.setUsername((request.getParameter("username")));
                 user.setPassword(request.getParameter("password"));
                 user.setEmail((request.getParameter("email")));
-                ValidatorFactory vf = Validation.buildDefaultValidatorFactory();
-                Validator validator = vf.getValidator();
+                Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
                 HashMap<String,String> validateResult = User.validate(user,validator);
                 if (validateResult.isEmpty()){
                     try {
@@ -73,11 +71,7 @@ public class Auth {
                     }
                 } else {
                     result.put("status", 400);
-                    HashMap<String,String> errorList = new HashMap<>();
-                    for(Map.Entry<String, String> entry : validateResult.entrySet()) {
-                        errorList.put(entry.getKey(), entry.getValue());
-                    }
-                    body.put("error",errorList);
+                    body.put("error",validateResult);
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
@@ -90,6 +84,7 @@ public class Auth {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
+
     public void signin(HttpServletRequest request,
                      HttpServletResponse response) {
         Map<String, Object> result = new HashMap<>();
@@ -107,38 +102,33 @@ public class Auth {
                     body.put("error","Please use POST method");
                     response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 } else {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("login", request.getParameter("login"));
-                    jsonObject.put("password", request.getParameter("password"));
-                    //System.out.println("test");
-                    User user = Factory.getInstance().getUserDAO().getUserByAuth(request.getParameter("login"),request.getParameter("password"));
+                    String login = request.getParameter("login");
+                    String password = request.getParameter("password");
+                    User user = Factory.getInstance().getUserDAO().getUserByAuth(login, password);
                     if (user == null){
-                        result.put("status", 400);
+                        result.put("status", 404);
                         body.put("error","Wrong password");
                         response.setStatus(HttpServletResponse.SC_OK);
                     } else {
                         result.put("status", 200);
                         putAllUserInformation(user, body);
-                        accountCache.putUser(user);
                         request.getSession().setAttribute("id", user.getId());
-                        response.setStatus(HttpServletResponse.SC_OK);
                         response.setStatus(HttpServletResponse.SC_OK);
                     }
                 }
             } else {
+                //todo хуйня-муйня пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
                 User user = Factory.getInstance().getUserDAO().getUserById(id);
                 if (user == null){
                     result.put("status", 301);
                     body.put("error","Wrong session");
-                    response.setStatus(HttpServletResponse.SC_OK);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
                     putAllUserInformation(user,body);
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
-            result.put("body", body);
-            result.put("body", body);
+            result.put("response", body);
             Gson gson = new Gson();
             String json = gson.toJson(result);
             response.getWriter().println(json);

@@ -2,6 +2,7 @@ package DAO.Impl;
 
 import DAO.UserDAO;
 import DAO.logic.User;
+import app.util.AccountCache;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -13,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-
+    private AccountCache accountCache = new AccountCache();
     @Override
     public void addUser(User user) throws SQLException {
         Session session = null;
@@ -56,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            user = (User) session.load(User.class, id);
+            user = (User) session.get(User.class, id); //todo session.load используется только если экземпляр уже был найден (спроси подробнее расскажу)
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
@@ -92,10 +93,14 @@ public class UserDAOImpl implements UserDAO {
         User user = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
-            user = (User) session.createCriteria( User.class ).
+            List<User> result  =  session.createCriteria( User.class ).
                     add(Restrictions.eq("username", username)).
                     add( Restrictions.eq("password", password) ).
-                    uniqueResult();
+                    list();
+            if (result.size() > 0) {
+                user = result.get(0);
+                accountCache.putUser(user);
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {
