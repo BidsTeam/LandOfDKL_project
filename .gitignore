@@ -2,3 +2,8 @@
 LandOfDKL.iml
 .target
 classes
+node_modules
+npm-debug.log
+.sass-cache
+public_html/css/main.css
+public_html/css/main.css.map

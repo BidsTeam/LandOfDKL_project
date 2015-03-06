@@ -1,0 +1,83 @@
+#main-page {
+  text-align: center; }
+  #main-page a.btn {
+    width: 300px;
+    margin-bottom: 10px; }
+
+.hide {
+  display: none; }
+
+.center, .logo-container {
+  text-align: center; }
+
+#logo {
+  width: 700px;
+  height: 200px;
+  margin-left: 100px; }
+
+a.underline {
+  text-decoration: underline; }
+
+.menu-name {
+  font-size: 20px;
+  margin-bottom: 13px; }
+
+.menu-button-container {
+  display: block; }
+
+.menu-container {
+  margin-top: 50px; }
+
+#auth-form {
+  margin-top: 30px; }
+
+#scoreboard-page {
+  text-align: center; }
+
+#nav-menu-container {
+  text-align: center; }
+
+#nav-menu {
+  display: inline-block; }
+  #nav-menu span {
+    display: inline-block;
+    padding: 10px; }
+
+#game-area {
+  height: 300px;
+  background-color: #cccccc; }
+
+#chat-container {
+  float: left;
+  display: inline-block;
+  width: 80%; }
+
+#chat-content {
+  float: left;
+  width: 100%;
+  height: 100px;
+  background-color: green; }
+
+#chat-input-container {
+  display: inline-block; }
+
+#players-in-room-list {
+  display: inline-block;
+  width: 19.999%;
+  height: 100px;
+  background-color: red; }
+
+.menu-header {
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  border: solid black 1px; }
+
+#signup-form .form-group label {
+  width: 200px; }
+#signup-form .form-group input {
+  width: 300px; }
+#signup-form .error {
+  color: red; }
+
+/*# sourceMappingURL=main.css.map */
