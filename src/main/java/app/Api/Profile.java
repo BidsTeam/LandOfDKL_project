@@ -10,9 +10,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by andreybondar on 26.02.15.
- */
+
 public class Profile {
     private User user = new User();
     private AccountCache cacheAcc = new AccountCache();
