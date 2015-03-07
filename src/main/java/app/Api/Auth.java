@@ -137,6 +137,28 @@ public class Auth {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
+
+    public void drop(HttpServletRequest request,
+                       HttpServletResponse response) {
+
+        Map<String, Object> result = new HashMap<>();
+        Map<String, Object> body = new HashMap<>();
+        result.put("status", 200);
+        body.put("result","ok");
+        result.put("response", body);
+        request.getSession().setAttribute("id", 0);
+        response.setStatus(HttpServletResponse.SC_OK);
+        Gson gson = new Gson();
+        String json = gson.toJson(result);
+        try {
+            response.getWriter().println(json);
+        } catch (Exception e){
+            System.err.println(e.getMessage() + " In drop");
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
     private void putAllUserInformation(User user,Map<String, Object> result){
         result.put("id",        user.getId());
         result.put("username",  user.getUsername());
