@@ -21,11 +21,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             session.beginTransaction();
-//            if (getUserByUsername(user.getUsername()) == null) {
             session.save(user);
-//            } else {
-//                throw new Exception("Username busy"); // todo переделать на собственный тип Exception
-//            }
             session.getTransaction().commit();
         } finally {
             if (session != null && session.isOpen()) {
@@ -53,11 +49,12 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserById(int id) throws SQLException {
-        Session session = null;
+        Session session =  null;
         User user = null;
         try {
             session = HibernateUtil.getSessionFactory().openSession();
             user = (User) session.get(User.class, id); //todo session.load используется только если экземпляр уже был найден (спроси подробнее расскажу)
+            //todo спросить практическую реализацию. Если у нас много разных сессий (ведь фабрика отдает), как не обкакаться
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
         } finally {

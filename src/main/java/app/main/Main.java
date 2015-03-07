@@ -8,13 +8,16 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-/**
- * @author v.chibrikov
- */
+
 
 public class Main {
     public static void main(String[] args) throws Exception {
         //Frontend frontend = new Frontend();
+        //todo Основные вопрос:
+        //todo 1) Как сделать так, чтобы первый запрос к БД не был таким долгим. Т.е все необходимые оптимизации происходили при старте сервера
+        //todo 2) Проблема с кодировкой с hibernate validator. исплоьзоваться i18n при каждом методе не хочется (как-то через бины решается)
+        //todo 3) Проблема с timestamp см. logic/User/User()
+        //todo 4) Какие-нибудь архитектурные советы
         Router router = new Router();
         String portString = "8080";
         if (args.length >= 1) {
