@@ -16,10 +16,17 @@ public class Main {
     public static void main(String[] args) throws Exception {
         //Frontend frontend = new Frontend();
         Router router = new Router();
+        String portString = "8080";
+        if (args.length >= 1) {
+            portString = args[0];
+        }
 
+        int port = Integer.valueOf(portString);
+        System.out.append("Starting at port: ").append(portString).append('\n');
 
-        Server server = new Server(8080);
-        AdminServlet adminServlet = new AdminServlet(server);
+        Server server = new Server(port);
+
+        AdminServlet adminServlet = new AdminServlet();
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
 

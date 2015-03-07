@@ -21,13 +21,8 @@ import java.util.Map;
  */
 public class AdminServlet extends HttpServlet {
 
-    private Server server;
     //private User user = new User();
     private AccountCache accountCache = new AccountCache();
-
-    public AdminServlet(Server serverLink) {
-        server = serverLink;
-    }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {

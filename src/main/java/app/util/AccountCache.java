@@ -9,7 +9,7 @@ import java.util.LinkedHashMap;
 public class AccountCache {
     private static int logedCounter = 0;
 
-    private static HashMap<Integer, User> CachedAccounts = new LinkedHashMap<>();
+    private static HashMap<Integer, User> CachedAccounts = new HashMap<>();
 
     public void putUser(User user) {
         logedCounter++;
