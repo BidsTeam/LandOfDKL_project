@@ -9,42 +9,23 @@ module.exports = function (grunt) {
 			templates: {
 				files :[{
 					expand:  true,
-					cwd: 	'templates',
+					cwd: 	'public_html/fest-templates',
 					src: 	'*.xml',
-					dest: 	'public_html/js/tmpl'
+					dest: 	'public_html/js/templates'
 				}],
-				options : {
-					template: function (data){
-						return grunt.template.process(
-							'var <%= name %>Tmpl = <%= contents %>; ',
-							{data: data}
-						)
-					}
-				}
+                options : {
+                    template: function (data) {
+                        return grunt.template.process(
+                            'define("../templates/<%=name%>", function () { return <%= contents %> ; });',
+                            {data: data}
+                        );
+                    }
+                }
 			}
-		},
-		concat : {
-		    dist : {
-		        src : [
-		            "public_html/js/lib/jquery.js",
-		            "public_html/js/lib/jquery.inputmask.js",
-		            "public_html/js/lib/lodash.min.js",
-		            "public_html/js/lib/backbone.js",
-		            "public_html/js/lib/bootstrap.min.js",
-		            "public_html/js/lib/jquery.form.js"
-		        ],
-		        dest : 'public_html/js/build/production.js'
-		    }
-		},
-		uglify : {
-		    build : {
-		        src : 'public_html/js/build/production.js',
-		        dest : 'public_html/js/build/production.min.js'
-		    }
 		},
 		watch:{
 			fest: {
-				files: ['templates/*.xml'],
+				files: ['public_html/fest-templates/*.xml', 'public_html/fest-templates/*.html'],
 				tasks: ['fest'],
 				options: {
 					atBegin: true
@@ -54,14 +35,6 @@ module.exports = function (grunt) {
 				files: ['public_html/**'],
 				options: {
 					livereload: true
-				}
-			},
-			scripts: {
-				files : ['public_html/js/lib/*.js'],
-				tasks : ['concat', 'uglify'],
-				options : {
-					spawn : false,
-					atBegin: true
 				}
 			},
 			css: {
@@ -94,8 +67,6 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-fest');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-contrib-sass');

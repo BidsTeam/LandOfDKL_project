@@ -1,33 +1,44 @@
-#main-page {
-  text-align: center;
-  a.btn {
-    width: 300px;
-    margin-bottom: 10px;
-  }
-}
-
 .hide{
   display:none;
 }
 
-.center {
-  text-align: center;
-}
-
-
-
-#logo {
-  width: 700px;
-  height: 200px;
-  margin-left:100px;
-}
-
-.logo-container {
-  @extend .center;
-}
 a.underline {
   text-decoration: underline;
 }
+
+.menu-container {
+  text-align: center;
+}
+
+.menu-container__menu {
+  display: inline-block;
+  width: 70%;
+}
+
+.menu__menu-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.menu__button-container {
+
+}
+
+.menu__button {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+
+.logo-container {
+  text-align: center;
+}
+
+.logo-container__logo {
+  width: 700px;
+  height: 200px;
+}
+
 
 .menu-name {
   font-size: 20px;
@@ -41,50 +52,51 @@ a.underline {
   margin-top: 50px;
 }
 
+.menu__auth-form {
+}
 
-#auth-form {
+.form-group__button-container {
   margin-top: 30px;
 }
 
-#scoreboard-page {
+.nav-menu-container {
   text-align: center;
 }
 
-#nav-menu-container {
-  text-align: center;
+.nav-menu-container__nav-menu {
 }
 
-#nav-menu {
+.nav-menu__button-container {
   display: inline-block;
-  span {
-    display: inline-block;
-    padding: 10px;
-  }
 }
 
-#game-area {
+.nav-menu__button {
+  padding: 10px;
+}
+
+.game-area-container {
   height: 300px;
   background-color: #cccccc;
 }
 
-#chat-container {
+.console__chat {
   float: left;
   display: inline-block;
   width: 80%;
 }
 
-#chat-content {
+.chat__content {
   float: left;
   width: 100%;
   height: 100px;
   background-color: green;
 }
 
-#chat-input-container {
+.chat__input-container {
   display: inline-block;
 }
 
-#players-in-room-list {
+.console__players-in-room-list {
   display: inline-block;
   width: 19.999%;
   height: 100px;
@@ -98,16 +110,28 @@ a.underline {
   border: solid black 1px;
 }
 
-#signup-form {
-  .form-group {
-    label {
-      width: 200px;
-    }
-    input {
-      width: 300px;
-    }
-  }
-  .error{
-    color: red;
-  }
+.menu__signup-form {
+  text-align: center;
+}
+
+.signup-form__fields-container {
+  margin-left: -100px;
+}
+
+.signup-form__form-group {
+  text-align: center;
+}
+
+.signup-form__field-name {
+  width: 200px;
+  text-align: right;
+}
+
+.signup-form__field {
+  display: inline-block;
+  width: 300px;
+}
+
+.form-group__field-name {
+
 }
