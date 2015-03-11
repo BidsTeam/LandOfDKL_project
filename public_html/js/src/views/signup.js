@@ -62,8 +62,12 @@ define(
             },
 
             checkForm : function(){
-                var flag = this.model.validateForm(this.model.toJSON());
-                this.$el.find("[type=submit]").attr("disabled",!flag);
+                var valid = this.model.validateForm(this.model.toJSON());
+                if( valid ) {
+                    this.$el.find("[type=submit]").removeAttr("disabled");
+                } else {
+                    this.$el.find("[type=submit]").attr("disabled", "disabled");
+                }
             },
 
             resetInputErrors: function(target) {

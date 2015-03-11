@@ -1,4 +1,5 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="bestPlayers">
+
     <div class="menu-container">
         <div class="menu-container__menu">
             <div class="menu__menu-name">Scoreboard</div>

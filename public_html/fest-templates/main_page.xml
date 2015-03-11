@@ -1,5 +1,13 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
-    <fest:insert src="main_page.html"/>
+    <div class="menu-container">
+        <div class="menu-container__menu">
+            <div class="menu__menu-name">Main menu</div>
+            <div class="menu__button-container"> <a href="#game" class="btn btn-large btn-primary menu__button">Игра</a> </div>
+            <div class="menu__button-container"> <a href="#scoreboard" class="btn btn-large btn-primary menu__button">Рейтинг</a> </div>
+            <div class="menu__button-container"> <a href="#auth" class="btn btn-large btn-primary menu__button">Войти</a> </div>
+            <div class="menu__button-container"> <a href="#signup" class="underline">Регистрация</a> </div>
+        </div>
+    </div>
 
 </fest:template>

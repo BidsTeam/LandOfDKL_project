@@ -1,5 +1,28 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
-    <fest:insert src="game_page.html"/>
+    <div id="game-page" class="game-container">
+        <div class="nav-menu-container">
+            <div class="nav_menu-container__nav-menu">
+                <div class="nav-menu__button-container"><a href="#profile" class="btn btn-large btn-primary nav-menu__button"> <span>Персонаж</span> </a> </div>
+                <div class="nav-menu__button-container"><a href="#map" class="btn btn-large btn-primary nav-menu__button"> <span>Карта</span> </a> </div>
+                <div class="nav-menu__button-container"><a href="#quest-list" class="btn btn-large btn-primary nav-menu__button"> <span>Квесты</span> </a> </div>
+                <div class="nav-menu__button-container"><a href="#" class="btn btn-large btn-primary nav-menu__button"> <span>***</span> </a> </div>
+            </div>
+        </div>
+
+        <div id="game-area" class="game-area-container"></div>
+
+        <div id="console" class="console">
+            <div id="chat-container" class="console__chat">
+                <div id="chat-content" class="chat__content"></div>
+                <div id="chat-input-container" class="chat__input-container">
+                    <input id="chat-input" type="text" class="chat__input" />
+                    <input type="button" value="Написать" class="chat__send-button" />
+                </div>
+            </div>
+            <div id="players-in-room-list" class="console__players-in-room-list"></div>
+        </div>
+        <a href="#" class="btn btn-large btn-primary"> Назад </a>
+    </div>
 
 </fest:template>
