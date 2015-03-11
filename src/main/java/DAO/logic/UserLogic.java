@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Entity
 @Table(name="user")
-public class User {
+public class UserLogic {
     private int id;
     @NotNull(message = "Имя пользователя должно быть задано")
     private String username;
@@ -33,9 +33,11 @@ public class User {
     //todo to BONDAR Как сделать так, чтобы registration превращался в long
     private Date registration;
 
+    private byte level;
+
     private boolean admin;
 
-    public User(){
+    public UserLogic(){
         username = null;
         registration = new Date(); // TODO Спросить у Чибрикова, как сделать так, чтобы в save происходила эта ересь (текущий timestamp)
         // todo мы сделали @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
@@ -104,6 +106,15 @@ public class User {
         this.admin = admin;
     }
 
+    @Column(name="level", columnDefinition = "BIT")
+    public byte getLevel() {
+        return level;
+    }
+
+    public void setLevel(byte level) {
+        this.level = level;
+    }
+
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();
         Set<ConstraintViolation<Object>> constraintViolations = validator.validate(object);
@@ -117,6 +128,17 @@ public class User {
             result.put(cv.getPropertyPath().toString(),cv.getMessage() +" UTF 8 problem");
         }
 
+        return result;
+    }
+
+    public static Map<String, Object> putAllUserInformation(UserLogic user){
+        Map<String,Object> result = new HashMap<>();
+        result.put("id",        user.getId());
+        result.put("username",  user.getUsername());
+        result.put("registration", user.getRegistration().getTime());
+        result.put("is_admin",  user.isAdmin());
+        result.put("email",     user.getEmail());
+        result.put("level",     user.getLevel());
         return result;
     }
 }

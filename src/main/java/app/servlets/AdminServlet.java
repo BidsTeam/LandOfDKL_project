@@ -1,10 +1,9 @@
 package app.servlets;
 
 import DAO.Factory;
-import DAO.logic.User;
+import DAO.logic.UserLogic;
 import app.util.AccountCache;
 import com.google.gson.Gson;
-import org.eclipse.jetty.server.Server;
 import org.json.JSONObject;
 
 import javax.servlet.ServletException;
@@ -38,7 +37,7 @@ public class AdminServlet extends HttpServlet {
             if (id != 0) {
                 Map<String, Object> pageVariables = new HashMap<>();
                 JSONObject json;
-                User user = accountCache.getUser(id);
+                UserLogic user = accountCache.getUser(id);
                 if (user.isAdmin() == false) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
@@ -74,7 +73,7 @@ public class AdminServlet extends HttpServlet {
             id = 0;
         }
         if (id != 0) {
-            User user = accountCache.getUser(id);
+            UserLogic user = accountCache.getUser(id);
             if (!user.isAdmin()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {

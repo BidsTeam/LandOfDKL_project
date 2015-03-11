@@ -1,6 +1,6 @@
 package app.Api;
 
-import DAO.logic.User;
+import DAO.logic.UserLogic;
 import app.util.AccountCache;
 import com.google.gson.Gson;
 
@@ -12,7 +12,7 @@ import java.util.Map;
 
 
 public class Profile {
-    private User user = new User();
+    private UserLogic user = new UserLogic();
     private AccountCache cacheAcc = new AccountCache();
 
     public void main(HttpServletResponse request, HttpServletResponse response) throws IOException {
@@ -35,7 +35,7 @@ public class Profile {
                 try {
                     //User user = Factory.getInstance().getUserDAO().getUserById(userID);
                     System.out.println("test1");
-                    User user = cacheAcc.getUser(userID);
+                    UserLogic user = cacheAcc.getUser(userID);
                     //System.out.println("test2" + user.getUsername());
 
                     body.put("username", user.getUsername());

@@ -1,17 +1,18 @@
 package DAO;
 
-import DAO.logic.User;
+import DAO.logic.UserLogic;
 
 import java.sql.SQLException;
 import java.util.List;
 
 public interface UserDAO {
-    public void addUser(User user) throws SQLException;   //добавить студента
-    public void updateUser(User user) throws SQLException;//обновить студента
-    public User getUserById(int id) throws SQLException;    //получить стедента по id
-    public User getUserByUsername(String username) throws SQLException;    //получить стедента по username
-    public User getUserByAuth(String username, String password);
+    public void addUser(UserLogic user) throws SQLException;   //добавить студента
+    public void updateUser(UserLogic user) throws SQLException;//обновить студента
+    public UserLogic getUserById(int id) throws SQLException;    //получить стедента по id
+    public UserLogic getUserByUsername(String username) throws SQLException;    //получить стедента по username
+    public UserLogic getUserByAuth(String username, String password);
     public List getAllUsers() throws SQLException;              //получить всех студентов
-    public void deleteUser(User user) throws SQLException;//удалить студента
+    public void deleteUser(UserLogic user) throws SQLException;//удалить студента
     public int getUserCounter() throws SQLException;
+    public List<UserLogic> getAllUserRating(int count);
 }
