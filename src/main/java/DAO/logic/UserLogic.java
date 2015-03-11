@@ -33,7 +33,7 @@ public class UserLogic {
     //todo to BONDAR Как сделать так, чтобы registration превращался в long
     private Date registration;
 
-    private byte level;
+    private byte level = 1;
 
     private boolean admin;
 
