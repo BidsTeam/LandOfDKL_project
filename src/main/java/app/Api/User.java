@@ -17,9 +17,11 @@ public class User {
         Map<String, Object> result = new HashMap<>();
         Map<Integer, Object> body = new HashMap<>();
         try {
-            int count = 10;
-            if (request.getParameter("count")!=null && !request.getParameter("count").isEmpty()) {
+            int count;
+            try{
                 count = Integer.parseUnsignedInt(request.getParameter("count"));
+            } catch (Exception e){
+                count = 10;
             }
             List<UserLogic> userList = Factory.getInstance().getUserDAO().getAllUserRating(count);
             for (UserLogic user : userList) {
