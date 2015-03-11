@@ -22,7 +22,7 @@
         <!-- Пингую базу данных каждые 4 секунды -->
         <property name="hibernate.c3p0.idle_test_period">4</property>
 
-        <mapping class="DAO.logic.User" />
+        <mapping class="DAO.logic.UserLogic" />
 
     </session-factory>
 </hibernate-configuration>

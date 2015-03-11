@@ -1,24 +1,23 @@
 package app.util;
 
-import DAO.logic.User;
+import DAO.logic.UserLogic;
 
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 
 
 public class AccountCache {
     private static int logedCounter = 0;
 
-    private static HashMap<Integer, User> CachedAccounts = new HashMap<>();
+    private static HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();
 
-    public void putUser(User user) {
+    public void putUser(UserLogic user) {
         logedCounter++;
         int userID = user.getId();
         System.out.println("putted");
         CachedAccounts.put(userID, user);
     }
 
-    public User getUser(int id) {
+    public UserLogic getUser(int id) {
         return CachedAccounts.get(id);
     }
 
