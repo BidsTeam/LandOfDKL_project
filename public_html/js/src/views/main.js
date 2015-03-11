@@ -20,6 +20,9 @@ define(
                     $(".logo-container").addClass("hide")
                 }
                 this.$el.html(Templater.getTemplate(tpl));
+            },
+            renderHtml: function(html) {
+                this.$el.html(html);
             }
         });
 

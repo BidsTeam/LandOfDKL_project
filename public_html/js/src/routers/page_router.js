@@ -3,9 +3,10 @@ define(
     [
         "backbone",
         "views/main",
-        "views/signup"
+        "views/signup",
+        "views/scoreboard"
     ],
-    function(Backbone, mainView, signupView) {
+    function(Backbone, mainView, signupView, scoreboardView) {
         Router = Backbone.Router.extend({
 
             routes: {
@@ -36,7 +37,7 @@ define(
 
             },
             scoreboardPageInit : function() {
-                mainView.render("scoreboardPage");
+                scoreboardView.render();
             }
         });
 

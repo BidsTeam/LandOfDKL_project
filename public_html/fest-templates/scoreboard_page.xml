@@ -1,5 +1,16 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-
-    <fest:insert src="scoreboard_page.html"/>
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="bestPlayers">
+    <div class="menu-container">
+        <div class="menu-container__menu">
+            <div class="menu__menu-name">Scoreboard</div>
+            <div class="menu__rating-container">
+                <ol class="best-players-list">
+                    <fest:each iterate="bestPlayers" index="i" value="player">
+                        <li class="best-players-list__player"><fest:value>player.username</fest:value></li>
+                    </fest:each>
+                </ol>
+            </div>
+            <div class="menu__button-container"> <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a> </div>
+        </div>
+    </div>
 
 </fest:template>

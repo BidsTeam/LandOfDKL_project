@@ -95,4 +95,9 @@ a.underline {
   display: inline-block;
   width: 300px; }
 
+.best-players-list {
+  display: inline-block;
+  text-align: left;
+  width: auto; }
+
 /*# sourceMappingURL=main.css.map */
