@@ -2,6 +2,10 @@
   display:none;
 }
 
+.error {
+  display: block;
+}
+
 a.underline {
   text-decoration: underline;
 }
@@ -110,11 +114,11 @@ a.underline {
   border: solid black 1px;
 }
 
-.menu__signup-form {
+.menu__form {
   text-align: center;
 }
 
-.signup-form__fields-container {
+.menu-form__fields-container {
   margin-left: -100px;
 }
 
@@ -122,12 +126,12 @@ a.underline {
   text-align: center;
 }
 
-.signup-form__field-name {
+.menu-form__field-name {
   width: 200px;
   text-align: right;
 }
 
-.signup-form__field {
+.menu-form__field {
   display: inline-block;
   width: 300px;
 }

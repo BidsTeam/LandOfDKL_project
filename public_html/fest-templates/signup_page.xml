@@ -5,26 +5,26 @@
 
             <div class="menu__menu-name">Signup</div>
 
-            <form id="signup-form" class="form-horizontal menu__signup-form" action="/api/auth/signup" method="POST" enctype="application/x-www-form-urlencoded">
-                <div class="signup-form__fields-container">
-                    <div class="form-group signup-form__form-group">
-                        <label for="signup-username-field" class="control-label signup-form__field-name"> Username </label>
-                        <input type="text" name="username" class="form-control signup-form__field" id="signup-username-field" />
+            <form id="signup-form" class="form-horizontal menu__form" action="/api/auth/signup" method="POST" enctype="application/x-www-form-urlencoded">
+                <div class="menu-form__fields-container">
+                    <div class="form-group menu-form__form-group">
+                        <label for="signup-username-field" class="control-label menu-form__field-name"> Username </label>
+                        <input type="text" name="username" class="form-control menu-form__field" id="signup-username-field" />
                     </div>
 
-                    <div class="form-group signup-form__form-group">
-                        <label for="signup-email-field" class="control-label signup-form__field-name"> E-mail </label>
-                        <input type="text" name="email" class="form-control signup-form__field" id="signup-email-field" />
+                    <div class="form-group form__form-group">
+                        <label for="signup-email-field" class="control-label menu-form__field-name"> E-mail </label>
+                        <input type="text" name="email" class="form-control menu-form__field" id="signup-email-field" />
                     </div>
 
-                    <div class="form-group signup-form__form-group">
-                        <label for="signup-password-field" class="control-label signup-form__field-name"> Пароль </label>
-                        <input type="password" name="password" class="form-control signup-form__field" id="signup-password-field" />
+                    <div class="form-group form__form-group">
+                        <label for="signup-password-field" class="control-label menu-form__field-name"> Пароль </label>
+                        <input type="password" name="password" class="form-control menu-form__field" id="signup-password-field" />
                     </div>
 
-                    <div class="form-group signup-form__form-group">
-                        <label for="signup-password-repeat-field" class="control-label signup-form__field-name">Повторите пароль </label>
-                        <input type="password" name="repeat_password" class="form-control signup-form__field" id="signup-password-repeat-field" />
+                    <div class="form-group form__form-group">
+                        <label for="signup-password-repeat-field" class="control-label menu-form__field-name">Повторите пароль </label>
+                        <input type="password" name="repeat_password" class="form-control menu-form__field" id="signup-password-repeat-field" />
                     </div>
 
                 </div>
