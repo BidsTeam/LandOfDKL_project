@@ -27,6 +27,8 @@ public class User {
             //assertTrue(user.getRegistration());
             user = userModel.getUserById(999999);
             assertTrue(user == null);
+            user = userModel.getUserById(-3);
+            assertTrue(user == null);
 
         } catch (Exception e){
             assertTrue(false);
