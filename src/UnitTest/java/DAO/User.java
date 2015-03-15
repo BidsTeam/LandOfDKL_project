@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
+//todo Спросить, правильно-ли мы понимаем идеологию тестов
 public class User {
 
     @Test
