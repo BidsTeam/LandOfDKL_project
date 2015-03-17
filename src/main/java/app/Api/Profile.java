@@ -1,7 +1,7 @@
 package app.Api;
 
 import DAO.logic.UserLogic;
-import app.util.AccountCache;
+import app.AccountCache.AccountCache;
 import com.google.gson.Gson;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class Profile {
     private UserLogic user = new UserLogic();
-    private AccountCache cacheAcc = new AccountCache();
+    private AccountCache cacheAcc = AccountCache.getInstance();
 
     public void main(HttpServletResponse request, HttpServletResponse response) throws IOException {
         response.sendRedirect("/Profile/show/");

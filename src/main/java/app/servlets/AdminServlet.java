@@ -2,7 +2,7 @@ package app.servlets;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
-import app.util.AccountCache;
+import app.AccountCache.AccountCache;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 
@@ -21,7 +21,7 @@ import java.util.Map;
 public class AdminServlet extends HttpServlet {
 
     //private User user = new User();
-    private AccountCache accountCache = new AccountCache();
+    private AccountCache accountCache = AccountCache.getInstance();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
@@ -42,7 +42,7 @@ public class AdminServlet extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
-                    int loginedCounter = accountCache.getLogedCounter();
+                    int loginedCounter = accountCache.getLoggedCounter();
                     body.put("logined", loginedCounter);
                     body.put("registrated", usersCounter);
                     result.put("status", 200);
