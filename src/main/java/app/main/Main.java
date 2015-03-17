@@ -2,6 +2,7 @@ package app.main;
 
 import app.servlets.AdminServlet;
 import app.servlets.Router;
+import app.servlets.SocketServlet;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -23,7 +24,6 @@ public class Main {
         if (args.length >= 1) {
             portString = args[0];
         }
-
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
 
@@ -31,11 +31,12 @@ public class Main {
 
         AdminServlet adminServlet = new AdminServlet();
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
-
+        SocketServlet socketServlet = new SocketServlet();
 
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");
+        context.addServlet(new ServletHolder(socketServlet), "/test/*");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
