@@ -4,6 +4,9 @@
 .error {
   display: block; }
 
+.ajax-loader-indicator {
+  margin: 10px; }
+
 a.underline {
   text-decoration: underline; }
 

@@ -16,7 +16,7 @@ module.exports = function (grunt) {
                 options : {
                     template: function (data) {
                         return grunt.template.process(
-                            'define("../templates/<%=name%>", function () { return <%= contents %> ; });',
+                            'define(function () { return <%= contents %> ; });',
                             {data: data}
                         );
                     }
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
 			}
 		},
 		concurrent: {
-    	  	target: ['watch'/*, 'shell'*/],
+    	  	target: ['watch', 'shell'],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}

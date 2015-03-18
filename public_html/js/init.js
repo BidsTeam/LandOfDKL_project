@@ -29,5 +29,11 @@ requirejs.config({
     waitSeconds : 5
 });
 
-require(["main"], function(main) {
+
+require(["config", "jquery"], function(config, $) {
+    $.ajaxSetup({
+        timeout : 3000
+    });
+
+    require(['routers/page_router'], function(router){});
 });

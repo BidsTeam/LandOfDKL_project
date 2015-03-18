@@ -1,12 +1,20 @@
 define(
-    "routers/page_router",
     [
         "backbone",
-        "views/main",
-        "views/signup",
-        "views/scoreboard"
+        "views/mainPage",
+        "views/signupPage",
+        "views/scoreboardPage",
+        "views/gamePage",
+        "views/authPage"
     ],
-    function(Backbone, mainView, signupView, scoreboardView) {
+    function(
+        Backbone,
+        mainPageView,
+        signupPageView,
+        scoreboardPageView,
+        gamePageView,
+        authPageView
+    ) {
         Router = Backbone.Router.extend({
 
             routes: {
@@ -14,30 +22,37 @@ define(
                 "game(/)" : "gamePageInit",
                 "auth(/)" : "authPageInit",
                 "signup(/)" : "signupPageInit",
-                "scoreboard" : "scoreboardPageInit"
+                "scoreboard" : "scoreboardPageInit",
+                "test" : "testPage"
             },
 
             initialize : function() {
             },
 
+            testPage : function() {
+                require(["models/sockets/chatSocket"], function(chatSocket) {
+                    console.log(chatSocket);
+                });
+            },
+
             mainPageInit : function() {
-                mainView.render("mainPage");
+                mainPageView.render();
             },
 
             gamePageInit : function() {
-                mainView.render("gamePage");
+                gamePageView.render();
             },
 
             authPageInit : function() {
-                mainView.render("authPage");
+                authPageView.render();
             },
 
             signupPageInit : function() {
-                signupView.render("signupPage");
+                signupPageView.render();
 
             },
             scoreboardPageInit : function() {
-                scoreboardView.render();
+                scoreboardPageView.render();
             }
         });
 
