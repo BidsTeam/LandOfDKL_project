@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="bestPlayers">
+    <ol class="best-players-list">
+        <fest:each iterate="bestPlayers" index="i" value="player">
+            <li class="best-players-list__player"><fest:value>player.username</fest:value></li>
+        </fest:each>
+    </ol>
+</fest:template>
