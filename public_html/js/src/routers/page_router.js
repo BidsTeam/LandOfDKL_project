@@ -4,9 +4,10 @@ define(
         "backbone",
         "views/main",
         "views/signup",
-        "views/scoreboard"
+        "views/scoreboard",
+        "views/game"
     ],
-    function(Backbone, mainView, signupView, scoreboardView) {
+    function(Backbone, mainView, signupView, scoreboardView, gameView) {
         Router = Backbone.Router.extend({
 
             routes: {
@@ -25,7 +26,7 @@ define(
             },
 
             gamePageInit : function() {
-                mainView.render("gamePage");
+                gameView.render("gamePage");
             },
 
             authPageInit : function() {
