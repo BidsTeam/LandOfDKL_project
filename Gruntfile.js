@@ -2,7 +2,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		shell: {
 			server: { /* Подзадача */
-	      		 command: 'java -cp L1.2-1.0-jar-with-dependencies.jar main.Main 8080'
+	      		 //command: 'java LandOfDKL.jar main'
 			}
 		},
 		fest: {
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
 			}
 		},
 		concurrent: {
-    	  	target: ['watch', 'shell'],
+    	  	target: ['watch'/*, 'shell'*/],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}
