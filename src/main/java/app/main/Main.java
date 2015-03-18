@@ -36,7 +36,7 @@ public class Main {
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");
-        context.addServlet(new ServletHolder(socketServlet), "/test/*");
+        context.addServlet(new ServletHolder(socketServlet), "/main/*");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
