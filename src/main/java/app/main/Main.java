@@ -3,6 +3,9 @@ package app.main;
 import app.servlets.AdminServlet;
 import app.servlets.Router;
 import app.servlets.SocketServlet;
+import app.AccountCache.AccountCache;
+import app.AccountCache.AccountCacheController;
+import app.AccountCache.AccountCacheControllerMBean;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -10,6 +13,9 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
+import javax.management.MBeanServer;
+import javax.management.ObjectName;
+import java.lang.management.ManagementFactory;
 
 public class Main {
     public static void main(String[] args) throws Exception {
@@ -24,14 +30,22 @@ public class Main {
         if (args.length >= 1) {
             portString = args[0];
         }
+
         int port = Integer.valueOf(portString);
         System.out.append("Starting at port: ").append(portString).append('\n');
+
+
+        AccountCacheControllerMBean serverStatistics = new AccountCacheController(AccountCache.getInstance());
+        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+        ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
+        mbs.registerMBean(serverStatistics, name);
 
         Server server = new Server(port);
 
         AdminServlet adminServlet = new AdminServlet();
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         SocketServlet socketServlet = new SocketServlet();
+
 
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");

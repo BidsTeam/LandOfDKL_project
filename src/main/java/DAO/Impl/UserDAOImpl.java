@@ -2,7 +2,7 @@ package DAO.Impl;
 
 import DAO.UserDAO;
 import DAO.logic.UserLogic;
-import app.util.AccountCache;
+import app.AccountCache.AccountCache;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-    private AccountCache accountCache = new AccountCache();
+    private AccountCache accountCache = AccountCache.getInstance();
     @Override
     public void addUser(UserLogic user) throws SQLException {
         Session session = null;
