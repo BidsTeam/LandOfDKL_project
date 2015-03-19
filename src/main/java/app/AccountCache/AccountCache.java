@@ -62,11 +62,11 @@ public class AccountCache {
         sessions.remove(session);
     }
 
-    public HashMap getAllSessions() {
+    public HashMap<Integer, Set<Session>> getAllSessions() {
         return connections;
     }
 
-    public Set getUserSessions(int id) {
+    public Set<Session> getUserSessions(int id) {
         return connections.get(id);
     }
 

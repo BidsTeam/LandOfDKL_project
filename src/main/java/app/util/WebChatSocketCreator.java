@@ -11,9 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-/**
- * Created by andreybondar on 16.03.15.
- */
 public class WebChatSocketCreator implements WebSocketCreator {
 
     private Set<WebChatSocket> users;

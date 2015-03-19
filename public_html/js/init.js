@@ -1,6 +1,4 @@
-/**
- * Created by rikimaru on 08.03.15.
- */
+
 
 requirejs.config({
     baseUrl : "js/src",

@@ -14,10 +14,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Created by andreybondar on 26.02.15.
- *
- */
 public class AdminServlet extends HttpServlet {
 
     //private User user = new User();

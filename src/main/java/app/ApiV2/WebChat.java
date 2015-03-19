@@ -7,9 +7,6 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Set;
 
-/**
- * Created by andreybondar on 18.03.15.
- */
 public class WebChat {
     private static WebChat chatInstance;
     private WebChat() {}
@@ -23,20 +20,29 @@ public class WebChat {
         return chatInstance;
     }
 
-    public void sendMessege(JSONObject json) {
+    public void sendMessage(JSONObject json) {
         JSONObject response = new JSONObject();
         response.put("status", 0);
         JSONObject responseBody = new JSONObject();
-        responseBody.put("author", json.get("author").toString());
-        responseBody.put("message", json.get("message").toString());
+        try {
+            responseBody.put("author", json.get("author").toString());
+            responseBody.put("message", json.get("message").toString());
+        } catch (Exception e){
+            //todo найти все дубликаты данного err print и вынести в функцию такую идеологию (в случае предусмотренных ошибок, а не глобальных)
+            //todo С указанием ссылки(на файл) и еще кучей всего
+            System.err.println(e.getMessage() + "File: " + e.getStackTrace()[2].getFileName() +" Line number: "+ e.getStackTrace()[2].getLineNumber());
+            responseBody.put("author", "err");
+            responseBody.put("message", "err");
+
+        }
         response.put("body", responseBody);
         String jsonResp = response.toString();
 
-        HashMap sessions = cache.getAllSessions();
+        HashMap<Integer, Set<Session>> sessions = cache.getAllSessions();
         try {
-            for (Object userConnections : sessions.values()) {
-                for (Object connection : (Set) userConnections) {
-                    ((Session) connection).getRemote().sendString(jsonResp);
+            for (Set<Session> userConnections : sessions.values()) {
+                for (Session connection : userConnections) {
+                    connection.getRemote().sendString(jsonResp);
                 }
             }
         } catch (Exception e) {
@@ -55,9 +61,9 @@ public class WebChat {
         String jsonResp = response.toString();
 
         try {
-            Set userConnections = cache.getUserSessions(recivierID);
-            for (Object connection : (Set) userConnections) {
-                ((Session) connection).getRemote().sendString(jsonResp);
+            Set<Session> userConnections = cache.getUserSessions(recivierID);
+            for (Session connection : userConnections) {
+                 connection.getRemote().sendString(jsonResp);
             }
         } catch (Exception e) {
             e.printStackTrace();
