@@ -1,44 +1,46 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
-    <div class="menu-container">
-        <div id="signup-page" class="menu-container__menu">
+    <div data-role="page" id="signup-page">
+        <div class="menu-container">
+            <div class="menu-container__menu">
 
-            <div class="menu__menu-name">Signup</div>
+                <div class="menu__menu-name">Signup</div>
 
-            <form id="signup-form" class="form-horizontal menu__form" action="/api/auth/signup" method="POST" enctype="application/x-www-form-urlencoded">
-                <div class="menu-form__fields-container">
-                    <div class="form-group menu-form__form-group">
-                        <label for="signup-username-field" class="control-label menu-form__field-name"> Username </label>
-                        <input type="text" name="username" class="form-control menu-form__field" id="signup-username-field" />
+                <form id="signup-form" class="form-horizontal menu__form" action="/api/auth/signup" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="menu-form__fields-container">
+                        <div class="form-group menu-form__form-group">
+                            <label for="signup-username-field" class="control-label menu-form__field-name"> Username </label>
+                            <input type="text" name="username" class="form-control menu-form__field" id="signup-username-field" />
+                        </div>
+
+                        <div class="form-group form__form-group">
+                            <label for="signup-email-field" class="control-label menu-form__field-name"> E-mail </label>
+                            <input type="text" name="email" class="form-control menu-form__field" id="signup-email-field" />
+                        </div>
+
+                        <div class="form-group form__form-group">
+                            <label for="signup-password-field" class="control-label menu-form__field-name"> Пароль </label>
+                            <input type="password" name="password" class="form-control menu-form__field" id="signup-password-field" />
+                        </div>
+
+                        <div class="form-group form__form-group">
+                            <label for="signup-password-repeat-field" class="control-label menu-form__field-name">Повторите пароль </label>
+                            <input type="password" name="repeat_password" class="form-control menu-form__field" id="signup-password-repeat-field" />
+                        </div>
+
                     </div>
 
-                    <div class="form-group form__form-group">
-                        <label for="signup-email-field" class="control-label menu-form__field-name"> E-mail </label>
-                        <input type="text" name="email" class="form-control menu-form__field" id="signup-email-field" />
+                    <div class="menu__button-container">
+                        <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success menu__button" disabled="disabled" />
                     </div>
 
-                    <div class="form-group form__form-group">
-                        <label for="signup-password-field" class="control-label menu-form__field-name"> Пароль </label>
-                        <input type="password" name="password" class="form-control menu-form__field" id="signup-password-field" />
+                    <div class="menu__button-container">
+                        <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a>
                     </div>
 
-                    <div class="form-group form__form-group">
-                        <label for="signup-password-repeat-field" class="control-label menu-form__field-name">Повторите пароль </label>
-                        <input type="password" name="repeat_password" class="form-control menu-form__field" id="signup-password-repeat-field" />
-                    </div>
+                </form>
 
-                </div>
-
-                <div class="menu__button-container">
-                    <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success menu__button" disabled="disabled" />
-                </div>
-
-                <div class="menu__button-container">
-                    <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a>
-                </div>
-
-            </form>
-
+            </div>
         </div>
     </div>
 

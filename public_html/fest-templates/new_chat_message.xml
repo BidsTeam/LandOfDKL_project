@@ -1,0 +1,20 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="msg">
+
+    <fest:script>
+        var time = new Date();
+
+        time = {
+            minutes : String(time.getMinutes()),
+            seconds : String(time.getSeconds()),
+            hours : String(time.getHours())
+        };
+
+        time = time.hours + ":" + time.minutes + ":" + time.seconds;
+    </fest:script>
+
+    <p class="chat-message">
+        <span class="chat-message__author-name"><fest:value>msg.author</fest:value></span> <span class="chat-message__message-time"> <fest:value>time</fest:value> </span> :
+        <span class="chat-message__message"><fest:value>msg.message</fest:value></span>
+    </p>
+
+</fest:template>

@@ -11,7 +11,7 @@ module.exports = function (grunt) {
 					expand:  true,
 					cwd: 	'public_html/fest-templates',
 					src: 	'*.xml',
-					dest: 	'public_html/js/templates'
+					dest: 	'public_html/js/src/templates'
 				}],
                 options : {
                     template: function (data) {

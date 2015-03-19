@@ -1,19 +1,9 @@
 define(
     [
-        "backbone",
-        "views/mainPage",
-        "views/signupPage",
-        "views/scoreboardPage",
-        "views/gamePage",
-        "views/authPage"
+        "backbone"
     ],
     function(
-        Backbone,
-        mainPageView,
-        signupPageView,
-        scoreboardPageView,
-        gamePageView,
-        authPageView
+        Backbone
     ) {
         Router = Backbone.Router.extend({
 
@@ -29,23 +19,38 @@ define(
             },
 
             mainPageInit : function() {
-                mainPageView.render();
+                require(["views/pages/mainPage"], function(mainPageView) {
+                    mainPageView.render();
+                    mainPageView.go();
+                });
             },
 
             gamePageInit : function() {
-                gamePageView.render();
+                require(['views/pages/gamePage'], function(gamePageView) {
+                    gamePageView.render();
+                    gamePageView.go();
+                });
             },
 
             authPageInit : function() {
-                authPageView.render();
+                require(['views/pages/authPage'], function(authPageView) {
+                    authPageView.render();
+                    authPageView.go();
+                });
             },
 
             signupPageInit : function() {
-                signupPageView.render();
+                require(['views/pages/signupPage'], function(signupPageView) {
+                    signupPageView.render();
+                    signupPageView.go();
+                });
 
             },
             scoreboardPageInit : function() {
-                scoreboardPageView.render();
+                require(['views/pages/scoreboardPage'], function(scoreboardPageView) {
+                    scoreboardPageView.render();
+                    scoreboardPageView.go();
+                });
             }
         });
 

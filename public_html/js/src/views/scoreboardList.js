@@ -1,7 +1,7 @@
 /**
  * Created by rikimaru on 12.03.15.
  */
-define(["backbone", "../../templates/scoreboard_list"], function(Backbone, listTmpl) {
+define(["backbone", "templates/scoreboard_list"], function(Backbone, listTmpl) {
 
     var scoreboardList = Backbone.View.extend({
 
@@ -27,9 +27,7 @@ define(["backbone", "../../templates/scoreboard_list"], function(Backbone, listT
                 },
 
                 success : function(msg) {
-                    console.log(msg);
                     var data = JSON.parse(msg);
-                    console.log(data.response);
                     getThis().$el.html(listTmpl(data.response));
                 },
 

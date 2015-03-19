@@ -20,7 +20,8 @@ requirejs.config({
         "jquery" : "../lib/jquery",
         "lodash" : "../lib/lodash.min",
         "jquery.form" : "../lib/jquery.form",
-        "bootstrap.min" : "../lib.bootstrap.min"
+        "bootstrap.min" : "../lib.bootstrap.min",
+        pageView : "views/pages/page/page"
     },
     waitSeconds : 5
 });

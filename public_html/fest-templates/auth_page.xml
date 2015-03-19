@@ -1,35 +1,37 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
-    <div class="menu-container">
-        <div class="menu-container__menu">
+    <div data-role="page" id="auth-page">
+        <div class="menu-container">
+            <div class="menu-container__menu">
 
-            <div class="menu-name">Login</div>
+                <div class="menu-name">Login</div>
 
-            <form class="menu__form form-group form-horizontal" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
-                <div class="menu-form__fields-container">
+                <form class="menu__form form-group form-horizontal" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
+                    <div class="menu-form__fields-container">
 
-                    <div class="form-group menu-form__form-group">
-                        <label for="auth-login-field" class="control-label  menu-form__field-name"> Логин </label>
-                        <input type="text" name="login" class="form-control menu-form__field" id="auth-login-field"/>
+                        <div class="form-group menu-form__form-group">
+                            <label for="auth-login-field" class="control-label  menu-form__field-name"> Логин </label>
+                            <input type="text" name="login" class="form-control menu-form__field" id="auth-login-field"/>
+                        </div>
+
+                        <div class="form-group menu-form__form-group">
+                            <label class="control-label menu-form__field-name" for="auth-password-field"> Пароль </label>
+                            <input type="password" name="password" class="form-control menu-form__field" id="auth-password-field"/>
+                        </div>
+
                     </div>
 
-                    <div class="form-group menu-form__form-group">
-                        <label class="control-label menu-form__field-name" for="auth-password-field"> Пароль </label>
-                        <input type="password" name="password" class="form-control menu-form__field" id="auth-password-field"/>
+                    <div class="menu__button-container">
+                        <input type="submit" id="auth-submit-button" value="Войти" class="btn btn-large btn-success menu__button" />
                     </div>
 
-                </div>
+                    <div class="menu__button-container">
+                        <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a>
+                    </div>
 
-                <div class="menu__button-container">
-                    <input type="submit" id="auth-submit-button" value="Войти" class="btn btn-large btn-success menu__button" />
-                </div>
+                </form>
 
-                <div class="menu__button-container">
-                    <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a>
-                </div>
-
-            </form>
-
+            </div>
         </div>
     </div>
 

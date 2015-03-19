@@ -15,7 +15,7 @@ define(["backbone"], function(Backbone) {
             this.connection.onopen = function() {
                 console.log("Socket connect success");
             };
-            this.connection.onmessage = this.onEvent;
+            this.connection.onmessage = this.onEvent.bind(this);
             this.connection.onerror = this.onError;
             this.connection.onclose = this.onClose;
         },
@@ -29,7 +29,7 @@ define(["backbone"], function(Backbone) {
         },
 
         onEvent : function(event) {
-            console.log(event);
+            this.trigger("recieve", event);
         },
 
         onError : function(msg) {

@@ -1,12 +1,14 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="bestPlayers">
 
-    <div class="menu-container">
-        <div class="menu-container__menu">
-            <div class="menu__menu-name">Scoreboard</div>
-            <div class="menu__rating-container" id="rating-list">
+    <div data-role="page" id="scoreboard-page">
+        <div class="menu-container">
+            <div class="menu-container__menu">
+                <div class="menu__menu-name">Scoreboard</div>
+                <div class="menu__rating-container" id="rating-list">
 
+                </div>
+                <div class="menu__button-container"> <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a> </div>
             </div>
-            <div class="menu__button-container"> <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a> </div>
         </div>
     </div>
 

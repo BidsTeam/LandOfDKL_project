@@ -1,6 +1,0 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-
-    <input type="text" id="message" /> <br/>
-    <input type="button" value="Отправить" />
-
-</fest:template>
