@@ -7,15 +7,17 @@ define(["backbone"], function(Backbone) {
     var Socket = Backbone.Model.extend({
 
         connection : null,
-        msgQueue : null,
 
         initialize : function(options) {
+
             this.connect(options.address);
+
             this.connection.onopen = function() {
-
+                console.log("Socket connect success");
             };
-
-            this.connection.onmessage = this.onmessage;
+            this.connection.onmessage = this.onEvent;
+            this.connection.onerror = this.onError;
+            this.connection.onclose = this.onClose;
         },
 
         connect : function(address) {
@@ -26,10 +28,21 @@ define(["backbone"], function(Backbone) {
             this.connection.send(msg);
         },
 
-        onmessage : function(event) {
-            console.log(event.data);
-        }
+        onEvent : function(event) {
+            console.log(event);
+        },
 
+        onError : function(msg) {
+            console.log(msg);
+        },
+
+        onClose : function(msg) {
+            console.log(msg);
+        },
+
+        close : function() {
+            this.connection.close();
+        }
 
     });
 

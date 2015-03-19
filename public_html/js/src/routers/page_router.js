@@ -22,17 +22,10 @@ define(
                 "game(/)" : "gamePageInit",
                 "auth(/)" : "authPageInit",
                 "signup(/)" : "signupPageInit",
-                "scoreboard" : "scoreboardPageInit",
-                "test" : "testPage"
+                "scoreboard" : "scoreboardPageInit"
             },
 
             initialize : function() {
-            },
-
-            testPage : function() {
-                require(["models/sockets/chatSocket"], function(chatSocket) {
-                    console.log(chatSocket);
-                });
             },
 
             mainPageInit : function() {

@@ -1,23 +1,7 @@
 /**
  * Created by rikimaru on 08.03.15.
  */
-define(
-    "templater",
-    [
-        //"../templates/main_page",
-        //"../templates/auth_page",
-        //"../templates/scoreboard_page",
-        //"../templates/game_page",
-        //"../templates/signup_page"
-    ],
-    function(
-        //mainPage,
-        //authPage,
-        //scoreboardPage,
-        //gamePage,
-        //signupPage
-    ) {
-
+define(function() {
 
     var Templater = function() {
         var self = this;

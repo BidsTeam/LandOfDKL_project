@@ -17,9 +17,8 @@
                 <div id="chat-content" class="chat__content"></div>
                 <div id="chat-input-container" class="chat__input-container">
                     <input id="chat-input" type="text" class="chat__input" />
-                    <input type="button" value="Написать" class="chat__send-button" />
+                    <input type="button" value="Написать" class="chat__send-button" id="send-msg-to-chat" />
                 </div>
-                <button class="chat__socket_button" value="connect"/>
             </div>
             <div id="players-in-room-list" class="console__players-in-room-list"></div>
         </div>

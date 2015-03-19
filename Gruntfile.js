@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
 	grunt.initConfig({
 		shell: {
-			server: { /* Подзадача */
-	      		 //command: 'java LandOfDKL.jar main'
+			server: {
+	      		 command: 'java -cp LandOfDKL.jar app.main.Main'
 			}
 		},
 		fest: {

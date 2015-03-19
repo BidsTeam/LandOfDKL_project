@@ -12,11 +12,13 @@ define(
         var chatSocket = Socket.extend({
             
             sendPublic : function(msg) {
-
+                var data = {status : 0, message : msg};
+                this.send(JSON.stringify(data));
             },
 
             sendPrivate : function(msg) {
-
+                var data = {status : 1, message : msg};
+                this.send(data);
             }
         });
 

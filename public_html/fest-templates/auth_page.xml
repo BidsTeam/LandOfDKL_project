@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="menu__button-container">
-                    <input type="submit" value="Войти" class="btn btn-large btn-success menu__button" disabled="disabled" />
+                    <input type="submit" id="auth-submit-button" value="Войти" class="btn btn-large btn-success menu__button" />
                 </div>
 
                 <div class="menu__button-container">

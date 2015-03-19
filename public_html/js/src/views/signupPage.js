@@ -7,7 +7,7 @@ define(
     function(Backbone, signupModel, signupTmpl) {
 
         var SignupView = Backbone.View.extend({
-            el : "#template-container",
+
             events: {
                 'submit': 'onFormSubmit',
                 'change input[type!="submit"]': 'onInputChange',
@@ -27,7 +27,8 @@ define(
 
             render: function(){
                 $(".logo-container__logo").show();
-                this.$el.html(signupTmpl());
+                $("#template-container").html(signupTmpl());
+                this.setElement("#signup-page");
             },
 
             getInput: function(name) {
@@ -41,8 +42,14 @@ define(
                 this.$el.find('input[name]').each(function(key,val) {
                     $(val).trigger("change"); //Идеологически неправильно имитировать действия пользователя, но ничего умнее не придумал
                 });
-                $.post( "/api/auth/signup", model.toJSON(), function( data ) {
-                    console.log(data);
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/auth/signup",
+                    data: model.toJSON(),
+                    success: function (data) {
+                        console.log(data);
+                    }
                 });
                 //todo this.model.save(); Я настрою потом sync
             },
@@ -62,7 +69,6 @@ define(
             },
 
             checkForm : function(){
-                console.log(this.model.toJSON());
                 var valid = this.model.validateForm(this.model.toJSON());
                 if( valid ) {
                     this.$el.find("[type=submit]").removeAttr("disabled");
