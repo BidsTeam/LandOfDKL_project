@@ -12,9 +12,7 @@ import java.net.HttpCookie;
 import java.util.List;
 import java.util.Set;
 
-/**
- * Created by andreybondar on 16.03.15.
- */
+
 @WebSocket
 public class WebChatSocket {
     private Set<WebChatSocket> users;
@@ -42,10 +40,12 @@ public class WebChatSocket {
 
                 webChat.sendPrivateMessage(message, recevier.getId());
             } else {
-                webChat.sendMessege(message);
+                webChat.sendMessage(message);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            //todo отправить человеку, что произошла ошибка и его сообщение не доставлено
+            System.err.println(e.getMessage() + "File: " + e.getStackTrace()[2].getFileName() +" Line number: "+ e.getStackTrace()[2].getLineNumber());
+            //e.printStackTrace();
         }
     }
 

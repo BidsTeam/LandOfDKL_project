@@ -1,6 +1,3 @@
-/**
- * Created by rikimaru on 08.03.15.
- */
 define(
     "templater",
     [

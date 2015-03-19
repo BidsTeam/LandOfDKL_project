@@ -1,6 +1,4 @@
-/**
- * Created by andreybondar on 18.03.15.
- */
+
 define(
     "views/game",
     [

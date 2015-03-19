@@ -1,6 +1,3 @@
-/**
- * Created by rikimaru on 11.03.15.
- */
 define(['backbone', "templater", "views/main"], function(Backbone, Templater, mainView) {
 
     var scoreboardView = Backbone.View.extend({
