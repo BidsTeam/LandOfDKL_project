@@ -77,6 +77,7 @@ public class WebChatSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
+        cache.removeSession(userID, session);
         users.remove(this);
     }
 }
