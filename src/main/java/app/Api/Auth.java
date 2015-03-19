@@ -107,7 +107,7 @@ public class Auth {
                     }
                 }
             } else {
-                //todo хуйня-муйня пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
+                //todo пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
                 UserLogic user = Factory.getInstance().getUserDAO().getUserById(id);
                 if (user == null){
                     result.put("status", 301);

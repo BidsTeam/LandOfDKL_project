@@ -51,7 +51,7 @@ define(
                 this.model.set(e.target.name, e.target.value);
                 var result = this.model.validateOne(e.target.name, e.target.value);
                 _.forEach(result,function(val,key){
-                    //todo из-за паролей, пришлось хуйню какую-то сотворить здесь. Есть идеи как оставить все как было до этого коммита, и чтобы без этого велосипеда
+                    //todo из-за паролей, пришлось фигню какую-то сотворить здесь. Есть идеи как оставить все как было до этого коммита, и чтобы без этого велосипеда
                     if (val.result != true){
                         this.showInputErrors(this.$el.find("[name="+val.key+"]"), val.result)
                     } else {
