@@ -57,6 +57,11 @@ public class AccountCache {
         }
     }
 
+    public void removeSession(int userID, Session session) {
+        Set sessions = connections.get(userID);
+        sessions.remove(session);
+    }
+
     public HashMap getAllSessions() {
         return connections;
     }
