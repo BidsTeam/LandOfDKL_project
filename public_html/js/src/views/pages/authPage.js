@@ -34,6 +34,7 @@ define(
                 data : data,
                 url : Config.authUrl,
                 success : function(msg) {
+
                     User.build(JSON.parse(msg).response);
                     router.navigate("game", {trigger: true, replace: true});
                 },

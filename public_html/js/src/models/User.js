@@ -28,8 +28,6 @@ define(
                     paramObj[key] = val;
                     this.set(paramObj);
                 }, this);
-
-                console.log(this);
             }
         });
 

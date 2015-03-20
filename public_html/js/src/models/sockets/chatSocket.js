@@ -12,6 +12,9 @@ define(
         var chatSocket = Socket.extend({
             
             sendPublic : function(msg) {
+                if( msg.length == 0 ) {
+                    return;
+                }
                 var data = {status : 0, message : msg};
                 this.send(JSON.stringify(data));
             },
