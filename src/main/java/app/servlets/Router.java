@@ -18,41 +18,18 @@ public class Router extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
-//        Pattern p = Pattern.compile("(:\\/\\/.*?)\\/(.*)");
-//        Matcher m = p.matcher(request.getRequestURL());
-//        String url = "";
-//        while(m.find()){
-//            url = m.group();
-//        }
-        String url = request.getRequestURI();
-        try {
-            System.out.println(url);
-            String[] urlBuf = url.split("/");
-            String[] urlParts;
-            if (urlBuf.length < 4){
-                urlParts = new String[4];
-                System.arraycopy(urlBuf,0,urlParts,0,urlBuf.length);
-                urlParts[3] = "main";
-            } else {
-                urlParts = urlBuf;
-            }
-            System.out.println("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
-            Class<?> cls = Class.forName("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
-            Object obj = cls.newInstance();
-            Class[] paramTypes = new Class[] {HttpServletRequest.class,HttpServletResponse.class};
-            Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
-            Object[] args = new Object[] {request, response};
-            method.invoke(obj, args);
-        } catch (Exception e){
-            e.printStackTrace();
-            System.err.println(e.getMessage() + " In Router");
-        }
+        route(request,response);
         return;
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
 
+        route(request,response);
+        return;
+    }
+    private void route(HttpServletRequest request,
+                       HttpServletResponse response) throws ServletException, IOException {
         String url = request.getRequestURI();
         try {
             System.out.println(url);

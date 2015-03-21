@@ -62,8 +62,12 @@ public class WebChat {
 
         try {
             Set<Session> userConnections = cache.getUserSessions(recivierID);
-            for (Session connection : userConnections) {
-                 connection.getRemote().sendString(jsonResp);
+            if (!userConnections.isEmpty()){
+                for (Session connection : userConnections) {
+                    connection.getRemote().sendString(jsonResp);
+                }
+            } else {
+
             }
         } catch (Exception e) {
             e.printStackTrace();

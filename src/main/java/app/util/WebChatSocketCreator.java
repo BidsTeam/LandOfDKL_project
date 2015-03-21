@@ -19,15 +19,6 @@ public class WebChatSocketCreator implements WebSocketCreator {
         this.users = Collections.newSetFromMap(new ConcurrentHashMap<WebChatSocket, Boolean>());
     }
 
-    private static String getSessionId(List<HttpCookie> cookieList) {
-        for(HttpCookie c : cookieList) {
-            if (c.getName().equals("JSESSIONID")) {
-                return c.getValue();
-            }
-        }
-        return null;
-    }
-
     @Override
     public Object createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
         int sessionID = 0;
