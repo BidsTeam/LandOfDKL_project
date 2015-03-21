@@ -25,7 +25,6 @@ public class Main {
         //todo 2) Проблема с кодировкой с hibernate validator. исплоьзоваться i18n при каждом методе не хочется (как-то через бины решается)
         //todo 3) Проблема с timestamp см. logic/User/User()
         //todo 4) Какие-нибудь архитектурные советы
-        Router router = new Router();
         String portString = "8080";
         if (args.length >= 1) {
             portString = args[0];
@@ -42,11 +41,11 @@ public class Main {
 
         Server server = new Server(port);
 
+        Router router = new Router();
         AdminServlet adminServlet = new AdminServlet();
-        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         SocketServlet socketServlet = new SocketServlet();
 
-
+        ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");
