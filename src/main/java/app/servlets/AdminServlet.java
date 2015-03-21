@@ -16,7 +16,6 @@ import java.util.Map;
 
 public class AdminServlet extends HttpServlet {
 
-    //private User user = new User();
     private AccountCache accountCache = AccountCache.getInstance();
 
     public void doGet(HttpServletRequest request,
@@ -31,10 +30,8 @@ public class AdminServlet extends HttpServlet {
         }
         try {
             if (id != 0) {
-                Map<String, Object> pageVariables = new HashMap<>();
-                JSONObject json;
                 UserLogic user = accountCache.getUser(id);
-                if (user.isAdmin() == false) {
+                if (!user.isAdmin()) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
@@ -62,7 +59,6 @@ public class AdminServlet extends HttpServlet {
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
         int id = 0;
-        //Map<String, Object> result = new HashMap<>();
         try {
             id = (int)request.getSession().getAttribute("id");
         } catch (Exception e){
