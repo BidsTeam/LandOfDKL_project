@@ -43,10 +43,7 @@ public class Auth {
                 result.put("error","Please use POST method");
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                UserLogic user = new UserLogic();
-                user.setUsername((request.getParameter("username")));
-                user.setPassword(request.getParameter("password"));
-                user.setEmail((request.getParameter("email")));
+                UserLogic user = new UserLogic(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
                 Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
