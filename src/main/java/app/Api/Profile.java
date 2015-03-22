@@ -31,20 +31,13 @@ public class Profile {
         response.setContentType("text/html;charset=utf-8");
         if (userID != 0 ) {
             if (request.getMethod().equalsIgnoreCase("GET")) {
-                //JSONObject json;
                 try {
-                    //User user = Factory.getInstance().getUserDAO().getUserById(userID);
                     System.out.println("test1");
                     UserLogic user = cacheAcc.getUser(userID);
-                    //System.out.println("test2" + user.getUsername());
-
                     body.put("username", user.getUsername());
                     body.put("email", user.getEmail());
                     result.put("status", 200);
                     response.setStatus(HttpServletResponse.SC_OK);
-                    //pageVariables.put("username", user.getUsername());
-                    //pageVariables.put("email", " test");
-                    //response.getWriter().println(PageGenerator.getPage("profile.html", pageVariables));
                 } catch (Exception e) {
                     body.put("error", "error in finding your account info");
                     result.put("status", 500);
