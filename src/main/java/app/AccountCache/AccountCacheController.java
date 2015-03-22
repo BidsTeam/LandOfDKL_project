@@ -12,8 +12,5 @@ public class AccountCacheController implements AccountCacheControllerMBean {
     public int getLoggedCounter() {
         return accountServer.getLoggedCounter();
     }
-    public void setLoggedCounter(int val) {
-        accountServer.setLoggedCounter(val);
-    }
 
 }

@@ -22,12 +22,10 @@ public class AccountCache {
     private AccountCache(){
     }
 
-    private int loggedCounter = 0;
     private HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();
     private HashMap<Integer, Set<Session>> connections = new HashMap<>();
 
     public void putUser(UserLogic user) {
-        loggedCounter++;
         int userID = user.getId();
         CachedAccounts.put(userID, user);
     }
@@ -39,11 +37,7 @@ public class AccountCache {
     }
 
     public int getLoggedCounter() {
-        return loggedCounter;
-    }
-
-    public void setLoggedCounter(int val){
-        loggedCounter = val;
+        return CachedAccounts.size();
     }
 
     public void putNewSession(int userID, Session newSession) {
