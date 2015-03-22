@@ -22,13 +22,7 @@ public class WebChatSocketCreator implements WebSocketCreator {
 
     @Override
     public WebChatSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
-        int sessionID = 0;
-        try {
-            sessionID = (int) request.getSession().getAttribute("id");
-        } catch (Exception e)
-        {
-            sessionID = 0;
-        }
+        int sessionID = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
         if (sessionID == 0) {
             LogFactory.getInstance().getSessionLogger().debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
