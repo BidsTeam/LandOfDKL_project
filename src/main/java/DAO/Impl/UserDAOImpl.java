@@ -2,7 +2,7 @@ package DAO.Impl;
 
 import DAO.UserDAO;
 import DAO.logic.UserLogic;
-import app.AccountCache.AccountCache;
+import app.AccountMap.AccountMap;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-    private AccountCache accountCache = AccountCache.getInstance();
+    private AccountMap accountMap = AccountMap.getInstance();
     @Override
     public void addUser(UserLogic user) throws SQLException {
         Session session = null;
@@ -96,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
                     list();
             if (result.size() > 0) {
                 user = result.get(0);
-                accountCache.putUser(user);
+                accountMap.putUser(user);
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);

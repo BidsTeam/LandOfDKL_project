@@ -1,6 +1,6 @@
 package app.ApiV2;
 
-import app.AccountCache.AccountCache;
+import app.AccountMap.AccountMap;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import util.LogFactory;
@@ -11,7 +11,7 @@ import java.util.Set;
 public class WebChat {
     private static WebChat chatInstance;
     private WebChat() {}
-    private AccountCache cache = AccountCache.getInstance();
+    private AccountMap cache = AccountMap.getInstance();
 
 
     public static WebChat getChatInstance() {

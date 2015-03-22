@@ -1,4 +1,4 @@
-package app.AccountCache;
+package app.AccountMap;
 
 import DAO.logic.UserLogic;
 import org.eclipse.jetty.websocket.api.Session;
@@ -8,18 +8,18 @@ import java.util.HashSet;
 import java.util.Set;
 
 
-public class AccountCache {
+public class AccountMap {
 
-    private static AccountCache accountCache = null;
+    private static AccountMap AccountMap = null;
 
-    public static AccountCache getInstance(){
-        if (accountCache == null){
-            accountCache = new AccountCache();
+    public static AccountMap getInstance(){
+        if (AccountMap == null){
+            AccountMap = new AccountMap();
         }
-        return accountCache;
+        return AccountMap;
     }
 
-    private AccountCache(){
+    private AccountMap(){
     }
 
     private HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();

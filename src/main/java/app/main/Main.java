@@ -3,9 +3,9 @@ package app.main;
 import app.servlets.AdminServlet;
 import app.servlets.Router;
 import app.servlets.SocketServlet;
-import app.AccountCache.AccountCache;
-import app.AccountCache.AccountCacheController;
-import app.AccountCache.AccountCacheControllerMBean;
+import app.AccountMap.AccountMap;
+import app.AccountMap.AccountMapController;
+import app.AccountMap.AccountMapControllerMBean;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -35,7 +35,7 @@ public class Main {
 
         LogFactory.getInstance().getMainLogger().info("Starting at port: " + portString);
 
-        AccountCacheControllerMBean serverStatistics = new AccountCacheController(AccountCache.getInstance());
+        AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
         mbs.registerMBean(serverStatistics, name);

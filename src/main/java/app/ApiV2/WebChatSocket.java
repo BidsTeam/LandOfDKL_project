@@ -2,7 +2,7 @@ package app.ApiV2;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
-import app.AccountCache.AccountCache;
+import app.AccountMap.AccountMap;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
@@ -21,7 +21,7 @@ public class WebChatSocket {
     private int userID;
     private UserLogic user;
     WebChat webChat = WebChat.getChatInstance();
-    AccountCache cache = AccountCache.getInstance();
+    AccountMap cache = AccountMap.getInstance();
 
     public WebChatSocket(Set<WebChatSocket> users, int ID) {
         System.out.println("test");

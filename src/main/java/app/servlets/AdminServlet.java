@@ -2,7 +2,7 @@ package app.servlets;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
-import app.AccountCache.AccountCache;
+import app.AccountMap.AccountMap;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import util.LogFactory;
@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class AdminServlet extends HttpServlet {
 
-    private AccountCache accountCache = AccountCache.getInstance();
+    private AccountMap accountMap = AccountMap.getInstance();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
@@ -31,12 +31,12 @@ public class AdminServlet extends HttpServlet {
         }
         try {
             if (id != 0) {
-                UserLogic user = accountCache.getUser(id);
+                UserLogic user = accountMap.getUser(id);
                 if (!user.isAdmin()) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
-                    int loginCounter = accountCache.getLoggedCounter();
+                    int loginCounter = accountMap.getLoggedCounter();
                     body.put("logined", loginCounter);
                     body.put("registrated", usersCounter);
                     result.put("status", 200);
@@ -66,7 +66,7 @@ public class AdminServlet extends HttpServlet {
             id = 0;
         }
         if (id != 0) {
-            UserLogic user = accountCache.getUser(id);
+            UserLogic user = accountMap.getUser(id);
             if (!user.isAdmin()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {
