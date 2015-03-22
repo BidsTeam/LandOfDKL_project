@@ -77,12 +77,7 @@ public class Auth {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
         try {
-            int id = 0;
-            try {
-                id = (int)request.getSession().getAttribute("id");
-            } catch (NullPointerException e){
-                id = 0;
-            }
+            int id = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
             if (id == 0) {
                 if (request.getMethod().equalsIgnoreCase("GET")) {
                     result.put("status", 405);
