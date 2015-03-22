@@ -21,7 +21,7 @@ public class WebChatSocketCreator implements WebSocketCreator {
     }
 
     @Override
-    public Object createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
+    public WebChatSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
         int sessionID = 0;
         try {
             sessionID = (int) request.getSession().getAttribute("id");
