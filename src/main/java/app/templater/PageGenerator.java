@@ -3,6 +3,7 @@ package app.templater;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import util.LogFactory;
 
 
 import java.io.File;
@@ -24,7 +25,7 @@ public class PageGenerator {
             Template template = CFG.getTemplate(HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
-            e.printStackTrace();
+            LogFactory.getInstance().getMainLogger().error("Templater/PageGenerator/getPage",e);
         }
         return stream.toString();
 

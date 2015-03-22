@@ -5,6 +5,7 @@ import DAO.logic.UserLogic;
 import app.AccountCache.AccountCache;
 import com.google.gson.Gson;
 import org.json.JSONObject;
+import util.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -35,8 +36,8 @@ public class AdminServlet extends HttpServlet {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
-                    int loginedCounter = accountCache.getLoggedCounter();
-                    body.put("logined", loginedCounter);
+                    int loginCounter = accountCache.getLoggedCounter();
+                    body.put("logined", loginCounter);
                     body.put("registrated", usersCounter);
                     result.put("status", 200);
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -47,7 +48,7 @@ public class AdminServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogFactory.getInstance().getServletLogger().error("AdminServlet/doGet",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         result.put("body", body);

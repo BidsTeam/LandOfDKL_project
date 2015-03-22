@@ -4,6 +4,7 @@ import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.logic.FightFinder;
 import com.google.gson.Gson;
+import util.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ public class Auth {
         Map<String, Object> result = new HashMap<>();
         Map<String, Object> body = new HashMap<>();
         try{
+
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error","Please use POST method");
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
@@ -57,6 +59,7 @@ public class Auth {
                     } catch (Exception e) {
                         result.put("status", 500);
                         body.put("error", "Undefined error in server");
+                        LogFactory.getInstance().getApiLogger().error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
                 } else {
@@ -70,7 +73,7 @@ public class Auth {
             String json = gson.toJson(result);
             response.getWriter().println(json);
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In Login");
+            LogFactory.getInstance().getApiLogger().error("Auth/signup", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -123,7 +126,7 @@ public class Auth {
             String json = gson.toJson(result);
             response.getWriter().println(json);
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In Login");
+            LogFactory.getInstance().getApiLogger().error("Auth/signin",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -143,7 +146,7 @@ public class Auth {
         try {
             response.getWriter().println(json);
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In ");
+            LogFactory.getInstance().getApiLogger().error("Auth/drop",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

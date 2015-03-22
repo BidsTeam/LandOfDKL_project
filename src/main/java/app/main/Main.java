@@ -12,6 +12,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import util.LogFactory;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -31,8 +32,8 @@ public class Main {
         }
 
         int port = Integer.valueOf(portString);
-        System.out.append("Starting at port: ").append(portString).append('\n');
 
+        LogFactory.getInstance().getMainLogger().info("Starting at port: " + portString);
 
         AccountCacheControllerMBean serverStatistics = new AccountCacheController(AccountCache.getInstance());
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
@@ -54,11 +55,6 @@ public class Main {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
         resourceHandler.setResourceBase("public_html");
-
-
-
-        //server.setHandler(context);
-
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {resourceHandler, context});

@@ -6,6 +6,7 @@ import app.AccountCache.AccountCache;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
+import util.LogFactory;
 
 import java.lang.reflect.Method;
 import java.net.HttpCookie;
@@ -31,21 +32,19 @@ public class WebChatSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-            System.out.println(data);
+            LogFactory.getInstance().getSessionLogger().debug("WebChatSocket/onMessage: "+data);
             JSONObject message = new JSONObject(data);
             message.put("author", user.getUsername());
             if (message.getInt("status") == 1) {
-                UserLogic recevier = Factory.getInstance().getUserDAO()
-                        .getUserByUsername(message.getString("recevierName"));
+                UserLogic receiver = Factory.getInstance().getUserDAO()
+                        .getUserByUsername(message.getString("receiverName"));
 
-                webChat.sendPrivateMessage(message, recevier.getId());
+                webChat.sendPrivateMessage(message, receiver.getId());
             } else {
                 webChat.sendMessage(message);
             }
         } catch (Exception e) {
-            //todo отправить человеку, что произошла ошибка и его сообщение не доставлено
-            System.err.println(e.getMessage() + "File: " + e.getStackTrace()[2].getFileName() +" Line number: "+ e.getStackTrace()[2].getLineNumber());
-            //e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onMessage",e);
         }
     }
 
@@ -57,7 +56,7 @@ public class WebChatSocket {
             cache.putNewSession(userID, session);
             user = cache.getUser(userID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onOpen", e);
         }
     }
 

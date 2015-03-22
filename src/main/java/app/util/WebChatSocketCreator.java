@@ -4,6 +4,7 @@ import app.ApiV2.WebChatSocket;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
+import util.LogFactory;
 
 import java.net.HttpCookie;
 import java.util.Collections;
@@ -29,7 +30,7 @@ public class WebChatSocketCreator implements WebSocketCreator {
             sessionID = 0;
         }
         if (sessionID == 0) {
-            System.out.println("not auth");
+            LogFactory.getInstance().getSessionLogger().debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
             return new WebChatSocket(users, sessionID);

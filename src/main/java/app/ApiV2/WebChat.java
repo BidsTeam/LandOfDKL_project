@@ -3,6 +3,7 @@ package app.ApiV2;
 import app.AccountCache.AccountCache;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
+import util.LogFactory;
 
 import java.util.HashMap;
 import java.util.Set;
@@ -28,9 +29,7 @@ public class WebChat {
             responseBody.put("author", json.get("author").toString());
             responseBody.put("message", json.get("message").toString());
         } catch (Exception e){
-            //todo найти все дубликаты данного err print и вынести в функцию такую идеологию (в случае предусмотренных ошибок, а не глобальных)
-            //todo С указанием ссылки(на файл) и еще кучей всего
-            System.err.println(e.getMessage() + "File: " + e.getStackTrace()[2].getFileName() +" Line number: "+ e.getStackTrace()[2].getLineNumber());
+            LogFactory.getInstance().getSessionLogger().error("WebChat/sendMessage",e);
             responseBody.put("author", "err");
             responseBody.put("message", "err");
 
@@ -46,7 +45,7 @@ public class WebChat {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal(e);
         }
 
     }
@@ -70,7 +69,7 @@ public class WebChat {
 
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal(e);
         }
     }
 }

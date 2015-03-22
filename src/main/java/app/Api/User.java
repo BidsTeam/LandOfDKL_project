@@ -3,6 +3,7 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import com.google.gson.Gson;
+import util.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -34,7 +35,7 @@ public class User {
             String json = gson.toJson(result);
             response.getWriter().println(json);
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In User/top");
+            LogFactory.getInstance().getApiLogger().error("User/top",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
