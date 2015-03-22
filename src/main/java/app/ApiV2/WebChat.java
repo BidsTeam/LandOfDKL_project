@@ -65,8 +65,6 @@ public class WebChat {
                 for (Session connection : userConnections) {
                     connection.getRemote().sendString(jsonResp);
                 }
-            } else {
-
             }
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal(e);
