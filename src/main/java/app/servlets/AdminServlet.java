@@ -3,6 +3,7 @@ package app.servlets;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
+import app.templater.PageGenerator;
 import com.google.gson.Gson;
 import org.json.JSONObject;
 import util.LogFactory;
@@ -21,8 +22,8 @@ public class AdminServlet extends HttpServlet {
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         int id = 0;
         try {
             id = (int)request.getSession().getAttribute("id");
@@ -48,13 +49,11 @@ public class AdminServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getServletLogger().error("AdminServlet/doGet",e);
+            LogFactory.getInstance().getServletLogger().error("AdminServlet/doGet", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         result.put("body", body);
-        Gson gson = new Gson();
-        String json = gson.toJson(result);
-        response.getWriter().println(json);
+        response.getWriter().println(PageGenerator.getJson(result));
     }
 
     public void doPost(HttpServletRequest request,

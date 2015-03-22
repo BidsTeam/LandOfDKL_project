@@ -1,5 +1,6 @@
 package app.templater;
 
+import com.google.gson.Gson;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -10,6 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -26,6 +28,10 @@ public class PageGenerator {
             LogFactory.getInstance().getMainLogger().error("Templater/PageGenerator/getPage",e);
         }
         return stream.toString();
+    }
 
+    public static String getJson(HashMap<String,Object> result){
+        Gson gson = new Gson();
+        return gson.toJson(result);
     }
 }

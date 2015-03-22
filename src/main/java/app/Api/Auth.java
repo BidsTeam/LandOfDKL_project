@@ -3,6 +3,7 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.logic.FightFinder;
+import app.templater.PageGenerator;
 import com.google.gson.Gson;
 import util.LogFactory;
 
@@ -33,8 +34,8 @@ public class Auth {
 
     public void signup(HttpServletRequest request,
                        HttpServletResponse response) {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         try{
 
             if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -64,9 +65,7 @@ public class Auth {
                 }
             }
             result.put("response", body);
-            Gson gson = new Gson();
-            String json = gson.toJson(result);
-            response.getWriter().println(json);
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
             LogFactory.getInstance().getApiLogger().error("Auth/signup", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -75,8 +74,8 @@ public class Auth {
 
     public void signin(HttpServletRequest request,
                      HttpServletResponse response) {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         try {
             int id = 0;
             try {
@@ -117,9 +116,8 @@ public class Auth {
                 }
             }
             result.put("response", body);
-            Gson gson = new Gson();
-            String json = gson.toJson(result);
-            response.getWriter().println(json);
+
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
             LogFactory.getInstance().getApiLogger().error("Auth/signin",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
@@ -129,17 +127,15 @@ public class Auth {
     public void drop(HttpServletRequest request,
                        HttpServletResponse response) {
 
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         result.put("status", 200);
         body.put("result","ok");
         result.put("response", body);
         request.getSession().setAttribute("id", 0);
         response.setStatus(HttpServletResponse.SC_OK);
-        Gson gson = new Gson();
-        String json = gson.toJson(result);
         try {
-            response.getWriter().println(json);
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
             LogFactory.getInstance().getApiLogger().error("Auth/drop",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
