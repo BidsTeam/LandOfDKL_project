@@ -18,7 +18,6 @@ import java.util.Map;
 public class Auth {
     private String login = "";
 
-    FightFinder fightFinder = new FightFinder();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -26,7 +25,6 @@ public class Auth {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
 
-        //response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
@@ -83,7 +81,7 @@ public class Auth {
             int id = 0;
             try {
                 id = (int)request.getSession().getAttribute("id");
-            } catch (Exception e){
+            } catch (NullPointerException e){
                 id = 0;
             }
             if (id == 0) {
