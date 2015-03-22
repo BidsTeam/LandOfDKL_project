@@ -1,6 +1,6 @@
 package app.servlets;
 
-import app.util.WebChatSocketCreator;
+import app.WebSocket.CustomWebSocketCreator;
 import org.eclipse.jetty.websocket.servlet.WebSocketServlet;
 import org.eclipse.jetty.websocket.servlet.WebSocketServletFactory;
 
@@ -14,7 +14,7 @@ public class SocketServlet extends WebSocketServlet {
     @Override
     public void configure(WebSocketServletFactory factory) {
         factory.getPolicy().setIdleTimeout(LOGOUT_TIME);
-        factory.setCreator(new WebChatSocketCreator());
+        factory.setCreator(new CustomWebSocketCreator());
     }
 
 }

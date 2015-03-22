@@ -1,28 +1,26 @@
-package app.ApiV2;
+package app.WebSocket;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountCache.AccountCache;
+import app.WebSocket.MessageSystem.WebChat;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
 
-import java.lang.reflect.Method;
-import java.net.HttpCookie;
-import java.util.List;
 import java.util.Set;
 
 
 @WebSocket
-public class WebChatSocket {
-    private Set<WebChatSocket> users;
+public class CustomWebSocket {
+    private Set<CustomWebSocket> users;
     private Session session;
     private int userID;
     private UserLogic user;
     WebChat webChat = WebChat.getChatInstance();
     AccountCache cache = AccountCache.getInstance();
 
-    public WebChatSocket(Set<WebChatSocket> users, int ID) {
+    public CustomWebSocket(Set<CustomWebSocket> users, int ID) {
         System.out.println("test");
         userID = ID;
         this.users = users;

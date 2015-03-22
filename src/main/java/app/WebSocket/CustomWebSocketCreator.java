@@ -1,22 +1,19 @@
-package app.util;
+package app.WebSocket;
 
-import app.ApiV2.WebChatSocket;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
 
-import java.net.HttpCookie;
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class WebChatSocketCreator implements WebSocketCreator {
+public class CustomWebSocketCreator implements WebSocketCreator {
 
-    private Set<WebChatSocket> users;
+    private Set<CustomWebSocket> users;
 
-    public WebChatSocketCreator() {
-        this.users = Collections.newSetFromMap(new ConcurrentHashMap<WebChatSocket, Boolean>());
+    public CustomWebSocketCreator() {
+        this.users = Collections.newSetFromMap(new ConcurrentHashMap<CustomWebSocket, Boolean>());
     }
 
     @Override
@@ -32,7 +29,7 @@ public class WebChatSocketCreator implements WebSocketCreator {
             System.out.println("not auth");
             return null;
         } else {
-            return new WebChatSocket(users, sessionID);
+            return new CustomWebSocket(users, sessionID);
         }
     }
 

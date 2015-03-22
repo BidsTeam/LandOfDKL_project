@@ -1,6 +1,6 @@
 define("utils", ['lodash'], function(_) {
 
-    var Util = {
+    return {
 
         templateFromUrl : function (url, data, settings) {
             var templateHtml = "";
@@ -31,7 +31,5 @@ define("utils", ['lodash'], function(_) {
             return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str) && str != "";
         }
 
-    }
-
-    return Util;
+    };
 });
