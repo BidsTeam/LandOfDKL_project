@@ -24,12 +24,7 @@ public class AdminServlet extends HttpServlet {
                       HttpServletResponse response) throws  ServletException, IOException {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
-        int id = 0;
-        try {
-            id = (int)request.getSession().getAttribute("id");
-        } catch (Exception e){
-            id = 0;
-        }
+        int id = (request.getSession().getAttribute("id")==null)?(int)request.getSession().getAttribute("id"):0;
         try {
             if (id != 0) {
                 UserLogic user = accountMap.getUser(id);
@@ -58,12 +53,7 @@ public class AdminServlet extends HttpServlet {
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        int id = 0;
-        try {
-            id = (int)request.getSession().getAttribute("id");
-        } catch (Exception e){
-            id = 0;
-        }
+        int id = (request.getSession().getAttribute("id")==null)?(int)request.getSession().getAttribute("id"):0;
         if (id != 0) {
             UserLogic user = accountMap.getUser(id);
             if (!user.isAdmin()) {
