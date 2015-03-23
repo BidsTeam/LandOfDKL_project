@@ -21,6 +21,8 @@ public class LogFactory {
         return instance;
     }
 
+    private LogFactory(){}
+
     public Logger getMainLogger(){
         return singletonFactory(mainLogger, "Main Log");
     }

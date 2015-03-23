@@ -6,6 +6,7 @@ public class Factory {
 
     private static UserDAO userDAO = null;
     private static Factory instance = null;
+    private Factory () {}
 
     public static synchronized Factory getInstance(){
         if (instance == null){
@@ -13,6 +14,7 @@ public class Factory {
         }
         return instance;
     }
+
 
     public UserDAO getUserDAO(){
         if (userDAO == null){
