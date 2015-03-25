@@ -1,5 +1,6 @@
 package util;
 
+import org.apache.logging.log4j.Logger;
 import org.hibernate.HibernateException;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -20,7 +21,7 @@ public class HibernateUtil {
                     configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (HibernateException he) {
-            System.err.println("Error creating Session: " + he);
+            LogFactory.getInstance().getMainLogger().fatal("Util.HibernateUtil/static Error creating Session:",he);
             throw new ExceptionInInitializerError(he);
         }
     }

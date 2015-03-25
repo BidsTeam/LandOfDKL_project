@@ -2,11 +2,13 @@ package app.WebSocket;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
+import app.AccountMap.AccountMap;
 import app.AccountCache.AccountCache;
 import app.WebSocket.MessageSystem.WebChat;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
+import util.LogFactory;
 
 import java.util.Set;
 
@@ -18,7 +20,7 @@ public class CustomWebSocket {
     private int userID;
     private UserLogic user;
     WebChat webChat = WebChat.getChatInstance();
-    AccountCache cache = AccountCache.getInstance();
+    AccountMap cache = AccountMap.getInstance();
 
     public CustomWebSocket(Set<CustomWebSocket> users, int ID) {
         System.out.println("test");
@@ -29,21 +31,19 @@ public class CustomWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-            System.out.println(data);
+            LogFactory.getInstance().getSessionLogger().debug("WebChatSocket/onMessage: "+data);
             JSONObject message = new JSONObject(data);
             message.put("author", user.getUsername());
             if (message.getInt("status") == 1) {
-                UserLogic recevier = Factory.getInstance().getUserDAO()
-                        .getUserByUsername(message.getString("recevierName"));
+                UserLogic receiver = Factory.getInstance().getUserDAO()
+                        .getUserByUsername(message.getString("receiverName"));
 
-                webChat.sendPrivateMessage(message, recevier.getId());
+                webChat.sendPrivateMessage(message, receiver.getId());
             } else {
                 webChat.sendMessage(message);
             }
         } catch (Exception e) {
-            //todo отправить человеку, что произошла ошибка и его сообщение не доставлено
-            System.err.println(e.getMessage() + "File: " + e.getStackTrace()[2].getFileName() +" Line number: "+ e.getStackTrace()[2].getLineNumber());
-            //e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onMessage",e);
         }
     }
 
@@ -55,7 +55,7 @@ public class CustomWebSocket {
             cache.putNewSession(userID, session);
             user = cache.getUser(userID);
         } catch (Exception e) {
-            e.printStackTrace();
+            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onOpen", e);
         }
     }
 

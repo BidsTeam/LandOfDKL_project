@@ -1,7 +1,7 @@
-package app.AccountCache;
+package app.AccountMap;
 
 
 @SuppressWarnings("UnusedDeclaration")
-public interface AccountCacheControllerMBean {
+public interface AccountMapControllerMBean {
     public int getLoggedCounter();
 }

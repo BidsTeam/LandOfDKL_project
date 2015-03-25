@@ -3,6 +3,7 @@ package app.WebSocket;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
+import util.LogFactory;
 
 import java.util.Collections;
 import java.util.Set;
@@ -17,16 +18,10 @@ public class CustomWebSocketCreator implements WebSocketCreator {
     }
 
     @Override
-    public Object createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
-        int sessionID = 0;
-        try {
-            sessionID = (int) request.getSession().getAttribute("id");
-        } catch (Exception e)
-        {
-            sessionID = 0;
-        }
+    public WebChatSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
+        int sessionID = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
         if (sessionID == 0) {
-            System.out.println("not auth");
+            LogFactory.getInstance().getSessionLogger().debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
             return new CustomWebSocket(users, sessionID);

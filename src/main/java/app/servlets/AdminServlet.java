@@ -2,9 +2,11 @@ package app.servlets;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
-import app.AccountCache.AccountCache;
+import app.AccountMap.AccountMap;
+import app.templater.PageGenerator;
 import com.google.gson.Gson;
 import org.json.JSONObject;
+import util.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,27 +18,22 @@ import java.util.Map;
 
 public class AdminServlet extends HttpServlet {
 
-    private AccountCache accountCache = AccountCache.getInstance();
+    private AccountMap accountMap = AccountMap.getInstance();
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
-        int id = 0;
-        try {
-            id = (int)request.getSession().getAttribute("id");
-        } catch (Exception e){
-            id = 0;
-        }
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
+        int id = (request.getSession().getAttribute("id")==null)?(int)request.getSession().getAttribute("id"):0;
         try {
             if (id != 0) {
-                UserLogic user = accountCache.getUser(id);
+                UserLogic user = accountMap.getUser(id);
                 if (!user.isAdmin()) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
                     int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
-                    int loginedCounter = accountCache.getLoggedCounter();
-                    body.put("logined", loginedCounter);
+                    int loginCounter = accountMap.getLoggedCounter();
+                    body.put("logined", loginCounter);
                     body.put("registrated", usersCounter);
                     result.put("status", 200);
                     response.setStatus(HttpServletResponse.SC_OK);
@@ -47,25 +44,18 @@ public class AdminServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
-            System.out.println(e.getMessage());
+            LogFactory.getInstance().getServletLogger().error("AdminServlet/doGet", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         result.put("body", body);
-        Gson gson = new Gson();
-        String json = gson.toJson(result);
-        response.getWriter().println(json);
+        response.getWriter().println(PageGenerator.getJson(result));
     }
 
     public void doPost(HttpServletRequest request,
                        HttpServletResponse response) throws ServletException, IOException {
-        int id = 0;
-        try {
-            id = (int)request.getSession().getAttribute("id");
-        } catch (Exception e){
-            id = 0;
-        }
+        int id = (request.getSession().getAttribute("id")==null)?(int)request.getSession().getAttribute("id"):0;
         if (id != 0) {
-            UserLogic user = accountCache.getUser(id);
+            UserLogic user = accountMap.getUser(id);
             if (!user.isAdmin()) {
                 response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             } else {

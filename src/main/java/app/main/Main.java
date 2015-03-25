@@ -3,15 +3,16 @@ package app.main;
 import app.servlets.AdminServlet;
 import app.servlets.Router;
 import app.servlets.SocketServlet;
-import app.AccountCache.AccountCache;
-import app.AccountCache.AccountCacheController;
-import app.AccountCache.AccountCacheControllerMBean;
+import app.AccountMap.AccountMap;
+import app.AccountMap.AccountMapController;
+import app.AccountMap.AccountMapControllerMBean;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import util.LogFactory;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -31,10 +32,10 @@ public class Main {
         }
 
         int port = Integer.valueOf(portString);
-        System.out.append("Starting at port: ").append(portString).append('\n');
 
+        LogFactory.getInstance().getMainLogger().info("Starting at port: " + portString);
 
-        AccountCacheControllerMBean serverStatistics = new AccountCacheController(AccountCache.getInstance());
+        AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
         mbs.registerMBean(serverStatistics, name);
@@ -54,11 +55,6 @@ public class Main {
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
         resourceHandler.setResourceBase("public_html");
-
-
-
-        //server.setHandler(context);
-
 
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] {resourceHandler, context});

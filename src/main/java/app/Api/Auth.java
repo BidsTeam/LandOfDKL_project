@@ -3,7 +3,9 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.logic.FightFinder;
+import app.templater.PageGenerator;
 import com.google.gson.Gson;
+import util.LogFactory;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +19,6 @@ import java.util.Map;
 public class Auth {
     private String login = "";
 
-    FightFinder fightFinder = new FightFinder();
 
     public void main(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -25,7 +26,6 @@ public class Auth {
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
 
-        //response.getWriter().println(PageGenerator.getPage("authform(script).html", pageVariables));
 
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
@@ -34,17 +34,15 @@ public class Auth {
 
     public void signup(HttpServletRequest request,
                        HttpServletResponse response) {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         try{
+
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error","Please use POST method");
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                UserLogic user = new UserLogic();
-                user.setUsername((request.getParameter("username")));
-                user.setPassword(request.getParameter("password"));
-                user.setEmail((request.getParameter("email")));
+                UserLogic user = new UserLogic(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
                 Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
@@ -57,6 +55,7 @@ public class Auth {
                     } catch (Exception e) {
                         result.put("status", 500);
                         body.put("error", "Undefined error in server");
+                        LogFactory.getInstance().getApiLogger().error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
                 } else {
@@ -66,26 +65,19 @@ public class Auth {
                 }
             }
             result.put("response", body);
-            Gson gson = new Gson();
-            String json = gson.toJson(result);
-            response.getWriter().println(json);
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In Login");
+            LogFactory.getInstance().getApiLogger().error("Auth/signup", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     public void signin(HttpServletRequest request,
                      HttpServletResponse response) {
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         try {
-            int id = 0;
-            try {
-                id = (int)request.getSession().getAttribute("id");
-            } catch (Exception e){
-                id = 0;
-            }
+            int id = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
             if (id == 0) {
                 if (request.getMethod().equalsIgnoreCase("GET")) {
                     result.put("status", 405);
@@ -119,11 +111,10 @@ public class Auth {
                 }
             }
             result.put("response", body);
-            Gson gson = new Gson();
-            String json = gson.toJson(result);
-            response.getWriter().println(json);
+
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In Login");
+            LogFactory.getInstance().getApiLogger().error("Auth/signin",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -131,19 +122,17 @@ public class Auth {
     public void drop(HttpServletRequest request,
                        HttpServletResponse response) {
 
-        Map<String, Object> result = new HashMap<>();
-        Map<String, Object> body = new HashMap<>();
+        HashMap<String, Object> result = new HashMap<>();
+        HashMap<String, Object> body = new HashMap<>();
         result.put("status", 200);
         body.put("result","ok");
         result.put("response", body);
         request.getSession().setAttribute("id", 0);
         response.setStatus(HttpServletResponse.SC_OK);
-        Gson gson = new Gson();
-        String json = gson.toJson(result);
         try {
-            response.getWriter().println(json);
+            response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            System.err.println(e.getMessage() + " In ");
+            LogFactory.getInstance().getApiLogger().error("Auth/drop",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

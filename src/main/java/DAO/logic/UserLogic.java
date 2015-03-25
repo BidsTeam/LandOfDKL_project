@@ -43,6 +43,12 @@ public class UserLogic {
         // todo мы сделали @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
         // todo Но тогда при save. Отданный юзер не хранит в себе registration, а хранит нулл
     }
+    public UserLogic(String username,String password,String email){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+
+    }
 
 //    public User(User u){
 //        username = u.getUsername();н
