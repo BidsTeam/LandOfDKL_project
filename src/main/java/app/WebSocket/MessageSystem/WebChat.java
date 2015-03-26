@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import util.LogFactory;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 
 public class WebChat {
@@ -37,7 +38,7 @@ public class WebChat {
         response.put("body", responseBody);
         String jsonResp = response.toString();
 
-        HashMap<Integer, Set<Session>> sessions = cache.getAllSessions();
+        HashMap<Integer, HashSet<Session>> sessions = cache.getAllSessions();
         try {
             for (Set<Session> userConnections : sessions.values()) {
                 for (Session connection : userConnections) {

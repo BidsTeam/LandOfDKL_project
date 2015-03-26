@@ -3,7 +3,7 @@ package app.WebSocket;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
-import app.gameMechanics.GameFactory;
+import app.GameMechanics.GameFactory;
 import app.WebSocket.MessageSystem.WebChat;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;

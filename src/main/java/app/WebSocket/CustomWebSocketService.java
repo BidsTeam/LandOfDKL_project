@@ -2,13 +2,11 @@ package app.WebSocket;
 
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
-import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import util.LogFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Created by andreybondar on 26.03.15.
@@ -28,8 +26,6 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json) {
-
-
         try {
             if (!userSockets.isEmpty()){
                 for (CustomWebSocket userSocket : userSockets) {
