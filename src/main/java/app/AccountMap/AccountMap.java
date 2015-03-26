@@ -12,6 +12,9 @@ public class AccountMap {
 
     private static AccountMap AccountMap = null;
 
+    private HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();
+    private HashMap<Integer, HashSet<Session>> connections = new HashMap<>();
+
     public static AccountMap getInstance(){
         if (AccountMap == null){
             AccountMap = new AccountMap();
@@ -21,9 +24,6 @@ public class AccountMap {
 
     private AccountMap(){
     }
-
-    private HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();
-    private HashMap<Integer, Set<Session>> connections = new HashMap<>();
 
     public void putUser(UserLogic user) {
         int userID = user.getId();
@@ -39,7 +39,7 @@ public class AccountMap {
     }
 
     public void putNewSession(int userID, Session newSession) {
-        Set bufSet = connections.get(userID);
+        HashSet bufSet = connections.get(userID);
         if (bufSet == null) {
             bufSet = new HashSet<>();
             bufSet.add(newSession);
@@ -54,11 +54,11 @@ public class AccountMap {
         sessions.remove(session);
     }
 
-    public HashMap<Integer, Set<Session>> getAllSessions() {
+    public HashMap<Integer, HashSet<Session>> getAllSessions() {
         return connections;
     }
 
-    public Set<Session> getUserSessions(int id) {
+    public HashSet<Session> getUserSessions(int id) {
         return connections.get(id);
     }
 

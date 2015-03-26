@@ -3,7 +3,7 @@ package app.WebSocket;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
-import app.GameMechanics.GameFactory;
+import app.gameMechanics.GameFactory;
 import app.WebSocket.MessageSystem.WebChat;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
@@ -38,17 +38,20 @@ public class CustomWebSocket {
                 case "public_message": {
                     request.put("author", user.getUsername());
                     webChat.sendMessage(request);
+                    break;
                 }
-                break;
+
                 case "private_message": {
                     UserLogic receiver = Factory.getInstance().getUserDAO()
                             .getUserByUsername(request.getString("receiverName"));
                     webChat.sendPrivateMessage(request, receiver.getId());
+                    break;
                 }
-                break;
+
                 case "find_game" : {
                     GameFactory.getInstance().FindGameLobby(user);
-                } break;
+                    break;
+                }
                 default: {
                     LogFactory.getInstance().getApiLogger().debug("Wrong json in socket");
                 }
@@ -64,16 +67,16 @@ public class CustomWebSocket {
         try {
             cache.putNewSession(userID, session);
             user = cache.getUser(userID);
-            System.out.println(user.getUsername());
+            LogFactory.getInstance().getSessionLogger().debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onOpen", e);
+            LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onOpen: ", e);
         }
     }
 
 
     @OnWebSocketError
     public void onError(Throwable cause) {
-        System.out.println("Close: statusCode=" + cause.toString());
+        LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onError: ", cause);
     }
 
     public Session getSession() {
