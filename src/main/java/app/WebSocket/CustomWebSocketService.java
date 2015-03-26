@@ -11,6 +11,9 @@ import java.util.HashSet;
 
 public class CustomWebSocketService implements WebSocketService {
     private HashMap<Integer, HashSet<CustomWebSocket>> userWebSockets;
+    private static final String WINNER = "winner";
+    private static final String LOSER = "loser";
+    private static final String DRAW = "draw";
 
     public CustomWebSocketService() {
         userWebSockets = new HashMap<>();
@@ -76,25 +79,29 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
 
-    public void notifyGameOver(Player firstPlayer, Player secondPlayer, boolean isFirstWinner) {
+    public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner) {
         //todo скорее всего потом сделаю, передачу array player'ов. Удобнее обрабатывать
         HashSet<CustomWebSocket> userSocket = null;
         JSONObject response = new JSONObject();
+
         response.put("action", "game_over");
-        response.put("is_winner",false);
+        response.put("game_result", LOSER);
 
         for (int i = 0; i < 2; i++) {
             if (i == 0) {
-                if (isFirstWinner) {
-                    response.put("is_winner", true);
+                if (winner == 1) {
+                    response.put("game_result", WINNER);
                 }
                 userSocket = userWebSockets.get(firstPlayer.getUserID());
 
             } else {
-                if (!isFirstWinner) {
-                    response.put("is_winner", true);
+                if (winner == 2) {
+                    response.put("game_result", LOSER);
                 }
                 userSocket = userWebSockets.get(secondPlayer.getUserID());
+            }
+            if (winner == 0) {
+                response.put("game_result", DRAW);
             }
             setGameID(userSocket, 0);
             sendJson(userSocket, response);
