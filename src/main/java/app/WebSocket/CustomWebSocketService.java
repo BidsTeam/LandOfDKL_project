@@ -8,9 +8,7 @@ import util.LogFactory;
 import java.util.HashMap;
 import java.util.HashSet;
 
-/**
- * Created by andreybondar on 26.03.15.
- */
+
 public class CustomWebSocketService implements WebSocketService {
     private HashMap<Integer, HashSet<CustomWebSocket>> userWebSockets;
 
@@ -43,7 +41,7 @@ public class CustomWebSocketService implements WebSocketService {
             }
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal(e);
-        }
+         }
     }
 
     public void setGameID(HashSet<CustomWebSocket> userSockets, int gameID) {
@@ -59,49 +57,49 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID) {
-        JSONObject responseForFirst = new JSONObject();
-        responseForFirst.put("action", "new_game");
-        responseForFirst.put("gameID", gameID);
-        responseForFirst.put("opponent_name", secondPlayer.getUsername());
-
-        JSONObject responseForSecond = new JSONObject();
-        responseForSecond.put("action", "new_game");
-        responseForSecond.put("gameID", gameID);
-        responseForSecond.put("opponent_name", firstPlayer.getUsername());
-
-        HashSet<CustomWebSocket> firstUserSockets = userWebSockets.get(firstPlayer.getUserID());
-        HashSet<CustomWebSocket> secondUserSockets = userWebSockets.get(secondPlayer.getUserID());
-
-        setGameID(firstUserSockets, gameID);
-        setGameID(secondUserSockets, gameID);
-        sendJson(firstUserSockets, responseForFirst);
-        sendJson(secondUserSockets, responseForSecond);
+        //todo скорее всего потом сделаю, передачу array player'ов. Удобнее обрабатывать
+        JSONObject response = new JSONObject();
+        response.put("action", "new_game");
+        response.put("gameID", gameID);
+        HashSet<CustomWebSocket> userSocket = null;
+        for (int i = 0; i < 2; i++){
+            if (i == 0){
+                response.put("opponent_name", secondPlayer.getUsername());
+                userSocket = userWebSockets.get(firstPlayer.getUserID());
+            } else {
+                response.put("opponent_name", firstPlayer.getUsername());
+                userSocket = userWebSockets.get(secondPlayer.getUserID());
+            }
+            setGameID(userSocket, gameID);
+            sendJson(userSocket, response);
+        }
     }
 
 
-
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, boolean isFirstWinner) {
-        JSONObject responseForFirst = new JSONObject();
-        responseForFirst.put("action", "game_over");
+        //todo скорее всего потом сделаю, передачу array player'ов. Удобнее обрабатывать
+        HashSet<CustomWebSocket> userSocket = null;
+        JSONObject response = new JSONObject();
+        response.put("action", "game_over");
+        response.put("is_winner",false);
 
-        JSONObject responseForSecond = new JSONObject();
-        responseForSecond.put("action", "game_over");
+        for (int i = 0; i < 2; i++) {
+            if (i == 0) {
+                if (isFirstWinner) {
+                    response.put("is_winner", true);
+                }
+                userSocket = userWebSockets.get(firstPlayer.getUserID());
 
-        if (isFirstWinner) {
-            responseForFirst.put("is_winner", true);
-            responseForSecond.put("is_winner", false);
-        } else {
-            responseForFirst.put("is_winner", false);
-            responseForSecond.put("is_winner", true);
+            } else {
+                if (!isFirstWinner) {
+                    response.put("is_winner", true);
+                }
+                userSocket = userWebSockets.get(secondPlayer.getUserID());
+            }
+            setGameID(userSocket, 0);
+            sendJson(userSocket, response);
         }
 
-        HashSet<CustomWebSocket> firstUserSockets = userWebSockets.get(firstPlayer.getUserID());
-        HashSet<CustomWebSocket> secondUserSockets = userWebSockets.get(secondPlayer.getUserID());
-
-        setGameID(firstUserSockets, 0);
-        setGameID(secondUserSockets, 0);
-        sendJson(firstUserSockets, responseForFirst);
-        sendJson(secondUserSockets, responseForSecond);
     }
 
 

@@ -4,9 +4,7 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 
 import java.util.HashMap;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
+
 public class GameSessionStorage {
     private HashMap<Integer, GameSession> gameSessionHashMap;
     private int idCounter;

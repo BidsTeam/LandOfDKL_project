@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
+
 public class Player {
     private UserLogic userInfo;
     private HashSet<Session> userConnections;
@@ -25,7 +23,7 @@ public class Player {
     public Player(UserLogic user) {
         username = user.getUsername();
         userID = user.getId();
-        userConnections = (HashSet) AccountMap.getInstance().getUserSessions(user.getId());
+        userConnections = AccountMap.getInstance().getUserSessions(user.getId());
     }
 
     public String getUsername() {

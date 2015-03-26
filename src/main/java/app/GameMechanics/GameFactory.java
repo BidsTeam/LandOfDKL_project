@@ -7,9 +7,7 @@ import util.LogFactory;
 
 import java.util.HashSet;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
+
 public class GameFactory {
     //private HashMap<Integer, GameLobby> gameLobbyHashMap = new java.util.HashMap<>();
     //private int idCounter;

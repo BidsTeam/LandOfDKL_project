@@ -3,9 +3,6 @@ package app.GameMechanics;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
 public class GameSession {
     private Player firstPlayer;
     private Player secondPlayer;

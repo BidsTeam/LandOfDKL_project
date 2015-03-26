@@ -6,9 +6,7 @@ import org.json.JSONObject;
 
 import java.util.HashSet;
 
-/**
- * Created by andreybondar on 26.03.15.
- */
+
 public interface WebSocketService {
     public void putNewSocket(int userID, CustomWebSocket webSocket);
     public void removeSocket(int userID, CustomWebSocket webSocket);
