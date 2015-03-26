@@ -5,6 +5,7 @@ import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.GameFactory;
 import app.WebSocket.MessageSystem.WebChat;
+import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
@@ -21,11 +22,12 @@ public class CustomWebSocket {
     private WebChat webChat = WebChat.getChatInstance();
     private AccountMap cache = AccountMap.getInstance();
     private int gameID;
+    private WebSocketService webSocketService;
 
-
-    public CustomWebSocket(int ID) {
+    public CustomWebSocket(int ID, WebSocketService webSocketService) {
         userID = ID;
         gameID = 0;
+        this.webSocketService = webSocketService;
     }
 
     @OnWebSocketMessage
@@ -49,7 +51,7 @@ public class CustomWebSocket {
                 }
 
                 case "find_game" : {
-                    GameFactory.getInstance().FindGameLobby(user);
+                    GameFactory.getInstance().FindGameLobby(user, webSocketService);
                     break;
                 }
                 default: {
@@ -65,7 +67,7 @@ public class CustomWebSocket {
     public void onOpen(Session session) {
         setSession(session);
         try {
-            cache.putNewSession(userID, session);
+            webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
             LogFactory.getInstance().getSessionLogger().debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
         } catch (Exception e) {
@@ -76,6 +78,7 @@ public class CustomWebSocket {
 
     @OnWebSocketError
     public void onError(Throwable cause) {
+        webSocketService.removeSocket(userID, this);
         LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onError: ", cause);
     }
 
@@ -89,9 +92,14 @@ public class CustomWebSocket {
 
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
-        cache.removeSession(userID, session);
+        webSocketService.removeSocket(userID, this);
     }
 
-    public void setGameID(int gameID) { this.gameID = gameID; }
+    public void setGameID(int gameID) {
+        this.gameID = gameID;
+        if (gameID == 0) {
+            GameFactory.getInstance().freePlayer(userID);
+        }
+    }
     public int getGameID() { return gameID; }
 }

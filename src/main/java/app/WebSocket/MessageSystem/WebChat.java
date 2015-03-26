@@ -24,7 +24,7 @@ public class WebChat {
 
     public void sendMessage(JSONObject json) {
         JSONObject response = new JSONObject();
-        response.put("status", 0);
+        response.put("action", "public_message");
         JSONObject responseBody = new JSONObject();
         try {
             responseBody.put("author", json.get("author").toString());
@@ -53,7 +53,7 @@ public class WebChat {
 
     public void sendPrivateMessage(JSONObject json, int recivierID) {
         JSONObject response = new JSONObject();
-        response.put("status", 1);
+        response.put("action", "private_message");
         JSONObject responseBody = new JSONObject();
         responseBody.put("author",json.get("author"));
         responseBody.put("message", json.get("message"));

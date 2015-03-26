@@ -1,5 +1,7 @@
 package app.main;
 
+import app.WebSocket.CustomWebSocketService;
+import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import app.servlets.AdminServlet;
 import app.servlets.Router;
 import app.servlets.SocketServlet;
@@ -44,7 +46,8 @@ public class Main {
 
         Router router = new Router();
         AdminServlet adminServlet = new AdminServlet();
-        SocketServlet socketServlet = new SocketServlet();
+        WebSocketService webSocketService = new CustomWebSocketService();
+        SocketServlet socketServlet = new SocketServlet(webSocketService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 

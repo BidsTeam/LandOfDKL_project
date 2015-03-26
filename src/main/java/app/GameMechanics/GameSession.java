@@ -1,5 +1,6 @@
 package app.GameMechanics;
 
+import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
 
 /**
@@ -9,26 +10,15 @@ public class GameSession {
     private Player firstPlayer;
     private Player secondPlayer;
     private int gameID;
+    private WebSocketService webSocketService;
 
-    public GameSession(Player playerOne, Player playerTwo, int id) {
+    public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService) {
         firstPlayer = playerOne;
         secondPlayer = playerTwo;
         gameID = id;
-        playersGreeting(firstPlayer, secondPlayer);
+        this.webSocketService = webSocketService;
+        webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
+        webSocketService.notifyGameOver(firstPlayer, secondPlayer, true);
     }
 
-    private void playersGreeting(Player firstPlayer, Player secondPlayer) {
-        JSONObject responseForFirst = new JSONObject();
-        responseForFirst.put("action", "new_game");
-        responseForFirst.put("gameID", gameID);
-        responseForFirst.put("opponent_name", secondPlayer.getUsername());
-
-        JSONObject responseForSecond = new JSONObject();
-        responseForSecond.put("action", "new_game");
-        responseForSecond.put("gameID", gameID);
-        responseForSecond.put("opponent_name", firstPlayer.getUsername());
-
-        firstPlayer.sendResponse(responseForFirst);
-        secondPlayer.sendResponse(responseForSecond);
-    }
 }

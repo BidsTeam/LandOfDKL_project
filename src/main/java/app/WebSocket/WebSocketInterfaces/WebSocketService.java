@@ -11,6 +11,7 @@ import java.util.HashSet;
  */
 public interface WebSocketService {
     public void putNewSocket(int userID, CustomWebSocket webSocket);
+    public void removeSocket(int userID, CustomWebSocket webSocket);
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json);
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID);
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, boolean isFirstWon);

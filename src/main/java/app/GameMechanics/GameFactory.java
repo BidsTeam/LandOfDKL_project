@@ -1,6 +1,7 @@
 package app.GameMechanics;
 
 import DAO.logic.UserLogic;
+import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import util.LogFactory;
 
@@ -31,7 +32,7 @@ public class GameFactory {
         return GameFinder;
     }
 
-    public void FindGameLobby(UserLogic user) {
+    public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
             if (playersSet.contains(user.getId())) {
                 LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
@@ -47,11 +48,15 @@ public class GameFactory {
             } else {
                 secondPlayer = new Player(user);
                 playersSet.add(user.getId());
-                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer);
+                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService);
                 firstPlayer = null;
                 secondPlayer = null;
             }
         }
+    }
+
+    public void freePlayer(int userID) {
+        playersSet.remove(userID);
     }
 
 }

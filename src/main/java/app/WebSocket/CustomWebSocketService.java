@@ -14,6 +14,10 @@ import java.util.HashSet;
 public class CustomWebSocketService implements WebSocketService {
     private HashMap<Integer, HashSet<CustomWebSocket>> userWebSockets;
 
+    public CustomWebSocketService() {
+        userWebSockets = new HashMap<>();
+    }
+
     public void putNewSocket(int userID, CustomWebSocket webSocket) {
         HashSet<CustomWebSocket> webSocketsSet = userWebSockets.get(userID);
         if (webSocketsSet == null) {
@@ -23,6 +27,11 @@ public class CustomWebSocketService implements WebSocketService {
         } else {
             webSocketsSet.add(webSocket);
         }
+    }
+
+    public void removeSocket(int userID, CustomWebSocket webSocket) {
+        HashSet<CustomWebSocket> sockets = userWebSockets.get(userID);
+        sockets.remove(webSocket);
     }
 
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json) {
@@ -38,8 +47,6 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void setGameID(HashSet<CustomWebSocket> userSockets, int gameID) {
-
-
         try {
             if (!userSockets.isEmpty()){
                 for (CustomWebSocket userSocket : userSockets) {

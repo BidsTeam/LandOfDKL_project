@@ -1,5 +1,6 @@
 package app.WebSocket;
 
+import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
 import org.eclipse.jetty.websocket.servlet.WebSocketCreator;
@@ -11,8 +12,10 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CustomWebSocketCreator implements WebSocketCreator {
 
+    private WebSocketService webSocketService;
 
-    public CustomWebSocketCreator() {
+    public CustomWebSocketCreator(WebSocketService webSocketService) {
+        this.webSocketService = webSocketService;
     }
 
     @Override
@@ -22,7 +25,7 @@ public class CustomWebSocketCreator implements WebSocketCreator {
             LogFactory.getInstance().getSessionLogger().debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
-            return new CustomWebSocket(sessionID);
+            return new CustomWebSocket(sessionID, webSocketService);
         }
     }
 
