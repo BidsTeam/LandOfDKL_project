@@ -37,24 +37,24 @@ public class CustomWebSocket {
             JSONObject request = new JSONObject(data);
 
             switch (request.getString("action")) {
-                case "public_message": {
+                case "publicMessage": {
                     request.put("author", user.getUsername());
                     webChat.sendMessage(request);
                     break;
                 }
 
-                case "private_message": {
+                case "privateMessage": {
                     UserLogic receiver = Factory.getInstance().getUserDAO()
                             .getUserByUsername(request.getString("receiverName"));
                     webChat.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
 
-                case "find_game" : {
+                case "findGame" : {
                     GameFactory.getInstance().FindGameLobby(user, webSocketService);
                     break;
                 }
-                case "game_action" : {
+                case "gameAction" : {
                     if (gameID == 0) {
                         LogFactory.getInstance().getApiLogger().info("Try to make game move while not in game");
                     } else {
@@ -64,6 +64,7 @@ public class CustomWebSocket {
                 }
                 default: {
                     LogFactory.getInstance().getApiLogger().debug("Wrong json in socket");
+                    break;
                 }
             }
         } catch (Exception e) {
@@ -90,6 +91,11 @@ public class CustomWebSocket {
         LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onError: ", cause);
     }
 
+    @OnWebSocketClose
+    public void onClose(int statusCode, String reason) {
+        webSocketService.removeSocket(userID, this);
+    }
+
     public Session getSession() {
         return session;
     }
@@ -98,16 +104,13 @@ public class CustomWebSocket {
         this.session = session;
     }
 
-    @OnWebSocketClose
-    public void onClose(int statusCode, String reason) {
-        webSocketService.removeSocket(userID, this);
-    }
-
-    public void setGameID(int gameID) {
+    public void setGameID(int gameID){
         this.gameID = gameID;
         if (gameID == 0) {
             GameFactory.getInstance().freePlayer(userID);
         }
     }
-    public int getGameID() { return gameID; }
+    public int getGameID() {
+        return gameID;
+    }
 }

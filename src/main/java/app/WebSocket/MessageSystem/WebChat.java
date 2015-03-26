@@ -52,11 +52,13 @@ public class WebChat {
     }
 
     public void sendPrivateMessage(JSONObject json, int recivierID) {
-        JSONObject response = new JSONObject();
-        response.put("action", "private_message");
+
         JSONObject responseBody = new JSONObject();
         responseBody.put("author",json.get("author"));
         responseBody.put("message", json.get("message"));
+
+        JSONObject response = new JSONObject();
+        response.put("action", "private_message");
         response.put("body", responseBody);
         String jsonResp = response.toString();
 

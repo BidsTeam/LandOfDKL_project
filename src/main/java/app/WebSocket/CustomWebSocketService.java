@@ -11,9 +11,9 @@ import java.util.HashSet;
 
 public class CustomWebSocketService implements WebSocketService {
     private HashMap<Integer, HashSet<CustomWebSocket>> userWebSockets;
-    private static final String WINNER = "winner";
-    private static final String LOSER = "loser";
-    private static final String DRAW = "draw";
+    private static final Integer WINNER = 1;
+    private static final Integer LOSER = -1;
+    private static final Integer DRAW = 0;
 
     public CustomWebSocketService() {
         userWebSockets = new HashMap<>();
@@ -65,12 +65,12 @@ public class CustomWebSocketService implements WebSocketService {
         response.put("action", "new_game");
         response.put("gameID", gameID);
         HashSet<CustomWebSocket> userSocket = null;
-        for (int i = 0; i < 2; i++){
-            if (i == 0){
-                response.put("opponent_name", secondPlayer.getUsername());
+        for (int i = 1; i < 3; i++){
+            if (i == 1){
+                response.put("opponentName", secondPlayer.getUsername());
                 userSocket = userWebSockets.get(firstPlayer.getUserID());
             } else {
-                response.put("opponent_name", firstPlayer.getUsername());
+                response.put("opponentName", firstPlayer.getUsername());
                 userSocket = userWebSockets.get(secondPlayer.getUserID());
             }
             setGameID(userSocket, gameID);
@@ -85,23 +85,18 @@ public class CustomWebSocketService implements WebSocketService {
         JSONObject response = new JSONObject();
 
         response.put("action", "game_over");
-        response.put("game_result", LOSER);
+        response.put("gameResult", LOSER);
 
-        for (int i = 0; i < 2; i++) {
-            if (i == 0) {
-                if (winner == 1) {
-                    response.put("game_result", WINNER);
-                }
+        for (int i = 1; i < 3; i++) {
+            if (i == 1) {
                 userSocket = userWebSockets.get(firstPlayer.getUserID());
-
             } else {
-                if (winner == 2) {
-                    response.put("game_result", LOSER);
-                }
                 userSocket = userWebSockets.get(secondPlayer.getUserID());
             }
-            if (winner == 0) {
-                response.put("game_result", DRAW);
+            if (winner == i) {
+                response.put("gameResult", WINNER);
+            } else if (winner == 0) {
+                response.put("gameResult", DRAW);
             }
             setGameID(userSocket, 0);
             sendJson(userSocket, response);
@@ -109,16 +104,17 @@ public class CustomWebSocketService implements WebSocketService {
 
     }
 
+    //Уведомляет о том, что игрок сделал ход. playerSetter: тот кто сделал, playerObserver, тот кого ждут
     public void notifyActionSet(Player playerSetter, Player playerObserver) {
         for(int i = 0; i < 2; i++) {
             JSONObject response = new JSONObject();
             response.put("action", "game_action_set");
             HashSet<CustomWebSocket> userSockets = null;
             if (i == 0) {
-                response.put("is_setter", true);
+                response.put("isSetter", true);
                 userSockets = userWebSockets.get(playerSetter.getUserID());
             } else {
-                response.put("is_setter", false);
+                response.put("isSetter", false);
                 userSockets = userWebSockets.get(playerObserver.getUserID());
             }
             sendJson(userSockets, response);
@@ -131,12 +127,12 @@ public class CustomWebSocketService implements WebSocketService {
             response.put("action", "game_action_reveal");
             HashSet<CustomWebSocket> userSockets = null;
             if (i == 0) {
-                response.put("user_action", firstAction);
-                response.put("opponent_action", secondAction);
+                response.put("userAction", firstAction);
+                response.put("opponentAction", secondAction);
                 userSockets = userWebSockets.get(firstPlayer.getUserID());
             } else {
-                response.put("user_action", secondAction);
-                response.put("opponent_action", firstAction);
+                response.put("userAction", secondAction);
+                response.put("opponentAction", firstAction);
                 userSockets = userWebSockets.get(secondPlayer.getUserID());
             }
             sendJson(userSockets, response);
