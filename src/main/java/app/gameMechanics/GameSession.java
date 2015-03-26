@@ -16,10 +16,10 @@ public class GameSession {
     }
 
     private void playersGreeting(Player firstPlayer, Player secondPlayer) {
+        JSONObject response = new JSONObject();
+        response.put("action", "new_game");
+        response.put("gameID", gameID);
         for ( int i = 0 ; i < 2 ; i++){
-            JSONObject response = new JSONObject();
-            response.put("action", "new_game");
-            response.put("gameID", gameID);
             if (i == 0) {
                 response.put("opponent_name", secondPlayer.getUsername());
                 firstPlayer.sendResponse(response);
