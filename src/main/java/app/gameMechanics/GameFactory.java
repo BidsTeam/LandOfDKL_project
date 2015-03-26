@@ -1,4 +1,4 @@
-package app.GameMechanics;
+package app.gameMechanics;
 
 import DAO.logic.UserLogic;
 import org.hibernate.annotations.common.util.impl.LoggerFactory;
@@ -6,9 +6,6 @@ import util.LogFactory;
 
 import java.util.HashSet;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
 public class GameFactory {
     //private HashMap<Integer, GameLobby> gameLobbyHashMap = new java.util.HashMap<>();
     //private int idCounter;
@@ -24,8 +21,7 @@ public class GameFactory {
     }
 
     public static GameFactory getInstance() {
-        if (GameFinder == null)
-        {
+        if (GameFinder == null) {
             GameFinder = new GameFactory();
         }
         return GameFinder;

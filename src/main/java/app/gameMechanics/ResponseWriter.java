@@ -1,7 +1,4 @@
-package app.GameMechanics;
+package app.gameMechanics;
 
-/**
- * Created by andreybondar on 26.03.15.
- */
 public class ResponseWriter {
 }

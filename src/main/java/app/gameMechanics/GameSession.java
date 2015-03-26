@@ -1,10 +1,8 @@
-package app.GameMechanics;
+package app.gameMechanics;
 
 import org.json.JSONObject;
 
-/**
- * Created by andreybondar on 25.03.15.
- */
+
 public class GameSession {
     private Player firstPlayer;
     private Player secondPlayer;
@@ -18,17 +16,17 @@ public class GameSession {
     }
 
     private void playersGreeting(Player firstPlayer, Player secondPlayer) {
-        JSONObject responseForFirst = new JSONObject();
-        responseForFirst.put("action", "new_game");
-        responseForFirst.put("gameID", gameID);
-        responseForFirst.put("opponent_name", secondPlayer.getUsername());
-
-        JSONObject responseForSecond = new JSONObject();
-        responseForSecond.put("action", "new_game");
-        responseForSecond.put("gameID", gameID);
-        responseForSecond.put("opponent_name", firstPlayer.getUsername());
-
-        firstPlayer.sendResponse(responseForFirst);
-        secondPlayer.sendResponse(responseForSecond);
+        for ( int i = 0 ; i < 2 ; i++){
+            JSONObject response = new JSONObject();
+            response.put("action", "new_game");
+            response.put("gameID", gameID);
+            if (i == 0) {
+                response.put("opponent_name", secondPlayer.getUsername());
+                firstPlayer.sendResponse(response);
+            } else {
+                response.put("opponent_name", firstPlayer.getUsername());
+                secondPlayer.sendResponse(response);
+            }
+        }
     }
 }
