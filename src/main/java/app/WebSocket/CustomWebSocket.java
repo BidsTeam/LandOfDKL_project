@@ -18,11 +18,14 @@ public class CustomWebSocket {
     private Session session;
     private int userID;
     private UserLogic user;
-    WebChat webChat = WebChat.getChatInstance();
-    AccountMap cache = AccountMap.getInstance();
+    private WebChat webChat = WebChat.getChatInstance();
+    private AccountMap cache = AccountMap.getInstance();
+    private int gameID;
+
 
     public CustomWebSocket(int ID) {
         userID = ID;
+        gameID = 0;
     }
 
     @OnWebSocketMessage
@@ -47,7 +50,7 @@ public class CustomWebSocket {
                     GameFactory.getInstance().FindGameLobby(user);
                 } break;
                 default: {
-                    LogFactory.getInstance().getSessionLogger().debug("wrong json");
+                    LogFactory.getInstance().getApiLogger().debug("Wrong json in socket");
                 }
             }
         } catch (Exception e) {
@@ -85,4 +88,7 @@ public class CustomWebSocket {
     public void onClose(int statusCode, String reason) {
         cache.removeSession(userID, session);
     }
+
+    public void setGameID(int gameID) { this.gameID = gameID; }
+    public int getGameID() { return gameID; }
 }

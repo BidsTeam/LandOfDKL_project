@@ -20,10 +20,15 @@ public class GameSessionStorage {
 //        return idCounter;
 //    }
 
-    public void newGameSession(Player firstPlayer, Player secondPlayer) {
+    public int newGameSession(Player firstPlayer, Player secondPlayer) {
         idCounter++;
         GameSession gameSession = new GameSession(firstPlayer, secondPlayer, idCounter);
         gameSessionHashMap.put(idCounter, gameSession);
+        return idCounter;
+    }
+
+    public int getNextGameID() {
+        return idCounter + 1;
     }
 
 

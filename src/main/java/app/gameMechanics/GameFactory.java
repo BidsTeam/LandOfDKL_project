@@ -43,10 +43,11 @@ public class GameFactory {
         else {
             if (playersSet.contains(user.getId())) {
                 LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
+
             } else {
                 secondPlayer = new Player(user);
                 playersSet.add(user.getId());
-                gameSessionStorage.newGameSession(firstPlayer, secondPlayer);
+                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer);
                 firstPlayer = null;
                 secondPlayer = null;
             }

@@ -18,17 +18,20 @@ public class Player {
     private UserLogic userInfo;
     private HashSet<Session> userConnections;
     private String username;
+    private int userID;
     //private AccountMap cache = AccountMap.getInstance();
 
 
     public Player(UserLogic user) {
         username = user.getUsername();
+        userID = user.getId();
         userConnections = (HashSet) AccountMap.getInstance().getUserSessions(user.getId());
     }
 
     public String getUsername() {
         return username;
     }
+    public int getUserID() {return userID; }
 
     public void sendResponse(JSONObject json) {
         try {
@@ -41,5 +44,7 @@ public class Player {
             LogFactory.getInstance().getSessionLogger().fatal(e);
         }
     }
+
+
 
 }
