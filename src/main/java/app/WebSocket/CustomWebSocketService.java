@@ -102,5 +102,39 @@ public class CustomWebSocketService implements WebSocketService {
 
     }
 
+    public void notifyActionSet(Player playerSetter, Player playerObserver) {
+        for(int i = 0; i < 2; i++) {
+            JSONObject response = new JSONObject();
+            response.put("action", "game_action_set");
+            HashSet<CustomWebSocket> userSockets = null;
+            if (i == 0) {
+                response.put("is_setter", true);
+                userSockets = userWebSockets.get(playerSetter.getUserID());
+            } else {
+                response.put("is_setter", false);
+                userSockets = userWebSockets.get(playerObserver.getUserID());
+            }
+            sendJson(userSockets, response);
+        }
+    }
+
+    public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction) {
+        for(int i = 0; i < 2; i++) {
+            JSONObject response = new JSONObject();
+            response.put("action", "game_action_reveal");
+            HashSet<CustomWebSocket> userSockets = null;
+            if (i == 0) {
+                response.put("user_action", firstAction);
+                response.put("opponent_action", secondAction);
+                userSockets = userWebSockets.get(firstPlayer.getUserID());
+            } else {
+                response.put("user_action", secondAction);
+                response.put("opponent_action", firstAction);
+                userSockets = userWebSockets.get(secondPlayer.getUserID());
+            }
+            sendJson(userSockets, response);
+        }
+    }
+
 
 }

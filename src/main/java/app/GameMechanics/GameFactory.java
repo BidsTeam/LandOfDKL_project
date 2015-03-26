@@ -57,4 +57,8 @@ public class GameFactory {
         playersSet.remove(userID);
     }
 
+    public GameSession getGameSession(int id) {
+        return gameSessionStorage.getGameSessionByID(id);
+    }
+
 }

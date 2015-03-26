@@ -54,6 +54,14 @@ public class CustomWebSocket {
                     GameFactory.getInstance().FindGameLobby(user, webSocketService);
                     break;
                 }
+                case "game_action" : {
+                    if (gameID == 0) {
+                        LogFactory.getInstance().getApiLogger().info("Try to make game move while not in game");
+                    } else {
+                        GameFactory.getInstance().getGameSession(gameID).doGameAction(request, userID);
+                        break;
+                    }
+                }
                 default: {
                     LogFactory.getInstance().getApiLogger().debug("Wrong json in socket");
                 }

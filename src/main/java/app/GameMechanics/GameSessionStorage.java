@@ -31,6 +31,8 @@ public class GameSessionStorage {
         return idCounter + 1;
     }
 
-
+    public GameSession getGameSessionByID(int userID) {
+        return gameSessionHashMap.get(userID);
+    }
 
 }

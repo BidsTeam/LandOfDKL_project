@@ -13,6 +13,8 @@ public interface WebSocketService {
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json);
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID);
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, boolean isFirstWon);
+    public void notifyActionSet(Player playerSetter, Player playerObserver);
+    public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction);
 //    public void sendPublicMessage();
 //    public void sendPrivateMessage();
 }
