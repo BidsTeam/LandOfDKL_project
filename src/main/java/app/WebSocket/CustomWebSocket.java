@@ -3,7 +3,7 @@ package app.WebSocket;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
-import app.AccountCache.AccountCache;
+import app.GameMechanics.GameFactory;
 import app.WebSocket.MessageSystem.WebChat;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
@@ -15,32 +15,40 @@ import java.util.Set;
 
 @WebSocket
 public class CustomWebSocket {
-    private Set<CustomWebSocket> users;
     private Session session;
     private int userID;
     private UserLogic user;
     WebChat webChat = WebChat.getChatInstance();
     AccountMap cache = AccountMap.getInstance();
 
-    public CustomWebSocket(Set<CustomWebSocket> users, int ID) {
-        System.out.println("test");
+    public CustomWebSocket(int ID) {
         userID = ID;
-        this.users = users;
     }
 
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-            LogFactory.getInstance().getSessionLogger().debug("WebChatSocket/onMessage: "+data);
-            JSONObject message = new JSONObject(data);
-            message.put("author", user.getUsername());
-            if (message.getInt("status") == 1) {
-                UserLogic receiver = Factory.getInstance().getUserDAO()
-                        .getUserByUsername(message.getString("receiverName"));
+            LogFactory.getInstance().getSessionLogger().debug("WebChatSocket/onMessage: " + data);
+            JSONObject request = new JSONObject(data);
 
-                webChat.sendPrivateMessage(message, receiver.getId());
-            } else {
-                webChat.sendMessage(message);
+            switch (request.getString("action")) {
+                case "public_message": {
+                    request.put("author", user.getUsername());
+                    webChat.sendMessage(request);
+                }
+                break;
+                case "private_message": {
+                    UserLogic receiver = Factory.getInstance().getUserDAO()
+                            .getUserByUsername(request.getString("receiverName"));
+                    webChat.sendPrivateMessage(request, receiver.getId());
+                }
+                break;
+                case "find_game" : {
+                    GameFactory.getInstance().FindGameLobby(user);
+                } break;
+                default: {
+                    LogFactory.getInstance().getSessionLogger().debug("wrong json");
+                }
             }
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onMessage",e);
@@ -49,11 +57,11 @@ public class CustomWebSocket {
 
     @OnWebSocketConnect
     public void onOpen(Session session) {
-        users.add(this);
         setSession(session);
         try {
             cache.putNewSession(userID, session);
             user = cache.getUser(userID);
+            System.out.println(user.getUsername());
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onOpen", e);
         }
@@ -76,6 +84,5 @@ public class CustomWebSocket {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         cache.removeSession(userID, session);
-        users.remove(this);
     }
 }

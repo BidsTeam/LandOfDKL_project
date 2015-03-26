@@ -37,9 +37,11 @@ public class UserLogic {
 
     private boolean admin;
 
+
     public UserLogic(){
         username = null;
-        registration = new Date(); // TODO Спросить у Чибрикова, как сделать так, чтобы в save происходила эта ересь (текущий timestamp)
+        registration = new Date();
+        // TODO Спросить у Чибрикова, как сделать так, чтобы в save происходила эта ересь (текущий timestamp)
         // todo мы сделали @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
         // todo Но тогда при save. Отданный юзер не хранит в себе registration, а хранит нулл
     }
@@ -47,7 +49,6 @@ public class UserLogic {
         this.username = username;
         this.password = password;
         this.email = email;
-
     }
 
 //    public User(User u){
@@ -120,6 +121,7 @@ public class UserLogic {
     public void setLevel(byte level) {
         this.level = level;
     }
+
 
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();

@@ -11,20 +11,18 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class CustomWebSocketCreator implements WebSocketCreator {
 
-    private Set<CustomWebSocket> users;
 
     public CustomWebSocketCreator() {
-        this.users = Collections.newSetFromMap(new ConcurrentHashMap<CustomWebSocket, Boolean>());
     }
 
     @Override
-    public WebChatSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
+    public CustomWebSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
         int sessionID = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
         if (sessionID == 0) {
             LogFactory.getInstance().getSessionLogger().debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
-            return new CustomWebSocket(users, sessionID);
+            return new CustomWebSocket(sessionID);
         }
     }
 

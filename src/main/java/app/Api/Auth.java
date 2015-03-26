@@ -2,9 +2,7 @@ package app.Api;
 
 import DAO.Factory;
 import DAO.logic.UserLogic;
-import app.logic.FightFinder;
 import app.templater.PageGenerator;
-import com.google.gson.Gson;
 import util.LogFactory;
 
 import javax.servlet.ServletException;
@@ -114,7 +112,7 @@ public class Auth {
 
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/signin",e);
+            LogFactory.getInstance().getApiLogger().error("Auth/signin", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -132,7 +130,7 @@ public class Auth {
         try {
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/drop",e);
+            LogFactory.getInstance().getApiLogger().error("Auth/drop", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

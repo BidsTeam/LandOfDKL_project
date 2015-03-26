@@ -30,8 +30,6 @@ public class AccountMap {
         CachedAccounts.put(userID, user);
     }
 
-
-
     public UserLogic getUser(int id) {
         return CachedAccounts.get(id);
     }

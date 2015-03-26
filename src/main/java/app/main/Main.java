@@ -50,7 +50,7 @@ public class Main {
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");
-        context.addServlet(new ServletHolder(socketServlet), "/chat/*");
+        context.addServlet(new ServletHolder(socketServlet), "/socket/*");
 
         ResourceHandler resourceHandler = new ResourceHandler();
         resourceHandler.setDirectoriesListed(true);
