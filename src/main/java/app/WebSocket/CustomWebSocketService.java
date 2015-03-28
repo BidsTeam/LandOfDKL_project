@@ -59,84 +59,96 @@ public class CustomWebSocketService implements WebSocketService {
         }
     }
 
-    public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID) {
-        //todo скорее всего потом сделаю, передачу array player'ов. Удобнее обрабатывать
+    public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameId) {
+        notify(secondPlayer, generateResponseNewGame(firstPlayer.getUsername(), gameId), gameId);
+        notify(firstPlayer, generateResponseNewGame(secondPlayer.getUsername(),gameId), gameId);
+    }
+
+    private JSONObject generateResponseNewGame(String opponentName,int gameId){
         JSONObject response = new JSONObject();
         response.put("action", "new_game");
-        response.put("gameID", gameID);
-        HashSet<CustomWebSocket> userSocket = null;
-        for (int i = 1; i < 3; i++){
-            if (i == 1){
-                response.put("opponentName", secondPlayer.getUsername());
-                userSocket = userWebSockets.get(firstPlayer.getUserID());
-            } else {
-                response.put("opponentName", firstPlayer.getUsername());
-                userSocket = userWebSockets.get(secondPlayer.getUserID());
-            }
-            setGameID(userSocket, gameID);
-            sendJson(userSocket, response);
-        }
+        response.put("gameId", gameId);
+        response.put("opponentName", opponentName);
+        return response;
+    }
+
+    private void notify(Player player,JSONObject response,int gameId){
+        HashSet<CustomWebSocket> userSocket = userWebSockets.get(player.getUserID());
+        sendJson(userSocket, response);
+        setGameID(userSocket, gameId);
     }
 
 
+
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner) {
-        //todo скорее всего потом сделаю, передачу array player'ов. Удобнее обрабатывать
-        HashSet<CustomWebSocket> userSocket = null;
-        JSONObject response = new JSONObject();
+        JSONObject firstPlayerResponse;
+        JSONObject secondPlayerResponse;
 
-        response.put("action", "game_over");
-        response.put("gameResult", LOSER);
-
-        for (int i = 1; i < 3; i++) {
-            if (i == 1) {
-                userSocket = userWebSockets.get(firstPlayer.getUserID());
-            } else {
-                userSocket = userWebSockets.get(secondPlayer.getUserID());
-            }
-            if (winner == i) {
-                response.put("gameResult", WINNER);
-            } else if (winner == 0) {
-                response.put("gameResult", DRAW);
-            }
-            setGameID(userSocket, 0);
-            sendJson(userSocket, response);
+        if (winner == 1){
+            firstPlayerResponse  = generateResponseGameOver(firstPlayer,WINNER);
+            secondPlayerResponse = generateResponseGameOver(secondPlayer,LOSER);
+        } else if (winner == 2){
+            firstPlayerResponse  = generateResponseGameOver(firstPlayer,LOSER);
+            secondPlayerResponse = generateResponseGameOver(secondPlayer,WINNER);
+        } else {
+            firstPlayerResponse  = generateResponseGameOver(firstPlayer,DRAW);
+            secondPlayerResponse = generateResponseGameOver(secondPlayer,DRAW);
         }
+        notify(firstPlayer, firstPlayerResponse, 0);
+        notify(secondPlayer, secondPlayerResponse, 0);
+    }
 
+    private JSONObject generateResponseGameOver(Player player,int status){
+        JSONObject response = new JSONObject();
+        response.put("action", "game_over");
+        response.put("gameResult", status);
+        return response;
     }
 
     //Уведомляет о том, что игрок сделал ход. playerSetter: тот кто сделал, playerObserver, тот кого ждут
     public void notifyActionSet(Player playerSetter, Player playerObserver) {
+        JSONObject response;
         for(int i = 0; i < 2; i++) {
-            JSONObject response = new JSONObject();
-            response.put("action", "game_action_set");
-            HashSet<CustomWebSocket> userSockets = null;
+            HashSet<CustomWebSocket> userSockets;
             if (i == 0) {
-                response.put("isSetter", true);
+                response = generateResponseActionSet(true);
                 userSockets = userWebSockets.get(playerSetter.getUserID());
             } else {
-                response.put("isSetter", false);
+                response = generateResponseActionSet(false);
                 userSockets = userWebSockets.get(playerObserver.getUserID());
             }
             sendJson(userSockets, response);
         }
     }
 
+    private JSONObject generateResponseActionSet(boolean status){
+        JSONObject response = new JSONObject();
+        response.put("action", "game_action_set");
+        response.put("isSetter", status);
+        return response;
+    }
+
     public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction) {
+        JSONObject response;
+        HashSet<CustomWebSocket> userSockets;
         for(int i = 0; i < 2; i++) {
-            JSONObject response = new JSONObject();
-            response.put("action", "game_action_reveal");
-            HashSet<CustomWebSocket> userSockets = null;
             if (i == 0) {
-                response.put("userAction", firstAction);
-                response.put("opponentAction", secondAction);
+                response = generateResponseActionReveal(firstAction,secondAction);
                 userSockets = userWebSockets.get(firstPlayer.getUserID());
             } else {
-                response.put("userAction", secondAction);
-                response.put("opponentAction", firstAction);
+                response = generateResponseActionReveal(secondAction,firstAction);
                 userSockets = userWebSockets.get(secondPlayer.getUserID());
             }
             sendJson(userSockets, response);
         }
+    }
+
+    private JSONObject generateResponseActionReveal(String userAction,String opponentAction){
+        JSONObject response = new JSONObject();
+        response.put("action", "game_action_reveal");
+        response.put("userAction", userAction);
+        response.put("opponentAction", opponentAction);
+        return response;
     }
 
 
