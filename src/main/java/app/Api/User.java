@@ -1,9 +1,9 @@
 package app.Api;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
 import com.google.gson.Gson;
+import service.DBService;
 import util.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +15,7 @@ import java.util.Map;
 
 public class User {
     public void top(HttpServletRequest request,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<Integer, Object> body = new HashMap<>();
         try {
@@ -25,7 +25,7 @@ public class User {
             } catch (Exception e){
                 count = 10;
             }
-            List<UserLogic> userList = Factory.getInstance().getUserDAO().getAllUserRating(count);
+            List<UserLogic> userList = dbService.getUserService().getAllUserRating(count);
             for (UserLogic user : userList) {
                 body.put(user.getId(), UserLogic.putAllUserInformation(user));
             }

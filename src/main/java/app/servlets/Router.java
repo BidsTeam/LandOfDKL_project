@@ -1,5 +1,6 @@
 package app.servlets;
 
+import service.DBService;
 import util.LogFactory;
 
 import javax.servlet.ServletException;
@@ -11,6 +12,12 @@ import java.lang.reflect.Method;
 
 
 public class Router extends HttpServlet {
+
+    private DBService dbService;
+
+    public Router(DBService dbService){
+        this.dbService = dbService;
+    }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws ServletException, IOException {
@@ -56,9 +63,9 @@ public class Router extends HttpServlet {
             LogFactory.getInstance().getServletLogger().debug("Router.routeInvoke: app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
             Class<?> cls = Class.forName("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
             Object obj = cls.newInstance();
-            Class[] paramTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class};
+            Class[] paramTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class, DBService.class};
             Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
-            Object[] args = new Object[]{request, response};
+            Object[] args = new Object[]{request, response,dbService};
             method.invoke(obj, args);
         } catch (Exception e){
             throw new Exception(e);

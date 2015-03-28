@@ -14,6 +14,9 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import service.DBService;
+import service.DataBase.DataBaseImpl.DBUserServiceImpl;
+import service.serviceImpl.DBServiceImpl;
 import util.LogFactory;
 
 import javax.management.MBeanServer;
@@ -42,11 +45,14 @@ public class Main {
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
         mbs.registerMBean(serverStatistics, name);
 
+        DBService dbService= new DBServiceImpl(new DBUserServiceImpl());
+        WebSocketService webSocketService = new CustomWebSocketService();
+
         Server server = new Server(port);
 
-        Router router = new Router();
+        Router router = new Router(dbService);
         AdminServlet adminServlet = new AdminServlet();
-        WebSocketService webSocketService = new CustomWebSocketService();
+
         SocketServlet socketServlet = new SocketServlet(webSocketService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);

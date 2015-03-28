@@ -1,8 +1,8 @@
 package app.Api;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import service.DBService;
 import util.LogFactory;
 
 import javax.servlet.ServletException;
@@ -19,7 +19,7 @@ public class Auth {
 
 
     public void main(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+                      HttpServletResponse response, DBService dbService) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
@@ -31,7 +31,7 @@ public class Auth {
     }
 
     public void signup(HttpServletRequest request,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
         try{
@@ -45,7 +45,7 @@ public class Auth {
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
                     try {
-                        Factory.getInstance().getUserDAO().addUser(user);
+                        dbService.getUserService().addUser(user);
                         request.getSession().setAttribute("id", user.getId());
                         body.putAll(UserLogic.putAllUserInformation(user));
                         result.put("status", 200);
@@ -71,7 +71,7 @@ public class Auth {
     }
 
     public void signin(HttpServletRequest request,
-                     HttpServletResponse response) {
+                     HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
         try {
@@ -84,7 +84,7 @@ public class Auth {
                 } else {
                     String login = request.getParameter("login");
                     String password = request.getParameter("password");
-                    UserLogic user = Factory.getInstance().getUserDAO().getUserByAuth(login, password);
+                    UserLogic user = dbService.getUserService().getUserByAuth(login, password);
                     if (user == null){
                         result.put("status", 404);
                         body.put("error","Wrong password");
@@ -98,7 +98,7 @@ public class Auth {
                 }
             } else {
                 //todo пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
-                UserLogic user = Factory.getInstance().getUserDAO().getUserById(id);
+                UserLogic user = dbService.getUserService().getUserById(id);
                 if (user == null){
                     result.put("status", 301);
                     body.put("error","Wrong session");
@@ -118,7 +118,7 @@ public class Auth {
     }
 
     public void drop(HttpServletRequest request,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, DBService dbService) {
 
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();

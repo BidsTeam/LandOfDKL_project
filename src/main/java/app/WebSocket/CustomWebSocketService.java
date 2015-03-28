@@ -150,6 +150,4 @@ public class CustomWebSocketService implements WebSocketService {
         response.put("opponentAction", opponentAction);
         return response;
     }
-
-
 }
