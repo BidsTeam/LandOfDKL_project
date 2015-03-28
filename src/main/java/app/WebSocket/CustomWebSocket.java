@@ -1,6 +1,5 @@
 package app.WebSocket;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.GameFactory;
@@ -9,6 +8,7 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
 
 import java.util.Set;
@@ -23,6 +23,8 @@ public class CustomWebSocket {
     private AccountMap cache = AccountMap.getInstance();
     private int gameID;
     private WebSocketService webSocketService;
+
+    private DBService dbService;
 
     public CustomWebSocket(int ID, WebSocketService webSocketService) {
         userID = ID;
@@ -44,8 +46,8 @@ public class CustomWebSocket {
                 }
 
                 case "privateMessage": {
-                    UserLogic receiver = Factory.getInstance().getUserDAO()
-                            .getUserByUsername(request.getString("receiverName"));
+                    UserLogic receiver = webSocketService.getDbService().getUserService().
+                            getUserByUsername(request.getString("receiverName"));
                     webChat.sendPrivateMessage(request, receiver.getId());
                     break;
                 }

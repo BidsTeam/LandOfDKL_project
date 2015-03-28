@@ -3,6 +3,7 @@ package app.WebSocket;
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
 
 import java.util.HashMap;
@@ -14,9 +15,11 @@ public class CustomWebSocketService implements WebSocketService {
     private static final Integer WINNER = 1;
     private static final Integer LOSER = -1;
     private static final Integer DRAW = 0;
+    private DBService dbService;
 
-    public CustomWebSocketService() {
+    public CustomWebSocketService(DBService dbService) {
         userWebSockets = new HashMap<>();
+        this.dbService = dbService;
     }
 
     public void putNewSocket(int userID, CustomWebSocket webSocket) {
@@ -149,5 +152,9 @@ public class CustomWebSocketService implements WebSocketService {
         response.put("userAction", userAction);
         response.put("opponentAction", opponentAction);
         return response;
+    }
+
+    public DBService getDbService(){
+        return dbService;
     }
 }

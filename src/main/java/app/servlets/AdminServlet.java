@@ -1,11 +1,11 @@
 package app.servlets;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.templater.PageGenerator;
 import com.google.gson.Gson;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
 
 import javax.servlet.ServletException;
@@ -19,6 +19,11 @@ import java.util.Map;
 public class AdminServlet extends HttpServlet {
 
     private AccountMap accountMap = AccountMap.getInstance();
+    private DBService dbService;
+
+    public AdminServlet(DBService dbService){
+        this.dbService = dbService;
+    }
 
     public void doGet(HttpServletRequest request,
                       HttpServletResponse response) throws  ServletException, IOException {
@@ -31,7 +36,7 @@ public class AdminServlet extends HttpServlet {
                 if (!user.isAdmin()) {
                     response.setStatus(HttpServletResponse.SC_FORBIDDEN);
                 } else {
-                    int usersCounter = Factory.getInstance().getUserDAO().getUserCounter();
+                    int usersCounter = dbService.getUserService().getUserCounter();
                     int loginCounter = accountMap.getLoggedCounter();
                     body.put("logined", loginCounter);
                     body.put("registrated", usersCounter);

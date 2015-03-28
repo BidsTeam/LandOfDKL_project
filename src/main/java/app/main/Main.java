@@ -46,12 +46,12 @@ public class Main {
         mbs.registerMBean(serverStatistics, name);
 
         DBService dbService= new DBServiceImpl(new DBUserServiceImpl());
-        WebSocketService webSocketService = new CustomWebSocketService();
+        WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         Server server = new Server(port);
 
         Router router = new Router(dbService);
-        AdminServlet adminServlet = new AdminServlet();
+        AdminServlet adminServlet = new AdminServlet(dbService);
 
         SocketServlet socketServlet = new SocketServlet(webSocketService);
 
