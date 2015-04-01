@@ -27,11 +27,6 @@ import java.lang.management.ManagementFactory;
 public class Main {
     public static void main(String[] args) throws Exception {
         //Frontend frontend = new Frontend();
-        //todo Основные вопрос:
-        //todo 1) Как сделать так, чтобы первый запрос к БД не был таким долгим. Т.е все необходимые оптимизации происходили при старте сервера
-        //todo 2) Проблема с кодировкой с hibernate validator. исплоьзоваться i18n при каждом методе не хочется (как-то через бины решается)
-        //todo 3) Проблема с timestamp см. logic/User/User()
-        //todo 4) Какие-нибудь архитектурные советы
         String portString = "8080";
         if (args.length >= 1) {
             portString = args[0];

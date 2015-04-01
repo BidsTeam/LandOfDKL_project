@@ -4,6 +4,7 @@ import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
 import service.DBService;
 import util.LogFactory;
+import util.MessageList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,7 @@ public class Auth {
         try{
 
             if (request.getMethod().equalsIgnoreCase("GET")) {
-                result.put("error","Please use POST method");
+                result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
                 UserLogic user = new UserLogic(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
@@ -52,7 +53,7 @@ public class Auth {
                         response.setStatus(HttpServletResponse.SC_OK);
                     } catch (Exception e) {
                         result.put("status", 500);
-                        body.put("error", "Undefined error in server");
+                        body.put("error", MessageList.Message.UnknownErrorOnServer);
                         LogFactory.getInstance().getApiLogger().error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
