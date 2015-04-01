@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import service.DBService;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
+import sun.tools.java.ClassPath;
 import util.HibernateUtil;
 import util.LogFactory;
 
@@ -35,7 +36,6 @@ public class Main {
         int port = Integer.valueOf(portString);
 
         LogFactory.getInstance().getMainLogger().info("Starting at port: " + portString);
-
         AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");

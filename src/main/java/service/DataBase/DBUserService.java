@@ -6,7 +6,7 @@ import DAO.logic.UserLogic;
 import java.util.List;
 
 public interface DBUserService {
-    public void addUser(UserLogic user);   //добавить студента
+    public boolean addUser(UserLogic user);   //добавить студента
 
     public void updateUser(UserLogic user);//обновить студента
 

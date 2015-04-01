@@ -16,7 +16,9 @@ public class MessageList {
         UsePost,
         WrongPassword,
         WrongSession,
-        Ok
+        Ok,
+        WrongAuth,
+        UserAlreadyExists
     }
     /*    END LANG CONSTANT LIST */
 

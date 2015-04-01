@@ -3,6 +3,7 @@ package util;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import sun.tools.java.ClassPath;
 
 public class LogFactory {
     // Здесь возможно подошел бы измененный паттерн Context, чтобы в случае отсутствие такого логера его создавать,
@@ -44,7 +45,9 @@ public class LogFactory {
         return singletonFactory(servletLogger, "Servlet Log");
     }
 
-    public Logger getGameLogger() { return singletonFactory(gameLogger, "Game Log"); }
+    public Logger getGameLogger() { return singletonFactory(gameLogger, "Game Log");
+        
+    }
 
     private Logger singletonFactory(Logger result,String name){
         if (result == null){

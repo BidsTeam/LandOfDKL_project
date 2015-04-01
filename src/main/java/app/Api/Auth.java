@@ -46,11 +46,14 @@ public class Auth {
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
                     try {
-                        dbService.getUserService().addUser(user);
+                        if (dbService.getUserService().addUser(user)) {
                         request.getSession().setAttribute("id", user.getId());
                         body.putAll(UserLogic.putAllUserInformation(user));
                         result.put("status", 200);
                         response.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            result.put("error", MessageList.Message.UserAlreadyExists);
+                        }
                     } catch (Exception e) {
                         result.put("status", 500);
                         body.put("error", MessageList.Message.UnknownErrorOnServer);
@@ -80,7 +83,7 @@ public class Auth {
             if (id == 0) {
                 if (request.getMethod().equalsIgnoreCase("GET")) {
                     result.put("status", 405);
-                    body.put("error","Please use POST method");
+                    result.put("error", MessageList.Message.UsePost);
                     response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 } else {
                     String login = request.getParameter("login");
@@ -88,7 +91,7 @@ public class Auth {
                     UserLogic user = dbService.getUserService().getUserByAuth(login, password);
                     if (user == null){
                         result.put("status", 404);
-                        body.put("error","Wrong password");
+                        body.put("error", MessageList.Message.WrongAuth);
                         response.setStatus(HttpServletResponse.SC_OK);
                     } else {
                         result.put("status", 200);
@@ -101,8 +104,8 @@ public class Auth {
                 //todo пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
                 UserLogic user = dbService.getUserService().getUserById(id);
                 if (user == null){
-                    result.put("status", 301);
-                    body.put("error","Wrong session");
+                    result.put("status", 500);
+                    body.put("error", MessageList.Message.WrongSession);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
                     body.putAll(UserLogic.putAllUserInformation(user));

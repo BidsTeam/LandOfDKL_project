@@ -17,12 +17,18 @@ public class DBUserServiceImpl implements DBUserService {
         userDAO = new UserDAOImpl(sessionFactory);
     }
 
-    public void addUser(UserLogic user){
+    public boolean addUser(UserLogic user){
         try {
-            userDAO.addUser(user);
+            if (getUserById(user.getId()) != null) {
+               return false;
+            } else {
+                userDAO.addUser(user);
+                return true;
+            }
         } catch (Exception e){
             System.out.println("tralalalalla");
         }
+        return false;
     }
 
     public void updateUser(UserLogic user){
