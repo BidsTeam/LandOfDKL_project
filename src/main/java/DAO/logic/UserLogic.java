@@ -41,14 +41,13 @@ public class UserLogic {
     public UserLogic(){
         username = null;
         registration = new Date();
-        // TODO Спросить у Чибрикова, как сделать так, чтобы в save происходила эта ересь (текущий timestamp)
-        // todo мы сделали @Column(name="registration",columnDefinition = "timestamp default current_timestamp")
-        // todo Но тогда при save. Отданный юзер не хранит в себе registration, а хранит нулл
     }
+
     public UserLogic(String username,String password,String email){
         this.username = username;
         this.password = password;
         this.email = email;
+        this.registration = new Date();
     }
 
 //    public User(User u){

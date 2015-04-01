@@ -8,11 +8,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
+    private SessionFactory sessionFactory;
+    private ServiceRegistry serviceRegistry;
 
 
-    static{
+    public HibernateUtil(){
         try {
             Configuration configuration = new Configuration();
             configuration.addResource("hibernate.cfg.xml");
@@ -26,7 +26,7 @@ public class HibernateUtil {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 }

@@ -3,6 +3,7 @@ package DAO.Impl;
 import DAO.UserDAO;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
+import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
@@ -15,11 +16,18 @@ import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
     private AccountMap accountMap = AccountMap.getInstance();
+    private SessionFactory sessionFactory;
+
+    public UserDAOImpl(SessionFactory sessionFactory){
+        this.sessionFactory = sessionFactory;
+    }
+
+
     @Override
     public void addUser(UserLogic user) throws SQLException {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.save(user);
             session.getTransaction().commit();
@@ -34,7 +42,7 @@ public class UserDAOImpl implements UserDAO {
     public void updateUser(UserLogic user) throws SQLException {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.update(user);
             session.getTransaction().commit();
@@ -52,7 +60,7 @@ public class UserDAOImpl implements UserDAO {
         Session session =  null;
         UserLogic user = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             user = (UserLogic) session.get(UserLogic.class, id); //todo session.load используется только если экземпляр уже был найден (спроси подробнее расскажу)
             //todo спросить практическую реализацию. Если у нас много разных сессий (ведь фабрика отдает), как не обкакаться
         } catch (Exception e) {
@@ -70,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = null;
         UserLogic user = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             user = (UserLogic) session.createCriteria( UserLogic.class ).
                     add( Restrictions.eq("username", username) ).
                     uniqueResult();
@@ -89,7 +97,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = null;
         UserLogic user = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             List<UserLogic> result  =  session.createCriteria( UserLogic.class ).
                     add(Restrictions.eq("username", username)).
                     add( Restrictions.eq("password", password) ).
@@ -115,7 +123,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = null;
         List<UserLogic> userList = new ArrayList<UserLogic>();
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             userList = session.createCriteria(UserLogic.class).list();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
@@ -131,7 +139,7 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUser(UserLogic user) throws SQLException {
         Session session = null;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             session.beginTransaction();
             session.delete(user);
             session.getTransaction().commit();
@@ -149,7 +157,7 @@ public class UserDAOImpl implements UserDAO {
         Session session = null;
         int counter = 0;
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             UserLogic user = (UserLogic) session.createCriteria(UserLogic.class).
                     addOrder(Order.desc("id")).
                     setMaxResults(1).
@@ -174,7 +182,7 @@ public class UserDAOImpl implements UserDAO {
         }
         List<UserLogic> userList = new ArrayList<UserLogic>();
         try {
-            session = HibernateUtil.getSessionFactory().openSession();
+            session = sessionFactory.openSession();
             userList = session.createCriteria(UserLogic.class).addOrder(Order.desc("level")).setMaxResults(count).list();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);

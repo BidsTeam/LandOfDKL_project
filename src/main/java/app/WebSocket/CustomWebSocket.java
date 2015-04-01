@@ -24,7 +24,6 @@ public class CustomWebSocket {
     private int gameID;
     private WebSocketService webSocketService;
 
-    private DBService dbService;
 
     public CustomWebSocket(int ID, WebSocketService webSocketService) {
         userID = ID;

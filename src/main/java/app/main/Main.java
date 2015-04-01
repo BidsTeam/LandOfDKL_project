@@ -17,6 +17,7 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import service.DBService;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
+import util.HibernateUtil;
 import util.LogFactory;
 
 import javax.management.MBeanServer;
@@ -45,7 +46,9 @@ public class Main {
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
         mbs.registerMBean(serverStatistics, name);
 
-        DBService dbService= new DBServiceImpl(new DBUserServiceImpl());
+        HibernateUtil hibernateUtil = new HibernateUtil();
+
+        DBService dbService= new DBServiceImpl(new DBUserServiceImpl(hibernateUtil.getSessionFactory()));
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         Server server = new Server(port);

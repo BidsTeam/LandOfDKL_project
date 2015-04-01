@@ -4,6 +4,7 @@ package service.DataBase.DataBaseImpl;
 import DAO.logic.UserLogic;
 import DAO.UserDAO;
 import DAO.Impl.UserDAOImpl;
+import org.hibernate.SessionFactory;
 import service.DataBase.DBUserService;
 
 import java.util.List;
@@ -12,8 +13,8 @@ public class DBUserServiceImpl implements DBUserService {
 
     UserDAO userDAO;
 
-    public DBUserServiceImpl(){
-        userDAO = new UserDAOImpl();
+    public DBUserServiceImpl(SessionFactory sessionFactory){
+        userDAO = new UserDAOImpl(sessionFactory);
     }
 
     public void addUser(UserLogic user){
