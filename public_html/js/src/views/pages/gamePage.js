@@ -2,15 +2,15 @@ define(
     [
         'pageView',
         'templates/game_page',
-        "models/sockets/chatSocket",
+        "models/sockets/chat",
         "views/game/chat",
         "jquery"
-    ],function(pageView, gamePageTmpl, chatSocket, chatView, $) {
+    ],function(pageView, gamePageTmpl, chat, chatView, $) {
 
         var gamePage = pageView.extend({
 
             events : {
-                "click #send-msg-to-chat" : "sendMsgToChat",
+                "click .chat__send-button" : "sendMsgToChat",
                 "keydown #chat-input" : "sendMsgToChat"
             },
 
@@ -27,9 +27,15 @@ define(
 
             sendMsgToChat : function(e) {
                 if(e.type === "click" || e.keyCode == 13) {
-                    var msg = $("#chat-input").val();
-                    chatSocket.sendPublic(msg);
-                    $("#chat-input").val("");
+                    var chatContainer = $(e.target).parent();
+                    var msg = $(chatContainer).find(".chat__input").val();
+                    if( $(chatContainer).hasClass("private") ) {
+                        var receiver = $(chatContainer).find(".chat__receiver").val();
+                        chat.sendPrivate(msg, receiver);
+                    } else {
+                        chat.sendPublic(msg);
+                    }
+                    $(chatContainer).find("input[type=text]").val("");
                 }
             }
         });

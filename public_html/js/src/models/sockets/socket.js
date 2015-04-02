@@ -2,24 +2,37 @@
  * Created by rikimaru on 18.03.15.
  */
 
-define(["backbone"], function(Backbone) {
+define(["backbone", "config"], function(Backbone, Config) {
 
-    var MAX_MESSAGE_SIZE = 200;
+    function onEvent(event) {
+        var data = JSON.parse(event.data);
+        switch( data.action ) {
+            case "public_message" : this.trigger("publicMessageReceived", data.body); break;
+            case "private_message" : this.trigger("privateMessageReceived", data.body); break;
+        }
+    };
 
-    var Socket = Backbone.Model.extend({
+    function onError(msg) {
+        console.log(msg);
+    };
+
+    function onClose(msg) {
+        console.log(msg);
+    };
+
+    return new (Backbone.Model.extend({
 
         connection : null,
 
         initialize : function(options) {
 
             this.connect(options.address);
-
             this.connection.onopen = function() {
                 console.log("Socket connect success");
             };
-            this.connection.onmessage = this.onEvent.bind(this);
-            this.connection.onerror = this.onError;
-            this.connection.onclose = this.onClose;
+            this.connection.onmessage = onEvent.bind(this);
+            this.connection.onerror = onError.bind(this);
+            this.connection.onclose = onClose.bind(this);
         },
 
         connect : function(address) {
@@ -27,27 +40,13 @@ define(["backbone"], function(Backbone) {
         },
 
         send : function(msg) {
-
             this.connection.send(msg);
-        },
-
-        onEvent : function(event) {
-            this.trigger("recieve", event);
-        },
-
-        onError : function(msg) {
-            console.log(msg);
-        },
-
-        onClose : function(msg) {
-            console.log(msg);
         },
 
         close : function() {
             this.connection.close();
         }
 
-    });
+    }))({address : Config.socketChatUrl});
 
-    return Socket;
 });
