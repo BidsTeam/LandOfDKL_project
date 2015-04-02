@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+@Deprecated
 public class WebChat {
     private static WebChat chatInstance;
     private WebChat() {}
@@ -51,7 +52,7 @@ public class WebChat {
 
     }
 
-    public void sendPrivateMessage(JSONObject json, int recivierID) {
+    public void sendPrivateMessage(JSONObject json, int receiverID) {
 
         JSONObject responseBody = new JSONObject();
         responseBody.put("author",json.get("author"));
@@ -63,7 +64,7 @@ public class WebChat {
         String jsonResp = response.toString();
 
         try {
-            Set<Session> userConnections = cache.getUserSessions(recivierID);
+            Set<Session> userConnections = cache.getUserSessions(receiverID);
             if (!userConnections.isEmpty()){
                 for (Session connection : userConnections) {
                     connection.getRemote().sendString(jsonResp);

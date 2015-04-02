@@ -8,6 +8,8 @@ import java.util.HashSet;
 
 
 public interface WebSocketService {
+    public void sendPublicMessage(JSONObject json);
+    public void sendPrivateMessage(JSONObject json, int receiverID);
     public void putNewSocket(int userID, CustomWebSocket webSocket);
     public void removeSocket(int userID, CustomWebSocket webSocket);
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json);
