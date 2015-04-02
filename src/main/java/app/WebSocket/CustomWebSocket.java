@@ -46,6 +46,7 @@ public class CustomWebSocket {
                 case "privateMessage": {
                     UserLogic receiver = Factory.getInstance().getUserDAO()
                             .getUserByUsername(request.getString("receiverName"));
+                    request.put("author", user.getUsername());
                     webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
