@@ -31,18 +31,14 @@ define(
                 }, this);
             },
 
-            isAuth : function(authCallback, notAuthCallback) {
+            isAuth : function(authCallback) {
                 $.ajax({
                     url : Config.apiUrl+"/auth/isauth",
                     type : "GET",
                     data : {},
                     success : function(msg) {
                         msg = JSON.parse(msg);
-                        if( msg.isAuth ) {
-                            authCallback(msg);
-                        } else {
-                            notAuthCallback(msg);
-                        }
+                        authCallback(msg);
                     }
                 });
             },

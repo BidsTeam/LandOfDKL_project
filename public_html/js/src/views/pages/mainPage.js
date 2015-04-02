@@ -32,10 +32,11 @@ define(
                 e.preventDefault();
                 User.isAuth(
                     function(msg) {
-                        router.navigate("game", {trigger : true, replace : true});
-                    },
-                    function(msg) {
-                        router.navigate("auth", {trigger : true, replace : true});
+                        if (msg.isAuth) {
+                            router.navigate("game", {trigger: true, replace: true});
+                        } else {
+                            router.navigate("auth", {trigger : true, replace : true});
+                        }
                     }
                 );
             }
