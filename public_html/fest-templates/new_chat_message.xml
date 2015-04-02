@@ -12,7 +12,7 @@
         time = time.hours + ":" + time.minutes + ":" + time.seconds;
     </fest:script>
 
-    <p class="chat-message <fest:value>msg.access</fest:value>">
+    <p class="chat-message chat-message__{msg.access}">
         <span class="chat-message__author-name"><fest:value>msg.author</fest:value></span> <span class="chat-message__message-time"> <fest:value>time</fest:value> </span> :
         <span class="chat-message__message"><fest:value>msg.message</fest:value></span>
     </p>

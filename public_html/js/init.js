@@ -23,7 +23,7 @@ requirejs.config({
         "bootstrap.min" : "../lib.bootstrap.min",
         pageView : "views/pages/page/page"
     },
-    waitSeconds : 1
+    waitSeconds : 5
 });
 
 

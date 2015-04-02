@@ -19,7 +19,7 @@ define(["backbone", "templates/scoreboard_list"], function(Backbone, listTmpl) {
 
             $.ajax({
 
-                url : "http://localhost:8080/api/user/top",
+                url : "http://"+location.host+"/api/user/top",
                 data : {count : 10},
 
                 beforeSend : function() {
@@ -32,7 +32,8 @@ define(["backbone", "templates/scoreboard_list"], function(Backbone, listTmpl) {
                 },
 
                 error : function(msg) {
-                    getThis().$el.html("Timeout!");
+                    console.log(msg);
+                    getThis().$el.html("Error!");
                 },
 
                 complete : function(msg) {

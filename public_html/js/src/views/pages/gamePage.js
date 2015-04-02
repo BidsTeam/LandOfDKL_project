@@ -11,7 +11,7 @@ define(
 
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
-                "keydown #chat-input" : "sendMsgToChat"
+                "keydown .chat__input" : "sendMsgToChat"
             },
 
             _construct : function() {
@@ -29,7 +29,7 @@ define(
                 if(e.type === "click" || e.keyCode == 13) {
                     var chatContainer = $(e.target).parent();
                     var msg = $(chatContainer).find(".chat__input").val();
-                    if( $(chatContainer).hasClass("private") ) {
+                    if( $(chatContainer).hasClass("chat__input-container__private") ) {
                         var receiver = $(chatContainer).find(".chat__receiver").val();
                         chat.sendPrivate(msg, receiver);
                     } else {

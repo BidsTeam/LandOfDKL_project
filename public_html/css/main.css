@@ -64,8 +64,8 @@ a.underline {
   padding: 10px; }
 
 .game-area-container {
-  height: 300px;
-  background-color: #cccccc; }
+  height: 600px;
+  background-color: #69b5b4; }
 
 .console__chat {
   float: left;
@@ -76,10 +76,9 @@ a.underline {
   float: left;
   width: 100%;
   height: 100px;
-  background-color: green;
-  padding: 15px;
   overflow-y: auto;
-  word-wrap: break-word; }
+  word-wrap: break-word;
+  border: solid grey 1px; }
 
 .chat__input-container {
   display: inline-block; }
@@ -118,6 +117,9 @@ a.underline {
   text-align: left;
   width: auto; }
 
+.chat-message {
+  padding-left: 10px; }
+
 .chat-message__author-name {
   margin-right: 4px; }
 
@@ -126,5 +128,14 @@ a.underline {
 
 .chat-message__message-time {
   color: #0b97c4; }
+
+.chat-message:nth-child(odd) {
+  background-color: #ffffff; }
+
+.chat-message:nth-child(even) {
+  background-color: #e4e4e4; }
+
+.chat-message__private {
+  color: red; }
 
 /*# sourceMappingURL=main.css.map */

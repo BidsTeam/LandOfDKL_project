@@ -19,7 +19,7 @@
                     <input type="text" class="chat__input" />
                     <input type="button" value="Написать" class="chat__send-button" />
                 </div> <br/>
-                Личное сообщение<div class="chat__input-container private">
+                Личное сообщение<div class="chat__input-container chat__input-container__private">
                     <input type="text" class="chat__receiver" placeholder="To:"/>
                     <input type="text" class="chat__input" placeholder="Message:"/>
                     <input type="button" value="Написать" class="chat__send-button" />
