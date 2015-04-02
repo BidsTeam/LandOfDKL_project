@@ -18,17 +18,9 @@ define(
                 return $(page).attr("id");
             },
 
-            showPage : function(pageId) {
-                $("#"+pageId).addClass("active");
-            },
-
             changePage : function(pageId) {
                 this.$el.find("div[data-role=page].active").removeClass("active");
                 $("#"+pageId).addClass("active");
-            },
-
-            hidePage : function(pageId) {
-                $("#"+pageId).removeClass("active");
             }
         });
 
