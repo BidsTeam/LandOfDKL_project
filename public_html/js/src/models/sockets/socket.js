@@ -10,15 +10,15 @@ define(["backbone", "config"], function(Backbone, Config) {
             case "public_message" : this.trigger("publicMessageReceived", data.body); break;
             case "private_message" : this.trigger("privateMessageReceived", data.body); break;
         }
-    };
+    }
 
     function onError(msg) {
         console.log(msg);
-    };
+    }
 
     function onClose(msg) {
         console.log(msg);
-    };
+    }
 
     return new (Backbone.Model.extend({
 

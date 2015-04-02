@@ -3,9 +3,10 @@ define(
         "pageView",
         "models/signup",
         "templates/signup_page",
-        "config"
+        "config",
+        "jquery"
     ],
-    function(pageView, signupModel, signupTmpl, Config) {
+    function(pageView, signupModel, signupTmpl, Config, $) {
 
         var SignupView = pageView.extend({
 
@@ -44,13 +45,18 @@ define(
                     $(val).trigger("change"); //Идеологически неправильно имитировать действия пользователя, но ничего умнее не придумал
                 });
 
+                this.$("input[type=submit]").attr("disabled", "disabled");
+
                 $.ajax({
                     type: "POST",
                     url: Config.apiUrl+"/auth/signup",
                     data: model.toJSON(),
-                    success: function (data) {
-                        console.log(data);
-                    }
+                    success: function(msg) {
+                        console.log(msg);
+                    },
+                    complete : function(msg) {
+                        this.$("input[type=submit]").removeAttr("disabled");
+                    }.bind(this)
                 });
                 //todo this.model.save(); Я настрою потом sync
             },

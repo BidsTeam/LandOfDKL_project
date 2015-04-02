@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="menu__button-container">
-                        <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success menu__button" disabled="disabled" />
+                        <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success menu__button" disabled="disabled"/>
                     </div>
 
                     <div class="menu__button-container">

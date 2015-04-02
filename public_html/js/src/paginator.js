@@ -20,7 +20,7 @@ define(
 
             changePage : function(pageId) {
                 this.$el.find("div[data-role=page].active").removeClass("active");
-                $("#"+pageId).addClass("active");
+                this.$("#"+pageId).addClass("active");
             }
         });
 

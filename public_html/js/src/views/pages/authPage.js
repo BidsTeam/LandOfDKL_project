@@ -23,6 +23,7 @@ define(
         },
 
         auth : function(e) {
+            $(e.target).attr("disabled", "disabled");
             e.preventDefault();
             var data = {
                 login : $("#auth-login-field").val(),
@@ -38,7 +39,10 @@ define(
                     router.navigate("game", {trigger: true, replace: true});
                 },
                 error : function(msg) {
-                    console.log(msg);
+                    alert("Ошибка");
+                },
+                complete : function(msg) {
+                    $(e.target).removeAttr("disabled");
                 }
             });
 
