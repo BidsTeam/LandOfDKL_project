@@ -38,10 +38,8 @@ public class MessageList {
         try {
             String buf = fText.getString(message.toString());
             //todo Вместо getBytes будем использовать при сборке утилиту native2ascii
-            buf = new String(buf.getBytes("ISO-8859-1"), "UTF-8");
+            //buf = new String(buf.getBytes("ISO-8859-1"), "UTF-8");
             result = buf;
-        } catch (UnsupportedEncodingException uee){
-            LogFactory.getInstance().getMainLogger().error("Util.MessageList/getText Encoding error");
         } catch (MissingResourceException e) {
             LogFactory.getInstance().getMainLogger().error("Util.MessageList/getText Translate text not found");
         }
