@@ -15,12 +15,12 @@ define(
                 if( msg.length == 0 ) {
                     return;
                 }
-                var data = {status : "public_message", message : msg};
+                var data = {action : "publicMessage", message : msg};
                 this.send(JSON.stringify(data));
             },
 
             sendPrivate : function(msg) {
-                var data = {status : "private_message", message : msg};
+                var data = {action : "privateMessage", message : msg};
                 this.send(data);
             }
         });

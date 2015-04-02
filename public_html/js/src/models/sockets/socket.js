@@ -4,6 +4,8 @@
 
 define(["backbone"], function(Backbone) {
 
+    var MAX_MESSAGE_SIZE = 200;
+
     var Socket = Backbone.Model.extend({
 
         connection : null,
@@ -25,6 +27,7 @@ define(["backbone"], function(Backbone) {
         },
 
         send : function(msg) {
+
             this.connection.send(msg);
         },
 

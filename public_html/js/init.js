@@ -23,13 +23,13 @@ requirejs.config({
         "bootstrap.min" : "../lib.bootstrap.min",
         pageView : "views/pages/page/page"
     },
-    waitSeconds : 5
+    waitSeconds : 1
 });
 
 
 require(["config", "jquery"], function(config, $) {
     $.ajaxSetup({
-        timeout : 10000
+        timeout : 15000
     });
 
     require(['routers/page_router'], function(router){});

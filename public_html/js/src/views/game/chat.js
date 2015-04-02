@@ -17,6 +17,8 @@ define(
             },
 
             render : function(message) {
+                console.log("recieved");
+                console.log(message);
                 var msgObj = JSON.parse(message.data);
                 var msgBody = msgObj.body;
                 var time = new Date();
