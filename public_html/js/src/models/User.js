@@ -5,14 +5,15 @@
 define(
     [
         'backbone',
-        "lodash"
-    ], function(Backbone, _) {
+        "lodash",
+        "jquery",
+        "config"
+    ], function(Backbone, _, $, Config) {
 
         var User = Backbone.Model.extend({
 
             defaults : {
                 is_admin : false,
-                isAuth : false,
                 username : "",
                 id : 0,
                 level : 1
@@ -28,7 +29,35 @@ define(
                     paramObj[key] = val;
                     this.set(paramObj);
                 }, this);
+            },
+
+            isAuth : function(authCallback, notAuthCallback) {
+                $.ajax({
+                    url : Config.apiUrl+"/auth/isauth",
+                    type : "GET",
+                    data : {},
+                    success : function(msg) {
+                        msg = JSON.parse(msg);
+                        if( msg.isAuth ) {
+                            authCallback(msg);
+                        } else {
+                            notAuthCallback(msg);
+                        }
+                    }
+                });
+            },
+
+            logout : function() {
+                $.ajax({
+                    url : Config.apiUrl+"/auth/drop",
+                    type : "GET",
+                    data : {},
+                    success : function(msg) {
+                        this.trigger("logout");
+                    }.bind(this)
+                });
             }
+
         });
 
         return new User();

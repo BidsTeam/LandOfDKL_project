@@ -4,14 +4,16 @@ define(
         'templates/game_page',
         "models/sockets/chat",
         "views/game/chat",
-        "jquery"
-    ],function(pageView, gamePageTmpl, chat, chatView, $) {
+        "jquery",
+        "models/User"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User) {
 
         var gamePage = pageView.extend({
 
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
-                "keydown .chat__input" : "sendMsgToChat"
+                "keydown .chat__input" : "sendMsgToChat",
+                "click a[action=logout]" : "logout"
             },
 
             _construct : function() {
@@ -37,6 +39,10 @@ define(
                     }
                     $(chatContainer).find("input[type=text]").val("");
                 }
+            },
+
+            logout : function(e) {
+                User.logout();
             }
         });
 

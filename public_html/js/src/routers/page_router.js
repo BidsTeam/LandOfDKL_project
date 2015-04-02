@@ -1,9 +1,11 @@
 define(
     [
-        "backbone"
+        "backbone",
+        "models/User"
     ],
     function(
-        Backbone
+        Backbone,
+        User
     ) {
         Router = Backbone.Router.extend({
 
@@ -16,6 +18,7 @@ define(
             },
 
             initialize : function() {
+                User.bind("logout", this.mainPageInit(), this);
             },
 
             mainPageInit : function() {

@@ -32,9 +32,8 @@ define(
             $.ajax({
                 type : "POST",
                 data : data,
-                url : Config.authUrl,
+                url : Config.apiUrl+"/auth/signin",
                 success : function(msg) {
-
                     User.build(JSON.parse(msg).response);
                     router.navigate("game", {trigger: true, replace: true});
                 },

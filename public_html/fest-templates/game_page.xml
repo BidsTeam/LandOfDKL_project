@@ -6,7 +6,7 @@
                 <div class="nav-menu__button-container"><a href="#profile" class="btn btn-large btn-primary nav-menu__button"> <span>Персонаж</span> </a> </div>
                 <div class="nav-menu__button-container"><a href="#map" class="btn btn-large btn-primary nav-menu__button"> <span>Карта</span> </a> </div>
                 <div class="nav-menu__button-container"><a href="#quest-list" class="btn btn-large btn-primary nav-menu__button"> <span>Квесты</span> </a> </div>
-                <div class="nav-menu__button-container"><a href="#" class="btn btn-large btn-primary nav-menu__button"> <span>***</span> </a> </div>
+                <div class="nav-menu__button-container"><a href="" action="logout" class="btn btn-large btn-primary nav-menu__button"> <span>Выйти</span> </a> </div>
             </div>
         </div>
 

@@ -2,16 +2,21 @@ define(
     [
         "templates/main_page",
         "paginator",
-        "pageView"
+        "pageView",
+        "models/User",
+        "routers/page_router"
     ],
     function(
         mainPageTmpl,
         Paginator,
-        PageView
+        PageView,
+        User,
+        router
     ){
         var mainPageView = PageView.extend({
 
             events: {
+                "click a[action=enter]" : "enterGame"
             },
 
             _construct : function(options){
@@ -21,6 +26,18 @@ define(
             },
 
             render: function(){
+            },
+
+            enterGame : function(e) {
+                e.preventDefault();
+                User.isAuth(
+                    function(msg) {
+                        router.navigate("game", {trigger : true, replace : true});
+                    },
+                    function(msg) {
+                        router.navigate("auth", {trigger : true, replace : true});
+                    }
+                );
             }
 
         });

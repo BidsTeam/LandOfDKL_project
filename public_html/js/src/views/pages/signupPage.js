@@ -2,9 +2,10 @@ define(
     [
         "pageView",
         "models/signup",
-        "templates/signup_page"
+        "templates/signup_page",
+        "config"
     ],
-    function(pageView, signupModel, signupTmpl) {
+    function(pageView, signupModel, signupTmpl, Config) {
 
         var SignupView = pageView.extend({
 
@@ -45,7 +46,7 @@ define(
 
                 $.ajax({
                     type: "POST",
-                    url: "/api/auth/signup",
+                    url: Config.apiUrl+"/auth/signup",
                     data: model.toJSON(),
                     success: function (data) {
                         console.log(data);
