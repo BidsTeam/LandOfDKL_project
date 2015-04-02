@@ -3,6 +3,7 @@ package app.Api;
 import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.json.JSONObject;
 import util.LogFactory;
 
 import javax.servlet.ServletException;
@@ -131,6 +132,26 @@ public class Auth {
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
             LogFactory.getInstance().getApiLogger().error("Auth/drop", e);
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    public void isauth(HttpServletRequest request, HttpServletResponse response) {
+        JSONObject json = new JSONObject();
+        try {
+            int id = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
+            if (id != 0) {
+                json.put("status", 200);
+                json.put("isAuth", true);
+            } else {
+                json.put("status", 200);
+                json.put("isAuth", false);
+            }
+            response.getWriter().println(json.toString());
+            response.setStatus(HttpServletResponse.SC_OK);
+        } catch (Exception e) {
+            LogFactory.getInstance().getApiLogger().error("Error in isAuth");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
