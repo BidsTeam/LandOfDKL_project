@@ -19,7 +19,7 @@ public class CustomWebSocket {
     private Session session;
     private int userID;
     private UserLogic user;
-    private WebChat webChat = WebChat.getChatInstance();
+  //  private WebChat webChat = WebChat.getChatInstance();
     private AccountMap cache = AccountMap.getInstance();
     private int gameID;
     private WebSocketService webSocketService;
@@ -39,14 +39,14 @@ public class CustomWebSocket {
             switch (request.getString("action")) {
                 case "publicMessage": {
                     request.put("author", user.getUsername());
-                    webChat.sendMessage(request);
+                    webSocketService.sendPublicMessage(request);
                     break;
                 }
 
                 case "privateMessage": {
                     UserLogic receiver = Factory.getInstance().getUserDAO()
                             .getUserByUsername(request.getString("receiverName"));
-                    webChat.sendPrivateMessage(request, receiver.getId());
+                    webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
 

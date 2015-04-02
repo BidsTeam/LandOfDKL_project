@@ -2,11 +2,13 @@ package app.WebSocket;
 
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONObject;
 import util.LogFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Set;
 
 
 public class CustomWebSocketService implements WebSocketService {
@@ -149,6 +151,53 @@ public class CustomWebSocketService implements WebSocketService {
         response.put("userAction", userAction);
         response.put("opponentAction", opponentAction);
         return response;
+    }
+
+    public void sendPublicMessage(JSONObject json) {
+        JSONObject response = new JSONObject();
+        response.put("action", "public_message");
+        JSONObject responseBody = new JSONObject();
+        try {
+            responseBody.put("author", json.get("author").toString());
+            responseBody.put("message", json.get("message").toString());
+        } catch (Exception e){
+            LogFactory.getInstance().getSessionLogger().error("WebChat/sendMessage",e);
+            responseBody.put("author", "err");
+            responseBody.put("message", "err");
+
+        }
+        response.put("body", responseBody);
+
+        sendPublicJson(response);
+
+    }
+
+    private void sendPublicJson(JSONObject json) {
+        String jsonResp = json.toString();
+        try {
+            for (HashSet<CustomWebSocket> userConnections : userWebSockets.values()) {
+                for (CustomWebSocket socket : userConnections) {
+                    socket.getSession().getRemote().sendString(jsonResp);
+                }
+            }
+        } catch (Exception e) {
+            LogFactory.getInstance().getSessionLogger().fatal(e);
+        }
+    }
+
+    public void sendPrivateMessage(JSONObject json, int receiverID) {
+
+        JSONObject responseBody = new JSONObject();
+        responseBody.put("author",json.get("author"));
+        responseBody.put("message", json.get("message"));
+
+        JSONObject response = new JSONObject();
+        response.put("action", "private_message");
+        response.put("body", responseBody);
+        String jsonResp = response.toString();
+
+        HashSet<CustomWebSocket> userSockets = userWebSockets.get(receiverID);
+        sendJson(userSockets, response);
     }
 
 
