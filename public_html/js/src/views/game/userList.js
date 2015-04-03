@@ -16,6 +16,7 @@ define(
             },
 
             render : function(userList) {
+                this.$el.empty();
                 this.$el.append(listTmpl(userList));
                 this.$el.scrollTop(this.$el.get()[0].scrollHeight);
             },
