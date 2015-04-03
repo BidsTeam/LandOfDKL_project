@@ -18,7 +18,8 @@ public interface WebSocketService {
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner);
     public void notifyActionSet(Player playerSetter, Player playerObserver);
     public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction);
-    public void notifyUpdateChatUsers(AccountMap accountMap);
+    public void notifyUserEnter(int userID);
+    public void notifyUserExit(int userID);
 //    public void sendPublicMessage();
 //    public void sendPrivateMessage();
 }

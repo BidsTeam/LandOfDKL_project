@@ -78,7 +78,7 @@ public class CustomWebSocket {
         try {
             webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
-            webSocketService.notifyUpdateChatUsers(cache);
+            webSocketService.notifyUserEnter(userID);
             LogFactory.getInstance().getSessionLogger().debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onOpen: ", e);
@@ -95,6 +95,7 @@ public class CustomWebSocket {
     @OnWebSocketClose
     public void onClose(int statusCode, String reason) {
         webSocketService.removeSocket(userID, this);
+        webSocketService.notifyUserExit(userID);
     }
 
     public Session getSession() {

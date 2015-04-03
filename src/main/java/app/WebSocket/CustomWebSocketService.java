@@ -15,12 +15,16 @@ import java.util.Set;
 
 public class CustomWebSocketService implements WebSocketService {
     private HashMap<Integer, HashSet<CustomWebSocket>> userWebSockets;
+    private AccountMap accountMap;
+    private HashSet<String> onlineUsers;
     private static final Integer WINNER = 1;
     private static final Integer LOSER = -1;
     private static final Integer DRAW = 0;
 
     public CustomWebSocketService() {
         userWebSockets = new HashMap<>();
+        onlineUsers = new HashSet<>();
+        accountMap = AccountMap.getInstance();
     }
 
     public void putNewSocket(int userID, CustomWebSocket webSocket) {
@@ -202,19 +206,25 @@ public class CustomWebSocketService implements WebSocketService {
         sendJson(userSockets, response);
     }
 
-    public void notifyUpdateChatUsers(AccountMap accountMap) {
+    public void notifyUserEnter(int userID) {
+        onlineUsers.add(accountMap.getUser(userID).getUsername());
+        notifyUpdateChatUsers();
+    }
+
+    public void notifyUserExit(int userID) {
+        if (userWebSockets.get(userID).isEmpty()) {
+            onlineUsers.remove(accountMap.getUser(userID).getUsername());
+            notifyUpdateChatUsers();
+        }
+    }
+
+    private void notifyUpdateChatUsers() {
         JSONObject json = new JSONObject();
-        HashSet<String> usernames = new HashSet<>();
 
         try {
-            for (HashSet<CustomWebSocket> userConnection: userWebSockets.values()) {
-                for (CustomWebSocket socket: userConnection) {
-                    usernames.add(accountMap.getUser(socket.getUserID()).getUsername());
-                }
-            }
             //JSONArray jsonArray = new JSONArray();
             //jsonArray.put(usernames);
-            json.put("usernames", usernames);
+            json.put("usernames", onlineUsers);
             json.put("action", "newChatUsers");
             sendPublicJson(json);
         } catch (Exception e) {
