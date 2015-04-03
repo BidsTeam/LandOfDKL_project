@@ -17,7 +17,6 @@ import org.eclipse.jetty.servlet.ServletHolder;
 import service.DBService;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
-import sun.tools.java.ClassPath;
 import util.HibernateUtil;
 import util.LogFactory;
 

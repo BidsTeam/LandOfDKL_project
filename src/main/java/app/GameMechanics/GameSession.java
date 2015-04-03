@@ -2,8 +2,8 @@ package app.GameMechanics;
 
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
-import util.ActionList;
 import util.LogFactory;
+import util.RPS;
 
 import java.util.HashMap;
 
@@ -42,7 +42,7 @@ public class GameSession {
         if (json.has("gameAction")) {
             switch (json.getString("gameAction")) {
                 case "setAction": {
-                    //todo Убедиться в том, что это строка либо камень, либо ножницы, либо бумага. util.ActionList
+                    //todo Убедиться в том, что это строка либо камень, либо ножницы, либо бумага.
                     setGameAction(playerNumber, json.get("chosen_action").toString());
                     break;
                 }
@@ -81,25 +81,25 @@ public class GameSession {
 
     private void gameActionReveal() {
         webSocketService.notifyActionsReveal(firstPlayer, firstPlayerAction, secondPlayer, secondPlayerAction);
-        HashMap<String,HashMap<String,Integer>> rules = new HashMap<String,HashMap<String,Integer>>(){{
-            put("scissors",new HashMap<String,Integer>(){{
-                put("scissors",DRAW);
-                put("rock",SECOND_WON);
-                put("paper",FIRST_WON);
-            }});
-            put("rock",new HashMap<String,Integer>(){{
-                put("scissors",FIRST_WON);
-                put("rock",DRAW);
-                put("paper",SECOND_WON);
-            }});
-            put("paper",new HashMap<String,Integer>(){{
-                put("scissors",SECOND_WON);
-                put("rock",FIRST_WON);
-                put("paper",DRAW);
-            }});
-        }};
+//        HashMap<String,HashMap<String,Integer>> rules = new HashMap<String,HashMap<String,Integer>>(){{
+//            put("scissors",new HashMap<String,Integer>(){{
+//                put("scissors",DRAW);
+//                put("rock",SECOND_WON);
+//                put("paper",FIRST_WON);
+//            }});
+//            put("rock",new HashMap<String,Integer>(){{
+//                put("scissors",FIRST_WON);
+//                put("rock",DRAW);
+//                put("paper",SECOND_WON);
+//            }});
+//            put("paper",new HashMap<String,Integer>(){{
+//                put("scissors",SECOND_WON);
+//                put("rock",FIRST_WON);
+//                put("paper",DRAW);
+//            }});
+//        }};
         try {
-            int result = rules.get(firstPlayerAction).get(secondPlayerAction);
+            RPS.RPSResult result = RPS.Palm.fromString(firstPlayerAction).fight(RPS.Palm.fromString(secondPlayerAction));
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
         } catch (Exception e) {
             LogFactory.getInstance().getGameLogger().error("GameMechanics.GameSession/gameActionReveal: Wrong game_action from json! ",e);

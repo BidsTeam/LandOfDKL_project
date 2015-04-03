@@ -5,6 +5,7 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
+import util.RPS;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -83,14 +84,14 @@ public class CustomWebSocketService implements WebSocketService {
 
 
 
-    public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner) {
+    public void notifyGameOver(Player firstPlayer, Player secondPlayer, RPS.RPSResult winner) {
         JSONObject firstPlayerResponse;
         JSONObject secondPlayerResponse;
 
-        if (winner == 1){
+        if (winner == RPS.RPSResult.FIRST_WON){
             firstPlayerResponse  = generateResponseGameOver(firstPlayer,WINNER);
             secondPlayerResponse = generateResponseGameOver(secondPlayer,LOSER);
-        } else if (winner == 2){
+        } else if (winner == RPS.RPSResult.SECOND_WON){
             firstPlayerResponse  = generateResponseGameOver(firstPlayer,LOSER);
             secondPlayerResponse = generateResponseGameOver(secondPlayer,WINNER);
         } else {
