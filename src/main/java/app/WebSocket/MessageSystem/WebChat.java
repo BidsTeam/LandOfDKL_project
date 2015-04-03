@@ -30,7 +30,7 @@ public class WebChat {
             responseBody.put("author", json.get("author").toString());
             responseBody.put("message", json.get("message").toString());
         } catch (Exception e){
-            LogFactory.getInstance().getSessionLogger().error("WebChat/sendMessage",e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("WebChat/sendMessage",e);
             responseBody.put("author", "err");
             responseBody.put("message", "err");
 
@@ -46,7 +46,7 @@ public class WebChat {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
 
     }
@@ -70,7 +70,7 @@ public class WebChat {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
     }
 }

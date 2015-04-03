@@ -21,7 +21,7 @@ public class HibernateUtil {
                     configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (HibernateException he) {
-            LogFactory.getInstance().getMainLogger().fatal("Util.HibernateUtil/static Error creating Session:",he);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal("Util.HibernateUtil/static Error creating Session:",he);
             throw new ExceptionInInitializerError(he);
         }
     }

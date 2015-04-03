@@ -34,7 +34,7 @@ public class User {
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("User/top",e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("User/top",e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

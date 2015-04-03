@@ -30,7 +30,7 @@ public class PageGenerator {
             Template template = CFG.getTemplate(HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
-            LogFactory.getInstance().getMainLogger().error("Templater/PageGenerator/getPage",e);
+            LogFactory.getInstance().getLogger(PageGenerator.class).error("Templater/PageGenerator/getPage",e);
         }
         return stream.toString();
     }

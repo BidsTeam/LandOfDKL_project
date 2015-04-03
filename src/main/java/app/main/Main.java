@@ -34,7 +34,7 @@ public class Main {
 
         int port = Integer.valueOf(portString);
 
-        LogFactory.getInstance().getMainLogger().info("Starting at port: " + portString);
+        LogFactory.getInstance().getLogger(Main.class).info("Starting at port: " + portString);
         AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ServerManager:type=AccountServerController");

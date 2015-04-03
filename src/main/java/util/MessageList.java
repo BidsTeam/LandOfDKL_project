@@ -41,7 +41,7 @@ public class MessageList {
             //buf = new String(buf.getBytes("ISO-8859-1"), "UTF-8");
             result = buf;
         } catch (MissingResourceException e) {
-            LogFactory.getInstance().getMainLogger().error("Util.MessageList/getText Translate text not found");
+            LogFactory.getInstance().getLogger(this.getClass()).error("Util.MessageList/getText Translate text not found");
         }
         return result;
     }

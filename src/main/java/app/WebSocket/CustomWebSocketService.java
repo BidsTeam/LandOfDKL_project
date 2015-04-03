@@ -47,7 +47,7 @@ public class CustomWebSocketService implements WebSocketService {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
          }
     }
 
@@ -59,7 +59,7 @@ public class CustomWebSocketService implements WebSocketService {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
     }
 

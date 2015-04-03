@@ -49,7 +49,7 @@ public class AdminServlet extends HttpServlet {
                 response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getServletLogger().error("AdminServlet/doGet", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("AdminServlet/doGet", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
         result.put("body", body);

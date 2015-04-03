@@ -32,14 +32,14 @@ public class GameFactory {
     public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
             if (inGameUsers.contains(user.getId())) {
-                LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
+                LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
             } else {
                 firstPlayer = new Player(user);
                 inGameUsers.add(user.getId());
             }
         } else {
             if (inGameUsers.contains(user.getId())) {
-                LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
+                LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
 
             } else {
                 secondPlayer = new Player(user);

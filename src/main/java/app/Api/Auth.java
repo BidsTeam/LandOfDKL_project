@@ -57,7 +57,7 @@ public class Auth {
                     } catch (Exception e) {
                         result.put("status", 500);
                         body.put("error", MessageList.Message.UnknownErrorOnServer);
-                        LogFactory.getInstance().getApiLogger().error("Auth/signup Error with registration User", e);
+                        LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
                 } else {
@@ -69,7 +69,7 @@ public class Auth {
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/signup", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -116,7 +116,7 @@ public class Auth {
 
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/signin", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signin", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
@@ -134,7 +134,7 @@ public class Auth {
         try {
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/drop", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/drop", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
