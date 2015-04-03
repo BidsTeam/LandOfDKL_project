@@ -84,10 +84,10 @@ a.underline {
   display: inline-block; }
 
 .console__players-in-room-list {
+  border: solid grey 1px;
   display: inline-block;
   width: 19.999%;
-  height: 100px;
-  background-color: red; }
+  height: 100px; }
 
 .menu-header {
   text-align: center;
@@ -137,5 +137,8 @@ a.underline {
 
 .chat-message__private {
   color: red; }
+
+.user-list__common-user {
+  color: #000000; }
 
 /*# sourceMappingURL=main.css.map */

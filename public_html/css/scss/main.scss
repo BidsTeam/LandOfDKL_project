@@ -119,10 +119,11 @@ a.underline {
 }
 
 .console__players-in-room-list {
+  border: solid grey 1px;
   display: inline-block;
   width: 19.999%;
   height: 100px;
-  background-color: red;
+  //background-color: #ffffff;
 }
 
 .menu-header {
@@ -201,5 +202,5 @@ a.underline {
 }
 
 .user-list__common-user {
-  color: #0eff26;
+  color: #000000;
 }
