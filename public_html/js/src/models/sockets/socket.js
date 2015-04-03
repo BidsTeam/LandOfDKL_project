@@ -6,9 +6,16 @@ define(["backbone", "config"], function(Backbone, Config) {
 
     function onEvent(event) {
         var data = JSON.parse(event.data);
+        //console.log(event.data.action);
         switch( data.action ) {
             case "public_message" : this.trigger("publicMessageReceived", data.body); break;
             case "private_message" : this.trigger("privateMessageReceived", data.body); break;
+            case "newChatUsers" :
+            {
+                //console.log("but there?");
+                this.trigger("newChatUsers", data.usernames);
+                break;
+            }
         }
     }
 

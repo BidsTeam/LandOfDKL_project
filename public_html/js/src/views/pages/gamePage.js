@@ -5,8 +5,10 @@ define(
         "models/sockets/chat",
         "views/game/chat",
         "jquery",
-        "models/User"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User) {
+        "models/User",
+        "models/sockets/userList",
+        "views/game/userList"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
 
         var gamePage = pageView.extend({
 
@@ -22,6 +24,7 @@ define(
                 }, this);
 
                 this.chatView = new chatView({chatContainerId : "chat-content"});
+                this.userListview = new userListView({listContainerId : "players-in-room-list"});
             },
 
             render : function() {
