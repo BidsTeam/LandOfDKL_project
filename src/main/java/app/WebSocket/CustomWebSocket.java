@@ -4,7 +4,6 @@ import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.GameFactory;
-import app.WebSocket.MessageSystem.WebChat;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
@@ -79,6 +78,7 @@ public class CustomWebSocket {
         try {
             webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
+            webSocketService.notifyUpdateChatUsers(cache);
             LogFactory.getInstance().getSessionLogger().debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
         } catch (Exception e) {
             LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onOpen: ", e);
@@ -114,4 +114,6 @@ public class CustomWebSocket {
     public int getGameID() {
         return gameID;
     }
+
+    public int getUserID() {return  userID; }
 }

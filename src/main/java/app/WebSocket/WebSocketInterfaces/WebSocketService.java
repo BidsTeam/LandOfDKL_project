@@ -1,5 +1,6 @@
 package app.WebSocket.WebSocketInterfaces;
 
+import app.AccountMap.AccountMap;
 import app.GameMechanics.Player;
 import app.WebSocket.CustomWebSocket;
 import org.json.JSONObject;
@@ -17,6 +18,7 @@ public interface WebSocketService {
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner);
     public void notifyActionSet(Player playerSetter, Player playerObserver);
     public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction);
+    public void notifyUpdateChatUsers(AccountMap accountMap);
 //    public void sendPublicMessage();
 //    public void sendPrivateMessage();
 }

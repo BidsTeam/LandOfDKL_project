@@ -1,8 +1,10 @@
 package app.WebSocket;
 
+import app.AccountMap.AccountMap;
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import util.LogFactory;
 
@@ -200,5 +202,25 @@ public class CustomWebSocketService implements WebSocketService {
         sendJson(userSockets, response);
     }
 
+    public void notifyUpdateChatUsers(AccountMap accountMap) {
+        JSONObject json = new JSONObject();
+        HashSet<String> usernames = new HashSet<>();
+
+        try {
+            for (HashSet<CustomWebSocket> userConnection: userWebSockets.values()) {
+                for (CustomWebSocket socket: userConnection) {
+                    usernames.add(accountMap.getUser(socket.getUserID()).getUsername());
+                }
+            }
+            //JSONArray jsonArray = new JSONArray();
+            //jsonArray.put(usernames);
+            json.put("usernames", usernames);
+            json.put("action", "newChatUsers");
+            sendPublicJson(json);
+        } catch (Exception e) {
+            LogFactory.getInstance().getApiLogger().error("Error in notifyUpdateChatUsers");
+        }
+
+    }
 
 }

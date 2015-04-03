@@ -2,6 +2,7 @@ package app.AccountMap;
 
 import DAO.logic.UserLogic;
 import org.eclipse.jetty.websocket.api.Session;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,7 +13,7 @@ public class AccountMap {
 
     private static AccountMap AccountMap = null;
 
-    private HashMap<Integer, UserLogic> CachedAccounts = new HashMap<>();
+    private HashMap<Integer, UserLogic> cachedAccounts = new HashMap<>();
     private HashMap<Integer, HashSet<Session>> connections = new HashMap<>();
 
     public static AccountMap getInstance(){
@@ -27,15 +28,15 @@ public class AccountMap {
 
     public void putUser(UserLogic user) {
         int userID = user.getId();
-        CachedAccounts.put(userID, user);
+        cachedAccounts.put(userID, user);
     }
 
     public UserLogic getUser(int id) {
-        return CachedAccounts.get(id);
+        return cachedAccounts.get(id);
     }
 
     public int getLoggedCounter() {
-        return CachedAccounts.size();
+        return cachedAccounts.size();
     }
 
     public void putNewSession(int userID, Session newSession) {
