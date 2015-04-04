@@ -200,7 +200,7 @@ public class CustomWebSocketService implements WebSocketService {
         JSONObject response = new JSONObject();
         response.put("action", "private_message");
         response.put("body", responseBody);
-        String jsonResp = response.toString();
+        //String jsonResp = response.toString();
 
         HashSet<CustomWebSocket> userSockets = userWebSockets.get(receiverID);
         sendJson(userSockets, response);
@@ -230,7 +230,6 @@ public class CustomWebSocketService implements WebSocketService {
         } catch (Exception e) {
             LogFactory.getInstance().getApiLogger().error("Error in notifyUpdateChatUsers");
         }
-
     }
 
 }
