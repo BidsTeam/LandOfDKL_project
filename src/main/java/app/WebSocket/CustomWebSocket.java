@@ -1,6 +1,5 @@
 package app.WebSocket;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.GameFactory;
@@ -8,6 +7,7 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.eclipse.jetty.websocket.api.annotations.*;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
 
 import java.util.Set;
@@ -32,7 +32,7 @@ public class CustomWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-            LogFactory.getInstance().getSessionLogger().debug("WebChatSocket/onMessage: " + data);
+            LogFactory.getInstance().getLogger(this.getClass()).debug("WebChatSocket/onMessage: " + data);
             JSONObject request = new JSONObject(data);
 
             switch (request.getString("action")) {
@@ -43,9 +43,8 @@ public class CustomWebSocket {
                 }
 
                 case "privateMessage": {
-                    UserLogic receiver = Factory.getInstance().getUserDAO()
-                            .getUserByUsername(request.getString("receiverName"));
-                    request.put("author", user.getUsername());
+                    UserLogic receiver = webSocketService.getDbService().getUserService().
+                            getUserByUsername(request.getString("receiverName"));
                     webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
@@ -56,19 +55,19 @@ public class CustomWebSocket {
                 }
                 case "gameAction" : {
                     if (gameID == 0) {
-                        LogFactory.getInstance().getApiLogger().info("Try to make game move while not in game");
+                        LogFactory.getInstance().getLogger(this.getClass()).info("Try to make game move while not in game");
                     } else {
                         GameFactory.getInstance().getGameSession(gameID).doGameAction(request, userID);
                         break;
                     }
                 }
                 default: {
-                    LogFactory.getInstance().getApiLogger().debug("Wrong json in socket");
+                    LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
                     break;
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal("WebChatSocket/onMessage",e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal("WebChatSocket/onMessage",e);
         }
     }
 
@@ -78,10 +77,10 @@ public class CustomWebSocket {
         try {
             webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
+            LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
             webSocketService.notifyUserEnter(userID);
-            LogFactory.getInstance().getSessionLogger().debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onOpen: ", e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal("WebSocket.CustomWebSocket/onOpen: ", e);
         }
     }
 
@@ -89,7 +88,7 @@ public class CustomWebSocket {
     @OnWebSocketError
     public void onError(Throwable cause) {
         webSocketService.removeSocket(userID, this);
-        LogFactory.getInstance().getSessionLogger().fatal("WebSocket.CustomWebSocket/onError: ", cause);
+        LogFactory.getInstance().getLogger(this.getClass()).fatal("WebSocket.CustomWebSocket/onError: ", cause);
     }
 
     @OnWebSocketClose

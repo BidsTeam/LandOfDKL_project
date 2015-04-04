@@ -4,6 +4,7 @@ import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.templater.PageGenerator;
 import com.google.gson.Gson;
+import service.DBService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -16,11 +17,11 @@ public class Profile {
     private UserLogic user = new UserLogic();
     private AccountMap cacheAcc = AccountMap.getInstance();
 
-    public void main(HttpServletResponse request, HttpServletResponse response) throws IOException {
+    public void main(HttpServletResponse request, HttpServletResponse response, DBService dbService) throws IOException {
         response.sendRedirect("/Profile/show/");
     }
 
-    public void show(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void show(HttpServletRequest request, HttpServletResponse response, DBService dbService) throws IOException {
         int userID;
         try {
             userID = (int) request.getSession().getAttribute("id");

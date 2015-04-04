@@ -1,10 +1,11 @@
 package app.Api;
 
-import DAO.Factory;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
+import util.MessageList;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ public class Auth {
 
 
     public void main(HttpServletRequest request,
-                      HttpServletResponse response) throws ServletException, IOException {
+                      HttpServletResponse response, DBService dbService) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
@@ -32,13 +33,13 @@ public class Auth {
     }
 
     public void signup(HttpServletRequest request,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
         try{
 
             if (request.getMethod().equalsIgnoreCase("GET")) {
-                result.put("error","Please use POST method");
+                result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
                 UserLogic user = new UserLogic(request.getParameter("username"), request.getParameter("password"), request.getParameter("email"));
@@ -46,15 +47,18 @@ public class Auth {
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
                     try {
-                        Factory.getInstance().getUserDAO().addUser(user);
+                        if (dbService.getUserService().addUser(user)) {
                         request.getSession().setAttribute("id", user.getId());
                         body.putAll(UserLogic.putAllUserInformation(user));
                         result.put("status", 200);
                         response.setStatus(HttpServletResponse.SC_OK);
+                        } else {
+                            result.put("error", MessageList.Message.UserAlreadyExists);
+                        }
                     } catch (Exception e) {
                         result.put("status", 500);
-                        body.put("error", "Undefined error in server");
-                        LogFactory.getInstance().getApiLogger().error("Auth/signup Error with registration User", e);
+                        body.put("error", MessageList.Message.UnknownErrorOnServer);
+                        LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     }
                 } else {
@@ -66,13 +70,13 @@ public class Auth {
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/signup", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     public void signin(HttpServletRequest request,
-                     HttpServletResponse response) {
+                     HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
         try {
@@ -80,15 +84,15 @@ public class Auth {
             if (id == 0) {
                 if (request.getMethod().equalsIgnoreCase("GET")) {
                     result.put("status", 405);
-                    body.put("error","Please use POST method");
+                    result.put("error", MessageList.Message.UsePost);
                     response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
                 } else {
                     String login = request.getParameter("login");
                     String password = request.getParameter("password");
-                    UserLogic user = Factory.getInstance().getUserDAO().getUserByAuth(login, password);
+                    UserLogic user = dbService.getUserService().getUserByAuth(login, password);
                     if (user == null){
                         result.put("status", 404);
-                        body.put("error","Wrong password");
+                        body.put("error", MessageList.Message.WrongAuth);
                         response.setStatus(HttpServletResponse.SC_OK);
                     } else {
                         result.put("status", 200);
@@ -99,10 +103,10 @@ public class Auth {
                 }
             } else {
                 //todo пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
-                UserLogic user = Factory.getInstance().getUserDAO().getUserById(id);
+                UserLogic user = dbService.getUserService().getUserById(id);
                 if (user == null){
-                    result.put("status", 301);
-                    body.put("error","Wrong session");
+                    result.put("status", 500);
+                    body.put("error", MessageList.Message.WrongSession);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
                     body.putAll(UserLogic.putAllUserInformation(user));
@@ -113,13 +117,13 @@ public class Auth {
 
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/signin", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signin", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
     }
 
     public void drop(HttpServletRequest request,
-                       HttpServletResponse response) {
+                       HttpServletResponse response, DBService dbService) {
 
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
@@ -131,7 +135,7 @@ public class Auth {
         try {
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
-            LogFactory.getInstance().getApiLogger().error("Auth/drop", e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Auth/drop", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

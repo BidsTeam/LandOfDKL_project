@@ -6,7 +6,9 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
+import util.RPS;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -20,11 +22,13 @@ public class CustomWebSocketService implements WebSocketService {
     private static final Integer WINNER = 1;
     private static final Integer LOSER = -1;
     private static final Integer DRAW = 0;
+    private DBService dbService;
 
-    public CustomWebSocketService() {
+    public CustomWebSocketService(DBService dbService) {
         userWebSockets = new HashMap<>();
         onlineUsers = new HashSet<>();
         accountMap = AccountMap.getInstance();
+        this.dbService = dbService;
     }
 
     public void putNewSocket(int userID, CustomWebSocket webSocket) {
@@ -51,7 +55,7 @@ public class CustomWebSocketService implements WebSocketService {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
          }
     }
 
@@ -63,7 +67,7 @@ public class CustomWebSocketService implements WebSocketService {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
     }
 
@@ -88,14 +92,14 @@ public class CustomWebSocketService implements WebSocketService {
 
 
 
-    public void notifyGameOver(Player firstPlayer, Player secondPlayer, int winner) {
+    public void notifyGameOver(Player firstPlayer, Player secondPlayer, RPS.RPSResult winner) {
         JSONObject firstPlayerResponse;
         JSONObject secondPlayerResponse;
 
-        if (winner == 1){
+        if (winner == RPS.RPSResult.FIRST_WON){
             firstPlayerResponse  = generateResponseGameOver(firstPlayer,WINNER);
             secondPlayerResponse = generateResponseGameOver(secondPlayer,LOSER);
-        } else if (winner == 2){
+        } else if (winner == RPS.RPSResult.SECOND_WON){
             firstPlayerResponse  = generateResponseGameOver(firstPlayer,LOSER);
             secondPlayerResponse = generateResponseGameOver(secondPlayer,WINNER);
         } else {
@@ -159,6 +163,9 @@ public class CustomWebSocketService implements WebSocketService {
         return response;
     }
 
+    public DBService getDbService(){
+        return dbService;
+    }
     public void sendPublicMessage(JSONObject json) {
         JSONObject response = new JSONObject();
         response.put("action", "public_message");

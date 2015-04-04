@@ -5,6 +5,7 @@ import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import util.LogFactory;
+import util.MessageList;
 
 
 import java.io.File;
@@ -19,19 +20,35 @@ public class PageGenerator {
     private static final String HTML_DIR = "templates";
     private static final Configuration CFG = new Configuration();
 
+    //todo Очень плохое решение. Побоялся плодить объекты pageGenerator'a. Есть какие-нибудь идеи?
+    private static MessageList messageList = new MessageList(MessageList.LocaleRussia);
+
+
     public static String getPage(String filename, Map<String, Object> data) {
         Writer stream = new StringWriter();
         try {
             Template template = CFG.getTemplate(HTML_DIR + File.separator + filename);
             template.process(data, stream);
         } catch (IOException | TemplateException e) {
-            LogFactory.getInstance().getMainLogger().error("Templater/PageGenerator/getPage",e);
+            LogFactory.getInstance().getLogger(PageGenerator.class).error("Templater/PageGenerator/getPage",e);
         }
         return stream.toString();
     }
 
     public static String getJson(HashMap<String,Object> result){
+        translate(result);
         Gson gson = new Gson();
         return gson.toJson(result);
+    }
+
+    private static void translate(HashMap<String,Object> map) {
+        for (HashMap.Entry<String, Object> entry : map.entrySet()) {
+            Object value = entry.getValue();
+            if (value instanceof MessageList.Message){
+                entry.setValue(messageList.getText((MessageList.Message)value));
+            } else if (value instanceof HashMap) {
+                translate((HashMap) value);
+            }
+        }
     }
 }
