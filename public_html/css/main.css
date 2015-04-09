@@ -53,7 +53,8 @@ a.underline {
 
 .logo-container__logo {
   width: 700px;
-  height: 200px; }
+  height: 200px;
+  display: none; }
 
 .menu-name {
   font-size: 20px;

@@ -7,8 +7,9 @@ define(
         "jquery",
         "models/User",
         "models/sockets/userList",
-        "views/game/userList"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
+        "views/game/userList",
+        "views/game/card"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, Card) {
 
         var gamePage = pageView.extend({
 
