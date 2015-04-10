@@ -221,3 +221,53 @@ a.underline {
 .user-list__common-user {
   color: #000000;
 }
+
+.card {
+  background-image: url("../images/card_background.jpg");
+  border-radius: 6px;
+  display: inline-block;
+  padding: 20px 10px 13px 10px;
+  width: 230px;
+}
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__image{
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 142px;
+  margin: auto;
+  width: 94%;
+  &__knight {
+    background-image: url("../images/knight.jpg");
+  }
+  &__princess {
+
+  }
+  &__dragon {
+
+  }
+}
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%;
+}
