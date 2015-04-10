@@ -8,11 +8,11 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.service.ServiceRegistry;
 
 public class HibernateUtil {
-    private static SessionFactory sessionFactory;
-    private static ServiceRegistry serviceRegistry;
+    private SessionFactory sessionFactory;
+    private ServiceRegistry serviceRegistry;
 
 
-    static{
+    public HibernateUtil(){
         try {
             Configuration configuration = new Configuration();
             configuration.addResource("hibernate.cfg.xml");
@@ -21,12 +21,12 @@ public class HibernateUtil {
                     configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         } catch (HibernateException he) {
-            LogFactory.getInstance().getMainLogger().fatal("Util.HibernateUtil/static Error creating Session:",he);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal("Util.HibernateUtil/static Error creating Session:",he);
             throw new ExceptionInInitializerError(he);
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public SessionFactory getSessionFactory() {
         return sessionFactory;
     }
 }

@@ -2,7 +2,6 @@ package app.GameMechanics;
 
 import DAO.logic.UserLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
-import org.hibernate.annotations.common.util.impl.LoggerFactory;
 import util.LogFactory;
 
 import java.util.HashSet;
@@ -15,11 +14,11 @@ public class GameFactory {
     private Player secondPlayer;
     private static GameFactory GameFinder = null;
     private GameSessionStorage gameSessionStorage;
-    private HashSet<Integer> playersSet;
+    private HashSet<Integer> inGameUsers;
 
     private GameFactory() {
         gameSessionStorage = new GameSessionStorage();
-        playersSet = new HashSet<>();
+        inGameUsers = new HashSet<>();
     }
 
     public static GameFactory getInstance() {
@@ -32,19 +31,19 @@ public class GameFactory {
 
     public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
-            if (playersSet.contains(user.getId())) {
-                LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
+            if (inGameUsers.contains(user.getId())) {
+                LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
             } else {
                 firstPlayer = new Player(user);
-                playersSet.add(user.getId());
+                inGameUsers.add(user.getId());
             }
         } else {
-            if (playersSet.contains(user.getId())) {
-                LogFactory.getInstance().getApiLogger().error("Illegal try to search 2 games at once");
+            if (inGameUsers.contains(user.getId())) {
+                LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
 
             } else {
                 secondPlayer = new Player(user);
-                playersSet.add(user.getId());
+                inGameUsers.add(user.getId());
                 int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService);
                 firstPlayer = null;
                 secondPlayer = null;
@@ -53,7 +52,7 @@ public class GameFactory {
     }
 
     public void freePlayer(int userID) {
-        playersSet.remove(userID);
+        inGameUsers.remove(userID);
     }
 
     public GameSession getGameSession(int id) {
