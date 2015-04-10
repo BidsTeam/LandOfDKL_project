@@ -1,5 +1,5 @@
 /**
- * Created by rikimaru on 09.04.15.
+ * Created by rikimaru on 10.04.15.
  */
 
 define(
@@ -11,37 +11,23 @@ define(
         "templates/card"
     ], function(Backbone, Ui, $, CardModel, CardTemplate) {
 
-        var CardView = Backbone.View.extend({
+        return Backbone.View.extend({
 
             template : CardTemplate,
             type : "",
 
             initialize : function(options) {
-                var htmlEl = CardTemplate({
-                    type : options.type,
+                var cardType = options.type;
+                var $htmlEl = $(CardTemplate({
+                    type : cardType,
                     id : "player_card_1"
-                });
-                this.setElement("#"+$(htmlEl).prop("id"));
-                $("#testPage").append(htmlEl);
+                }));
+
+                this.model = new CardModel({type : cardType});
+                this.setElement($htmlEl);
+                this.$el.draggable();
+                $("#testPage").append(this.$el);
             }
         });
-
-        var cardFabric = function(){};
-
-        cardFabric.prototype.createCard = function(options) {
-            var type = options.type || "";
-            var availableTypes = ["knight", "princess", "dragon"];
-
-            if (availableTypes.indexOf(type) === -1) {
-                return false;
-            }
-
-            return new CardView({
-                model : new CardModel(),
-                type : type
-            });
-        };
-
-        return new cardFabric();
     }
 );

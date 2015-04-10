@@ -7,18 +7,18 @@ define(
         "paginator",
         "pageView",
         "templates/test_page",
-        "views/game/card"
+        "views/game/cardFactory"
     ],
     function(
         Paginator,
         PageView,
         TestPageTmpl,
-        CardView
+        CardFactory
     ){
         return new (PageView.extend({
 
             _construct : function(options){
-                CardView.createCard({type : "knight"});
+                CardFactory.createCard({type : "knight"});
                 this.bind("changePage_"+this.pageId, function() {
                     $(".logo-container__logo").hide();
                 }, this);

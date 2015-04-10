@@ -8,8 +8,8 @@ define(
         "models/User",
         "models/sockets/userList",
         "views/game/userList",
-        "views/game/card"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, Card) {
+        "views/game/cardFactory"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, CardFactory) {
 
         var gamePage = pageView.extend({
 

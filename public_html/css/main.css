@@ -161,7 +161,8 @@ a.underline {
   border-radius: 6px;
   display: inline-block;
   padding: 20px 10px 13px 10px;
-  width: 230px; }
+  width: 230px;
+  box-shadow: black 11px 17px 42px -19px; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
