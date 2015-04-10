@@ -14,11 +14,11 @@ define(["backbone", "config"], function(Backbone, Config) {
     }
 
     function onError(msg) {
-        console.log(msg);
+        this.trigger("error", msg);
     }
 
     function onClose(msg) {
-        console.log(msg);
+        this.trigger("closed", msg);
     }
 
     return new (Backbone.Model.extend({
@@ -38,6 +38,9 @@ define(["backbone", "config"], function(Backbone, Config) {
 
         connect : function(address) {
             this.connection = new WebSocket(address);
+            if (this.connection.readyState != 4) {
+                this.trigger("connect_error");
+            }
         },
 
         send : function(msg) {

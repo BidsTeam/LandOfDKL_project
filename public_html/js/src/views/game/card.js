@@ -25,8 +25,10 @@ define(
 
                 this.model = new CardModel({type : cardType});
                 this.setElement($htmlEl);
-                this.$el.draggable();
-                $("#testPage").append(this.$el);
+
+                this.$el.draggable({
+                    containment : "#game-area"
+                });
             }
         });
     }

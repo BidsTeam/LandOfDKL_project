@@ -7,9 +7,8 @@ define(
         "jquery",
         "models/User",
         "models/sockets/userList",
-        "views/game/userList",
-        "views/game/cardFactory"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, CardFactory) {
+        "views/game/userList"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
 
         var gamePage = pageView.extend({
 
@@ -26,9 +25,16 @@ define(
 
                 this.chatView = new chatView({chatContainerId : "chat-content"});
                 this.userListview = new userListView({listContainerId : "players-in-room-list"});
+                this.beginBattle();
             },
 
             render : function() {
+            },
+
+            beginBattle : function() {
+                require(['views/game/battle'], function(battleView) {
+                    battleView.beginBattle();
+                });
             },
 
             sendMsgToChat : function(e) {

@@ -1,0 +1,17 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <div class="battlefield-container">
+        <div class="battlefield-container__field player-field">
+
+        </div>
+
+        <div class="battlefield-container__field middle-field">
+
+        </div>
+
+        <div class="battlefield-container__field opponent-field">
+
+        </div>
+    </div>
+
+</fest:template>
