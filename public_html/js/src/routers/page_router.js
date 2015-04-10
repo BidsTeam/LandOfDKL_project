@@ -19,7 +19,7 @@ define(
             },
 
             initialize : function() {
-                User.bind("logout", this.mainPageInit(), this);
+                User.bind("logout", this.mainPageInit, this);
             },
 
             mainPageInit : function() {
