@@ -4,14 +4,16 @@ define(
         "paginator",
         "pageView",
         "models/User",
-        "routers/page_router"
+        "routers/page_router",
+        "views/loading"
     ],
     function(
         mainPageTmpl,
         Paginator,
         PageView,
         User,
-        router
+        router,
+        loading
     ){
         var mainPageView = PageView.extend({
 
@@ -30,15 +32,19 @@ define(
 
             enterGame : function(e) {
                 e.preventDefault();
-                User.isAuth(
-                    function(msg) {
-                        if (msg.isAuth) {
-                            router.navigate("game", {trigger: true, replace: true});
-                        } else {
-                            router.navigate("auth", {trigger : true, replace : true});
+                loading.show();
+                new Promise(function(resolve, reject) {
+                    User.isAuth(
+                        function(msg) {
+                            if (msg.isAuth) {
+                                router.navigate("game", {trigger: true, replace: true});
+                            } else {
+                                router.navigate("auth", {trigger : true, replace : true});
+                            }
+                            resolve();
                         }
-                    }
-                );
+                    );
+                }).then(function() {loading.hide()});
             }
 
         });

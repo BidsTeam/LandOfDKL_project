@@ -8,6 +8,11 @@
             seconds : String(time.getSeconds()),
             hours : String(time.getHours())
         };
+        for (var key in time) {
+            if (time[key].length == 1) {
+                time[key] = "0"+time[key];
+            }
+        }
 
         time = time.hours + ":" + time.minutes + ":" + time.seconds;
     </fest:script>

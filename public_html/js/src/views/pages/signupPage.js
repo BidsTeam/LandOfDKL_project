@@ -4,9 +4,10 @@ define(
         "models/signup",
         "templates/signup_page",
         "config",
-        "jquery"
+        "jquery",
+        "views/loading"
     ],
-    function(pageView, signupModel, signupTmpl, Config, $) {
+    function(pageView, signupModel, signupTmpl, Config, $, loading) {
 
         var SignupView = pageView.extend({
 
@@ -54,8 +55,12 @@ define(
                     success: function(msg) {
                         console.log(msg);
                     },
+                    beforeSend : function() {
+                        loading.show();
+                    },
                     complete : function(msg) {
                         this.$("input[type=submit]").removeAttr("disabled");
+                        loading.hide();
                     }.bind(this)
                 });
                 //todo this.model.save(); Я настрою потом sync

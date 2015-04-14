@@ -21,7 +21,8 @@ requirejs.config({
         "lodash" : "../lib/lodash.min",
         "jquery.form" : "../lib/jquery.form",
         "bootstrap.min" : "../lib.bootstrap.min",
-        pageView : "views/pages/page/page"
+        pageView : "views/pages/page/page",
+        "jquery-ui" : "../lib/jquery-ui"
     },
     waitSeconds : 5
 });

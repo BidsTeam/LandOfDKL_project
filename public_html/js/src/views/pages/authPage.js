@@ -4,8 +4,9 @@ define(
         "templates/auth_page",
         "config",
         "routers/page_router",
-        "models/User"
-    ], function(pageView, authPageTmpl, Config, router, User) {
+        "models/User",
+        "views/loading"
+    ], function(pageView, authPageTmpl, Config, router, User, loading) {
 
     var authPage = pageView.extend({
 
@@ -34,6 +35,9 @@ define(
                 type : "POST",
                 data : data,
                 url : Config.apiUrl+"/auth/signin",
+                beforeSend : function() {
+                    loading.show();
+                },
                 success : function(msg) {
                     User.build(JSON.parse(msg).response);
                     router.navigate("game", {trigger: true, replace: true});
@@ -43,6 +47,7 @@ define(
                 },
                 complete : function(msg) {
                     $(e.target).removeAttr("disabled");
+                    loading.hide();
                 }
             });
 
