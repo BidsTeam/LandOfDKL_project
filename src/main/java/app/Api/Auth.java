@@ -1,5 +1,6 @@
 package app.Api;
 
+import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
 import org.json.JSONObject;
