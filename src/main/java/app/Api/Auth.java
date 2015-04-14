@@ -155,7 +155,7 @@ public class Auth {
             response.getWriter().println(json.toString());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
-            LogFactory.getInstance().getApiLogger().error("Error in isAuth");
+            LogFactory.getInstance().getLogger(this.getClass()).error("Error in isAuth");
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 

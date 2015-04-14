@@ -174,7 +174,7 @@ public class CustomWebSocketService implements WebSocketService {
             responseBody.put("author", json.get("author").toString());
             responseBody.put("message", json.get("message").toString());
         } catch (Exception e){
-            LogFactory.getInstance().getSessionLogger().error("WebChat/sendMessage",e);
+            LogFactory.getInstance().getLogger(this.getClass()).error("WebChat/sendMessage",e);
             responseBody.put("author", "err");
             responseBody.put("message", "err");
 
@@ -194,7 +194,7 @@ public class CustomWebSocketService implements WebSocketService {
                 }
             }
         } catch (Exception e) {
-            LogFactory.getInstance().getSessionLogger().fatal(e);
+            LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
     }
 
@@ -235,7 +235,7 @@ public class CustomWebSocketService implements WebSocketService {
             json.put("action", "newChatUsers");
             sendPublicJson(json);
         } catch (Exception e) {
-            LogFactory.getInstance().getApiLogger().error("Error in notifyUpdateChatUsers");
+            LogFactory.getInstance().getLogger(this.getClass()).error("Error in notifyUpdateChatUsers");
         }
     }
 

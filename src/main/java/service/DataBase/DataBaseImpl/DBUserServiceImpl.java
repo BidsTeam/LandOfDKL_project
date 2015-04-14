@@ -6,6 +6,7 @@ import DAO.UserDAO;
 import DAO.Impl.UserDAOImpl;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBUserService;
+import util.LogFactory;
 
 import java.util.List;
 
@@ -18,92 +19,55 @@ public class DBUserServiceImpl implements DBUserService {
     }
 
     public boolean addUser(UserLogic user){
-        try {
-            if (getUserById(user.getId()) != null) {
-               return false;
-            } else {
-                userDAO.addUser(user);
-                return true;
-            }
-        } catch (Exception e){
-            System.out.println("tralalalalla");
+        if (getUserById(user.getId()) != null) {
+           return false;
+        } else {
+            userDAO.addUser(user);
+            return true;
         }
-        return false;
     }
 
     public void updateUser(UserLogic user){
-        try {
-            userDAO.updateUser(user);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        userDAO.updateUser(user);
     }
 
     public UserLogic getUserById(int id){
         UserLogic result = null;
-        try {
-            result = userDAO.getUserById(id);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getUserById(id);
         return result;
     }
 
     public UserLogic getUserByUsername(String username){
         UserLogic result = null;
-        try {
-            result = userDAO.getUserByUsername(username);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getUserByUsername(username);
         return result;
     }
 
     public UserLogic getUserByAuth(String username, String password){
         UserLogic result = null;
-        try {
-            result = userDAO.getUserByAuth(username, password);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getUserByAuth(username, password);
         return result;
     }
 
     public List getAllUsers(){
         List result = null;
-        try {
-            result = userDAO.getAllUsers();
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getAllUsers();
         return result;
     }
 
     public void deleteUser(UserLogic user){
-        try {
-            userDAO.deleteUser(user);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        userDAO.deleteUser(user);
     }
 
     public int getUserCounter(){
         int result = -1;
-        try {
-            result = userDAO.getUserCounter();
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getUserCounter();
         return result;
     }
 
     public List<UserLogic> getAllUserRating(int count){
         List<UserLogic> result = null;
-        try {
-            result = userDAO.getAllUserRating(count);
-        } catch (Exception e){
-            System.out.println("tralalalalla");
-        }
+        result = userDAO.getAllUserRating(count);
         return result;
     }
 }

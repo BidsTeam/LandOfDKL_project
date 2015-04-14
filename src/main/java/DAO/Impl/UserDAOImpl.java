@@ -8,6 +8,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import util.HibernateUtil;
+import util.LogFactory;
 
 import javax.swing.*;
 import java.sql.SQLException;
@@ -24,7 +25,7 @@ public class UserDAOImpl implements UserDAO {
 
 
     @Override
-    public void addUser(UserLogic user) throws SQLException {
+    public void addUser(UserLogic user)  {
         Session session = null;
         try {
             session = sessionFactory.openSession();
@@ -39,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void updateUser(UserLogic user) throws SQLException {
+    public void updateUser(UserLogic user) {
         Session session = null;
         try {
             session = sessionFactory.openSession();
@@ -47,7 +48,7 @@ public class UserDAOImpl implements UserDAO {
             session.update(user);
             session.getTransaction().commit();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in updateUser");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -56,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserLogic getUserById(int id) throws SQLException {
+    public UserLogic getUserById(int id)  {
         Session session =  null;
         UserLogic user = null;
         try {
@@ -64,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
             user = (UserLogic) session.get(UserLogic.class, id); //todo session.load используется только если экземпляр уже был найден (спроси подробнее расскажу)
             //todo спросить практическую реализацию. Если у нас много разных сессий (ведь фабрика отдает), как не обкакаться
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getUserById");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -73,7 +74,7 @@ public class UserDAOImpl implements UserDAO {
         return user;
     }
     @Override
-    public UserLogic getUserByUsername(String username) throws SQLException {
+    public UserLogic getUserByUsername(String username) {
 
         Session session = null;
         UserLogic user = null;
@@ -83,7 +84,7 @@ public class UserDAOImpl implements UserDAO {
                     add( Restrictions.eq("username", username) ).
                     uniqueResult();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getUserByUsername");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -107,7 +108,7 @@ public class UserDAOImpl implements UserDAO {
                 accountMap.putUser(user);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getUserByAuth");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -117,7 +118,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<UserLogic> getAllUsers() throws SQLException {
+    public List<UserLogic> getAllUsers() {
         // В будущем нужно переделать на кеширующий criteria
         // todo ОБожеКакЯНенавижуORM
         Session session = null;
@@ -126,7 +127,7 @@ public class UserDAOImpl implements UserDAO {
             session = sessionFactory.openSession();
             userList = session.createCriteria(UserLogic.class).list();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getAllUsers");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -136,7 +137,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public void deleteUser(UserLogic user) throws SQLException {
+    public void deleteUser(UserLogic user) {
         Session session = null;
         try {
             session = sessionFactory.openSession();
@@ -144,7 +145,7 @@ public class UserDAOImpl implements UserDAO {
             session.delete(user);
             session.getTransaction().commit();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in deleteUser");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
@@ -164,7 +165,7 @@ public class UserDAOImpl implements UserDAO {
                     uniqueResult();
             counter = user.getId();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getUserCounter");
         }
         finally {
             if (session != null && session.isOpen()) {
@@ -185,7 +186,7 @@ public class UserDAOImpl implements UserDAO {
             session = sessionFactory.openSession();
             userList = session.createCriteria(UserLogic.class).addOrder(Order.desc("level")).setMaxResults(count).list();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(), "Ошибка I/O", JOptionPane.OK_OPTION);
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getAllUserRating");
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();

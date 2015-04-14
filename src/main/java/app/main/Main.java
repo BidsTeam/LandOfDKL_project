@@ -42,7 +42,7 @@ public class Main {
 
         HibernateUtil hibernateUtil = new HibernateUtil();
 
-        DBService dbService= new DBServiceImpl(new DBUserServiceImpl(hibernateUtil.getSessionFactory()));
+        DBService dbService= new DBServiceImpl(hibernateUtil.getSessionFactory());
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         Server server = new Server(port);
