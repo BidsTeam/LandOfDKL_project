@@ -7,7 +7,7 @@ define(
         "backbone",
         "jquery-ui",
         "jquery",
-        "models/card",
+        "models/game/card",
         "templates/card"
     ], function(Backbone, Ui, $, CardModel, CardTemplate) {
 
@@ -17,13 +17,18 @@ define(
             type : "",
 
             initialize : function(options) {
-                var cardType = options.type;
-                var $htmlEl = $(CardTemplate({
-                    type : cardType,
-                    id : "player_card_1"
-                }));
+                var cardType;
+                var $htmlEl;
 
+                cardType = options.type;
                 this.model = new CardModel({type : cardType});
+
+                $htmlEl = $(CardTemplate({
+                    type : cardType,
+                    title : this.model.get("title"),
+                    effect : this.model.get("effect"),
+                    description : this.model.get("description")
+                }));
                 this.setElement($htmlEl);
 
                 this.$el.draggable({

@@ -11,9 +11,7 @@ define(
 
         cardFabric.prototype.createCard = function(options) {
             var type = options.type || "";
-            var availableTypes = ["knight", "princess", "dragon"];
-
-            if (availableTypes.indexOf(type) === -1) {
+            if (type === "") {
                 return false;
             }
 

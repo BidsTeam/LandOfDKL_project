@@ -8,13 +8,18 @@ define(
         "views/pages/gamePage",
         "templates/battleField",
         "views/game/cardFactory",
-        "jquery"
+        "jquery",
+        "views/game/middleField"
     ],
-    function(Backbone, gamePage, battlefieldTmpl, cardFactory, $) {
+    function(Backbone, gamePage, battlefieldTmpl, cardFactory, $, MiddleField) {
 
         return new (Backbone.View.extend({
 
             template : battlefieldTmpl,
+
+            playerField : {},
+            opponentField : {},
+            middleField : {},
 
             initialize : function(options) {
 
@@ -29,10 +34,16 @@ define(
             render : function() {
                 var $html = $(this.template());
                 var $gameArea = $("#game-area");
+
                 this.setElement($html);
                 $gameArea.html(this.$el);
+
                 this.$(".battlefield-container__field").css("height", $gameArea.height());
-                this.$(".player-field").append(cardFactory.createCard({type:"knight"}).$el);
+                this.middleField = new MiddleField();
+                this.opponentField = this.$(".opponent-field");
+                this.playerField = this.$(".player-field");
+                this.playerField.append(cardFactory.createCard({type:"knight"}).$el);
+                this.playerField.append(cardFactory.createCard({type:"princess"}).$el);
             }
         }))();
     }

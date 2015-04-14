@@ -156,21 +156,28 @@ a.underline {
 .user-list__common-user {
   color: #000000; }
 
+.card-container {
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .card-container:hover {
+    z-index: 1; }
+
 .card-container__card {
   background-image: url("../images/card_background.jpg");
   border-radius: 6px;
   display: inline-block;
+  margin-left: 2px;
   padding: 20px 10px 13px 10px;
   width: 230px;
-  box-shadow: black 11px 17px 42px -19px;
+  box-shadow: black 0px 3px 42px -2px;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s; }
-  .card-container__card:hover {
-    position: absolute;
-    margin-top: -10px; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
@@ -209,5 +216,8 @@ a.underline {
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left; }
+
+.middle-field.underlight {
+  background-color: #3c763d; }
 
 /*# sourceMappingURL=main.css.map */

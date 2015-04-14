@@ -3,29 +3,24 @@
     <div class="card-container">
         <div class="card-container__card">
 
-            <fest:attributes>
-                <fest:attribute name="id"><fest:value>data.id</fest:value></fest:attribute>
-            </fest:attributes>
-
             <div class="card__header">
                 <p>
-                    Доблестный рыцарь
+                    <fest:value>data.title</fest:value>
                 </p>
             </div>
 
-            <div class="card__image card__image__knight">
-
+            <div class="card__image card__image__{data.type}">
             </div>
 
             <div class="card__effect">
                 <p>
-                    Прибавка силы
+                    <fest:value>data.effect</fest:value>
                 </p>
             </div>
 
             <div class="card__description">
                 <p>
-
+                    <fest:value>data.description</fest:value>
                 </p>
             </div>
 
