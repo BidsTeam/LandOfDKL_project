@@ -9,9 +9,10 @@ define(
         "templates/battleField",
         "views/game/cardFactory",
         "jquery",
-        "views/game/middleField"
+        "views/game/middleField",
+        "models/game/battle"
     ],
-    function(Backbone, gamePage, battlefieldTmpl, cardFactory, $, MiddleField) {
+    function(Backbone, gamePage, battlefieldTmpl, cardFactory, $, MiddleField, battleModel) {
 
         return new (Backbone.View.extend({
 
@@ -22,7 +23,7 @@ define(
             middleField : {},
 
             initialize : function(options) {
-
+                this.model = battleModel;
             },
 
             beginBattle : function() {
@@ -39,7 +40,10 @@ define(
                 $gameArea.html(this.$el);
 
                 this.$(".battlefield-container__field").css("height", $gameArea.height());
+
                 this.middleField = new MiddleField();
+                this.middleField.bind("STEP", this.model.step, this);
+
                 this.opponentField = this.$(".opponent-field");
                 this.playerField = this.$(".player-field");
                 this.playerField.append(cardFactory.createCard({type:"knight"}).$el);

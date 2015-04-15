@@ -2,15 +2,15 @@
  * Created by rikimaru on 18.03.15.
  */
 
-define(["backbone", "config"], function(Backbone, Config) {
+define(
+    [
+        "backbone",
+        "config"
+    ], function(Backbone, Config) {
 
     function onEvent(event) {
         var data = JSON.parse(event.data);
-        switch( data.action ) {
-            case "public_message" : this.trigger("publicMessageReceived", data.body); break;
-            case "private_message" : this.trigger("privateMessageReceived", data.body); break;
-            case "newChatUsers" : this.trigger("newChatUsers", data.usernames); break;
-        }
+        this.trigger(data.action, data);
     }
 
     function onError(msg) {

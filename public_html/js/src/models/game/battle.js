@@ -15,6 +15,10 @@ define(
 
             beginBattle : function(playerId) {
                 connection.beginBattle(playerId);
+            },
+
+            step : function() {
+                //connection.
             }
         }))();
     }
