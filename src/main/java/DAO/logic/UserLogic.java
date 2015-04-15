@@ -128,7 +128,6 @@ public class UserLogic {
             inverseJoinColumns = {@JoinColumn(name = "user_id")}
     )
 
-
     public Set<CardLogic> getCards() {
         return cards;
     }

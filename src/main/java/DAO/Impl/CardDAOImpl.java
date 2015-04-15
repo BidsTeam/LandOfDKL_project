@@ -5,6 +5,7 @@ import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import util.HibernateUtil;
 import util.LogFactory;
 
@@ -65,5 +66,26 @@ public class CardDAOImpl implements CardDAO {
 
         session.getTransaction().commit();
         session.close();
+    }
+
+    public int getCardCounter() {
+        Session session = null;
+        int counter = 0;
+        try {
+            session = sessionFactory.openSession();
+            CardLogic card = (CardLogic) session.createCriteria(CardLogic.class).
+                    addOrder(Order.desc("id")).
+                    setMaxResults(1).
+                    uniqueResult();
+            counter = card.getId();
+        } catch (Exception e) {
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getCardCounter");
+        }
+        finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return counter;
     }
 }

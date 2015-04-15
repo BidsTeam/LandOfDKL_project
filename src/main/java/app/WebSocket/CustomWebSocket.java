@@ -18,7 +18,6 @@ public class CustomWebSocket {
     private Session session;
     private int userID;
     private UserLogic user;
-  //  private WebChat webChat = WebChat.getChatInstance();
     private AccountMap cache = AccountMap.getInstance();
     private int gameID;
     private WebSocketService webSocketService;

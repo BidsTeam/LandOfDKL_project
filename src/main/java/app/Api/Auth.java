@@ -142,7 +142,7 @@ public class Auth {
 
     }
 
-    public void isauth(HttpServletRequest request, HttpServletResponse response) {
+    public void isauth(HttpServletRequest request, HttpServletResponse response, DBService dbService) {
         JSONObject json = new JSONObject();
         try {
             int id = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
