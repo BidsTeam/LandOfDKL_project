@@ -10,10 +10,7 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name="user")
@@ -30,7 +27,8 @@ public class UserLogic {
             message = "Введите настоящий email")
     private String email;
 
-    //todo to BONDAR Как сделать так, чтобы registration превращался в long
+    private Set<CardLogic> cards = new HashSet<>();
+
     private Date registration;
 
     private byte level = 1;
@@ -53,6 +51,8 @@ public class UserLogic {
 //    public User(User u){
 //        username = u.getUsername();н
 //    }
+
+
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")
@@ -121,6 +121,21 @@ public class UserLogic {
         this.level = level;
     }
 
+    @ManyToMany( fetch = FetchType.EAGER,
+            cascade = { CascadeType.ALL } )
+    @JoinTable(name = "user_card",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+
+
+    public Set<CardLogic> getCards() {
+        return cards;
+    }
+
+    public void setCards(Set<CardLogic> cards) {
+        this.cards = cards;
+    }
 
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();
