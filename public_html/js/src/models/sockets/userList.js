@@ -13,7 +13,7 @@ define(
                 Socket.bind("newChatUsers", this.receive, this);
             },
             receive : function(newUserList) {
-                this.trigger("newChatUsers", newUserList);
+                this.trigger("newChatUsers", newUserList.usernames);
             }
 
         }))();

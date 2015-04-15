@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="msg">
+
+    <div id="testPage">
+
+    </div>
+
+</fest:template>

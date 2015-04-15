@@ -14,11 +14,12 @@ define(
                 "game(/)" : "gamePageInit",
                 "auth(/)" : "authPageInit",
                 "signup(/)" : "signupPageInit",
-                "scoreboard" : "scoreboardPageInit"
+                "scoreboard" : "scoreboardPageInit",
+                "test" : "TestPage"
             },
 
             initialize : function() {
-                User.bind("logout", this.mainPageInit(), this);
+                User.bind("logout", this.mainPageInit, this);
             },
 
             mainPageInit : function() {
@@ -48,6 +49,12 @@ define(
             scoreboardPageInit : function() {
                 require(['views/pages/scoreboardPage'], function(scoreboardPageView) {
                     scoreboardPageView.go();
+                });
+            },
+
+            TestPage : function() {
+                require(['views/pages/TestPage'], function(TestPageView) {
+                    TestPageView.go();
                 });
             }
         });

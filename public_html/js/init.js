@@ -24,7 +24,7 @@ requirejs.config({
         pageView : "views/pages/page/page",
         "jquery-ui" : "../lib/jquery-ui"
     },
-    waitSeconds : 5
+    waitSeconds : 1
 });
 
 

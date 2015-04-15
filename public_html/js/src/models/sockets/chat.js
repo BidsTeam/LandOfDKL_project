@@ -12,8 +12,8 @@ define(
         return new (Backbone.Model.extend({
 
             initialize : function(options) {
-                Socket.bind("publicMessageReceived", this.receivePublicMessage, this);
-                Socket.bind("privateMessageReceived", this.receivePrivateMessage, this);
+                Socket.bind("public_message", this.receivePublicMessage, this);
+                Socket.bind("private_message", this.receivePrivateMessage, this);
             },
 
             sendPublic : function(msg) {
@@ -35,11 +35,11 @@ define(
             },
 
             receivePublicMessage : function(msg) {
-                this.trigger("publicMessageReceived", msg);
+                this.trigger("publicMessageReceived", msg.body);
             },
 
             receivePrivateMessage : function(msg) {
-                this.trigger("privateMessageReceived", msg);
+                this.trigger("privateMessageReceived", msg.body);
             }
 
         }))();

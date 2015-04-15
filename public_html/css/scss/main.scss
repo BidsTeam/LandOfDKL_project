@@ -221,3 +221,91 @@ a.underline {
 .user-list__common-user {
   color: #000000;
 }
+
+.card-container {
+  display: inline-block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &:hover {
+    z-index: 1;
+  }
+}
+
+$card-anim-speed : 0.3s;
+.card-container__card {
+  background-image: url("../images/card_background.jpg");
+  border-radius: 6px;
+  display: inline-block;
+  margin-left: 2px;
+  padding: 20px 10px 13px 10px;
+  width: 230px;
+  box-shadow: black 0px 3px 42px -2px;
+  -webkit-transition: $card-anim-speed;
+  -moz-transition: $card-anim-speed;
+  -ms-transition: $card-anim-speed;
+  -o-transition: $card-anim-speed;
+  transition: $card-anim-speed;
+
+  &:hover {
+  }
+}
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__image{
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 142px;
+  margin: auto;
+  width: 94%;
+  &__knight {
+    background-image: url("../images/knight.jpg");
+  }
+  &__princess {
+
+  }
+  &__dragon {
+
+  }
+}
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%;
+}
+
+.battlefield-container {
+
+}
+
+.battlefield-container__field {
+  display: inline-block;
+  width: 33%;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-left: 2px;
+  float: left;
+}
+
+.middle-field.underlight {
+  background-color: #3c763d;
+}
