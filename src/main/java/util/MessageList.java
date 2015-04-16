@@ -18,7 +18,8 @@ public class MessageList {
         WrongSession,
         Ok,
         WrongAuth,
-        UserAlreadyExists
+        UserAlreadyExists,
+        CardNameAlreadyExists
     }
     /*    END LANG CONSTANT LIST */
 

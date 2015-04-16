@@ -6,15 +6,13 @@ import DAO.logic.UserLogic;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Restrictions;
 import util.HibernateUtil;
 import util.LogFactory;
 
 import javax.smartcardio.Card;
 import javax.swing.*;
 
-/**
- * Created by andreybondar on 11.04.15.
- */
 public class CardDAOImpl implements CardDAO {
 
     private SessionFactory sessionFactory;
@@ -68,6 +66,8 @@ public class CardDAOImpl implements CardDAO {
         session.close();
     }
 
+
+
     public int getCardCounter() {
         Session session = null;
         int counter = 0;
@@ -87,5 +87,24 @@ public class CardDAOImpl implements CardDAO {
             }
         }
         return counter;
+    }
+
+    @Override
+    public CardLogic getCardByName(String name) {
+        Session session = null;
+        CardLogic card = null;
+        try {
+            session = sessionFactory.openSession();
+            card = (CardLogic) session.createCriteria( UserLogic.class ).
+                    add( Restrictions.eq("name", name) ).
+                    uniqueResult();
+        } catch (Exception e) {
+            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getCardByName");
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+        }
+        return card;
     }
 }

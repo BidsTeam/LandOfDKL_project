@@ -15,6 +15,7 @@ import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import service.DBService;
+import service.DataBase.DataBaseImpl.DBCardServiceImpl;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
 import util.HibernateUtil;
@@ -42,7 +43,7 @@ public class Main {
 
         HibernateUtil hibernateUtil = new HibernateUtil();
 
-        DBService dbService= new DBServiceImpl(hibernateUtil.getSessionFactory());
+        DBService dbService= new DBServiceImpl(new DBUserServiceImpl(hibernateUtil.getSessionFactory()),new DBCardServiceImpl(hibernateUtil.getSessionFactory()));
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         Server server = new Server(port);
@@ -54,7 +55,7 @@ public class Main {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(adminServlet), "/admin/");
+        context.addServlet(new ServletHolder(adminServlet), "/admin/*");
         context.addServlet(new ServletHolder(router), "/api/*");
         context.addServlet(new ServletHolder(socketServlet), "/socket/*");
 

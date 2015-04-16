@@ -2,6 +2,7 @@ package app.servlets;
 
 import service.DBService;
 import util.LogFactory;
+import util.RouteHelper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -39,22 +40,10 @@ public class Router extends HttpServlet {
     private void route(HttpServletRequest request,
                        HttpServletResponse response) throws Exception {
         try {
-            routeInvoke(urlParse(request.getRequestURI()),request,response);
+            routeInvoke(RouteHelper.urlParse(request.getRequestURI()),request,response);
         } catch (Exception e){
             throw new Exception(e);
         }
-    }
-    private String[] urlParse(String url){
-        String[] urlBuf = url.split("/");
-        String[] urlParts;
-        if (urlBuf.length < 4){
-            urlParts = new String[4];
-            System.arraycopy(urlBuf,0,urlParts,0,urlBuf.length);
-            urlParts[3] = "main";
-        } else {
-            urlParts = urlBuf;
-        }
-        return urlParts;
     }
 
     private void routeInvoke(String[] urlParts,HttpServletRequest request,
@@ -70,6 +59,5 @@ public class Router extends HttpServlet {
         } catch (Exception e){
             throw new Exception(e);
         }
-
     }
 }

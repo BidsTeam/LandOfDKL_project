@@ -19,6 +19,7 @@ public class DBUserServiceImpl implements DBUserService {
     }
 
     public boolean addUser(UserLogic user){
+        //todo Поясни пожалуйста эту проверку
         if (getUserById(user.getId()) != null) {
            return false;
         } else {

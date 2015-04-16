@@ -21,7 +21,6 @@
         <property name="current_session_context_class">thread</property>
         <!-- Пингую базу данных каждые 4 секунды -->
         <property name="hibernate.c3p0.idle_test_period">4</property>
-
         <mapping class="DAO.logic.UserLogic" />
         <mapping class="DAO.logic.CardLogic" />
 

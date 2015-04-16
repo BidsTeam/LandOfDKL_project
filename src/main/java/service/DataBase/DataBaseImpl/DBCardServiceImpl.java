@@ -7,9 +7,6 @@ import DAO.logic.UserLogic;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBCardService;
 
-/**
- * Created by andreybondar on 14.04.15.
- */
 public class DBCardServiceImpl implements DBCardService {
     CardDAO cardDAO;
 
@@ -19,12 +16,29 @@ public class DBCardServiceImpl implements DBCardService {
         return cardDAO.getCard(id);
     }
 
-    public void addCard(CardLogic card) {
-        cardDAO.addCard(card);
+
+
+    public boolean addCard(CardLogic card) {
+        try {
+            if (cardDAO.getCardByName(card.getName()) == null) {
+                cardDAO.addCard(card);
+                return true;
+            }
+            return false;
+        } catch (Exception e){
+            return false;
+        }
+
     }
 
-    public void addCardToUser(UserLogic user, CardLogic card) {
-        cardDAO.addCardToUser(user, card);
+
+    public boolean addCardToUser(UserLogic user, CardLogic card) {
+        try {
+            cardDAO.addCardToUser(user, card);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     public int getCardCounter() {
