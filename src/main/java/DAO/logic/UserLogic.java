@@ -27,7 +27,7 @@ public class UserLogic {
             message = "Введите настоящий email")
     private String email;
 
-    private Set<CardLogic> cards = new HashSet<>();
+
 
     private Date registration;
 
@@ -47,10 +47,6 @@ public class UserLogic {
         this.email = email;
         this.registration = new Date();
     }
-
-//    public User(User u){
-//        username = u.getUsername();н
-//    }
 
 
     @Id
@@ -121,20 +117,12 @@ public class UserLogic {
         this.level = level;
     }
 
-    @ManyToMany( fetch = FetchType.EAGER,
-            cascade = { CascadeType.ALL } )
-    @JoinTable(name = "user_card",
-            joinColumns = {@JoinColumn(name = "card_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
-    )
+    @OneToMany( fetch = FetchType.LAZY, mappedBy = "pk.user")
+    private HashSet<UserCardTable> userCards = new HashSet<>();
+    public HashSet<UserCardTable> getUserCard() { return userCards; }
 
-    public Set<CardLogic> getCards() {
-        return cards;
-    }
+    public void setUserCard(HashSet<UserCardTable> userCards) { this.userCards = userCards; }
 
-    public void setCards(Set<CardLogic> cards) {
-        this.cards = cards;
-    }
 
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();

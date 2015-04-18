@@ -1,7 +1,5 @@
 package DAO.logic;
 
-import com.sun.javafx.beans.IDProperty;
-import org.hibernate.annotations.Columns;
 //import org.hibernate.annotations.Table;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -60,7 +58,11 @@ public class CardLogic {
     public String getCardType() { return cardType; }
     public void setCardType(String cardType) { this.cardType = cardType; }
 
-    @ManyToMany(mappedBy = "cards")
-    private Set<UserLogic> users = new HashSet<>();
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.card")
+    private HashSet<UserCardTable> userCards = new HashSet<>();
+    public HashSet<UserCardTable> getUserCards() { return userCards; }
+
+    public void setUserCards(HashSet<UserCardTable> userCards) { this.userCards = userCards; }
+
 
 }

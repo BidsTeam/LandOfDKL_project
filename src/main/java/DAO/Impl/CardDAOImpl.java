@@ -11,6 +11,8 @@ import util.LogFactory;
 
 import javax.smartcardio.Card;
 import javax.swing.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by andreybondar on 11.04.15.
@@ -58,14 +60,14 @@ public class CardDAOImpl implements CardDAO {
     }
 
     public void addCardToUser(UserLogic user, CardLogic card) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
-        user.getCards().add(card);
-        session.update(user);
-
-        session.getTransaction().commit();
-        session.close();
+//        Session session = sessionFactory.openSession();
+//        session.beginTransaction();
+//
+//        //user.getCards().add(card);
+//        session.update(user);
+//
+//        session.getTransaction().commit();
+//        session.close();
     }
 
     public int getCardCounter() {
@@ -88,4 +90,13 @@ public class CardDAOImpl implements CardDAO {
         }
         return counter;
     }
+
+    //public Set<CardLogic>
+
+//    public boolean isFittableInHand(UserLogic user, CardLogic card) {
+//        Set<CardLogic> cards = user.getCards();
+//        for (CardLogic cardFromDeck: cards) {
+//
+//        }
+//    }
 }
