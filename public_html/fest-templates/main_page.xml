@@ -1,7 +1,7 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
     <div data-role="page" id="main-page">
-        <a id="bgndVideo" class="player" data-property="{videoURL:'http://youtu.be/BsekcY04xvQ',containment:'body',autoPlay:true, mute:true, startAt:0, opacity:1}">My video</a>
+        <!--<a id="bgndVideo" class="player" data-property="{videoURL:'http://youtu.be/BsekcY04xvQ',containment:'body',autoPlay:true, mute:true, startAt:0, opacity:1}">My video</a>-->
         <div class="menu-container">
             <div class="menu-container__menu">
                 <div class="menu__menu-name">Main menu</div>
