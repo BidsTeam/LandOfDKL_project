@@ -27,11 +27,9 @@ p {
   height: 100%;
   top: 0px;
   left: 0px;
-  z-index: -2;
   background: none !important; }
 
 .background-video-overlayer {
-  z-index: -1;
   position: fixed;
   background-color: rgba(0, 0, 0, 0.3);
   width: 100%;
