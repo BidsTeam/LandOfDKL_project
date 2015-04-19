@@ -166,35 +166,39 @@ a.underline {
     z-index: 1; }
 
 .card-container__card {
-  background-image: url("../images/card_background.jpg");
   border-radius: 6px;
   display: inline-block;
-  margin-left: 2px;
-  padding: 20px 10px 13px 10px;
-  width: 230px;
-  box-shadow: black 0px 3px 42px -2px;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
   -ms-transition: 0.3s;
   -o-transition: 0.3s;
-  transition: 0.3s; }
+  transition: 0.3s;
+  text-align: center; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
   border-radius: 10px;
-  display: block;
-  text-align: center; }
+  display: inline-block;
+  text-align: center;
+  padding: 5px 20px; }
 
 .card__image {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  height: 142px;
+  height: 172px;
   margin: auto;
-  width: 94%; }
+  width: 160px;
+  border-radius: 50%; }
   .card__image__knight {
     background-image: url("../images/knight.jpg"); }
+  .card__image__princess {
+    background-image: url("../images/princess.jpg"); }
+  .card__image__dragon {
+    background-image: url("../images/dragon.jpg"); }
+  .card__image:hover {
+    box-shadow: 0px 0px 43px -1px yellow; }
 
 .card__effect {
   background-image: url("../images/card_title.jpg");
@@ -219,5 +223,8 @@ a.underline {
 
 .middle-field.underlight {
   background-color: #3c763d; }
+
+.middle-field.underlight.on-card-over {
+  background-color: #426943; }
 
 /*# sourceMappingURL=main.css.map */

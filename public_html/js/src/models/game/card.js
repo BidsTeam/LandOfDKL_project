@@ -40,10 +40,17 @@ define(
         return Backbone.Model.extend({
 
             initialize : function(attrs) {
+                
                 var card;
                 var cardType = attrs.type || "";
+
+                this.bind("step", function(){
+                    this.trigger("moveOnField", this);
+                }, this);
+
+
                 if (!cardType || !_.has(CARDS_DEFAULTS, cardType)) {
-                    return; //todo Сделать обработку отсутствия типа в списке
+                    return;
                 }
                 card = _.cloneDeep(CARDS_DEFAULTS[cardType]);
                 for (var key in card) {

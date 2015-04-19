@@ -11,17 +11,22 @@ define(
 
         return Backbone.View.extend({
 
-            el : ".middle-field",
-
-            initialize : function(options) {
-                var coords = this.$el.position();
+            initialize : function() {
+                var fieldCoords = this.$el.position();
                 this.$el.droppable({
+
                     activeClass : "underlight",
+
                     drop : function(event, ui) {
                         var $dragObj = ui.draggable;
+                        var cardType = $dragObj.attr("cardType");
                         $dragObj.css("position", "absolute");
-                        $dragObj.animate({top: coords.top, left: coords.left}, "fast");
-                        this.trigger("STEP");
+                        $dragObj.animate({
+                            top: fieldCoords.top,
+                            left: fieldCoords.left
+                        }, "fast");
+                        $dragObj.trigger("step");
+                        this.$el.removeClass("on-card-over");
                     }.bind(this),
 
                     activate : function() {
@@ -30,11 +35,15 @@ define(
                     deactivate : function() {
                     },
 
-                    out : function() {
-                    },
+                    out : function(event, ui) {
+                        this.$el.removeClass("on-card-over");
+                        ui.draggable.attr("prepareToDrop", "0");
+                    }.bind(this),
 
-                    over : function() {
-                    }
+                    over : function(event, ui) {
+                        ui.draggable.attr("prepareToDrop", "1");
+                        this.$el.addClass("on-card-over");
+                    }.bind(this)
                 });
             }
 

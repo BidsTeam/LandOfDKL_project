@@ -13,6 +13,10 @@ requirejs.config({
         },
         "bootstrap.min" : {
             deps : ['jquery']
+        },
+        "jquery-video" : {
+            deps : ['jquery'],
+            exports : "Video"
         }
     },
     paths : {
@@ -22,7 +26,8 @@ requirejs.config({
         "jquery.form" : "../lib/jquery.form",
         "bootstrap.min" : "../lib.bootstrap.min",
         pageView : "views/pages/page/page",
-        "jquery-ui" : "../lib/jquery-ui"
+        "jquery-ui" : "../lib/jquery-ui",
+        "jquery-video" : "../lib/jquery.mb.YTPlayer"
     },
     waitSeconds : 1
 });

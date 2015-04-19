@@ -11,6 +11,11 @@ define(
         return new (Backbone.Model.extend({
 
             initialize : function(options) {
+                Socket.bind("game_action_set", this.updateState, this);
+            },
+
+            updateState : function(msg) {
+                this.trigger("UPDATE", msg);
             }
 
         }))();

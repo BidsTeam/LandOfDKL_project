@@ -5,8 +5,9 @@
 define(
     [
         "backbone",
-        "config"
-    ], function(Backbone, Config) {
+        "config",
+        "views/loading"
+    ], function(Backbone, Config, loading) {
 
     function onEvent(event) {
         var data = JSON.parse(event.data);
@@ -27,10 +28,14 @@ define(
 
         initialize : function(options) {
 
+            loading.show();
+
             this.connect(options.address);
             this.connection.onopen = function() {
-                console.log("Socket connect success");
-            };
+                loading.hide();
+                this.trigger("SOCKET_CONNECTED_OK");
+            }.bind(this);
+
             this.connection.onmessage = onEvent.bind(this);
             this.connection.onerror = onError.bind(this);
             this.connection.onclose = onClose.bind(this);
@@ -39,7 +44,8 @@ define(
         connect : function(address) {
             this.connection = new WebSocket(address);
             if (this.connection.readyState != 4) {
-                this.trigger("connect_error");
+                loading.hide();
+                this.trigger("SOCKET_CONNECT_ERROR");
             }
         },
 
