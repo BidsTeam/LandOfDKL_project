@@ -1,11 +1,10 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
     <div data-role="page" id="main-page">
-        <!--<a id="bgndVideo" class="player" data-property="{videoURL:'http://youtu.be/BsekcY04xvQ',containment:'body',autoPlay:true, mute:true, startAt:0, opacity:1}">My video</a>-->
+
         <div class="menu-container">
             <div class="menu-container__menu">
                 <div class="menu__menu-name">Main menu</div>
-                <!--<div class="menu__button-container"> <a href="#game" class="btn btn-large btn-primary menu__button">Игра</a> </div>-->
                 <div class="menu__button-container"> <a href="" action="enter" class="btn btn-large btn-success menu__button">Войти</a> </div>
                 <div class="menu__button-container"> <a href="#scoreboard" class="btn btn-large btn-primary menu__button">Рейтинг</a> </div>
                 <div class="menu__button-container"> <a href="#signup" class="underline">Регистрация</a> </div>

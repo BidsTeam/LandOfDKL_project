@@ -1,11 +1,13 @@
 define(
     [
         "backbone",
-        "models/User"
+        "models/User",
+        "views/backgroundVideo"
     ],
     function(
         Backbone,
-        User
+        User,
+        backgroundVideoView
     ) {
         Router = Backbone.Router.extend({
 

@@ -5,7 +5,8 @@ define(
         "pageView",
         "models/User",
         "routers/page_router",
-        "views/loading"
+        "views/loading",
+        "views/backgroundVideo"
     ],
     function(
         mainPageTmpl,
@@ -13,7 +14,8 @@ define(
         PageView,
         User,
         router,
-        loading
+        loading,
+        backgroundVideoView
     ){
         var mainPageView = PageView.extend({
 
