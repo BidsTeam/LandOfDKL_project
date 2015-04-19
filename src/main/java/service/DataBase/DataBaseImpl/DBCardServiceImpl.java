@@ -26,4 +26,8 @@ public class DBCardServiceImpl implements DBCardService {
     public void addCardToUser(UserLogic user, CardLogic card) {
         cardDAO.addCardToUser(user, card);
     }
+
+    public int getCardCounter() {
+        return cardDAO.getCardCounter();
+    }
 }
