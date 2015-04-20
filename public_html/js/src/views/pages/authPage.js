@@ -39,7 +39,12 @@ define(
                     loading.show();
                 },
                 success : function(msg) {
-                    User.build(JSON.parse(msg).response);
+                    try {
+                        User.build(JSON.parse(msg).response);
+                    } catch (e) {
+                        console.log(e);
+                        return;
+                    }
                     router.navigate("game", {trigger: true, replace: true});
                 },
                 error : function(msg) {

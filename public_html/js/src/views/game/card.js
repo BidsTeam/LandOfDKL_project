@@ -43,13 +43,20 @@ define(
                     containment : "#game-area",
 
                     start : function(event, ui) {
-                        this.placePosition = ui.helper.position();
+                        var $elem = ui.helper;
+                        var top = $elem.css("top");
+                        top = (top === "auto") ? 0 : top;
+                        var left = $elem.css("left");
+                        left = (left === "auto") ? 0 : left;
+                        this.placePosition = {
+                            top : top,
+                            left : left
+                        };
                     }.bind(this),
 
                     stop : function(event, ui) {
                         var $elem = ui.helper;
                         if ($elem.attr("prepareToDrop") == 0 || $elem.attr("prepareToDrop") == undefined) {
-                            $elem.css("position", "absolute");
                             $elem.animate({
                                 top : this.placePosition.top,
                                 left : this.placePosition.left

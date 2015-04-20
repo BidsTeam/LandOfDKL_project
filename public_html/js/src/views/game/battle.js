@@ -41,8 +41,7 @@ define(
             render : function() {
                 var $html = $(this.template());
                 var $gameArea = $("#game-area");
-                var cardDeck = [];
-                var cardsOnField = [];
+                var cardDeck;
 
                 this.setElement($html);
                 $gameArea.html(this.$el);
@@ -58,16 +57,6 @@ define(
                     newCard = new CardViewClass({model : cardDeck[key]});
                     this.cardViews.push(newCard);
                     this.playerField.append(newCard.$el);
-                    cardsOnField.push(newCard.$el);
-                }
-
-                for (var key in cardsOnField) {
-                    var $card = cardsOnField[cardsOnField.length-1-key];
-                    var position = $card.position();
-                    $card.css("position", "absolute")
-                        .css("top", position.top)
-                        .css("left", position.left);
-
                 }
             },
 
