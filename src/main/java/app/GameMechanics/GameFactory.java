@@ -2,6 +2,7 @@ package app.GameMechanics;
 
 import DAO.logic.UserLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import service.DBService;
 import util.LogFactory;
 
 import java.util.HashSet;
@@ -15,12 +16,22 @@ public class GameFactory {
     private static GameFactory GameFinder = null;
     private GameSessionStorage gameSessionStorage;
     private HashSet<Integer> inGameUsers;
+    private static boolean isInitialized = false;
+    private DBService dbService;
 
     private GameFactory() {
         gameSessionStorage = new GameSessionStorage();
         inGameUsers = new HashSet<>();
     }
 
+    //Есть ли лучше идея как запустить базу данных на синглтоне?
+    public static void initialize(DBService dbService) {
+        GameFinder = new GameFactory();
+        GameFinder.dbService = dbService;
+        isInitialized = true;
+    }
+
+    //TODO сделать проверку на isInitialized
     public static GameFactory getInstance() {
         if (GameFinder == null)
         {
@@ -44,7 +55,7 @@ public class GameFactory {
             } else {
                 secondPlayer = new Player(user);
                 inGameUsers.add(user.getId());
-                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService);
+                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
                 firstPlayer = null;
                 secondPlayer = null;
             }

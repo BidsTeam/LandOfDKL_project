@@ -1,5 +1,6 @@
 package app.main;
 
+import app.GameMechanics.GameFactory;
 import app.WebSocket.CustomWebSocketService;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import app.servlets.AdminServlet;
@@ -45,6 +46,8 @@ public class Main {
         DBService dbService= new DBServiceImpl(hibernateUtil.getSessionFactory());
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
+        GameFactory.initialize(dbService);
+
         Server server = new Server(port);
 
         Router router = new Router(dbService);
@@ -53,6 +56,7 @@ public class Main {
         SocketServlet socketServlet = new SocketServlet(webSocketService);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
+
 
         context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");

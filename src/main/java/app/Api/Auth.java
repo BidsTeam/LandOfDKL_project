@@ -3,10 +3,12 @@ package app.Api;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.MessageList;
+import util.UserCardsGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -98,6 +100,7 @@ public class Auth {
                     } else {
                         result.put("status", 200);
                         body.putAll(UserLogic.putAllUserInformation(user));
+                        //checkDeck(user.getId(), dbService);
                         request.getSession().setAttribute("id", user.getId());
                         response.setStatus(HttpServletResponse.SC_OK);
                     }
@@ -160,5 +163,12 @@ public class Auth {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    public void checkDeck(int userID, DBService dbService) {
+        if (!dbService.getUserService().isDeckFull(userID)) {
+            UserCardsGenerator cardsGenerator = new UserCardsGenerator(dbService);
+            cardsGenerator.generate(userID);
+        }
     }
 }

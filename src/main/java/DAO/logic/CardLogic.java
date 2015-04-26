@@ -62,5 +62,4 @@ public class CardLogic {
 
     @ManyToMany(mappedBy = "cards")
     private Set<UserLogic> users = new HashSet<>();
-
 }

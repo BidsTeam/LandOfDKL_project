@@ -1,26 +1,30 @@
 package app.GameMechanics;
 
+import DAO.logic.CardLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
+import service.DBService;
 import util.LogFactory;
 import util.RPS;
-
-import java.util.HashMap;
 
 public class GameSession {
     private Player firstPlayer;
     private Player secondPlayer;
     private int gameID;
     private WebSocketService webSocketService;
-    private String firstPlayerAction;
-    private String secondPlayerAction;
+    private CardLogic firstPlayerCard;
+    private CardLogic secondPlayerCard;
+    private DBService dbService;
 
-    public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService) {
+    public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService, DBService dbService) {
         firstPlayer = playerOne;
         secondPlayer = playerTwo;
+        firstPlayer.setUserDeck(dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(firstPlayer.getUserID())));
+        secondPlayer.setUserDeck(dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(secondPlayer.getUserID())));
         gameID = id;
-        firstPlayerAction = null;
-        secondPlayerAction = null;
+        firstPlayerCard = null;
+        secondPlayerCard = null;
+        this.dbService = dbService;
         this.webSocketService = webSocketService;
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
     }
@@ -28,19 +32,19 @@ public class GameSession {
     public void doGameAction(JSONObject json, int userID) {
         int playerNumber = 0;
         if (userID == firstPlayer.getUserID()) {
-            //firstPlayerAction = json.get("game_action").toString();
+            //firstPlayerCard = json.get("gameAction")
             playerNumber = 1;
         } else if (userID == secondPlayer.getUserID()) {
-            //secondPlayerAction = json.get("game_action").toString();
+            //secondPlayerCard = json.get("game_action").toString();
             playerNumber = 2;
         } else {
             LogFactory.getInstance().getLogger(this.getClass()).error("Error on comparasion of player of game and socket user");
         }
         if (json.has("gameAction")) {
             switch (json.getString("gameAction")) {
-                case "setAction": {
+                case "setCard": {
                     //todo Убедиться в том, что это строка либо камень, либо ножницы, либо бумага.
-                    setGameAction(playerNumber, json.get("chosen_action").toString());
+                    setGameAction(playerNumber, json.getInt("chosenCard"));
                     break;
                 }
                 default: {
@@ -52,35 +56,57 @@ public class GameSession {
         }
     }
 
-    private void setGameAction(int playerNumber, String action) {
+    private void setGameAction(int playerNumber, int cardID) {
         if (playerNumber == 1) {
-            if (firstPlayerAction == null) {
-                firstPlayerAction = action;
-                webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+            if (firstPlayerCard == null) {
+                int realCardID = firstPlayer.getCard(cardID);
+                if (realCardID != -1) {
+                    firstPlayerCard = dbService.getCardService().getCard(realCardID);
+                    webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+                }
             } else {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
             }
         } else if (playerNumber == 2) {
-            if (secondPlayerAction == null) {
-                secondPlayerAction = action;
-                webSocketService.notifyActionSet(secondPlayer, firstPlayer);
-            } else {
+            if (secondPlayerCard == null) {
+                int realCardID = secondPlayer.getCard(cardID);
+                if (realCardID != -1) {
+                    secondPlayerCard = dbService.getCardService().getCard(realCardID);
+                    webSocketService.notifyActionSet(secondPlayer, firstPlayer);
+                }
+            }
+            else {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
             }
         } else {
             LogFactory.getInstance().getLogger(this.getClass()).error("really strange error in setGameAction()");
         }
-        if (firstPlayerAction != null && secondPlayerAction != null) {
+        if (firstPlayerCard != null && secondPlayerCard != null) {
             gameActionReveal();
         }
 
     }
 
     private void gameActionReveal() {
-        webSocketService.notifyActionsReveal(firstPlayer, firstPlayerAction, secondPlayer, secondPlayerAction);
+        webSocketService.notifyActionsReveal(firstPlayer, firstPlayerCard.getId(), secondPlayer, secondPlayerCard.getId());
         try {
-            RPS.RPSResult result = RPS.Palm.fromString(firstPlayerAction).fight(RPS.Palm.fromString(secondPlayerAction));
-            webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
+            RPS.RPSResult result = RPS.Palm.fromString(firstPlayerCard.getCardType())
+                    .fight(RPS.Palm.fromString(secondPlayerCard.getCardType()));
+            if (result == RPS.RPSResult.FIRST_WON) {
+                if (!secondPlayer.takeDamage(firstPlayerCard.getAttack())) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
+                } else {
+                    webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
+                }
+            } else if (result == RPS.RPSResult.SECOND_WON) {
+                if (!firstPlayer.takeDamage(secondPlayerCard.getAttack())) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
+                } else {
+                    webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
+                }
+            }
+            firstPlayerCard = null;
+            secondPlayerCard = null;
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("GameMechanics.GameSession/gameActionReveal: Wrong game_action from json! ",e);
         }

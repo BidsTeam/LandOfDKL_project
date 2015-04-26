@@ -19,10 +19,12 @@ public interface WebSocketService {
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID);
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, RPS.RPSResult winner);
     public void notifyActionSet(Player playerSetter, Player playerObserver);
-    public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction);
+    public void notifyActionsReveal(Player firstPlayer, int firstCardID, Player secondPlayer, int secondCardID);
     public void notifyUserEnter(int userID);
     public void notifyUserExit(int userID);
     public DBService getDbService();
+    public void greetUser(int userID);
+    public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth);
 //    public void sendPublicMessage();
 //    public void sendPrivateMessage();
 }
