@@ -77,6 +77,7 @@ public class CustomWebSocket {
             webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
+            webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).fatal("WebSocket.CustomWebSocket/onOpen: ", e);

@@ -7,6 +7,7 @@ import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
+import sun.rmi.runtime.Log;
 import util.LogFactory;
 import util.RPS;
 
@@ -72,15 +73,16 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameId) {
-        notify(secondPlayer, generateResponseNewGame(firstPlayer.getUsername(), gameId), gameId);
-        notify(firstPlayer, generateResponseNewGame(secondPlayer.getUsername(),gameId), gameId);
+        notify(secondPlayer, generateResponseNewGame(firstPlayer.getUsername(), gameId, firstPlayer.getUserID()), gameId);
+        notify(firstPlayer, generateResponseNewGame(secondPlayer.getUsername(), gameId, secondPlayer.getUserID()), gameId);
     }
 
-    private JSONObject generateResponseNewGame(String opponentName,int gameId){
+    private JSONObject generateResponseNewGame(String opponentName, int gameId, int userID) {
         JSONObject response = new JSONObject();
         response.put("action", "new_game");
         response.put("gameId", gameId);
         response.put("opponentName", opponentName);
+        response.put("deck", dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(userID)));
         return response;
     }
 
@@ -140,26 +142,26 @@ public class CustomWebSocketService implements WebSocketService {
         return response;
     }
 
-    public void notifyActionsReveal(Player firstPlayer, String firstAction, Player secondPlayer, String secondAction) {
+    public void notifyActionsReveal(Player firstPlayer, int firstCardID, Player secondPlayer, int secondCardID) {
         JSONObject response;
         HashSet<CustomWebSocket> userSockets;
         for(int i = 0; i < 2; i++) {
             if (i == 0) {
-                response = generateResponseActionReveal(firstAction,secondAction);
+                response = generateResponseActionReveal(firstCardID, secondCardID);
                 userSockets = userWebSockets.get(firstPlayer.getUserID());
             } else {
-                response = generateResponseActionReveal(secondAction,firstAction);
+                response = generateResponseActionReveal(secondCardID, firstCardID);
                 userSockets = userWebSockets.get(secondPlayer.getUserID());
             }
             sendJson(userSockets, response);
         }
     }
 
-    private JSONObject generateResponseActionReveal(String userAction,String opponentAction){
+    private JSONObject generateResponseActionReveal(int userCard, int opponentCard) {
         JSONObject response = new JSONObject();
-        response.put("action", "game_action_reveal");
-        response.put("userAction", userAction);
-        response.put("opponentAction", opponentAction);
+        response.put("action", "gameCardsReveal");
+        response.put("userCard", userCard);
+        response.put("opponentCard", opponentCard);
         return response;
     }
 
@@ -237,6 +239,32 @@ public class CustomWebSocketService implements WebSocketService {
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("Error in notifyUpdateChatUsers");
         }
+    }
+
+    public void greetUser(int userID) {
+        JSONObject json = new JSONObject();
+        try {
+            json.put("action", "hello");
+            json.put("cards", dbService.getCardService().getAllCardsInfo());
+            sendJson(userWebSockets.get(userID), json);
+        } catch (Exception e) {
+            LogFactory.getInstance().getLogger(this.getClass()).error("error in greeting user");
+        }
+    }
+
+    public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth) {
+        JSONObject json = generateGameStateJson(firstPlayerHealth, secondPlayerHealth);
+        sendJson(userWebSockets.get(firstPlayer.getUserID()), json);
+        json = generateGameStateJson(secondPlayerHealth, firstPlayerHealth);
+        sendJson(userWebSockets.get(secondPlayer.getUserID()), json);
+    }
+
+    private JSONObject generateGameStateJson(int playerHealth, int opponentHealth) {
+        JSONObject json = new JSONObject();
+        json.put("action", "newGameState");
+        json.put("playerHealth", playerHealth);
+        json.put("opponentHealth", opponentHealth);
+        return json;
     }
 
 }

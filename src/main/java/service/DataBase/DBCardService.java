@@ -4,6 +4,7 @@ import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 
 import javax.smartcardio.Card;
+import java.util.List;
 
 /**
  * Created by andreybondar on 14.04.15.
@@ -13,4 +14,7 @@ public interface DBCardService {
     public void addCardToUser(UserLogic user, CardLogic card);
     public void addCard(CardLogic card);
     public int getCardCounter();
+    public CardLogic getRandomCard();
+    public List<Integer> getUserDeck(UserLogic user);
+    public List<CardLogic> getAllCardsInfo();
 }

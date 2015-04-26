@@ -70,4 +70,8 @@ public class DBUserServiceImpl implements DBUserService {
         result = userDAO.getAllUserRating(count);
         return result;
     }
+
+    public boolean isDeckFull(int userID) {
+        return userDAO.isDeckFull(userID);
+    }
 }

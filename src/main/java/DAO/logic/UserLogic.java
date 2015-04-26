@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
+import javax.smartcardio.Card;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -124,8 +125,8 @@ public class UserLogic {
     @ManyToMany( fetch = FetchType.EAGER,
             cascade = { CascadeType.ALL } )
     @JoinTable(name = "user_card",
-            joinColumns = {@JoinColumn(name = "card_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "card_id")}
     )
 
     public Set<CardLogic> getCards() {
@@ -135,6 +136,15 @@ public class UserLogic {
     public void setCards(Set<CardLogic> cards) {
         this.cards = cards;
     }
+
+    @Transient
+    private List<CardLogic> userHand = new ArrayList<>();
+
+    @Transient
+    public List<CardLogic> getUserHand() { return userHand; }
+
+    @Transient
+    public void setUserHand(List<CardLogic> userHand) { this.userHand = userHand; }
 
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();

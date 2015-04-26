@@ -1,5 +1,6 @@
 package app.GameMechanics;
 
+import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
 import app.Api.User;
@@ -9,6 +10,7 @@ import util.LogFactory;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -17,6 +19,9 @@ public class Player {
     private HashSet<Session> userConnections;
     private String username;
     private int userID;
+    private int health;
+    private final int MAX_HEALTH = 30;
+    private List<Integer> deck;
     //private AccountMap cache = AccountMap.getInstance();
 
 
@@ -24,12 +29,32 @@ public class Player {
         username = user.getUsername();
         userID = user.getId();
         userConnections = AccountMap.getInstance().getUserSessions(user.getId());
+        health = MAX_HEALTH;
     }
+
 
     public String getUsername() {
         return username;
     }
     public int getUserID() {return userID; }
+
+    public int getHealth() { return health; }
+    public boolean takeDamage(int damage) {
+        if (health - damage > 0) {
+            health -= damage;
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public void setUserDeck(List<Integer> userDeck) {
+        deck = userDeck;
+    }
+
+    public int getCard(int cardNumber) {
+        return deck.get(cardNumber);
+    }
 
     public void sendResponse(JSONObject json) {
         try {
@@ -42,6 +67,7 @@ public class Player {
             LogFactory.getInstance().getLogger(this.getClass()).fatal(e);
         }
     }
+
 
 
 

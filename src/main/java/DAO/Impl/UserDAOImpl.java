@@ -18,6 +18,7 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
     private AccountMap accountMap = AccountMap.getInstance();
     private SessionFactory sessionFactory;
+    private final int DECK_SIZE = 15;
 
     public UserDAOImpl(SessionFactory sessionFactory){
         this.sessionFactory = sessionFactory;
@@ -195,5 +196,23 @@ public class UserDAOImpl implements UserDAO {
         return userList;
     }
 
+    public boolean isDeckFull(int userID) {
+        Session session = null;
+        try {
+            session = sessionFactory.openSession();
+            int cardCounter = ((Long) session.createSQLQuery("select count(*) from user_card where user_id =" + userID).
+            uniqueResult()).intValue();
+            if (cardCounter >= DECK_SIZE) {
+                return true;
+            } else {
+                return false;
+            }
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+            return false;
+        }
+    }
 
 }

@@ -6,11 +6,15 @@ import DAO.logic.UserLogic;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Order;
+import sun.rmi.runtime.Log;
 import util.HibernateUtil;
 import util.LogFactory;
 
 import javax.smartcardio.Card;
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by andreybondar on 11.04.15.
@@ -87,5 +91,54 @@ public class CardDAOImpl implements CardDAO {
             }
         }
         return counter;
+    }
+
+    public CardLogic getRandomCard() {
+        Session session = null;
+        CardLogic card = null;
+        try {
+            session = sessionFactory.openSession();
+            List<CardLogic> cards = session.createQuery("from CardLogic").list();
+            Collections.shuffle(cards);
+            LogFactory.getInstance().getLogger(this.getClass()).debug(cards.get(0).getName());
+            return cards.get(0);
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+            LogFactory.getInstance().getLogger(this.getClass()).error("Could not find random card");
+        }
+    }
+
+    public List<CardLogic> getAllCardsInfo() {
+        Session session = null;
+        List<CardLogic> cards = new ArrayList<>();
+        try {
+            session = sessionFactory.openSession();
+            cards = session.createQuery("from CardLogic").list();
+        } finally {
+            if (session != null && session.isOpen()) {
+                session.close();
+            }
+            return cards;
+        }
+    }
+
+    public List<Integer> getUserDeck(UserLogic user) {
+        //TODO - это временная заглушка отдающая станадартные карты - когда доделаем работу бд переделаю
+        CardLogic mockKnight = getCard(8);
+        CardLogic mockDragon = getCard(9);
+        CardLogic mockLady = getCard(10);
+        List<Integer> deck = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            deck.add(mockKnight.getId());
+        }
+        for (int i = 0; i < 5; i++) {
+            deck.add(mockDragon.getId());
+        }
+        for (int i = 0; i < 5; i++) {
+            deck.add(mockLady.getId());
+        }
+        return deck;
     }
 }
