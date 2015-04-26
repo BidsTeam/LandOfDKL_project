@@ -4,7 +4,7 @@
 define(
     [
         "backbone",
-        "models/sockets/userList",
+        "models/game/userList",
         "templates/chat_users"
     ], function(Backbone, userList, listTmpl) {
 

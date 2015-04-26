@@ -12,22 +12,19 @@
 
         <div id="game-area" class="game-area-container"></div>
 
-        <div id="console" class="console">
+        <div id="console" class="game-console">
             <div id="chat-container" class="console__chat">
+
                 <div id="chat-content" class="chat__content"></div>
-                Обычное сообщение<div class="chat__input-container">
-                    <input type="text" class="chat__input" />
-                    <input type="button" value="Написать" class="chat__send-button" />
-                </div> <br/>
-                Личное сообщение<div class="chat__input-container chat__input-container__private">
-                    <input type="text" class="chat__receiver" placeholder="To:"/>
-                    <input type="text" class="chat__input" placeholder="Message:"/>
+
+                <div class="chat__input-container">
+                    <input type="text" class="chat__input" placeholder="Сообщение" />
                     <input type="button" value="Написать" class="chat__send-button" />
                 </div>
+
             </div>
             <div id="players-in-room-list" class="console__players-in-room-list"></div>
         </div>
-        <a href="#" class="btn btn-large btn-primary"> Назад </a>
     </div>
 
 </fest:template>

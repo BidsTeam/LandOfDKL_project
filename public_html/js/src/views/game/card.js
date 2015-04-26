@@ -36,6 +36,7 @@ define(
 
                 this.$el.on("step", function(e) {
                     this.model.trigger("step");
+                    this.$el.draggable("disable");
                 }.bind(this));
 
                 this.$el.draggable({

@@ -5,7 +5,7 @@
 define(
     [
         "backbone",
-        "models/sockets/socket",
+        "models/socket",
         "models/game/cardCollection"
     ], function(Backbone, Socket, cardCollection) {
 

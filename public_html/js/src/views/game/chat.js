@@ -5,7 +5,7 @@
 define(
     [
         "backbone",
-        "models/sockets/chat",
+        "models/game/chat",
         "templates/new_chat_message"
     ], function(Backbone, chat, msgTmpl) {
 

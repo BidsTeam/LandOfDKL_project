@@ -5,7 +5,7 @@
 define(
     [
         "backbone",
-        "models/sockets/socket"
+        "models/socket"
     ],
     function(Backbone, Socket) {
 

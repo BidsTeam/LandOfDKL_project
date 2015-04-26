@@ -2,11 +2,11 @@ define(
     [
         'pageView',
         'templates/game_page',
-        "models/sockets/chat",
+        "models/game/chat",
         "views/game/chat",
         "jquery",
         "models/User",
-        "models/sockets/userList",
+        "models/game/userList",
         "views/game/userList"
     ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
 
