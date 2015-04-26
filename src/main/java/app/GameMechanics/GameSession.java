@@ -59,16 +59,23 @@ public class GameSession {
     private void setGameAction(int playerNumber, int cardID) {
         if (playerNumber == 1) {
             if (firstPlayerCard == null) {
-                firstPlayerCard = dbService.getCardService().getCard(firstPlayer.getCard(cardID));
-                webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+                int realCardID = firstPlayer.getCard(cardID);
+                if (realCardID != -1) {
+                    firstPlayerCard = dbService.getCardService().getCard(realCardID);
+                    webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+                }
             } else {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
             }
         } else if (playerNumber == 2) {
             if (secondPlayerCard == null) {
-                secondPlayerCard = dbService.getCardService().getCard(secondPlayer.getCard(cardID));
-                webSocketService.notifyActionSet(secondPlayer, firstPlayer);
-            } else {
+                int realCardID = secondPlayer.getCard(cardID);
+                if (realCardID != -1) {
+                    secondPlayerCard = dbService.getCardService().getCard(realCardID);
+                    webSocketService.notifyActionSet(secondPlayer, firstPlayer);
+                }
+            }
+            else {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
             }
         } else {

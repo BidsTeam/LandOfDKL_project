@@ -53,7 +53,10 @@ public class Player {
     }
 
     public int getCard(int cardNumber) {
-        return deck.get(cardNumber);
+        int cardID = deck.get(cardNumber);
+        deck.remove(cardNumber);
+        deck.add(cardNumber, -1);
+        return cardID;
     }
 
     public void sendResponse(JSONObject json) {
