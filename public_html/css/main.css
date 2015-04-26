@@ -121,8 +121,32 @@ a.underline {
   word-wrap: break-word;
   border: solid grey 1px; }
 
-.chat__input {
-  width: 90%; }
+.input-container {
+  display: inline-block;
+  width: 90%;
+  border: solid #000000 1px; }
+
+.input-container__input-field {
+  border: none;
+  margin-left: 10px; }
+  .input-container__input-field:focus, .input-container__input-field:active {
+    outline: none; }
+
+.message-to {
+  cursor: pointer;
+  background-color: #396966;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 5px; }
+
+.message-to__close-button {
+  border-radius: 50%;
+  background-color: #636965;
+  font-weight: 700;
+  margin: 3px; }
+  .message-to__close-button:hover {
+    color: red; }
 
 .chat__send-button {
   width: 10%; }
@@ -260,7 +284,7 @@ a.underline {
 
 .battlefield-container__field {
   display: inline-block;
-  width: 33.2%;
+  width: 33.1%;
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left; }

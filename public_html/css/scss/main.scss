@@ -162,8 +162,37 @@ a.underline {
   border: solid grey 1px;
 }
 
-.chat__input {
+.input-container {
+  display: inline-block;
   width: 90%;
+  border: solid #000000 1px;
+}
+
+.input-container__input-field {
+  border: none;
+  margin-left: 10px;
+  &:focus, &:active {
+    outline: none;
+  }
+}
+
+.message-to {
+  cursor: pointer;
+  background-color: #396966;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.message-to__close-button {
+  border-radius: 50%;
+  background-color: #636965;
+  font-weight: 700;
+  margin: 3px;
+  &:hover {
+    color:red;
+  }
 }
 
 .chat__send-button {
@@ -352,7 +381,7 @@ $card-anim-speed : 0.3s;
 
 .battlefield-container__field {
   display: inline-block;
-  width: 33.2%;
+  width: 33.1%;
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left;

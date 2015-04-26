@@ -34,7 +34,6 @@ define(
             },
 
             beginBattle : function() {
-                console.log("b");
                 gamePage.go();
                 this.render();
             },

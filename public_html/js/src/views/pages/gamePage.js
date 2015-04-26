@@ -14,7 +14,7 @@ define(
 
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
-                "keydown .chat__input" : "sendMsgToChat",
+                "keydown .input-container__input-field" : "sendMsgToChat",
                 "click a[action=logout]" : "logout"
             },
 
@@ -23,8 +23,9 @@ define(
                     $(".logo-container__logo").hide();
                 }, this);
 
-                this.chatView = new chatView({chatContainerId : "chat-content"});
+                this.chatView = new chatView({chatContainerId : "chat-container"});
                 this.userListview = new userListView({listContainerId : "players-in-room-list"});
+
                 this.beginBattle();
             },
 
@@ -43,15 +44,11 @@ define(
 
             sendMsgToChat : function(e) {
                 if(e.type === "click" || e.keyCode == 13) {
-                    var chatContainer = $(e.target).parent();
-                    var msg = $(chatContainer).find(".chat__input").val();
-                    if( $(chatContainer).hasClass("chat__input-container__private") ) {
-                        var receiver = $(chatContainer).find(".chat__receiver").val();
-                        chat.sendPrivate(msg, receiver);
-                    } else {
-                        chat.sendPublic(msg);
-                    }
-                    $(chatContainer).find("input[type=text]").val("");
+                    var chatContainer = $(".input-container__input-field");
+                    var msg = $(chatContainer).val();
+                    chat.send(msg);
+                    $(chatContainer).val("");
+                    $(".message-to").remove();
                 }
             },
 

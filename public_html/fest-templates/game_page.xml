@@ -18,7 +18,9 @@
                 <div id="chat-content" class="chat__content"></div>
 
                 <div class="chat__input-container">
-                    <input type="text" class="chat__input" placeholder="Сообщение" />
+                    <div class="input-container">
+                        <input type="text" class="input-container__input-field" placeholder="Сообщение" />
+                    </div>
                     <input type="button" value="Написать" class="chat__send-button" />
                 </div>
 
