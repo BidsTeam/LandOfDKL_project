@@ -25,11 +25,6 @@ define(
                     var receiver = this.get("receiver");
                     data =  {action : "privateMessage", message : msg, receiverName : receiver};
 
-                    this.trigger("privateMessageReceived", {
-                        author : receiver,
-                        message : msg
-                    });
-
                     this.unset("receiver");
                 } else {
                     data = {action : "publicMessage", message : msg};
