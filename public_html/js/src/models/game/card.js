@@ -34,6 +34,9 @@ define(
                 title : "Дракон",
                 description : "Что то делает",
                 effect : "Адский огонь"
+            }),
+            closed : new Card({
+                type : "closed"
             })
         };
 
@@ -47,7 +50,6 @@ define(
                 this.bind("step", function(){
                     this.trigger("moveOnField", this);
                 }, this);
-
 
                 if (!cardType || !_.has(CARDS_DEFAULTS, cardType)) {
                     return;

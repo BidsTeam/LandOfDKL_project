@@ -3,15 +3,21 @@
     <div class="card-container" cardType="{data.type}">
         <div class="card-container__card">
 
-            <div class="card__header">
-                <p>
-                    <fest:value>data.title</fest:value>
-                </p>
-            </div>
+            <fest:if test="data.title">
+                <div class="card__header">
+                    <p>
+                        <fest:value>data.title</fest:value>
+                    </p>
+                </div>
+            </fest:if>
 
             <div class="card__image card__image__{data.type}">
             </div>
 
+            <div class="card__card-info-container">
+                <fest:value>data.effect</fest:value>
+                <fest:value>data.description</fest:value>
+            </div>
         </div>
     </div>
 

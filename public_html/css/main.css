@@ -14,7 +14,8 @@ p {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  visibility: hidden; }
+  visibility: hidden;
+  top: 0px; }
 
 .loader-screen__indicator-container {
   vertical-align: middle;
@@ -54,7 +55,9 @@ a.underline {
 
 .menu-container__menu {
   display: inline-block;
-  width: 70%; }
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5); }
 
 .menu__menu-name {
   font-size: 20px;
@@ -96,7 +99,10 @@ a.underline {
 
 .game-area-container {
   height: 600px;
-  background-color: #69b5b4; }
+  background-color: rgba(100, 100, 100, 0.5); }
+
+.game-container {
+  background-image: url(../images/battle_background_2.png); }
 
 .console__chat {
   float: left;
@@ -190,6 +196,11 @@ a.underline {
   -o-transition: 0.3s;
   transition: 0.3s;
   text-align: center; }
+  .card-container__card:hover .card__card-info-container {
+    visibility: visible; }
+
+.card__card-info-container {
+  visibility: hidden; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
@@ -216,6 +227,11 @@ a.underline {
   .card__image:hover {
     box-shadow: 0px 0px 43px -1px yellow; }
 
+.card__image__closed {
+  background-image: url("../images/closed.jpg"); }
+  .card__image__closed:hover {
+    box-shadow: none; }
+
 .card__effect {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
@@ -229,6 +245,10 @@ a.underline {
   height: 160px;
   margin: 3px auto;
   width: 94%; }
+
+.battlefield-container {
+  height: auto;
+  display: block; }
 
 .battlefield-container__field {
   display: inline-block;

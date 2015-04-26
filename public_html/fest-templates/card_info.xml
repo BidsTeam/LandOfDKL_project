@@ -1,0 +1,20 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+
+    <div class="card-container" cardType="{data.type}">
+        <div class="card-container__card">
+
+            <fest:if test="data.title">
+                <div class="card__header">
+                    <p>
+                        <fest:value>data.title</fest:value>
+                    </p>
+                </div>
+            </fest:if>
+
+            <div class="card__image card__image__{data.type}">
+            </div>
+
+        </div>
+    </div>
+
+</fest:template>

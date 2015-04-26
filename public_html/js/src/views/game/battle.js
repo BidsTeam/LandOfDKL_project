@@ -24,24 +24,27 @@ define(
             middleField : {},
 
             cardViews : [],
+            opponentCardViews : [],
 
             initialize : function() {
                 this.model = battleModel;
                 this.model.bind("change:state", this.update, this);
-                this.model.bind("BATTLE_BEGAN", this.render, this);
+                this.model.bind("BATTLE_BEGAN", this.beginBattle, this);
+                this.model.bind("OPPONENT_STEP", this.opponentStep, this);
             },
 
             beginBattle : function() {
+                console.log("b");
                 gamePage.go();
-                //this.model.searchBattle();
-                this.model.beginBattle({opponentName : "blabla"});
-                //this.render();
+                this.render();
             },
 
             render : function() {
                 var $html = $(this.template());
                 var $gameArea = $("#game-area");
                 var cardDeck;
+                var opponentCardDeck;
+                var newCard;
 
                 this.setElement($html);
                 $gameArea.html(this.$el);
@@ -52,34 +55,29 @@ define(
                 this.opponentField = this.$(".opponent-field");
                 this.playerField = this.$(".player-field");
 
-                cardDeck = this.model.cardDeck.models;
+                // Выставление своих карт
+                cardDeck = this.model.cardsInHand.models;
                 for (var key in cardDeck) {
                     newCard = new CardViewClass({model : cardDeck[key]});
                     this.cardViews.push(newCard);
                     this.playerField.append(newCard.$el);
                 }
-            },
 
-            update : function(model) {
-                var state = model.get("state");
-                var cardDeck = this.cardViews;
-                switch (state) {
-                    case "WAITING_FOR_OPPONENT" :
-                        for (var key in cardDeck) {
-                            //cardDeck[key].$el.draggable("disable");
-                        }
-                        break;
-                    case "THINKING" :
-                        for (var key in cardDeck) {
-                            cardDeck[key].$el.draggable("enable");
-                        }
-                        break;
+                // Выставление карт противника
+                opponentCardDeck = this.model.cardsInOpponentHand.models;
+                for (var key in opponentCardDeck) {
+                    newCard = new CardViewClass({model : opponentCardDeck[key]});
+                    newCard.$el.draggable("disable");
+                    this.opponentCardViews.push(newCard);
+                    this.opponentField.append(newCard.$el);
                 }
             },
 
-            restruct : function() {
-
+            opponentStep : function(data) {
+                var $opponentCard = this.opponentField.find(".card_container");
+                console.log($opponentCard);
             }
+
         }))();
     }
 );

@@ -52,8 +52,8 @@ define(
                     drop : onStep.bind(this),
 
                     out : function(event, ui) {
-                        this.$el.removeClass("on-card-over");
                         ui.draggable.attr("prepareToDrop", "0");
+                        this.$el.removeClass("on-card-over");
                     }.bind(this),
 
                     over : function(event, ui) {

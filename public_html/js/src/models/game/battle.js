@@ -1,4 +1,4 @@
-/**
+  /**
  * Created by rikimaru on 11.04.15.
  */
 
@@ -9,17 +9,6 @@ define(
         "models/game/cardCollection"
     ], function(Backbone, Socket, cardCollection) {
 
-
-        /**
-            Possible states:
-            - THINKING (string)
-            - WAITING_FOR_OPPONENT (string)
-            - LOOK_FOR_RESULT (string)
-            - WAITING_FOR_YOUR_STEP (string)
-        */
-        function updateState(state) {
-            battleModel.set({state : state});
-        }
 
         function sendAction(cardModel) {
             var request = JSON.stringify({
@@ -32,28 +21,21 @@ define(
 
         var battleModel = new (Backbone.Model.extend({
 
-            defaults : {
-                state : "THINKING",
-                opponentName : "",
-                currentCard : {} // Card Model
-            },
-
-            cardDeck : new cardCollection(),
             cardsInHand : new cardCollection(),
             cardsInField : new cardCollection(),
+            cardsInOpponentHand : new cardCollection(),
 
             initialize : function(options) {
-                Socket.bind("game_action_set", this.update, this);
-                Socket.bind("game_action_reveal", this.update, this);
+                Socket.bind("game_action_set", this.setCard, this);
+                Socket.bind("game_action_reveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);
 
-                this.cardDeck.bind("moveOnField", function(model) {
-                    this.cardDeck.remove(model);
+                this.cardsInHand.bind("moveOnField", function(model) {
+                    this.cardsInHand.remove(model);
                     this.cardsInField.add(model);
+                    sendAction(model);
                 }, this);
 
-                this.cardDeck.bind("remove", function(model) {
-                }, this);
             },
 
             beginBattle : function(msg) {
@@ -63,49 +45,39 @@ define(
                 });
 
                 // Добавление тестовых карт
-                this.cardDeck.add([
-                    {type : "knight"},
-                    {type : "princess"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"}
+                this.cardsInHand.add([
+                    {type : "knight"}
+                ]);
+
+                this.cardsInOpponentHand.add([
+                    {type : "closed"}
                 ]);
 
                 this.trigger("BATTLE_BEGAN");
             },
 
             searchBattle : function() {
-                var request = JSON.stringify({
-                    action : "findGame"
-                });
-                Socket.send(request);
+                //var request = JSON.stringify({
+                //    action : "findGame"
+                //});
+                //Socket.send(request);
+                this.beginBattle({opponent_name : "blabla"});
             },
 
             step : function(cardModel) {
-                this.set({currentCard : cardModel});
-                //sendAction(cardModel);
-                updateState("WAITING_FOR_OPPONENT");
+                this.cardsInField.trigger("moveOnField", cardModel);
             },
 
-            update : function(msg) {
-
-                switch (msg.action) {
-
-                    case "game_action_set" :
-                        if (msg.is_setter) {
-                            this.cardDeck.remove(this.get("currentCard"));
-                            updateState("WAITING_FOR_OPPONENT");
-                        } else {
-                            updateState("WAITING_FOR_YOUR_STEP");
-                        }
-                        break;
-
-                    case "game_action_reveal" :
-                        updateState("LOOK_FOR_RESULT");
-                        break;
+            setCard : function(data) {
+                console.log("set");
+                var isPlayerStep = data.is_setter;
+                if (!isPlayerStep) {
+                    this.trigger("OPPONENT_STEP");
                 }
+            },
+
+            revealCards : function(data) {
+
             }
 
         }))();

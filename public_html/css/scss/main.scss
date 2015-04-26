@@ -18,6 +18,7 @@ p {
   width: 100%;
   height: 100%;
   visibility: hidden;
+  top: 0px;
 }
 
 .loader-screen__indicator-container {
@@ -66,7 +67,9 @@ a.underline {
 
 .menu-container__menu {
   display: inline-block;
-  width: 70%;
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
 .menu__menu-name {
@@ -131,7 +134,11 @@ a.underline {
 
 .game-area-container {
   height: 600px;
-  background-color: #69b5b4;
+  background-color: rgba(100, 100, 100, 0.5);
+}
+
+.game-container {
+  background-image: url(../images/battle_background_2.png);
 }
 
 .console__chat {
@@ -263,7 +270,14 @@ $card-anim-speed : 0.3s;
   transition: $card-anim-speed;
   text-align: center;
   &:hover {
+    .card__card-info-container {
+      visibility: visible;
+    }
   }
+}
+
+.card__card-info-container {
+  visibility: hidden;
 }
 
 .card__header {
@@ -275,7 +289,7 @@ $card-anim-speed : 0.3s;
   padding: 5px 20px;
 }
 
-.card__image{
+.card__image {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
@@ -297,6 +311,13 @@ $card-anim-speed : 0.3s;
   }
 }
 
+.card__image__closed {
+  background-image: url("../images/closed.jpg");
+  &:hover {
+    box-shadow: none;
+  }
+}
+
 .card__effect {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
@@ -314,7 +335,8 @@ $card-anim-speed : 0.3s;
 }
 
 .battlefield-container {
-
+  height: auto;
+  display: block;
 }
 
 .battlefield-container__field {

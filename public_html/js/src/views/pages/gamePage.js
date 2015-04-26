@@ -32,8 +32,12 @@ define(
             },
 
             beginBattle : function() {
-                require(['views/game/battle'], function(battleView) {
-                    battleView.beginBattle();
+                require(
+                    [
+                        'models/game/battle',
+                        "views/game/battle"
+                    ],function(battleModel, battleView) {
+                    battleModel.searchBattle();
                 });
             },
 
