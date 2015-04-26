@@ -44,6 +44,7 @@ public class CustomWebSocket {
                 case "privateMessage": {
                     UserLogic receiver = webSocketService.getDbService().getUserService().
                             getUserByUsername(request.getString("receiverName"));
+                    request.put("author", user.getUsername());
                     webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
