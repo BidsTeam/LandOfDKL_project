@@ -26,9 +26,6 @@ define(
 
             _construct: function() {
                 this.model = signupModel;
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").show();
-                }, this);
             },
 
             render: function(){

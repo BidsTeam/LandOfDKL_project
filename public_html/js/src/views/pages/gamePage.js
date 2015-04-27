@@ -19,14 +19,10 @@ define(
             },
 
             _construct : function() {
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").hide();
-                }, this);
-
                 this.chatView = new chatView({chatContainerId : "chat-container"});
                 this.userListview = new userListView({listContainerId : "players-in-room-list"});
 
-                this.beginBattle();
+                //this.beginBattle();
             },
 
             render : function() {

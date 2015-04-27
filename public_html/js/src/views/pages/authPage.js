@@ -15,9 +15,6 @@ define(
         },
 
         _construct : function(options) {
-            this.bind("changePage_"+this.pageId, function() {
-                $(".logo-container__logo").show();
-            }, this);
         },
 
         render : function() {
