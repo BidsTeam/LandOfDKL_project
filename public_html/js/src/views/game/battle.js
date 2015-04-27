@@ -11,9 +11,10 @@ define(
         "views/game/middleField",
         "models/game/battle",
         "jquery-ui",
-        "views/game/card"
+        "views/game/card",
+        "views/loading"
     ],
-    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass) {
+    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass, loading) {
 
         return new (Backbone.View.extend({
 
@@ -28,13 +29,15 @@ define(
 
             initialize : function() {
                 this.model = battleModel;
-                this.model.bind("change:state", this.update, this);
                 this.model.bind("BATTLE_BEGAN", this.beginBattle, this);
                 this.model.bind("OPPONENT_STEP", this.opponentStep, this);
+                this.model.bind("STEP", this.myStep, this);
+                this.model.bind("NEXT_STEP", this.nextStep, this);
+                this.model.bind("removeCard", this.removeCard, this);
             },
 
             beginBattle : function() {
-                gamePage.go();
+                loading.hide();
                 this.render();
             },
 
@@ -73,8 +76,27 @@ define(
             },
 
             opponentStep : function(data) {
-                var $opponentCard = this.opponentField.find(".card_container");
-                console.log($opponentCard);
+                var $opponentCard = $(this.opponentField.find(".card-container")[0]);
+                $opponentCard.detach().appendTo(this.middleField.$el);
+            },
+
+            myStep : function() {
+                for (var key in this.cardViews) {
+                    this.cardViews[key].$el.draggable("disable");
+                }
+            },
+
+            nextStep : function() {
+                this.middleField.clear();
+                for (var key in this.cardViews) {
+                    this.cardViews[key].$el.draggable("enable");
+                }
+            },
+
+            removeCard : function(model) {
+                _.remove(this.cardViews, function(cardView) {
+                    return cardView.model.cid == model.cid;
+                });
             }
 
         }))();

@@ -8,40 +8,44 @@ define(
         "jquery-ui",
         "jquery",
         "models/game/card",
-        "templates/card"
-    ], function(Backbone, Ui, $, CardModel, CardTemplate) {
+        "templates/card",
+        "templates/card_info"
+    ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
 
         return Backbone.View.extend({
 
-            template : CardTemplate,
             type : "",
             placePosition : {},
 
             initialize : function(options) {
                 var $htmlEl;
 
-                if (!options.model) {
-                    this.model = new CardModel({type : options.type});
-                }
-                this.type = this.model.get("type");
+                this.model.bind("change", this.update, this);
 
-                $htmlEl = $(CardTemplate({
-                    type : this.type,
-                    title : this.model.get("title"),
-                    effect : this.model.get("effect"),
-                    description : this.model.get("description")
-                }));
+                if (!options.model) {
+                    this.model = new CardModel({cardId : options.cardId});
+                }
+                this.type = this.model.get("cardType");
+
+                $htmlEl = $(CardTemplate(
+                    this.model.toJSON()
+                ));
 
                 this.setElement($htmlEl);
 
                 this.$el.on("step", function(e) {
-                    this.model.trigger("step");
+                    this.model.trigger("step", this.model);
                     this.$el.draggable("disable");
                 }.bind(this));
+
+                this.$el.on("delete", function(e) {
+                    this.model.trigger("delete", this.model);
+                }.bind(this))
 
                 this.$el.draggable({
 
                     containment : "#game-area",
+                    scroll : false,
 
                     start : function(event, ui) {
                         var $elem = ui.helper;
@@ -66,6 +70,15 @@ define(
                     }.bind(this)
 
                 });
+            },
+
+            update : function() {
+                $htmlEl = $(CardInfo(
+                    this.model.toJSON()
+                ));
+
+                this.$el.html($htmlEl);
+                this.$el.attr("cardType", this.model.get("cardType"));
             }
         });
     }

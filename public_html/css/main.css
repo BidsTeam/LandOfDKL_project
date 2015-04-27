@@ -212,6 +212,7 @@ a.underline {
 
 .card-container {
   display: inline-block;
+  vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -252,7 +253,7 @@ a.underline {
   border-radius: 50%; }
   .card__image__knight {
     background-image: url("../images/knight.jpg"); }
-  .card__image__princess {
+  .card__image__lady {
     background-image: url("../images/princess.jpg"); }
   .card__image__dragon {
     background-image: url("../images/dragon.jpg"); }
@@ -288,12 +289,6 @@ a.underline {
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left; }
-
-.middle-field {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
 
 .middle-field.underlight {
   background-color: #3c763d; }

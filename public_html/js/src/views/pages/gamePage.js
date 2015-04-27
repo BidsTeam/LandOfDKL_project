@@ -7,35 +7,37 @@ define(
         "jquery",
         "models/User",
         "models/game/userList",
-        "views/game/userList"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
+        "views/game/userList",
+        "views/loading"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading) {
 
         var gamePage = pageView.extend({
 
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
                 "keydown .input-container__input-field" : "sendMsgToChat",
-                "click a[action=logout]" : "logout"
+                "click a[action=logout]" : "logout",
+                "click a[action=findGame]" : "findBattle"
             },
 
             _construct : function() {
                 this.chatView = new chatView({chatContainerId : "chat-container"});
                 this.userListview = new userListView({listContainerId : "players-in-room-list"});
-
-                //this.beginBattle();
             },
 
             render : function() {
             },
 
-            beginBattle : function() {
+            findBattle : function() {
                 require(
                     [
                         'models/game/battle',
                         "views/game/battle"
                     ],function(battleModel, battleView) {
-                    battleModel.searchBattle();
-                });
+                        loading.show();
+                        battleModel.searchBattle();
+                    }
+                );
             },
 
             sendMsgToChat : function(e) {

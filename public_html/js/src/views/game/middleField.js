@@ -61,6 +61,11 @@ define(
                         this.$el.addClass("on-card-over");
                     }.bind(this)
                 });
+            },
+
+            clear : function() {
+                this.$(".card-container").trigger("delete");
+                this.$el.html("");
             }
 
         });

@@ -289,6 +289,7 @@ a.underline {
 
 .card-container {
   display: inline-block;
+  vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;
@@ -340,7 +341,7 @@ $card-anim-speed : 0.3s;
   &__knight {
     background-image: url("../images/knight.jpg");
   }
-  &__princess {
+  &__lady {
     background-image: url("../images/princess.jpg");
   }
   &__dragon {
@@ -385,13 +386,6 @@ $card-anim-speed : 0.3s;
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left;
-}
-
-.middle-field {
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
 .middle-field.underlight {

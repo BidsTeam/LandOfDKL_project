@@ -38,11 +38,17 @@ define(
 
             this.connect(options.address);
             User.bind("logout", this.close, this);
+            this.bind("hello", this.saveCardsInformation, this);
 
             this.connection.onopen = onOpen.bind(this);
             this.connection.onmessage = onEvent.bind(this);
             this.connection.onerror = onError.bind(this);
             this.connection.onclose = onClose.bind(this);
+        },
+
+        saveCardsInformation : function(cards) {
+            var cardsJSON = JSON.stringify(cards.cards);
+            localStorage.setItem("cards", cardsJSON);
         },
 
         connect : function(address) {
