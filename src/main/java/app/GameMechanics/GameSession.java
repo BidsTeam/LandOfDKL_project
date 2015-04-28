@@ -15,6 +15,8 @@ public class GameSession {
     private CardLogic firstPlayerCard;
     private CardLogic secondPlayerCard;
     private DBService dbService;
+    private int cardCount;
+    private final int CARD_AMOUNT = 15;
 
     public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService, DBService dbService) {
         firstPlayer = playerOne;
@@ -27,6 +29,7 @@ public class GameSession {
         this.dbService = dbService;
         this.webSocketService = webSocketService;
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
+        cardCount = CARD_AMOUNT;
     }
 
     public void doGameAction(JSONObject json, int userID) {
@@ -45,6 +48,10 @@ public class GameSession {
                 case "setCard": {
                     //todo Убедиться в том, что это строка либо камень, либо ножницы, либо бумага.
                     setGameAction(playerNumber, json.getInt("chosenCard"));
+                    break;
+                }
+                case "concede": {
+                    concede(playerNumber);
                     break;
                 }
                 default: {
@@ -105,12 +112,24 @@ public class GameSession {
                     webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
                 }
             }
+            cardCount--;
+            if (cardCount == 0) {
+                webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.DRAW);
+            }
             firstPlayerCard = null;
             secondPlayerCard = null;
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("GameMechanics.GameSession/gameActionReveal: Wrong game_action from json! ",e);
         }
 
+    }
+
+    public void concede(int playerNumber) {
+        if (playerNumber == 1) {
+            webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.SECOND_WON);
+        } else if (playerNumber == 2) {
+            webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
+        }
     }
 
 }
