@@ -33,7 +33,9 @@ define(
                 this.model.bind("OPPONENT_STEP", this.opponentStep, this);
                 this.model.bind("STEP", this.myStep, this);
                 this.model.bind("NEXT_STEP", this.nextStep, this);
-                this.model.bind("removeCard", this.removeCard, this);
+                this.model.bind("REMOVE_CARD", this.removeCard, this);
+                this.model.cardsInHand.bind("add", this.addCardToHand, this);
+                this.model.cardsInOpponentHand.bind("add", this.addCardToOpponentHand, this);
             },
 
             beginBattle : function() {
@@ -44,9 +46,6 @@ define(
             render : function() {
                 var $html = $(this.template());
                 var $gameArea = $("#game-area");
-                var cardDeck;
-                var opponentCardDeck;
-                var newCard;
 
                 this.setElement($html);
                 $gameArea.html(this.$el);
@@ -56,23 +55,6 @@ define(
                 this.middleField = new MiddleField({el : ".middle-field"});
                 this.opponentField = this.$(".opponent-field");
                 this.playerField = this.$(".player-field");
-
-                // Выставление своих карт
-                cardDeck = this.model.cardsInHand.models;
-                for (var key in cardDeck) {
-                    newCard = new CardViewClass({model : cardDeck[key]});
-                    this.cardViews.push(newCard);
-                    this.playerField.append(newCard.$el);
-                }
-
-                // Выставление карт противника
-                opponentCardDeck = this.model.cardsInOpponentHand.models;
-                for (var key in opponentCardDeck) {
-                    newCard = new CardViewClass({model : opponentCardDeck[key]});
-                    newCard.$el.draggable("disable");
-                    this.opponentCardViews.push(newCard);
-                    this.opponentField.append(newCard.$el);
-                }
             },
 
             opponentStep : function(data) {
@@ -97,6 +79,19 @@ define(
                 _.remove(this.cardViews, function(cardView) {
                     return cardView.model.cid == model.cid;
                 });
+            },
+
+            addCardToHand : function(model) {
+                var newCard = new CardViewClass({model : model});
+                this.cardViews.push(newCard);
+                this.playerField.append(newCard.$el);
+            },
+
+            addCardToOpponentHand : function(model) {
+                var newCard = new CardViewClass({model : model});
+                newCard.$el.draggable("disable");
+                this.opponentCardViews.push(newCard);
+                this.opponentField.append(newCard.$el);
             }
 
         }))();

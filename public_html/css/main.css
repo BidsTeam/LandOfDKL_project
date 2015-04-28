@@ -249,8 +249,9 @@ a.underline {
   display: block;
   height: 172px;
   margin: auto;
+  margin-left: 10px;
   width: 160px;
-  border-radius: 50%; }
+  border-radius: 15px; }
   .card__image__knight {
     background-image: url("../images/knight.jpg"); }
   .card__image__lady {

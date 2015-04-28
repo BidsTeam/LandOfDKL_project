@@ -16,14 +16,12 @@ define(
                 gameAction : "setCard",
                 chosenCard : cardIndex
             });
-            console.log(request);
             Socket.send(request);
         }
 
-        var battleModel = new (Backbone.Model.extend({
+        return new (Backbone.Model.extend({
 
             cardsInHand : new cardCollection(),
-            cardsInField : new cardCollection(),
             cardsInOpponentHand : new cardCollection(),
 
             initialize : function(options) {
@@ -31,19 +29,13 @@ define(
                 Socket.bind("gameCardsReveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);
                 Socket.bind("game_over", this.endBattle, this);
-
-                this.cardsInHand.bind("step", function(cardModel) {
-                    this.trigger("STEP");
-                    var indexOfCard = _.findIndex(this.cardsInHand.models, function(card) {
-                        return cardModel.cid == card.cid;
-                    });
-                    sendAction(indexOfCard);
-                }, this);
-
+                this.cardsInHand.bind("step", this.step, this);
                 this.cardsInHand.bind("delete", this.removeCard, this);
             },
 
             beginBattle : function(msg) {
+
+                this.trigger("BATTLE_BEGAN");
 
                 this.set({
                     opponentName : msg.opponent_name
@@ -54,7 +46,6 @@ define(
                     this.cardsInOpponentHand.add({cardType : "closed"});
                 }
 
-                this.trigger("BATTLE_BEGAN");
             },
 
             searchBattle : function() {
@@ -72,6 +63,7 @@ define(
             },
 
             revealCards : function(data) {
+                console.log(data);
                 var opponentCard = this.cardsInOpponentHand.shift();
                 opponentCard.updateById(data.opponentCard);
                 setTimeout(this.nextStep.bind(this), 3000);
@@ -82,14 +74,23 @@ define(
             },
 
             endBattle : function(msg) {
-                console.log(msg);
+                this.cardsInHand.reset();
+                this.cardsInOpponentHand.reset();
+                this.trigger("END_BATTLE", msg.game_result);
             },
 
             removeCard : function(model) {
-                this.trigger("removeCard", model);
-            }
-        }))();
+                this.trigger("REMOVE_CARD", model);
+            },
 
-        return battleModel;
+            step : function(cardModel) {
+                this.trigger("STEP");
+                var indexOfCard = _.findIndex(this.cardsInHand.models, function(card) {
+                    return cardModel.cid == card.cid;
+                });
+                sendAction(indexOfCard);
+            }
+
+        }))();
     }
 );
