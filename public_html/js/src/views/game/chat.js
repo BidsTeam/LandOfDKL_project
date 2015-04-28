@@ -19,6 +19,7 @@ define(
                 this.model.bind("privateMessageReceived", this.renderPrivate, this);
                 this.model.bind("publicMessageReceived", this.renderPublic, this);
                 this.model.bind("change:receiver", this.setReceiver, this);
+                this.model.bind("SEND_PRIVATE", this.renderMyPrivate, this);
 
                 $(".game-console").on("click", function(e) {
                     if (e.target.className == "author-name") {
@@ -52,6 +53,7 @@ define(
 
             setReceiver : function(model, receiver) {
                 if (this.model.has("receiver")) {
+                    this.removeReceiver();
                     this.$(".input-container").prepend(msgToTmpl({name:receiver}));
                 } else {
                     this.removeReceiver();
@@ -60,6 +62,10 @@ define(
 
             removeReceiver : function() {
                 this.$(".message-to").remove();
+            },
+
+            renderMyPrivate : function(data) {
+
             }
         });
     }

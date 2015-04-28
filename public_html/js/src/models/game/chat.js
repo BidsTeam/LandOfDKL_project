@@ -24,7 +24,7 @@ define(
                 if (this.has("receiver")) {
                     var receiver = this.get("receiver");
                     data =  {action : "privateMessage", message : msg, receiverName : receiver};
-
+                    this.trigger("SEND_PRIVATE", data);
                     this.unset("receiver");
                 } else {
                     data = {action : "publicMessage", message : msg};

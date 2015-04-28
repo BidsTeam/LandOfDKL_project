@@ -1,0 +1,88 @@
+.card-container {
+  display: inline-block;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  &:hover {
+    z-index: 1;
+  }
+}
+
+$card-anim-speed : 0.3s;
+.card-container__card {
+  //  background-image: url("../images/card_background.jpg");
+  border-radius: 6px;
+  display: inline-block;
+  -webkit-transition: $card-anim-speed;
+  -moz-transition: $card-anim-speed;
+  -ms-transition: $card-anim-speed;
+  -o-transition: $card-anim-speed;
+  transition: $card-anim-speed;
+  text-align: center;
+  &:hover {
+    .card__card-info-container {
+      visibility: visible;
+    }
+  }
+}
+
+.card__card-info-container {
+  visibility: hidden;
+}
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 20px;
+}
+
+.card__image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 172px;
+  margin: auto;
+  margin-left : 10px;
+  width: 160px;
+  border-radius: 15px;
+  &__knight {
+    background-image: url("../images/knight.jpg");
+  }
+  &__lady {
+    background-image: url("../images/princess.jpg");
+  }
+  &__dragon {
+    background-image: url("../images/dragon.jpg");
+  }
+  &:hover {
+    box-shadow: 0px 0px 43px -1px yellow;
+  }
+}
+
+.card__image__closed {
+  background-image: url("../images/closed.jpg");
+  &:hover {
+    box-shadow: none;
+  }
+}
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%;
+}
