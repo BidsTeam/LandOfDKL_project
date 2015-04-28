@@ -7,26 +7,28 @@ define(
         "paginator",
         "pageView",
         "templates/test_page",
-        "views/game/cardFactory"
+        "models/test"
     ],
     function(
         Paginator,
         PageView,
         TestPageTmpl,
-        CardFactory
+        testModel
     ){
         return new (PageView.extend({
 
             _construct : function(options){
-                CardFactory.createCard({type : "knight"});
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").hide();
-                }, this);
+                this.model.fetch();
+                this.model.save();
+                this.model.set({name : "p"});
+                this.model.save();
+                this.model.save();
+                this.model.destroy();
             },
 
             render: function(){
             }
 
-        }))({pageHtml : TestPageTmpl()});
+        }))({pageHtml : TestPageTmpl(), model : testModel});
     }
 );
