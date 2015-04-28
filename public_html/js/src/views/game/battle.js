@@ -29,16 +29,17 @@ define(
 
             initialize : function() {
                 this.model = battleModel;
-                this.model.bind("BATTLE_BEGAN", this.beginBattle, this);
-                this.model.bind("OPPONENT_STEP", this.opponentStep, this);
-                this.model.bind("STEP", this.myStep, this);
-                this.model.bind("NEXT_STEP", this.nextStep, this);
-                this.model.bind("REMOVE_CARD", this.removeCard, this);
+                this.model.bind("BATTLE_BEGAN", this.onBeginBattle, this);
+                this.model.bind("OPPONENT_STEP", this.onOpponentStep, this);
+                this.model.bind("MY_STEP", this.onMyStep, this);
+                this.model.bind("NEXT_STEP", this.onNextStep, this);
+                this.model.bind("REMOVE_CARD", this.removeCardFromField, this);
                 this.model.cardsInHand.bind("add", this.addCardToHand, this);
                 this.model.cardsInOpponentHand.bind("add", this.addCardToOpponentHand, this);
+                this.model.bind("END_BATTLE", this.onEndBattle, this);
             },
 
-            beginBattle : function() {
+            onBeginBattle : function() {
                 loading.hide();
                 this.render();
             },
@@ -57,25 +58,25 @@ define(
                 this.playerField = this.$(".player-field");
             },
 
-            opponentStep : function(data) {
+            onOpponentStep : function(data) {
                 var $opponentCard = $(this.opponentField.find(".card-container")[0]);
                 $opponentCard.detach().appendTo(this.middleField.$el);
             },
 
-            myStep : function() {
+            onMyStep : function() {
                 for (var key in this.cardViews) {
                     this.cardViews[key].$el.draggable("disable");
                 }
             },
 
-            nextStep : function() {
+            onNextStep : function() {
                 this.middleField.clear();
                 for (var key in this.cardViews) {
                     this.cardViews[key].$el.draggable("enable");
                 }
             },
 
-            removeCard : function(model) {
+            removeCardFromField : function(model) {
                 _.remove(this.cardViews, function(cardView) {
                     return cardView.model.cid == model.cid;
                 });
@@ -92,6 +93,24 @@ define(
                 newCard.$el.draggable("disable");
                 this.opponentCardViews.push(newCard);
                 this.opponentField.append(newCard.$el);
+            },
+
+            onEndBattle : function(result) {
+                this.clear();
+                switch (result) {
+                    case 0 : alert("Ничья"); break;
+                    case 1 : alert("Ты чемпион!"); break;
+                    case -1 : alert("Ты проиграл..."); break;
+                }
+            },
+
+            clear : function() {
+                this.cardViews = [];
+                this.opponentCardViews = [];
+                this.playerField = {};
+                this.opponentField = {};
+                this.middleField = {};
+                this.$el.remove();
             }
 
         }))();

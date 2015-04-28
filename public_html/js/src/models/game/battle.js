@@ -24,12 +24,14 @@ define(
             cardsInHand : new cardCollection(),
             cardsInOpponentHand : new cardCollection(),
 
-            initialize : function(options) {
-                Socket.bind("game_action_set", this.setCard, this);
+            nextStepTimerId : 0,
+
+            initialize : function() {
+                Socket.bind("game_action_set", this.setOpponentCard, this);
                 Socket.bind("gameCardsReveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);
                 Socket.bind("game_over", this.endBattle, this);
-                this.cardsInHand.bind("step", this.step, this);
+                this.cardsInHand.bind("MY_STEP", this.myStep, this);
                 this.cardsInHand.bind("delete", this.removeCard, this);
             },
 
@@ -45,7 +47,6 @@ define(
                     this.cardsInHand.add({cardId : msg.deck[key]});
                     this.cardsInOpponentHand.add({cardType : "closed"});
                 }
-
             },
 
             searchBattle : function() {
@@ -55,7 +56,7 @@ define(
                 Socket.send(request);
             },
 
-            setCard : function(data) {
+            setOpponentCard : function(data) {
                 var isPlayerStep = data.isSetter;
                 if (!isPlayerStep) {
                     this.trigger("OPPONENT_STEP");
@@ -63,10 +64,9 @@ define(
             },
 
             revealCards : function(data) {
-                console.log(data);
                 var opponentCard = this.cardsInOpponentHand.shift();
                 opponentCard.updateById(data.opponentCard);
-                setTimeout(this.nextStep.bind(this), 3000);
+                this.nextStepTimerId = setTimeout(this.nextStep.bind(this), 2000);
             },
 
             nextStep : function() {
@@ -74,17 +74,18 @@ define(
             },
 
             endBattle : function(msg) {
+                clearTimeout(this.nextStepTimerId);
                 this.cardsInHand.reset();
                 this.cardsInOpponentHand.reset();
-                this.trigger("END_BATTLE", msg.game_result);
+                this.trigger("END_BATTLE", Number(msg.gameResult));
             },
 
             removeCard : function(model) {
                 this.trigger("REMOVE_CARD", model);
             },
 
-            step : function(cardModel) {
-                this.trigger("STEP");
+            myStep : function(cardModel) {
+                this.trigger("MY_STEP");
                 var indexOfCard = _.findIndex(this.cardsInHand.models, function(card) {
                     return cardModel.cid == card.cid;
                 });

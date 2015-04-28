@@ -34,7 +34,7 @@ define(
                 this.setElement($htmlEl);
 
                 this.$el.on("step", function(e) {
-                    this.model.trigger("step", this.model);
+                    this.model.trigger("MY_STEP", this.model);
                     this.$el.draggable("disable");
                 }.bind(this));
 
