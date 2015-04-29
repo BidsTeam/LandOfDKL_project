@@ -40,11 +40,10 @@ define(
 
                 this.$el.on("delete", function(e) {
                     this.model.trigger("delete", this.model);
-                }.bind(this))
+                }.bind(this));
 
                 this.$el.draggable({
 
-                    containment : "#game-area",
                     scroll : false,
 
                     start : function(event, ui) {

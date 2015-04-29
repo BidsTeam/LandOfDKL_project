@@ -14,14 +14,20 @@ define(
 
             var position = $dragObj.position();
             $dragObj.detach().appendTo(this.$el);
-            $dragObj.css("position", "relative");
-            $dragObj.css("top", 0);
-            $dragObj.css("left", 0);
+
+            $dragObj.css({
+                position : "relative",
+                top : 0,
+                left : 0
+            });
+
             var newPosition = $dragObj.position();
 
-            $dragObj.css("position", "absolute");
-            $dragObj.css("top", position.top);
-            $dragObj.css("left", position.left);
+            $dragObj.css({
+                position : "absolute",
+                top : position.top,
+                left : position.left
+            });
 
             $dragObj.animate(
                 {
@@ -44,7 +50,6 @@ define(
         return Backbone.View.extend({
 
             initialize : function() {
-                var fieldCoords = this.$el.position();
 
                 this.$el.droppable({
 
