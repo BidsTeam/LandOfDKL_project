@@ -3,7 +3,7 @@ define(
         "templates/main_page",
         "paginator",
         "pageView",
-        "models/User",
+        "models/user",
         "routers/page_router",
         "views/loading",
         "views/backgroundVideo"

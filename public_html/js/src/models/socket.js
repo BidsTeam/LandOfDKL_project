@@ -7,7 +7,7 @@ define(
         "backbone",
         "config",
         "views/loading",
-        "models/User"
+        "models/user"
     ], function(Backbone, Config, loading, User) {
 
     function onEvent(event) {

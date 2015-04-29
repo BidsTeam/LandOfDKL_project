@@ -1,7 +1,7 @@
 define(
     [
         "backbone",
-        "models/User",
+        "models/user",
         "views/backgroundVideo",
         "views/loading"
     ],
@@ -23,7 +23,6 @@ define(
             },
 
             initialize : function() {
-                User.bind("logout", this.mainPageInit, this);
             },
 
             mainPageInit : function() {
@@ -35,8 +34,9 @@ define(
             gamePageInit : function() {
                 var _this = this;
                 loading.show();
-                User.isAuth(
-                    function(msg) {
+                User.isAuth()
+                    .then(function(msg) {
+                        msg = JSON.parse(msg); //todo убрать когда на сервере сделают норм
                         if (msg.isAuth) {
                             require(['views/pages/gamePage'], function(gamePageView) {
                                 gamePageView.go();
@@ -45,8 +45,7 @@ define(
                             _this.navigate("auth", {trigger : true, replace : true});
                         }
                         loading.hide();
-                    }
-                );
+                    });
             },
 
             authPageInit : function() {

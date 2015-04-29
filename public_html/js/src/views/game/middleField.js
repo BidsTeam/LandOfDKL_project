@@ -11,8 +11,8 @@ define(
 
         function onStep(event, ui) {
             var $dragObj = ui.draggable;
-
             var position = $dragObj.position();
+            var newPosition;
             $dragObj.detach().appendTo(this.$el);
 
             $dragObj.css({
@@ -21,7 +21,7 @@ define(
                 left : 0
             });
 
-            var newPosition = $dragObj.position();
+            newPosition = $dragObj.position();
 
             $dragObj.css({
                 position : "absolute",

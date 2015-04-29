@@ -5,9 +5,10 @@ define(
         "templates/signup_page",
         "config",
         "jquery",
-        "views/loading"
+        "views/loading",
+        "models/user"
     ],
-    function(pageView, signupModel, signupTmpl, Config, $, loading) {
+    function(pageView, signupModel, signupTmpl, Config, $, loading, User) {
 
         var SignupView = pageView.extend({
 
@@ -38,6 +39,7 @@ define(
             onFormSubmit: function(e) {
                 e.preventDefault();
                 var model = this.model;
+                var _this = this;
 
                 this.$el.find('input[name]').each(function(key,val) {
                     $(val).trigger("change"); //Идеологически неправильно имитировать действия пользователя, но ничего умнее не придумал
@@ -45,22 +47,14 @@ define(
 
                 this.$("input[type=submit]").attr("disabled", "disabled");
 
-                $.ajax({
-                    type: "POST",
-                    url: Config.apiUrl+"/auth/signup",
-                    data: model.toJSON(),
-                    success: function(msg) {
-                        console.log(msg);
-                    },
-                    beforeSend : function() {
-                        loading.show();
-                    },
-                    complete : function(msg) {
-                        this.$("input[type=submit]").removeAttr("disabled");
+                loading.show();
+                User.signup(model.toJSON())
+                    .then(function(msg) {
                         loading.hide();
-                    }.bind(this)
-                });
-                //todo this.model.save(); Я настрою потом sync
+                        _this.$("input[type=submit]").removeAttr("disabled");
+                    }, function(err) {
+
+                    });
             },
 
             onInputChange: function(e) {

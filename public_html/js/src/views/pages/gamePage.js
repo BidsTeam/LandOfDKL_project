@@ -5,11 +5,12 @@ define(
         "models/game/chat",
         "views/game/chat",
         "jquery",
-        "models/User",
+        "models/user",
         "models/game/userList",
         "views/game/userList",
-        "views/loading"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading) {
+        "views/loading",
+        "routers/page_router"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter) {
 
         var gamePage = pageView.extend({
 
@@ -51,7 +52,7 @@ define(
             },
 
             logout : function(e) {
-                User.logout();
+                User.logout().then(function() { pageRouter.navigate("/", {replace : true, trigger : true})});
             }
         });
 
