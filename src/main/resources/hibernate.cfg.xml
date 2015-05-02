@@ -24,6 +24,7 @@
 
         <mapping class="DAO.logic.UserLogic" />
         <mapping class="DAO.logic.CardLogic" />
+        <mapping class="DAO.logic.EffectLogic" />
 
     </session-factory>
 </hibernate-configuration>

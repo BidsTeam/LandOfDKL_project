@@ -27,7 +27,7 @@ import java.lang.management.ManagementFactory;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Frontend frontend = new Frontend();
+
         String portString = "8080";
         if (args.length >= 1) {
             portString = args[0];
