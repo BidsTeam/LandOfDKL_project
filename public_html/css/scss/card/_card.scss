@@ -14,6 +14,7 @@ $card-anim-speed : 0.3s;
 .card-container__card {
   //  background-image: url("../images/card_background.jpg");
   border-radius: 6px;
+  font-size: 15px;
   display: inline-block;
   -webkit-transition: $card-anim-speed;
   -moz-transition: $card-anim-speed;
@@ -30,6 +31,8 @@ $card-anim-speed : 0.3s;
 
 .card__card-info-container {
   visibility: hidden;
+  display: block;
+  height: 50px;
 }
 
 .card__header {
@@ -85,4 +88,8 @@ $card-anim-speed : 0.3s;
   height: 160px;
   margin: 3px auto;
   width: 94%;
+}
+
+.temp-container {
+  display: inline-block;
 }

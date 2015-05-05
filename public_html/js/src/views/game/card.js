@@ -20,11 +20,10 @@ define(
             initialize : function(options) {
                 var $htmlEl;
 
-                this.model.bind("change", this.update, this);
-
                 if (!options.model) {
                     this.model = new CardModel({cardId : options.cardId});
                 }
+                this.model.bind("change", this.update, this);
                 this.type = this.model.get("cardType");
 
                 $htmlEl = $(CardTemplate(
@@ -48,14 +47,18 @@ define(
 
                     start : function(event, ui) {
                         var $elem = ui.helper;
-                        var top = $elem.css("top");
-                        top = (top === "auto") ? 0 : top;
-                        var left = $elem.css("left");
-                        left = (left === "auto") ? 0 : left;
-                        this.placePosition = {
-                            top : top,
-                            left : left
-                        };
+
+                        this.placePosition = $elem.position();
+
+                        $tempContainer = $elem.wrap("<div class='temp-container'>").parent();
+                        $tempContainer.css({
+                            "min-height" : $tempContainer.height(),
+                            "min-width" : $tempContainer.width(),
+                            padding : 0,
+                            margin : 0
+                        });
+
+                        $elem.css($.extend({}, {position : "absolute"}, this.placePosition));
                     }.bind(this),
 
                     stop : function(event, ui) {
@@ -64,8 +67,18 @@ define(
                             $elem.animate({
                                 top : this.placePosition.top,
                                 left : this.placePosition.left
-                            }, "fast");
+                            }, "fast", function() {
+                                $elem.unwrap();
+                                $elem.css({position : "relative", top : 0, left : 0});
+                            });
                         }
+                    }.bind(this),
+
+                    drag : function(event, ui) {
+                        ui.position = {
+                            top : ui.position.top + this.placePosition.top,
+                            left : ui.position.left + this.placePosition.left
+                        };
                     }.bind(this)
 
                 });

@@ -9,6 +9,7 @@
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left;
+  font-size: 0px;
 }
 
 .middle-field.underlight {
@@ -17,4 +18,8 @@
 
 .middle-field.underlight.on-card-over {
   background-color: #426943;
+}
+
+.player-field {
+  overflow-y: scroll;
 }

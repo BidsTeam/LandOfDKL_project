@@ -11,9 +11,12 @@ define(
 
         function onStep(event, ui) {
             var $dragObj = ui.draggable;
+            var $dragObjContainer = $dragObj.parent();
             var position = $dragObj.position();
             var newPosition;
+
             $dragObj.detach().appendTo(this.$el);
+            $dragObjContainer.remove();
 
             $dragObj.css({
                 position : "relative",
@@ -37,9 +40,11 @@ define(
                 300,
                 "swing",
                 function() {
-                    $dragObj.css("position", "relative");
-                    $dragObj.css("top", 0);
-                    $dragObj.css("left", 0);
+                    $dragObj.css({
+                        position : "relative",
+                        top : 0,
+                        left : 0
+                    });
                 }
             );
 

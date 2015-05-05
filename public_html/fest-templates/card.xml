@@ -1,6 +1,6 @@
 <fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
 
-    <div class="card-container" cardType="{data.cardType}">
+    <div class="card-container">
         <div class="card-container__card">
 
             <fest:if test="data.name">

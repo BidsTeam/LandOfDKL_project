@@ -18,17 +18,11 @@ define(
         return new (PageView.extend({
 
             _construct : function(options){
-                this.model.fetch();
-                this.model.save();
-                this.model.set({name : "p"});
-                this.model.save();
-                this.model.save();
-                this.model.destroy();
             },
 
             render: function(){
             }
 
-        }))({pageHtml : TestPageTmpl(), model : testModel});
+        }))({pageHtml : TestPageTmpl()});
     }
 );

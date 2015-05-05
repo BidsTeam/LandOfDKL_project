@@ -10,6 +10,7 @@
 
 .card-container__card {
   border-radius: 6px;
+  font-size: 15px;
   display: inline-block;
   -webkit-transition: 0.3s;
   -moz-transition: 0.3s;
@@ -21,7 +22,9 @@
     visibility: visible; }
 
 .card__card-info-container {
-  visibility: hidden; }
+  visibility: hidden;
+  display: block;
+  height: 50px; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
@@ -67,6 +70,9 @@
   height: 160px;
   margin: 3px auto;
   width: 94%; }
+
+.temp-container {
+  display: inline-block; }
 
 .console__chat {
   display: inline-block;
@@ -144,13 +150,17 @@
   width: 33.1%;
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
-  float: left; }
+  float: left;
+  font-size: 0px; }
 
 .middle-field.underlight {
   background-color: #3c763d; }
 
 .middle-field.underlight.on-card-over {
   background-color: #426943; }
+
+.player-field {
+  overflow-y: scroll; }
 
 .best-players-list {
   display: inline-block;
