@@ -1,0 +1,9 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="userList">
+
+    <fest:for iterate="userList" index="i" value="username">
+        <p class="user-list__common-user">
+            <span class="author-name"><fest:value>username</fest:value></span>
+        </p>
+    </fest:for>
+
+</fest:template>

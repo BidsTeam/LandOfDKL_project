@@ -7,21 +7,17 @@ define(
         "paginator",
         "pageView",
         "templates/test_page",
-        "views/game/cardFactory"
+        "models/test"
     ],
     function(
         Paginator,
         PageView,
         TestPageTmpl,
-        CardFactory
+        testModel
     ){
         return new (PageView.extend({
 
             _construct : function(options){
-                CardFactory.createCard({type : "knight"});
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").hide();
-                }, this);
             },
 
             render: function(){

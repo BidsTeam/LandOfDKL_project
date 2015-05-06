@@ -1,0 +1,138 @@
+.chat {
+  background-image: url("../images/chat_background.gif");
+}
+
+.chat__content-container {
+  display: inline-block;
+  width: 80%;
+  height: 100px;
+  word-wrap: break-word;
+}
+
+.content-container__content {
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  overflow-y: scroll;
+}
+
+.chat-message {
+  padding-left: 10px;
+}
+
+.author-name {
+  margin-right: 4px;
+
+}
+
+.chat-message__message {
+  margin-left: 10px;
+}
+
+.chat-message__message-time {
+  color: #0b97c4;
+}
+
+.chat-message:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+.chat-message:nth-child(even) {
+  background-color: #e4e4e4
+}
+
+.chat-message__private {
+  color: red;
+}
+
+$shadow-size : 2px;
+.chat__send-button {
+  width: 10%;
+  height: 40px;
+  vertical-align: top;
+  background-image : url("../images/button_wood.png");
+  outline: none;
+  border: none;
+  box-shadow: 0px $shadow-size 0px 0px rgb(113, 67, 5);
+  margin-top: -$shadow-size;
+  &:active {
+    box-shadow: none;
+    position: relative;
+    top: $shadow-size;
+  }
+}
+
+.input-container {
+  display: inline-block;
+  width: 70%;
+  border: solid #000000 1px;
+}
+
+.input-container__message-to {
+  cursor: pointer;
+  background-color: #941D1D;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 5px;
+}
+
+.message-to__close-button {
+  border-radius: 50%;
+  background-color: #64593B;
+  font-weight: 500;
+  margin: 3px;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  height: 16px;
+  line-height: 16px;
+  font-size: 15px;
+  &:hover {
+    color: #ff0002;
+  }
+}
+
+.input-container__input-field {
+  border: none;
+  margin-left: 10px;
+  background-color: rgba(0, 0, 0, 0);
+  &:focus, &:active {
+    outline: none;
+  }
+}
+
+.chat__players-in-room-list {
+  border: solid grey 1px;
+  display: inline-block;
+  width: 19.999%;
+  height: 100px;
+  vertical-align: top;
+  //background-color: #ffffff;
+}
+
+.border-top_chat, .border-bottom_chat {
+  height: 10px;
+}
+
+.border-left_chat, .border-right_chat {
+  width: 14px;
+}
+
+.border-left_chat {
+  background-image: url("../images/chat_content_border_left.gif");
+}
+
+.border-right_chat {
+  background-image: url("../images/chat_content_border_right.gif");
+}
+
+.input-container_chat {
+  background-image: url("../images/chat_input.gif");
+  height: 40px;
+}
+
+.input-container__input-field_chat {
+  margin-top: 16px;
+  color: white;
+}
