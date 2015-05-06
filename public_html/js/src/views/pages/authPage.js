@@ -23,16 +23,17 @@ define(
             $(e.target).attr("disabled", "disabled");
             e.preventDefault();
 
-            loading.show();
+            loading.showAfterTimeout(2000);
 
             User.login({
                 login : $("#auth-login-field").val(),
                 password : $("#auth-password-field").val()
             }).then(function(msg) {
                 $(e.target).removeAttr("disabled");
-                loading.hide();
+                loading.clearTimeoutAndCloseIfOpened();
                 router.navigate("game", {trigger: true, replace: true});
             }, function(err) {
+                loading.clearTimeoutAndCloseIfOpened();
                 alert("Ошибка");
             });
 

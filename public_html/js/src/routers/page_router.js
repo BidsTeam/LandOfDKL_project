@@ -33,10 +33,10 @@ define(
 
             gamePageInit : function() {
                 var _this = this;
-                loading.show();
+                loading.showAfterTimeout(1000);
                 User.isAuth()
                     .then(function(msg) {
-                        msg = JSON.parse(msg); //todo убрать когда на сервере сделают норм
+                        msg = JSON.parse(msg);
                         if (msg.isAuth) {
                             require(['views/pages/gamePage'], function(gamePageView) {
                                 gamePageView.go();
@@ -44,7 +44,7 @@ define(
                         } else {
                             _this.navigate("auth", {trigger : true, replace : true});
                         }
-                        loading.hide();
+                        loading.clearTimeoutAndCloseIfOpened();
                     });
             },
 

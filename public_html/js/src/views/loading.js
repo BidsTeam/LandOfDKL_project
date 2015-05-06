@@ -11,6 +11,7 @@ define(
         return new (Backbone.View.extend({
 
             el : "#loader-screen",
+            showLoaderTimerId : 0,
 
             initialize : function(options) {},
 
@@ -20,6 +21,19 @@ define(
 
             hide : function() {
                 this.$el.css("visibility", "hidden");
+            },
+
+            isOpened : function() {
+                return this.$el.css("visibility") == "visible";
+            },
+
+            showAfterTimeout : function(secondsTimeout) {
+                this.showLoaderTimerId = setTimeout(this.show.bind(this), 2000);
+            },
+
+            clearTimeoutAndCloseIfOpened : function() {
+                clearTimeout(this.showLoaderTimerId);
+                this.hide();
             }
         }))();
     }
