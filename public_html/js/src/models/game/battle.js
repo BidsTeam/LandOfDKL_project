@@ -66,7 +66,7 @@ define(
             revealCards : function(data) {
                 var opponentCard = this.cardsInOpponentHand.shift();
                 opponentCard.updateById(data.opponentCard);
-                this.nextStepTimerId = setTimeout(this.nextStep.bind(this), 2000);
+                //this.nextStepTimerId = setTimeout(this.nextStep.bind(this), 2000);
             },
 
             nextStep : function() {

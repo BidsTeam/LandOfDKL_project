@@ -5,13 +5,13 @@ define(
     [
         "backbone",
         "models/game/userList",
-        "templates/chat_users"
+        "templates/chat/chat_users"
     ], function(Backbone, userList, listTmpl) {
 
         return Backbone.View.extend({
 
             initialize : function(options) {
-                this.setElement("#"+options.listContainerId);
+                this.setElement(options.listContainerSelector);
                 userList.bind("newChatUsers", this.render, this);
             },
 

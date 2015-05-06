@@ -6,14 +6,14 @@ define(
     [
         "backbone",
         "models/game/chat",
-        "templates/new_chat_message",
-        "templates/message-to"
+        "templates/chat/new_chat_message",
+        "templates/chat/message-to"
     ], function(Backbone, chat, msgTmpl, msgToTmpl) {
 
         return Backbone.View.extend({
 
             initialize : function(options) {
-                this.setElement("#"+options.chatContainerId);
+                this.setElement(options.chatContainerSelector);
                 this.model = chat;
 
                 this.model.bind("privateMessageReceived", this.renderPrivate, this);
@@ -21,14 +21,14 @@ define(
                 this.model.bind("change:receiver", this.setReceiver, this);
                 this.model.bind("SEND_PRIVATE", this.renderMyPrivate, this);
 
-                $(".game-console").on("click", function(e) {
+                this.$el.on("click", function(e) {
                     if (e.target.className == "author-name") {
                         this.model.setReceiverForPrivate($(e.target).html());
                     }
                     if (e.target.className == "message-to__close-button") {
                         this.model.unset("receiver");
                     }
-                    if (e.target.className == "input-container") {
+                    if ($(e.target).hasClass("input-container")) {
                         this.$(".input-container__input-field").focus();
                     }
                 }.bind(this));
@@ -36,9 +36,9 @@ define(
             },
 
             render : function(message) {
-                var $chatContent = this.$(".chat__content");
+                var $chatContent = this.$(".content-container__content");
                 $chatContent.append(msgTmpl(message));
-                $chatContent.scrollTop(this.$el.get()[0].scrollHeight);
+                $chatContent.scrollTop($chatContent.get()[0].scrollHeight);
             },
 
             renderPrivate : function(message) {
@@ -61,7 +61,7 @@ define(
             },
 
             removeReceiver : function() {
-                this.$(".message-to").remove();
+                this.$(".input-container__message-to").remove();
             },
 
             renderMyPrivate : function(data) {

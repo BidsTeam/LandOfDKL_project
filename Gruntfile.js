@@ -10,7 +10,7 @@ module.exports = function (grunt) {
 				files :[{
 					expand:  true,
 					cwd: 	'public_html/fest-templates',
-					src: 	'*.xml',
+                    src:    ['**/*.xml', "*.xml"],
 					dest: 	'public_html/js/src/templates'
 				}],
                 options : {
@@ -25,7 +25,7 @@ module.exports = function (grunt) {
 		},
 		watch:{
 			fest: {
-				files: ['public_html/fest-templates/*.xml', 'public_html/fest-templates/*.html'],
+				files: ['public_html/fest-templates/*.xml', 'public_html/fest-templates/**/*.xml'],
 				tasks: ['fest'],
 				options: {
 					atBegin: true
@@ -38,7 +38,7 @@ module.exports = function (grunt) {
 				}
 			},
 			css: {
-				files: 'public_html/css/scss/**/*.scss',
+				files: ['public_html/css/scss/**/*.scss', "public_html/css/scss/*.scss"],
 				tasks: ['sass'],
 				options: {
 					livereload: true,

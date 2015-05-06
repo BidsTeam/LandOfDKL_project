@@ -22,8 +22,8 @@ define(
             },
 
             _construct : function() {
-                this.chatView = new chatView({chatContainerId : "chat-container"});
-                this.userListview = new userListView({listContainerId : "players-in-room-list"});
+                this.chatView = new chatView({chatContainerSelector : ".chat"});
+                this.userListview = new userListView({listContainerSelector : ".chat__players-in-room-list"});
             },
 
             render : function() {

@@ -124,12 +124,6 @@ a.underline {
   padding: 10px;
 }
 
-.input-container {
-  display: inline-block;
-  width: 90%;
-  border: solid #000000 1px;
-}
-
 .menu-header {
   text-align: center;
   font-size: 18px;
@@ -157,4 +151,18 @@ a.underline {
 .menu-form__field {
   display: inline-block;
   width: 300px;
+}
+
+.border {
+  &-top, &-bottom {
+    display: block;
+    width: 100%;
+  }
+  &-left, &-right {
+    display: inline-block;
+    height: 100%;
+    & + *, * + & {
+      vertical-align: top;
+    }
+  }
 }

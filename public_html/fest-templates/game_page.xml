@@ -3,9 +3,6 @@
     <div data-role="page" id="game-page" class="game-container">
         <div class="nav-menu-container">
             <div class="nav_menu-container__nav-menu">
-                <!--<div class="nav-menu__button-container"><a href="#profile" class="btn btn-large btn-primary nav-menu__button"> <span>Персонаж</span> </a> </div>-->
-                <!--<div class="nav-menu__button-container"><a href="#map" class="btn btn-large btn-primary nav-menu__button"> <span>Карта</span> </a> </div>-->
-                <!--<div class="nav-menu__button-container"><a href="#quest-list" class="btn btn-large btn-primary nav-menu__button"> <span>Квесты</span> </a> </div>-->
                 <div class="nav-menu__button-container"><a action="findGame" class="btn btn-large btn-primary nav-menu__button"> <span>Найти игру</span> </a> </div>
                 <div class="nav-menu__button-container"><a action="logout" class="btn btn-large btn-primary nav-menu__button"> <span>Выйти</span> </a> </div>
             </div>
@@ -13,21 +10,10 @@
 
         <div id="game-area" class="game-area-container"></div>
 
-        <div id="console" class="game-console">
-            <div id="chat-container" class="console__chat">
-
-                <div id="chat-content" class="chat__content"></div>
-
-                <div class="chat__input-container">
-                    <div class="input-container">
-                        <input type="text" class="input-container__input-field" placeholder="Сообщение" />
-                    </div>
-                    <input type="button" value="Написать" class="chat__send-button" />
-                </div>
-
-            </div>
-            <div id="players-in-room-list" class="console__players-in-room-list"></div>
+        <div class="game__console">
+            <fest:include src="chat/chat.xml"></fest:include>
         </div>
+
     </div>
 
 </fest:template>
