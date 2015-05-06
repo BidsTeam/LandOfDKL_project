@@ -2,12 +2,11 @@ package DAO.logic;
 
 
 import org.hibernate.annotations.GenericGenerator;
-import org.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.HashMap;
+import java.util.Map;
 
 @Entity
 @Table(name="effect")
@@ -18,11 +17,11 @@ public class EffectLogic {
     @NotNull(message = "Описание эффекта не должно быть пустым")
     private String description;
     //todo использовать GSON заранее заготовленную сущность.
-    private JSONObject value;
+    private String value;
 
     public EffectLogic() {}
 
-    public EffectLogic(String name, String description, JSONObject value) {
+    public EffectLogic(String name, String description, String value) {
         this.name = name;
         this.description = description;
         this.value = value;
@@ -45,13 +44,20 @@ public class EffectLogic {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
 
-
-    //todo Когда переделаем на GSON, проблема в несоответствии типов исчезнет
     @Column(name = "value")
-    public String getValue() { return (String)value.getJSONArray("value").get(0); }
-    public void setValue(JSONObject value) { this.value = value; }
+    public String getValue() { return value; }
+    public void setValue(String value) { this.value = value; }
 
 //    @ManyToMany(mappedBy = "cards")
 //    private Set<UserLogic> users = new HashSet<>();
+
+    public Map<String, Object> putAllEffectInformation(){
+        Map<String,Object> result = new HashMap<>();
+        result.put("id",        this.getId());
+        result.put("name",  this.getName());
+        result.put("description", this.getDescription());
+        result.put("value",  this.getValue());
+        return result;
+    }
 }
 

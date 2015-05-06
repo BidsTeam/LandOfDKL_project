@@ -1,19 +1,18 @@
 package app.Api;
 
 
+import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
-import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.MessageList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.HashMap;
-import java.util.List;
 
 public class Test {
     public void test(HttpServletRequest request,
@@ -26,11 +25,11 @@ public class Test {
                 result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                List<EffectLogic> effectList = dbService.getEffectService().getAllEffects();
-                Integer i = 0;
-                for (EffectLogic e : effectList){
-                    body.put(i.toString(),e.toString());
-                    i++;
+                CardLogic card= dbService.getCardService().getCard(8);
+
+                for (EffectLogic e: card.getEffects()){
+                    JSONObject json = new JSONObject(e.getValue());
+                    JSONArray result2 = (JSONArray)json.get("value");
                 }
             }
             result.put("response", body);

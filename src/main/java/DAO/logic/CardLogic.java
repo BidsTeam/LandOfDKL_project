@@ -23,6 +23,9 @@ public class CardLogic {
     @NotNull(message = "Тип карты должен быть задан")
     private String cardType;
 
+    private Set<EffectLogic> effects = new HashSet<>();
+
+
     public CardLogic() {}
 
     public CardLogic(String name, int attack, String cardType) {
@@ -53,6 +56,20 @@ public class CardLogic {
     public String getCardType() { return cardType; }
     public void setCardType(String cardType) { this.cardType = cardType; }
 
-    @ManyToMany(mappedBy = "cards")
-    private Set<UserLogic> users = new HashSet<>();
+    @ManyToMany( fetch = FetchType.EAGER,
+            cascade = { CascadeType.ALL } )
+    @JoinTable(name = "card_effect",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "effect_id")}
+    )
+    public Set<EffectLogic> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(Set<EffectLogic> effects) {
+        this.effects = effects;
+    }
+
+//    @ManyToMany(mappedBy = "cards")
+//    private Set<UserLogic> users = new HashSet<>();
 }

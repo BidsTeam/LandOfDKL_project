@@ -9,9 +9,6 @@ import service.DataBase.DBCardService;
 
 import java.util.List;
 
-/**
- * Created by andreybondar on 14.04.15.
- */
 public class DBCardServiceImpl implements DBCardService {
     CardDAO cardDAO;
 

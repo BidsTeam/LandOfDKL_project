@@ -65,7 +65,8 @@ public class EffectDAOImpl implements EffectDAO {
         List<EffectLogic> effectList = new ArrayList<>();
         try {
             session = sessionFactory.openSession();
-            effectList = session.createQuery("from EffectLogic").list();
+            effectList = session.createCriteria(EffectLogic.class).list();
+//            effectList = session.createQuery("from EffectLogic").list();
         } finally {
             if (session != null && session.isOpen()) {
                 session.close();
