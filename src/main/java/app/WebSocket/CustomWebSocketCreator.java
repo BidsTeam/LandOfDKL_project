@@ -17,11 +17,16 @@ public class CustomWebSocketCreator implements WebSocketCreator {
 
     @Override
     public CustomWebSocket createWebSocket(ServletUpgradeRequest request, ServletUpgradeResponse response) {
-        int sessionID = (request.getSession().getAttribute("id") != null) ? (int)request.getSession().getAttribute("id") : 0;
+        int sessionID = 0;
+        if (request.getSession() != null) {
+            sessionID = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
+        }
         if (sessionID == 0) {
+            System.out.println("popal");
             LogFactory.getInstance().getLogger(this.getClass()).debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
+            System.out.println("create");
             return new CustomWebSocket(sessionID, webSocketService);
         }
     }
