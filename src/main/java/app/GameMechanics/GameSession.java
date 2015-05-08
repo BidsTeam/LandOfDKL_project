@@ -114,7 +114,13 @@ public class GameSession {
             }
             cardCount--;
             if (cardCount == 0) {
-                webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.DRAW);
+                if (firstPlayer.getHealth() < secondPlayer.getHealth()) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.SECOND_WON);
+                } else if (firstPlayer.getHealth() > secondPlayer.getHealth()) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
+                } else {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.DRAW);
+                }
             }
             firstPlayerCard = null;
             secondPlayerCard = null;

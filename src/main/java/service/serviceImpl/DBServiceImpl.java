@@ -12,10 +12,9 @@ public class DBServiceImpl implements DBService {
         private DBUserService userService;
         private DBCardService cardService;
 
-        public DBServiceImpl(SessionFactory sessionFactory){
-            userService = new DBUserServiceImpl(sessionFactory);
-            cardService = new DBCardServiceImpl(sessionFactory);
-
+        public DBServiceImpl(DBUserService userService, DBCardService cardService){
+            this.userService = userService;
+            this.cardService = cardService;
         }
 
         public DBUserService getUserService(){

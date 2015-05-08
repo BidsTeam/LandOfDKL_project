@@ -15,7 +15,9 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.hibernate.SessionFactory;
 import service.DBService;
+import service.DataBase.DataBaseImpl.DBCardServiceImpl;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
 import util.HibernateUtil;
@@ -42,8 +44,8 @@ public class Main {
         mbs.registerMBean(serverStatistics, name);
 
         HibernateUtil hibernateUtil = new HibernateUtil();
-
-        DBService dbService= new DBServiceImpl(hibernateUtil.getSessionFactory());
+        SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
+        DBService dbService = new DBServiceImpl(new DBUserServiceImpl(sessionFactory), new DBCardServiceImpl(sessionFactory));
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         GameFactory.initialize(dbService);
