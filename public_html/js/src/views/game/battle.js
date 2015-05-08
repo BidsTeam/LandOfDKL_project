@@ -59,8 +59,8 @@ define(
             },
 
             onOpponentStep : function(data) {
-                var $opponentCard = $(this.opponentField.find(".card-container")[0]);
-                $opponentCard.detach().appendTo(this.middleField.$el);
+                var opponentCard = this.opponentCardViews.shift();
+                opponentCard.replaceToDOMElem(this.middleField.$el, true);
             },
 
             onMyStep : function() {
@@ -78,7 +78,9 @@ define(
 
             removeCardFromField : function(model) {
                 _.remove(this.cardViews, function(cardView) {
-                    return cardView.model.cid == model.cid;
+                    if (cardView.model.cid == model.cid) {
+                        return true;
+                    }
                 });
             },
 

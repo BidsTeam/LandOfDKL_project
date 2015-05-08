@@ -11,43 +11,6 @@ define(
 
         function onStep(event, ui) {
             var $dragObj = ui.draggable;
-            var $dragObjContainer = $dragObj.parent();
-            var position = $dragObj.position();
-            var newPosition;
-
-            $dragObj.detach().appendTo(this.$el);
-            $dragObjContainer.remove();
-
-            $dragObj.css({
-                position : "relative",
-                top : 0,
-                left : 0
-            });
-
-            newPosition = $dragObj.position();
-
-            $dragObj.css({
-                position : "absolute",
-                top : position.top,
-                left : position.left
-            });
-
-            $dragObj.animate(
-                {
-                    top: newPosition.top,
-                    left: newPosition.left
-                },
-                300,
-                "swing",
-                function() {
-                    $dragObj.css({
-                        position : "relative",
-                        top : 0,
-                        left : 0
-                    });
-                }
-            );
-
             $dragObj.trigger("step");
             this.$el.removeClass("on-card-over");
         }
