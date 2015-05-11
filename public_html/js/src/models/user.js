@@ -14,6 +14,18 @@ define(
 
         var User = Backbone.Model.extend({
 
+            initialize : function() {
+                API.apiRequest("GET", "profile/show", {})
+                    .then(function(msg) {
+                        msg = JSON.parse(msg);
+                        if (msg.status == "200") {
+                            this.set(msg.body);
+                        }
+                    }.bind(this), function(err) {
+                        console.log(err);
+                    });
+            },
+
             sync : function(method, model, params) {
 
                 var methodMap = {
@@ -32,13 +44,16 @@ define(
                     },
 
                     read : function() {
-                       return API.apiRequest("POST", "auth/signin", model.toJSON())
+                        return API.apiRequest("POST", "auth/signin", model.toJSON())
                             .then(function(msg) {
                                msg = JSON.parse(msg);
-                               model.set(msg, {silent : true});
-                               model.unset("password", {silent : true});
+                               if (msg.status == "200") {
+                                   model.set(msg, {silent : true});
+                                   model.unset("password", {silent : true});
+                                   localStorage.setItem("user", JSON.stringify(model.toJSON()));
+                               }
                                return msg;
-                            }, function(err) {
+                           }, function(err) {
                                return err;
                            });
                     },

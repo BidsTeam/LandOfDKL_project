@@ -4,8 +4,9 @@ define(
         "templates/auth_page",
         "routers/page_router",
         "models/user",
-        "views/loading"
-    ], function(pageView, authPageTmpl, router, User, loading) {
+        "views/loading",
+        "api"
+    ], function(pageView, authPageTmpl, router, User, loading, API) {
 
     var authPage = pageView.extend({
 
@@ -31,7 +32,12 @@ define(
             }).then(function(msg) {
                 $(e.target).removeAttr("disabled");
                 loading.clearTimeoutAndCloseIfOpened();
-                router.navigate("game", {trigger: true, replace: true});
+                if (msg.status == 404) {
+                    alert(msg.response.error);
+                    return;
+                } else {
+                    router.navigate("game", {trigger: true, replace: true});
+                }
             }, function(err) {
                 loading.clearTimeoutAndCloseIfOpened();
                 alert("Ошибка");

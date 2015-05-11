@@ -1,37 +1,53 @@
-.card-container {
-  display: inline-block;
-  vertical-align: top;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  &:hover {
-    z-index: 1;
-  }
-}
-
 $card-anim-speed : 0.3s;
-.card-container__card {
-  //  background-image: url("../images/card_background.jpg");
-  border-radius: 6px;
-  font-size: 15px;
-  display: inline-block;
+$upperLength : -50px;
+
+.softAnimate {
   -webkit-transition: $card-anim-speed;
   -moz-transition: $card-anim-speed;
   -ms-transition: $card-anim-speed;
   -o-transition: $card-anim-speed;
   transition: $card-anim-speed;
-  text-align: center;
+}
+
+.inUpperPosition {
+  margin-top: $upperLength;
+}
+
+.card-container {
+  display: inline-block;
+  width: 24%;
+  height: 70%;
+  max-height: 210px;
+  max-width: 150px;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position : relative;
+}
+
+.card-container_in-deck {
+  margin-left: -100px;
+}
+
+.card-container_highlight {
   &:hover {
-    .card__card-info-container {
-      visibility: visible;
-    }
+    margin-top: $upperLength;
   }
 }
 
+.card-container__card {
+  border-radius: 6px;
+  font-size: 15px;
+  display: inline-block;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
 .card__card-info-container {
-  visibility: hidden;
-  display: block;
+  display : none;
   height: 50px;
 }
 
@@ -41,17 +57,15 @@ $card-anim-speed : 0.3s;
   border-radius: 10px;
   display: inline-block;
   text-align: center;
-  padding: 5px 20px;
+  padding: 2px 13px;
 }
 
 .card__image {
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  height: 172px;
-  margin: auto;
-  margin-left : 10px;
-  width: 160px;
+  height: 81%;
+  width: 100%;
   border-radius: 15px;
   &__knight {
     background-image: url("../images/knight.jpg");
@@ -69,9 +83,7 @@ $card-anim-speed : 0.3s;
 
 .card__image__closed {
   background-image: url("../images/closed.jpg");
-  &:hover {
-    box-shadow: none;
-  }
+  border: solid black 3px;
 }
 
 .card__effect {
@@ -92,4 +104,10 @@ $card-anim-speed : 0.3s;
 
 .temp-container {
   display: inline-block;
+  width: 24%;
+  height: 70%;
+  max-height: 210px;
+  max-width: 150px;
+  vertical-align: top;
+  margin-left: -100px;
 }

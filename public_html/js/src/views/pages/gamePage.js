@@ -36,7 +36,8 @@ define(
                         "views/game/battle"
                     ],function(battleModel, battleView) {
                         loading.show();
-                        battleModel.searchBattle();
+                        //battleModel.searchBattle();
+                        battleModel.beginBattle({opponent_name : "opponent"});
                     }
                 );
             },

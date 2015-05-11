@@ -6,8 +6,9 @@ define(
     [
         "backbone",
         "models/socket",
-        "models/game/cardCollection"
-    ], function(Backbone, Socket, cardCollection) {
+        "models/game/cardCollection",
+        "models/user"
+    ], function(Backbone, Socket, cardCollection, User) {
 
 
         function sendAction(cardIndex) {
@@ -36,17 +37,23 @@ define(
             },
 
             beginBattle : function(msg) {
+                this.set({
+                    opponentName : msg.opponent_name,
+                    playerName : User.get("login") || User.get("username")
+                });
 
                 this.trigger("BATTLE_BEGAN");
 
-                this.set({
-                    opponentName : msg.opponent_name
-                });
+                //for (var key in msg.deck) {
+                //    this.cardsInHand.add({cardId : msg.deck[key]});
+                //    this.cardsInOpponentHand.add({cardType : "closed"});
+                //}
 
-                for (var key in msg.deck) {
-                    this.cardsInHand.add({cardId : msg.deck[key]});
+                for (var i = 0; i < 5; i++) {
+                    this.cardsInHand.add({cardId : 8});
                     this.cardsInOpponentHand.add({cardType : "closed"});
                 }
+
             },
 
             searchBattle : function() {

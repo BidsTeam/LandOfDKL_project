@@ -8,13 +8,14 @@ define(
         "jquery-ui",
         "jquery",
         "models/game/card",
-        "templates/card",
-        "templates/card_info"
+        "templates/card/card",
+        "templates/card/card_info"
     ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
 
         function _onStep() {
             this.model.trigger("MY_STEP", this.model);
-            this.replaceToDOMElem($(".middle-field"), true);
+            this.replaceToDOMElem($(".step-place_player"), true);
+            this.$el.removeClass("softAnimate card-container_highlight");
         }
 
         function _onDelete() {
@@ -49,36 +50,48 @@ define(
                 this.$el.on("dblclick", _onStep.bind(this));
                 this.$el.on("delete", _onDelete.bind(this));
 
-                this.$el.draggable({
+                if (options.draggable !== false) {
+                    this.$el.draggable({
 
-                    scroll : false,
+                        scroll : false,
 
-                    start : function(event, ui) {
-                        this.startPosition = this.$el.position();
-                        var $tempContainer = this.$el.wrap("<div class='temp-container'>").parent();
-                        $tempContainer.css({
-                            "min-height" : $tempContainer.height(),
-                            "min-width" : $tempContainer.width(),
-                            padding : 0,
-                            margin : 0
-                        });
-                        this.$el.css($.extend({}, {position : "absolute"}, this.startPosition));
-                    }.bind(this),
+                        start : function(event, ui) {
+                            this.$el.addClass("inUpperPosition");
+                            this.startPosition = this.$el.position();
+                            var $tempContainer = this.$el.wrap("<div class='temp-container'>").parent();
+                            $tempContainer.css({
+                                height : $tempContainer.height(),
+                                width : $tempContainer.width()
+                            });
 
-                    stop : function(event, ui) {
-                        if (this.$el.attr("prepareToDrop") == 0 || this.$el.attr("prepareToDrop") == undefined) {
-                            this.returnToStartPosition();
-                        }
-                    }.bind(this),
+                            this.$el.removeClass("softAnimate").css(
+                                $.extend(
+                                    {},
+                                    {position : "absolute"},
+                                    this.startPosition
+                                )
+                            );
 
-                    drag : function(event, ui) {
-                        ui.position = {
-                            top : ui.position.top + this.startPosition.top,
-                            left : ui.position.left + this.startPosition.left
-                        };
-                    }.bind(this)
+                        }.bind(this),
 
-                });
+                        stop : function(event, ui) {
+                            if (this.$el.attr("prepareToDrop") == 0 || this.$el.attr("prepareToDrop") == undefined) {
+                                this.returnToStartPosition(function() {
+                                    this.$el.addClass("softAnimate");
+                                }.bind(this));
+                            }
+                            this.$el.removeClass("inUpperPosition");
+                        }.bind(this),
+
+                        drag : function(event, ui) {
+                            ui.position = {
+                                top : ui.position.top + this.startPosition.top,
+                                left : ui.position.left + this.startPosition.left
+                            };
+                        }.bind(this)
+
+                    });
+                }
 
             },
 
@@ -89,13 +102,16 @@ define(
                 this.$el.html($cardContentHtml);
             },
 
-            returnToStartPosition : function() {
+            returnToStartPosition : function(callback) {
                 this.replaceToPosition({
                         top : this.startPosition.top,
                         left : this.startPosition.left
                     }, true, function() {
                         this.$el.unwrap();
                         this.$el.css({position : "relative", top : 0, left : 0});
+                        if (callback) {
+                            callback();
+                        }
                     }.bind(this)
                 );
             },

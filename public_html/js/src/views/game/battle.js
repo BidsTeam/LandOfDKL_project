@@ -6,7 +6,7 @@ define(
     [
         "backbone",
         "views/pages/gamePage",
-        "templates/battleField",
+        "templates/battle/battleField",
         "jquery",
         "views/game/middleField",
         "models/game/battle",
@@ -20,8 +20,8 @@ define(
 
             template : battlefieldTmpl,
 
-            playerField : {},
-            opponentField : {},
+            playerDeck : {},
+            opponentDeck : {},
             middleField : {},
 
             cardViews : [],
@@ -45,7 +45,7 @@ define(
             },
 
             render : function() {
-                var $html = $(this.template());
+                var $html = $(this.template(this.model.toJSON()));
                 var $gameArea = $("#game-area");
 
                 this.setElement($html);
@@ -54,13 +54,13 @@ define(
                 this.$(".battlefield-container__field").css("height", $gameArea.height());
 
                 this.middleField = new MiddleField({el : ".middle-field"});
-                this.opponentField = this.$(".opponent-field");
-                this.playerField = this.$(".player-field");
+                this.opponentDeck = this.$(".opponent-deck");
+                this.playerDeck = this.$(".player-deck");
             },
 
             onOpponentStep : function(data) {
                 var opponentCard = this.opponentCardViews.shift();
-                opponentCard.replaceToDOMElem(this.middleField.$el, true);
+                opponentCard.replaceToDOMElem(this.middleField.$(".step-place_opponent"), true);
             },
 
             onMyStep : function() {
@@ -87,14 +87,14 @@ define(
             addCardToHand : function(model) {
                 var newCard = new CardViewClass({model : model});
                 this.cardViews.push(newCard);
-                this.playerField.append(newCard.$el);
+                this.playerDeck.append(newCard.$el);
             },
 
             addCardToOpponentHand : function(model) {
-                var newCard = new CardViewClass({model : model});
-                newCard.$el.draggable("disable");
+                var newCard = new CardViewClass({model : model, draggable : false});
+                newCard.$el.removeClass("card-container_highlight"); //todo вынести отсюда
                 this.opponentCardViews.push(newCard);
-                this.opponentField.append(newCard.$el);
+                this.opponentDeck.append(newCard.$el);
             },
 
             onEndBattle : function(result) {
@@ -109,8 +109,8 @@ define(
             clear : function() {
                 this.cardViews = [];
                 this.opponentCardViews = [];
-                this.playerField = {};
-                this.opponentField = {};
+                this.playerDeck = {};
+                this.opponentDeck = {};
                 this.middleField = {};
                 this.$el.remove();
             }

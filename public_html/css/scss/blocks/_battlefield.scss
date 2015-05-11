@@ -21,5 +21,11 @@
 }
 
 .player-field, .opponent-field {
-  overflow-y: scroll;
+  overflow-y: auto;
+}
+
+.step-place {
+  display : inline-block;
+  height: 50%;
+  width: 100%;
 }
