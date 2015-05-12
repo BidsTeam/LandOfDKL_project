@@ -235,7 +235,8 @@
 .step-place {
   display: inline-block;
   height: 50%;
-  width: 100%; }
+  width: 100%;
+  text-align: center; }
 
 .best-players-list {
   display: inline-block;

@@ -44,13 +44,8 @@ define(
 
                 this.trigger("BATTLE_BEGAN");
 
-                //for (var key in msg.deck) {
-                //    this.cardsInHand.add({cardId : msg.deck[key]});
-                //    this.cardsInOpponentHand.add({cardType : "closed"});
-                //}
-
-                for (var i = 0; i < 5; i++) {
-                    this.cardsInHand.add({cardId : 8});
+                for (var key in msg.deck) {
+                    this.cardsInHand.add({cardId : msg.deck[key]});
                     this.cardsInOpponentHand.add({cardType : "closed"});
                 }
 

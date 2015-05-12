@@ -126,6 +126,11 @@ define(
             },
 
             replaceToDOMElem : function($elemTo, isAnimate, callback) {
+                var hasSoftAnimate;
+                if (this.$el.hasClass("softAnimate")) {
+                    this.$el.removeClass("softAnimate");
+                    hasSoftAnimate = true;
+                }
                 if (isAnimate) {
                     var position = this.$el.position();
 
@@ -153,6 +158,9 @@ define(
                                 left : 0
                             });
                             if (callback) {
+                                if (hasSoftAnimate) {
+                                    this.$el.addClass("softAnimate");
+                                }
                                 callback();
                             }
                         }.bind(this)
@@ -160,6 +168,9 @@ define(
 
                 } else {
                     _unwrapAndReplace(this.$el, $elemTo);
+                    if (hasSoftAnimate) {
+                        this.$el.addClass("softAnimate");
+                    }
                 }
             }
         });

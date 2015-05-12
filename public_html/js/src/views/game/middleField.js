@@ -38,7 +38,7 @@ define(
 
             clear : function() {
                 this.$(".card-container").trigger("delete");
-                this.$el.html("");
+                this.$(".step-place").html("");
             }
 
         });
