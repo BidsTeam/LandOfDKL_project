@@ -8,12 +8,12 @@ define(
         "jquery-ui",
         "jquery",
         "models/game/card",
-        "templates/card"
-    ], function(Backbone, Ui, $, CardModel, CardTemplate) {
+        "templates/card",
+        "templates/card_info"
+    ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
 
         return Backbone.View.extend({
 
-            template : CardTemplate,
             type : "",
             placePosition : {},
 
@@ -21,43 +21,76 @@ define(
                 var $htmlEl;
 
                 if (!options.model) {
-                    this.model = new CardModel({type : options.type});
+                    this.model = new CardModel({cardId : options.cardId});
                 }
-                this.type = this.model.get("type");
+                this.model.bind("change", this.update, this);
+                this.type = this.model.get("cardType");
 
-                $htmlEl = $(CardTemplate({
-                    type : this.type,
-                    title : this.model.get("title"),
-                    effect : this.model.get("effect"),
-                    description : this.model.get("description")
-                }));
+                $htmlEl = $(CardTemplate(
+                    this.model.toJSON()
+                ));
 
                 this.setElement($htmlEl);
 
                 this.$el.on("step", function(e) {
-                    this.model.trigger("step");
+                    this.model.trigger("MY_STEP", this.model);
+                    this.$el.draggable("disable");
+                }.bind(this));
+
+                this.$el.on("delete", function(e) {
+                    this.model.trigger("delete", this.model);
                 }.bind(this));
 
                 this.$el.draggable({
 
-                    containment : "#game-area",
+                    scroll : false,
 
                     start : function(event, ui) {
-                        this.placePosition = ui.helper.position();
+                        var $elem = ui.helper;
+
+                        this.placePosition = $elem.position();
+
+                        $tempContainer = $elem.wrap("<div class='temp-container'>").parent();
+                        $tempContainer.css({
+                            "min-height" : $tempContainer.height(),
+                            "min-width" : $tempContainer.width(),
+                            padding : 0,
+                            margin : 0
+                        });
+
+                        $elem.css($.extend({}, {position : "absolute"}, this.placePosition));
                     }.bind(this),
 
                     stop : function(event, ui) {
                         var $elem = ui.helper;
                         if ($elem.attr("prepareToDrop") == 0 || $elem.attr("prepareToDrop") == undefined) {
-                            $elem.css("position", "absolute");
                             $elem.animate({
                                 top : this.placePosition.top,
                                 left : this.placePosition.left
-                            }, "fast");
+                            }, "fast", function() {
+                                $elem.unwrap();
+                                $elem.css({position : "relative", top : 0, left : 0});
+                            });
                         }
+                    }.bind(this),
+
+                    drag : function(event, ui) {
+                        ui.position = {
+                            top : ui.position.top + this.placePosition.top,
+                            left : ui.position.left + this.placePosition.left
+                        };
                     }.bind(this)
 
                 });
+            },
+
+            update : function() {
+                $htmlEl = $(CardInfo(
+                    this.model.toJSON()
+                ));
+
+                this.$el.html($htmlEl);
+                this.$el.attr("cardType", this.model.get("cardType"));
             }
         });
     }

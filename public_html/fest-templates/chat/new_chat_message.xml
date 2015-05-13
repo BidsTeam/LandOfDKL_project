@@ -18,7 +18,7 @@
     </fest:script>
 
     <p class="chat-message chat-message__{msg.access}">
-        <span class="chat-message__author-name"><fest:value>msg.author</fest:value></span> <span class="chat-message__message-time"> <fest:value>time</fest:value> </span> :
+        <span class="author-name"><fest:value>msg.author</fest:value></span> <span class="chat-message__message-time"> <fest:value>time</fest:value> </span> :
         <span class="chat-message__message"><fest:value>msg.message</fest:value></span>
     </p>
 

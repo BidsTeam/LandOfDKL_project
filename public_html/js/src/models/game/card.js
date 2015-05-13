@@ -9,53 +9,43 @@ define(
     ],
     function(Backbone, _) {
 
-        var Card = function(options) {
-            this.type = options.type;
-            this.title = options.title;
-            this.description = options.description;
-            this.effect = options.effect;
-        };
-
-        var CARDS_DEFAULTS = {
-            knight : new Card({
-                type : "knight",
-                title : "Рыцарь",
-                description : "Что то делает",
-                effect : "Благодать"
-            }),
-            princess : new Card({
-                type : "princess",
-                title : "Принцесса",
-                description : "Что то делает",
-                effect : "Убийственная красота"
-            }),
-            dragon : new Card({
-                type : "dragon",
-                title : "Дракон",
-                description : "Что то делает",
-                effect : "Адский огонь"
-            })
-        };
 
         return Backbone.Model.extend({
 
             initialize : function(attrs) {
-                
-                var card;
-                var cardType = attrs.type || "";
+                var setObj = {};
 
-                this.bind("step", function(){
-                    this.trigger("moveOnField", this);
-                }, this);
+                if (attrs.cardId) {
+                    var cardTypes = JSON.parse(localStorage.getItem("cards"));
+                    var card = _.find(cardTypes, function(card) {
+                        return card.id == attrs.cardId;
+                    });
+                    for (var key in card) {
+                        setObj[key] = card[key];
+                    }
+                    this.set(setObj);
 
+                } else {
 
-                if (!cardType || !_.has(CARDS_DEFAULTS, cardType)) {
-                    return;
+                    for (var key in attrs) {
+                        setObj[key] = attrs[key];
+                        this.set(setObj);
+                    }
+
                 }
-                card = _.cloneDeep(CARDS_DEFAULTS[cardType]);
+            },
+
+            updateById : function(id) {
+                var setObj = {};
+                var cardTypes = JSON.parse(localStorage.getItem("cards"));
+                var card = _.find(cardTypes, function(card) {
+                    return card.id == id;
+                });
+
                 for (var key in card) {
-                    this.set(key, card[key]);
+                    setObj[key] = card[key];
                 }
+                this.set(setObj);
             }
         });
     }

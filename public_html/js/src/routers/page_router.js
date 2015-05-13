@@ -1,13 +1,15 @@
 define(
     [
         "backbone",
-        "models/User",
-        "views/backgroundVideo"
+        "models/user",
+        "views/backgroundVideo",
+        "views/loading"
     ],
     function(
         Backbone,
         User,
-        backgroundVideoView
+        backgroundVideoView,
+        loading
     ) {
         Router = Backbone.Router.extend({
 
@@ -21,7 +23,6 @@ define(
             },
 
             initialize : function() {
-                User.bind("logout", this.mainPageInit, this);
             },
 
             mainPageInit : function() {
@@ -31,9 +32,20 @@ define(
             },
 
             gamePageInit : function() {
-                require(['views/pages/gamePage'], function(gamePageView) {
-                    gamePageView.go();
-                });
+                var _this = this;
+                loading.show();
+                User.isAuth()
+                    .then(function(msg) {
+                        msg = JSON.parse(msg); //todo убрать когда на сервере сделают норм
+                        if (msg.isAuth) {
+                            require(['views/pages/gamePage'], function(gamePageView) {
+                                gamePageView.go();
+                            });
+                        } else {
+                            _this.navigate("auth", {trigger : true, replace : true});
+                        }
+                        loading.hide();
+                    });
             },
 
             authPageInit : function() {

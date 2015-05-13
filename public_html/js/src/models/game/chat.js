@@ -5,7 +5,7 @@
 define(
     [
         "backbone",
-        "models/sockets/socket"
+        "models/socket"
     ],
     function(Backbone, Socket) {
 
@@ -16,22 +16,24 @@ define(
                 Socket.bind("private_message", this.receivePrivateMessage, this);
             },
 
-            sendPublic : function(msg) {
+            send : function(msg) {
+                var data;
                 if( msg.length == 0 ) {
                     return;
                 }
-
-                var data = {action : "publicMessage", message : msg};
+                if (this.has("receiver")) {
+                    var receiver = this.get("receiver");
+                    data =  {action : "privateMessage", message : msg, receiverName : receiver};
+                    this.trigger("SEND_PRIVATE", data);
+                    this.unset("receiver");
+                } else {
+                    data = {action : "publicMessage", message : msg};
+                }
                 Socket.send(JSON.stringify(data));
             },
 
-            sendPrivate : function(msg, receiver) {
-                if( msg.length == 0 ) {
-                    return;
-                }
-
-                var data = {action : "privateMessage", message : msg, receiverName : receiver};
-                Socket.send(JSON.stringify(data));
+            setReceiverForPrivate : function(receiver) {
+                this.set({receiver : receiver});
             },
 
             receivePublicMessage : function(msg) {

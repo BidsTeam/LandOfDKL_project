@@ -5,7 +5,6 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
-import javax.smartcardio.Card;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
@@ -128,7 +127,6 @@ public class UserLogic {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "card_id")}
     )
-
     public Set<CardLogic> getCards() {
         return cards;
     }
@@ -162,14 +160,14 @@ public class UserLogic {
         return result;
     }
 
-    public static Map<String, Object> putAllUserInformation(UserLogic user){
+    public Map<String, Object> putAllUserInformation(){
         Map<String,Object> result = new HashMap<>();
-        result.put("id",        user.getId());
-        result.put("username",  user.getUsername());
-        result.put("registration", user.getRegistration().getTime());
-        result.put("is_admin",  user.isAdmin());
-        result.put("email",     user.getEmail());
-        result.put("level",     user.getLevel());
+        result.put("id",        this.getId());
+        result.put("username",  this.getUsername());
+        result.put("registration", this.getRegistration().getTime());
+        result.put("is_admin",  this.isAdmin());
+        result.put("email",     this.getEmail());
+        result.put("level",     this.getLevel());
         return result;
     }
 }

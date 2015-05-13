@@ -10,9 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Created by andreybondar on 04.04.15.
- */
+
 
 @Entity
 @Table(name="card")
@@ -20,17 +18,18 @@ public class CardLogic {
     private int id;
     @NotNull(message = "Имя карты должно быть задано")
     private String name;
-    private String effect;
     @NotNull(message = "Атака должна быть задана")
     private int attack;
     @NotNull(message = "Тип карты должен быть задан")
     private String cardType;
 
+    private Set<EffectLogic> effects = new HashSet<>();
+
+
     public CardLogic() {}
 
-    public CardLogic(String name, String effect, int attack, String cardType) {
+    public CardLogic(String name, int attack, String cardType) {
         this.name = name;
-        this.effect = effect;
         this.attack = attack;
         this.cardType = cardType;
     }
@@ -48,9 +47,6 @@ public class CardLogic {
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
 
-    @Column(name = "effect")
-    public String getEffect() { return effect; }
-    public void setEffect(String effect) { this.effect = effect; }
 
     @Column(name = "attack")
     public int getAttack() { return attack; }
@@ -60,6 +56,20 @@ public class CardLogic {
     public String getCardType() { return cardType; }
     public void setCardType(String cardType) { this.cardType = cardType; }
 
-    @ManyToMany(mappedBy = "cards")
-    private Set<UserLogic> users = new HashSet<>();
+    @ManyToMany( fetch = FetchType.EAGER,
+            cascade = { CascadeType.ALL } )
+    @JoinTable(name = "card_effect",
+            joinColumns = {@JoinColumn(name = "card_id")},
+            inverseJoinColumns = {@JoinColumn(name = "effect_id")}
+    )
+    public Set<EffectLogic> getEffects() {
+        return effects;
+    }
+
+    public void setEffects(Set<EffectLogic> effects) {
+        this.effects = effects;
+    }
+
+//    @ManyToMany(mappedBy = "cards")
+//    private Set<UserLogic> users = new HashSet<>();
 }

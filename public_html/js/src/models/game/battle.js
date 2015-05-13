@@ -1,79 +1,52 @@
-/**
+  /**
  * Created by rikimaru on 11.04.15.
  */
 
 define(
     [
         "backbone",
-        "models/sockets/socket",
+        "models/socket",
         "models/game/cardCollection"
     ], function(Backbone, Socket, cardCollection) {
 
 
-        /**
-            Possible states:
-            - THINKING (string)
-            - WAITING_FOR_OPPONENT (string)
-            - LOOK_FOR_RESULT (string)
-            - WAITING_FOR_YOUR_STEP (string)
-        */
-        function updateState(state) {
-            battleModel.set({state : state});
-        }
-
-        function sendAction(cardModel) {
+        function sendAction(cardIndex) {
             var request = JSON.stringify({
                 action : "gameAction",
-                gameAction : "setAction",
-                chosen_action : cardModel.get("type")
+                gameAction : "setCard",
+                chosenCard : cardIndex
             });
             Socket.send(request);
         }
 
-        var battleModel = new (Backbone.Model.extend({
+        return new (Backbone.Model.extend({
 
-            defaults : {
-                state : "THINKING",
-                opponentName : "",
-                currentCard : {} // Card Model
-            },
-
-            cardDeck : new cardCollection(),
             cardsInHand : new cardCollection(),
-            cardsInField : new cardCollection(),
+            cardsInOpponentHand : new cardCollection(),
 
-            initialize : function(options) {
-                Socket.bind("game_action_set", this.update, this);
-                Socket.bind("game_action_reveal", this.update, this);
+            nextStepTimerId : 0,
+
+            initialize : function() {
+                Socket.bind("game_action_set", this.setOpponentCard, this);
+                Socket.bind("gameCardsReveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);
-
-                this.cardDeck.bind("moveOnField", function(model) {
-                    this.cardDeck.remove(model);
-                    this.cardsInField.add(model);
-                }, this);
-
-                this.cardDeck.bind("remove", function(model) {
-                }, this);
+                Socket.bind("game_over", this.endBattle, this);
+                this.cardsInHand.bind("MY_STEP", this.myStep, this);
+                this.cardsInHand.bind("delete", this.removeCard, this);
             },
 
             beginBattle : function(msg) {
+
+                this.trigger("BATTLE_BEGAN");
 
                 this.set({
                     opponentName : msg.opponent_name
                 });
 
-                // Добавление тестовых карт
-                this.cardDeck.add([
-                    {type : "knight"},
-                    {type : "princess"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"},
-                    {type : "dragon"}
-                ]);
-
-                this.trigger("BATTLE_BEGAN");
+                for (var key in msg.deck) {
+                    this.cardsInHand.add({cardId : msg.deck[key]});
+                    this.cardsInOpponentHand.add({cardType : "closed"});
+                }
             },
 
             searchBattle : function() {
@@ -83,33 +56,42 @@ define(
                 Socket.send(request);
             },
 
-            step : function(cardModel) {
-                this.set({currentCard : cardModel});
-                //sendAction(cardModel);
-                updateState("WAITING_FOR_OPPONENT");
+            setOpponentCard : function(data) {
+                var isPlayerStep = data.isSetter;
+                if (!isPlayerStep) {
+                    this.trigger("OPPONENT_STEP");
+                }
             },
 
-            update : function(msg) {
+            revealCards : function(data) {
+                var opponentCard = this.cardsInOpponentHand.shift();
+                opponentCard.updateById(data.opponentCard);
+                //this.nextStepTimerId = setTimeout(this.nextStep.bind(this), 2000);
+            },
 
-                switch (msg.action) {
+            nextStep : function() {
+                this.trigger("NEXT_STEP");
+            },
 
-                    case "game_action_set" :
-                        if (msg.is_setter) {
-                            this.cardDeck.remove(this.get("currentCard"));
-                            updateState("WAITING_FOR_OPPONENT");
-                        } else {
-                            updateState("WAITING_FOR_YOUR_STEP");
-                        }
-                        break;
+            endBattle : function(msg) {
+                clearTimeout(this.nextStepTimerId);
+                this.cardsInHand.reset();
+                this.cardsInOpponentHand.reset();
+                this.trigger("END_BATTLE", Number(msg.gameResult));
+            },
 
-                    case "game_action_reveal" :
-                        updateState("LOOK_FOR_RESULT");
-                        break;
-                }
+            removeCard : function(model) {
+                this.trigger("REMOVE_CARD", model);
+            },
+
+            myStep : function(cardModel) {
+                this.trigger("MY_STEP");
+                var indexOfCard = _.findIndex(this.cardsInHand.models, function(card) {
+                    return cardModel.cid == card.cid;
+                });
+                sendAction(indexOfCard);
             }
 
         }))();
-
-        return battleModel;
     }
 );

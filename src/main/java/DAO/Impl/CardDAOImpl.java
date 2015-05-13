@@ -16,9 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-/**
- * Created by andreybondar on 11.04.15.
- */
+
 public class CardDAOImpl implements CardDAO {
 
     private SessionFactory sessionFactory;
@@ -37,7 +35,7 @@ public class CardDAOImpl implements CardDAO {
             session.close();
         } finally {
             if (session != null && session.isOpen()) {
-                session.close(); // close автоматически делает transaction ROLLBACK
+                session.close();
             }
         }
     }
