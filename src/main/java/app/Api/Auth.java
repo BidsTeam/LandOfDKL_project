@@ -149,13 +149,8 @@ public class Auth {
         JSONObject json = new JSONObject();
         try {
             int id = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
-            if (id != 0) {
-                json.put("status", 200);
-                json.put("isAuth", true);
-            } else {
-                json.put("status", 200);
-                json.put("isAuth", false);
-            }
+            json.put("status", 200);
+            json.put("isAuth", (id != 0) );
             response.getWriter().println(json.toString());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
