@@ -45,7 +45,7 @@ public class Main {
 
         HibernateUtil hibernateUtil = new HibernateUtil();
         SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
-        DBService dbService = new DBServiceImpl(new DBUserServiceImpl(sessionFactory), new DBCardServiceImpl(sessionFactory));
+        DBService dbService = new DBServiceImpl(sessionFactory);
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
         GameFactory.initialize(dbService);

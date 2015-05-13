@@ -23,7 +23,7 @@ public class User {
 
     HibernateUtil hibernateUtil = new HibernateUtil();
     SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
-    DBService dbService = new DBServiceImpl(new DBUserServiceImpl(sessionFactory), new DBCardServiceImpl(sessionFactory));
+    DBService dbService = new DBServiceImpl(sessionFactory);
 
     @Test
     public void testGetUserByIdCorrect() throws Exception {
