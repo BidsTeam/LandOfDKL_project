@@ -1,0 +1,25 @@
+.battlefield-container {
+  height: auto;
+  display: block;
+}
+
+.battlefield-container__field {
+  display: inline-block;
+  width: 33.1%;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-left: 2px;
+  float: left;
+  font-size: 0px;
+}
+
+.middle-field.underlight {
+  background-color: #3c763d;
+}
+
+.middle-field.underlight.on-card-over {
+  background-color: #426943;
+}
+
+.player-field, .opponent-field {
+  overflow-y: scroll;
+}

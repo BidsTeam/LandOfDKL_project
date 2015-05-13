@@ -24,10 +24,10 @@ define(
             el : ".bgndVideo",
 
             initialize : function(options) {
-                this.$el.YTPlayer();
+                //this.$el.YTPlayer();
 
-                loadingView.show();
-                setTimeout(loadingView.hide.bind(loadingView), 3000);
+                //loadingView.show();
+                //setTimeout(loadingView.hide.bind(loadingView), 3000); todo:  Fix loader screen and uncomment
 
                 Paginator.bind("CHANGE_PAGE", this.toggleVideo, this);
             },

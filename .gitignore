@@ -8,3 +8,6 @@ npm-debug.log
 public_html/css/main.css
 public_html/css/main.css.map
 LandOfDKL.jar
+public_html/js/src/templates
+public_html/js/src/templates/
+public_html/js/src/templates/*

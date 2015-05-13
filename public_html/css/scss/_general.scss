@@ -1,0 +1,168 @@
+p {
+  margin: 0px;
+}
+
+.hide{
+  display:none;
+}
+
+.error {
+  display: block;
+}
+
+.loader-screen {
+  display: table;
+  position: absolute;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0px;
+}
+
+.app {
+  position: relative;
+}
+
+.loader-screen__indicator-container {
+  vertical-align: middle;
+  margin: auto auto;
+  display: table-cell;
+}
+
+.bgndVideo {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+  background: none !important;
+}
+
+.background-video-overlayer {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px;
+}
+
+.ajax-loader-indicator {
+  margin: 10px;
+}
+
+*[data-role=page] {
+  display: none;
+}
+
+*[data-role=page].active {
+  display: block;
+}
+
+a.underline {
+  text-decoration: underline;
+}
+
+.menu-container {
+  text-align: center;
+}
+
+.menu-container__menu {
+  display: inline-block;
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.menu__menu-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.menu__button-container {
+
+}
+
+.menu__button {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.menu-name {
+  font-size: 20px;
+  margin-bottom: 13px;
+}
+.menu-button-container {
+  display: block;
+}
+
+.menu-container {
+  margin-top: 50px;
+}
+
+.menu__auth-form {
+}
+
+.form-group__button-container {
+  margin-top: 30px;
+}
+
+.nav-menu-container {
+  text-align: center;
+}
+
+.nav-menu-container__nav-menu {
+}
+
+.nav-menu__button-container {
+  display: inline-block;
+}
+
+.nav-menu__button {
+  padding: 10px;
+}
+
+.menu-header {
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  border: solid black 1px;
+}
+
+.menu__form {
+  text-align: center;
+}
+
+.menu-form__fields-container {
+  margin-left: -100px;
+}
+
+.signup-form__form-group {
+  text-align: center;
+}
+
+.menu-form__field-name {
+  width: 200px;
+  text-align: right;
+}
+
+.menu-form__field {
+  display: inline-block;
+  width: 300px;
+}
+
+.border {
+  &-top, &-bottom {
+    display: block;
+    width: 100%;
+  }
+  &-left, &-right {
+    display: inline-block;
+    height: 100%;
+    & + *, * + & {
+      vertical-align: top;
+    }
+  }
+}

@@ -1,3 +1,229 @@
+.card-container {
+  display: inline-block;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+  .card-container:hover {
+    z-index: 1; }
+
+.card-container__card {
+  border-radius: 6px;
+  font-size: 15px;
+  display: inline-block;
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s;
+  text-align: center; }
+  .card-container__card:hover .card__card-info-container {
+    visibility: visible; }
+
+.card__card-info-container {
+  visibility: hidden;
+  display: block;
+  height: 50px; }
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  padding: 5px 20px; }
+
+.card__image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 172px;
+  margin: auto;
+  margin-left: 10px;
+  width: 160px;
+  border-radius: 15px; }
+  .card__image__knight {
+    background-image: url("../images/knight.jpg"); }
+  .card__image__lady {
+    background-image: url("../images/princess.jpg"); }
+  .card__image__dragon {
+    background-image: url("../images/dragon.jpg"); }
+  .card__image:hover {
+    box-shadow: 0px 0px 43px -1px yellow; }
+
+.card__image__closed {
+  background-image: url("../images/closed.jpg"); }
+  .card__image__closed:hover {
+    box-shadow: none; }
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center; }
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%; }
+
+.temp-container {
+  display: inline-block; }
+
+.chat {
+  background-image: url("../images/chat_background.gif"); }
+
+.chat__content-container {
+  display: inline-block;
+  width: 80%;
+  height: 100px;
+  word-wrap: break-word; }
+
+.content-container__content {
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  overflow-y: scroll; }
+
+.chat-message {
+  padding-left: 10px; }
+
+.author-name {
+  margin-right: 4px; }
+
+.chat-message__message {
+  margin-left: 10px; }
+
+.chat-message__message-time {
+  color: #0b97c4; }
+
+.chat-message:nth-child(odd) {
+  background-color: #ffffff; }
+
+.chat-message:nth-child(even) {
+  background-color: #e4e4e4; }
+
+.chat-message__private {
+  color: red; }
+
+.chat__send-button {
+  width: 10%;
+  height: 40px;
+  vertical-align: top;
+  background-image: url("../images/button_wood.png");
+  outline: none;
+  border: none;
+  box-shadow: 0px 2px 0px 0px #714305;
+  margin-top: -2px; }
+  .chat__send-button:active {
+    box-shadow: none;
+    position: relative;
+    top: 2px; }
+
+.input-container {
+  display: inline-block;
+  width: 70%;
+  border: solid #000000 1px; }
+
+.input-container__message-to {
+  cursor: pointer;
+  background-color: #941D1D;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 5px; }
+
+.message-to__close-button {
+  border-radius: 50%;
+  background-color: #64593B;
+  font-weight: 500;
+  margin: 3px;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  height: 16px;
+  line-height: 16px;
+  font-size: 15px; }
+  .message-to__close-button:hover {
+    color: #ff0002; }
+
+.input-container__input-field {
+  border: none;
+  margin-left: 10px;
+  background-color: transparent; }
+  .input-container__input-field:focus, .input-container__input-field:active {
+    outline: none; }
+
+.chat__players-in-room-list {
+  border: solid grey 1px;
+  display: inline-block;
+  width: 19.999%;
+  height: 100px;
+  vertical-align: top; }
+
+.border-top_chat, .border-bottom_chat {
+  height: 10px; }
+
+.border-left_chat, .border-right_chat {
+  width: 14px; }
+
+.border-left_chat {
+  background-image: url("../images/chat_content_border_left.gif"); }
+
+.border-right_chat {
+  background-image: url("../images/chat_content_border_right.gif"); }
+
+.input-container_chat {
+  background-image: url("../images/chat_input.gif");
+  height: 40px; }
+
+.input-container__input-field_chat {
+  margin-top: 16px;
+  color: white; }
+
+.game-area-container {
+  height: 600px;
+  background-color: rgba(100, 100, 100, 0.5); }
+
+.game-container {
+  background-image: url(../images/battle_background_2.png); }
+
+.game__console {
+  background-color: white; }
+
+.battlefield-container {
+  height: auto;
+  display: block; }
+
+.battlefield-container__field {
+  display: inline-block;
+  width: 33.1%;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-left: 2px;
+  float: left;
+  font-size: 0px; }
+
+.middle-field.underlight {
+  background-color: #3c763d; }
+
+.middle-field.underlight.on-card-over {
+  background-color: #426943; }
+
+.player-field, .opponent-field {
+  overflow-y: scroll; }
+
+.best-players-list {
+  display: inline-block;
+  text-align: left;
+  width: auto; }
+
+.user-list__common-user {
+  color: #000000; }
+
 p {
   margin: 0px; }
 
@@ -14,7 +240,11 @@ p {
   background-color: rgba(0, 0, 0, 0.5);
   width: 100%;
   height: 100%;
-  visibility: hidden; }
+  visibility: hidden;
+  top: 0px; }
+
+.app {
+  position: relative; }
 
 .loader-screen__indicator-container {
   vertical-align: middle;
@@ -54,7 +284,9 @@ a.underline {
 
 .menu-container__menu {
   display: inline-block;
-  width: 70%; }
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5); }
 
 .menu__menu-name {
   font-size: 20px;
@@ -63,14 +295,6 @@ a.underline {
 .menu__button {
   width: 300px;
   margin-bottom: 10px; }
-
-.logo-container {
-  text-align: center; }
-
-.logo-container__logo {
-  width: 700px;
-  height: 200px;
-  display: none; }
 
 .menu-name {
   font-size: 20px;
@@ -93,32 +317,6 @@ a.underline {
 
 .nav-menu__button {
   padding: 10px; }
-
-.game-area-container {
-  height: 600px;
-  background-color: #69b5b4; }
-
-.console__chat {
-  float: left;
-  display: inline-block;
-  width: 80%; }
-
-.chat__content {
-  float: left;
-  width: 100%;
-  height: 100px;
-  overflow-y: auto;
-  word-wrap: break-word;
-  border: solid grey 1px; }
-
-.chat__input-container {
-  display: inline-block; }
-
-.console__players-in-room-list {
-  border: solid grey 1px;
-  display: inline-block;
-  width: 19.999%;
-  height: 100px; }
 
 .menu-header {
   text-align: center;
@@ -143,104 +341,13 @@ a.underline {
   display: inline-block;
   width: 300px; }
 
-.best-players-list {
-  display: inline-block;
-  text-align: left;
-  width: auto; }
-
-.chat-message {
-  padding-left: 10px; }
-
-.chat-message__author-name {
-  margin-right: 4px; }
-
-.chat-message__message {
-  margin-left: 10px; }
-
-.chat-message__message-time {
-  color: #0b97c4; }
-
-.chat-message:nth-child(odd) {
-  background-color: #ffffff; }
-
-.chat-message:nth-child(even) {
-  background-color: #e4e4e4; }
-
-.chat-message__private {
-  color: red; }
-
-.user-list__common-user {
-  color: #000000; }
-
-.card-container {
-  display: inline-block;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-  .card-container:hover {
-    z-index: 1; }
-
-.card-container__card {
-  border-radius: 6px;
-  display: inline-block;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s;
-  text-align: center; }
-
-.card__header {
-  background-image: url("../images/card_title.jpg");
-  border: solid black 1px;
-  border-radius: 10px;
-  display: inline-block;
-  text-align: center;
-  padding: 5px 20px; }
-
-.card__image {
-  background-repeat: no-repeat;
-  background-size: cover;
+.border-top, .border-bottom {
   display: block;
-  height: 172px;
-  margin: auto;
-  width: 160px;
-  border-radius: 50%; }
-  .card__image__knight {
-    background-image: url("../images/knight.jpg"); }
-  .card__image__princess {
-    background-image: url("../images/princess.jpg"); }
-  .card__image__dragon {
-    background-image: url("../images/dragon.jpg"); }
-  .card__image:hover {
-    box-shadow: 0px 0px 43px -1px yellow; }
-
-.card__effect {
-  background-image: url("../images/card_title.jpg");
-  border: solid black 1px;
-  border-radius: 10px;
-  display: block;
-  text-align: center; }
-
-.card__description {
-  background-image: url("../images/card_description_background.jpg");
-  display: block;
-  height: 160px;
-  margin: 3px auto;
-  width: 94%; }
-
-.battlefield-container__field {
+  width: 100%; }
+.border-left, .border-right {
   display: inline-block;
-  width: 33%;
-  background-color: rgba(0, 0, 0, 0.5);
-  margin-left: 2px;
-  float: left; }
-
-.middle-field.underlight {
-  background-color: #3c763d; }
-
-.middle-field.underlight.on-card-over {
-  background-color: #426943; }
+  height: 100%; }
+  .border-left + *, * + .border-left, .border-right + *, * + .border-right {
+    vertical-align: top; }
 
 /*# sourceMappingURL=main.css.map */

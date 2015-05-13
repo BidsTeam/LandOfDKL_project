@@ -2,9 +2,7 @@
 
     <fest:for iterate="userList" index="i" value="username">
         <p class="user-list__common-user">
-
-            <span class="chat-message__author-name"><fest:value>username</fest:value></span>
-
+            <span class="author-name"><fest:value>username</fest:value></span>
         </p>
     </fest:for>
 
