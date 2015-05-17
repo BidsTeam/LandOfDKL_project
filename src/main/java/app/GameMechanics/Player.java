@@ -20,7 +20,7 @@ public class Player {
     private String username;
     private int userID;
     private int health;
-    private final int MAX_HEALTH = 30;
+    private final int MAX_HEALTH = 20;
     private List<Integer> deck;
     //private AccountMap cache = AccountMap.getInstance();
 

@@ -2,7 +2,6 @@ package app.Api;
 
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
-import com.google.gson.Gson;
 import service.DBService;
 import util.LogFactory;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 public class User {
@@ -27,7 +25,7 @@ public class User {
             }
             List<UserLogic> userList = dbService.getUserService().getAllUserRating(count);
             for (UserLogic user : userList) {
-                body.put(user.getId(), UserLogic.putAllUserInformation(user));
+                body.put(user.getId(), user.putAllUserInformation());
             }
             response.setStatus(HttpServletResponse.SC_OK);
             result.put("status", 200);

@@ -4,9 +4,9 @@
 <hibernate-configuration>
     <session-factory>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="connection.url">jdbc:mysql://localhost/DKLDB</property>
-        <property name="connection.username">root</property>
-        <property name="connection.password">211200</property>
+        <property name="connection.url">jdbc:mysql://89.188.104.45/land_of_dkl_db</property>
+        <property name="connection.username">land_of_dkl_user</property>
+        <property name="connection.password">V0WTy7TL</property>
         <property name="connection.pool_size">10</property>
         <!-- Возможно потом нужно будет поставить MySQLInnoDBDialect диалект -->
         <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
@@ -24,6 +24,7 @@
 
         <mapping class="DAO.logic.UserLogic" />
         <mapping class="DAO.logic.CardLogic" />
+        <mapping class="DAO.logic.EffectLogic" />
 
     </session-factory>
 </hibernate-configuration>

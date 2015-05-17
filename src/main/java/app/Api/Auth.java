@@ -52,7 +52,7 @@ public class Auth {
                     try {
                         if (dbService.getUserService().addUser(user)) {
                         request.getSession().setAttribute("id", user.getId());
-                        body.putAll(UserLogic.putAllUserInformation(user));
+                        body.putAll(user.putAllUserInformation());
                         result.put("status", 200);
                         response.setStatus(HttpServletResponse.SC_OK);
                         } else {
@@ -99,7 +99,7 @@ public class Auth {
                         response.setStatus(HttpServletResponse.SC_OK);
                     } else {
                         result.put("status", 200);
-                        body.putAll(UserLogic.putAllUserInformation(user));
+                        body.putAll(user.putAllUserInformation());
                         //checkDeck(user.getId(), dbService);
                         request.getSession().setAttribute("id", user.getId());
                         response.setStatus(HttpServletResponse.SC_OK);
@@ -113,7 +113,7 @@ public class Auth {
                     body.put("error", MessageList.Message.WrongSession);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
-                    body.putAll(UserLogic.putAllUserInformation(user));
+                    body.putAll(user.putAllUserInformation());
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }

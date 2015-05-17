@@ -1,11 +1,15 @@
 package app.GameMechanics;
 
 import DAO.logic.CardLogic;
+import DAO.logic.EffectLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.RPS;
+
+import java.util.Set;
 
 public class GameSession {
     private Player firstPlayer;
@@ -100,28 +104,50 @@ public class GameSession {
             RPS.RPSResult result = RPS.Palm.fromString(firstPlayerCard.getCardType())
                     .fight(RPS.Palm.fromString(secondPlayerCard.getCardType()));
             if (result == RPS.RPSResult.FIRST_WON) {
-                if (!secondPlayer.takeDamage(firstPlayerCard.getAttack())) {
-                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
-                } else {
-                    webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
-                }
+                damageCalc(firstPlayer, secondPlayer, firstPlayerCard, secondPlayerCard, result);
             } else if (result == RPS.RPSResult.SECOND_WON) {
-                if (!firstPlayer.takeDamage(secondPlayerCard.getAttack())) {
-                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, result);
-                } else {
-                    webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
-                }
+                damageCalc(secondPlayer, firstPlayer, secondPlayerCard, firstPlayerCard, result);
             }
             cardCount--;
             if (cardCount == 0) {
-                webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.DRAW);
+                if (firstPlayer.getHealth() < secondPlayer.getHealth()) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.SECOND_WON);
+                } else if (firstPlayer.getHealth() > secondPlayer.getHealth()) {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
+                } else {
+                    webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.DRAW);
+                }
             }
             firstPlayerCard = null;
             secondPlayerCard = null;
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("GameMechanics.GameSession/gameActionReveal: Wrong game_action from json! ",e);
         }
+    }
 
+    //todo Не нравится разделение на winner и winnerCard: 1)Лишние почти дублирующие свойства 2) Можно легко перепутать порядок
+    private void damageCalc(Player winner, Player loser, CardLogic winnerCard, CardLogic loserCard, RPS.RPSResult result){
+        int damage = winnerCard.getAttack();
+        damage += effectCalc(winnerCard.getEffects());
+        damage += effectCalc(loserCard.getEffects());
+        System.out.println(damage);
+        if (!loser.takeDamage(damage)){
+            webSocketService.notifyGameOver(winner, loser, result);
+        } else {
+            System.out.println(loser.getHealth());
+            webSocketService.notifyGameState(winner, loser, winner.getHealth(), loser.getHealth());
+        }
+    }
+
+    private int effectCalc(Set<EffectLogic> effectLogicSet){
+        int damage = 0;
+        for (EffectLogic e : effectLogicSet){
+            if (e.getName().equals("poison")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
+                JSONArray buf = (JSONArray)new JSONObject(e.getValue()).get("value");
+                damage = (Integer)buf.get(0);
+            }
+        }
+        return damage;
     }
 
     public void concede(int playerNumber) {
