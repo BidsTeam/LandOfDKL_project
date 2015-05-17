@@ -49,6 +49,14 @@ define(
                     this.cardsInOpponentHand.add({cardType : "closed"});
                 }
 
+                //============ Для тестирования верстки, чтоб каждый раз не искать игру =================
+
+                //for (var i = 0; i<15; i++) {
+                //    this.cardsInHand.add({cardId : 8});
+                //    this.cardsInOpponentHand.add({cardType : "closed"});
+                //}
+
+                //=======================================================================================
             },
 
             searchBattle : function() {

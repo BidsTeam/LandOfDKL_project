@@ -12,6 +12,7 @@ define(
 
     function onEvent(event) {
         var data = JSON.parse(event.data);
+        console.log(data);
         this.trigger(data.action, data);
     }
 

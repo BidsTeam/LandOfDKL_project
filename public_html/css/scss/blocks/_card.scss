@@ -9,16 +9,12 @@ $upperLength : -50px;
   transition: $card-anim-speed;
 }
 
-.inUpperPosition {
+.inDragPosition {
   margin-top: $upperLength;
 }
 
 .card-container {
   display: inline-block;
-  width: 24%;
-  height: 70%;
-  max-height: 210px;
-  max-width: 150px;
   vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -28,7 +24,12 @@ $upperLength : -50px;
 }
 
 .card-container_in-deck {
-  margin-left: -100px;
+  width: 24%;
+  height: 70%;
+}
+
+.card-container_in-deck:not(:first-child) {
+  margin-left: -19%;
 }
 
 .card-container_highlight {
@@ -67,13 +68,13 @@ $upperLength : -50px;
   height: 81%;
   width: 100%;
   border-radius: 15px;
-  &__knight {
+  &_knight {
     background-image: url("../images/knight.jpg");
   }
-  &__lady {
+  &_lady {
     background-image: url("../images/princess.jpg");
   }
-  &__dragon {
+  &_dragon {
     background-image: url("../images/dragon.jpg");
   }
   &:hover {
@@ -81,7 +82,7 @@ $upperLength : -50px;
   }
 }
 
-.card__image__closed {
+.card__image_closed {
   background-image: url("../images/closed.jpg");
   border: solid black 3px;
 }
@@ -106,8 +107,5 @@ $upperLength : -50px;
   display: inline-block;
   width: 24%;
   height: 70%;
-  max-height: 210px;
-  max-width: 150px;
   vertical-align: top;
-  margin-left: -100px;
 }

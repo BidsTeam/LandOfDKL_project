@@ -51,14 +51,14 @@ define(
                 this.setElement($html);
                 $gameArea.html(this.$el);
 
-                this.$(".battlefield-container__field").css("height", $gameArea.height());
+                //this.$(".battlefield-container__field").css("height", $gameArea.height());
 
                 this.middleField = new MiddleField({el : ".middle-field"});
                 this.opponentDeck = this.$(".opponent-deck");
                 this.playerDeck = this.$(".player-deck");
             },
 
-            onOpponentStep : function(data) {
+            onOpponentStep : function() {
                 var opponentCard = this.opponentCardViews.shift();
                 opponentCard.replaceToDOMElem(this.middleField.$(".step-place_opponent"), true);
             },
@@ -88,6 +88,10 @@ define(
                 var newCard = new CardViewClass({model : model});
                 this.cardViews.push(newCard);
                 this.playerDeck.append(newCard.$el);
+                newCard.$el.css({
+                    height : newCard.$el.height(),
+                    width : newCard.$el.width()
+                });
             },
 
             addCardToOpponentHand : function(model) {
@@ -95,6 +99,10 @@ define(
                 newCard.$el.removeClass("card-container_highlight"); //todo вынести отсюда
                 this.opponentCardViews.push(newCard);
                 this.opponentDeck.append(newCard.$el);
+                newCard.$el.css({
+                    height : newCard.$el.height(),
+                    width : newCard.$el.width()
+                });
             },
 
             onEndBattle : function(result) {

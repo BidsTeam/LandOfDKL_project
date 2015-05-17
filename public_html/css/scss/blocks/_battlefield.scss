@@ -1,11 +1,12 @@
 .battlefield-container {
-  height: auto;
+  height: 100%;
   display: block;
 }
 
 .battlefield-container__field {
   display: inline-block;
-  width: 33.1%;
+  width: 33%;
+  height: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   margin-left: 2px;
   float: left;
@@ -21,7 +22,7 @@
 }
 
 .player-field, .opponent-field {
-  overflow-y: auto;
+  overflow: hidden;
 }
 
 .step-place {
@@ -29,4 +30,5 @@
   height: 50%;
   width: 100%;
   text-align: center;
+  padding-top: 7%;
 }

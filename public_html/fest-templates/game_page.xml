@@ -1,12 +1,8 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
     <div data-role="page" id="game-page" class="game-container">
-        <div class="nav-menu-container">
-            <div class="nav_menu-container__nav-menu">
-                <div class="nav-menu__button-container"><a action="findGame" class="btn btn-large btn-primary nav-menu__button"> <span>Найти игру</span> </a> </div>
-                <div class="nav-menu__button-container"><a action="logout" class="btn btn-large btn-primary nav-menu__button"> <span>Выйти</span> </a> </div>
-            </div>
-        </div>
+
+        <fest:include src="gameMenu/top_game_menu.xml"></fest:include>
 
         <div id="game-area" class="game-area-container"></div>
 

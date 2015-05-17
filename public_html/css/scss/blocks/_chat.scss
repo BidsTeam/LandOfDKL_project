@@ -1,11 +1,12 @@
 .chat {
+  height: 100%;
   background-image: url("../images/chat_background.gif");
 }
 
 .chat__content-container {
   display: inline-block;
   width: 80%;
-  height: 100px;
+  height: 80%;
   word-wrap: break-word;
 }
 
@@ -48,7 +49,7 @@
 $shadow-size : 2px;
 .chat__send-button {
   width: 10%;
-  height: 40px;
+  height: 20%;
   vertical-align: top;
   background-image : url("../images/button_wood.png");
   outline: none;
@@ -65,7 +66,7 @@ $shadow-size : 2px;
 .input-container {
   display: inline-block;
   width: 70%;
-  border: solid #000000 1px;
+  background-color: #FFFFFF;
 }
 
 .input-container__message-to {
@@ -106,7 +107,7 @@ $shadow-size : 2px;
   border: solid grey 1px;
   display: inline-block;
   width: 19.999%;
-  height: 100px;
+  height: 80%;
   vertical-align: top;
   //background-color: #ffffff;
 }
@@ -116,7 +117,7 @@ $shadow-size : 2px;
 }
 
 .border-left_chat, .border-right_chat {
-  width: 14px;
+  width: 0.9%;
 }
 
 .border-left_chat {
@@ -128,11 +129,10 @@ $shadow-size : 2px;
 }
 
 .input-container_chat {
-  background-image: url("../images/chat_input.gif");
-  height: 40px;
+  height: 20%;
 }
 
 .input-container__input-field_chat {
-  margin-top: 16px;
-  color: white;
+  height: 100%;
+  color: black;
 }

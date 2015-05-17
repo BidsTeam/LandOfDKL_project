@@ -37,6 +37,7 @@ define(
                     ],function(battleModel, battleView) {
                         loading.show();
                         battleModel.searchBattle();
+                        //battleModel.beginBattle({opponentName : "testPlayer"});
                     }
                 );
             },

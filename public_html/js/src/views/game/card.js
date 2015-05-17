@@ -14,6 +14,9 @@ define(
 
         function _onStep() {
             this.model.trigger("MY_STEP", this.model);
+            this.$el
+                .removeClass("inDragPosition")
+                .css("margin-left", "");
             this.replaceToDOMElem($(".step-place_player"), true);
             this.$el.removeClass("softAnimate card-container_highlight");
         }
@@ -34,6 +37,7 @@ define(
 
             startPosition : {},
 
+
             initialize : function(options) {
                 if (!options.model) {
                     this.model = new CardModel({cardId : options.cardId});
@@ -47,7 +51,6 @@ define(
 
                 this.model.bind("change", this.render, this);
                 this.$el.on("step", _onStep.bind(this));
-                this.$el.on("dblclick", _onStep.bind(this));
                 this.$el.on("delete", _onDelete.bind(this));
 
                 if (options.draggable !== false) {
@@ -56,12 +59,14 @@ define(
                         scroll : false,
 
                         start : function(event, ui) {
-                            this.$el.addClass("inUpperPosition");
+                            this.$el.addClass("inDragPosition");
+                            this.$el.css("margin-left", this.$el.css("margin-left"));
                             this.startPosition = this.$el.position();
                             var $tempContainer = this.$el.wrap("<div class='temp-container'>").parent();
                             $tempContainer.css({
                                 height : $tempContainer.height(),
-                                width : $tempContainer.width()
+                                width : $tempContainer.width(),
+                                "margin-left" : this.$el.css("margin-left")
                             });
 
                             this.$el.removeClass("softAnimate").css(
@@ -78,9 +83,9 @@ define(
                             if (this.$el.attr("prepareToDrop") == 0 || this.$el.attr("prepareToDrop") == undefined) {
                                 this.returnToStartPosition(function() {
                                     this.$el.addClass("softAnimate");
+                                    this.$el.removeClass("inDragPosition");
                                 }.bind(this));
                             }
-                            this.$el.removeClass("inUpperPosition");
                         }.bind(this),
 
                         drag : function(event, ui) {
