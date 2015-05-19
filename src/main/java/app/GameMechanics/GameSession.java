@@ -159,8 +159,7 @@ public class GameSession {
         int damage = 0;
         for (EffectLogic e : effectLogicSet){
             if (e.getName().equals("poison")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
-                JSONArray buf = (JSONArray)new JSONObject(e.getValue()).get("value");
-                damage = (Integer)buf.get(0);
+                damage = e.getValue();
             }
         }
         return damage;
