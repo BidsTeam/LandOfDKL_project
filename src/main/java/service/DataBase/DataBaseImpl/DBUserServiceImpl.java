@@ -4,6 +4,7 @@ package service.DataBase.DataBaseImpl;
 import DAO.logic.UserLogic;
 import DAO.UserDAO;
 import DAO.Impl.UserDAOImpl;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBUserService;
 import util.LogFactory;
@@ -14,12 +15,11 @@ public class DBUserServiceImpl implements DBUserService {
 
     UserDAO userDAO;
 
-    public DBUserServiceImpl(SessionFactory sessionFactory){
-        userDAO = new UserDAOImpl(sessionFactory);
+    public DBUserServiceImpl(Session session){
+        userDAO = new UserDAOImpl(session);
     }
 
     public boolean addUser(UserLogic user){
-        //todo Поясни пожалуйста эту проверку
         if (getUserById(user.getId()) != null) {
            return false;
         } else {

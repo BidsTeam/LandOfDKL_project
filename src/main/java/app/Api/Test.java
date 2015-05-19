@@ -4,6 +4,7 @@ package app.Api;
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
 import app.templater.PageGenerator;
+import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
@@ -19,13 +20,14 @@ public class Test {
                        HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
+        Session session = dbService.getSession();
         try{
             result.put("status",200);
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                CardLogic card= dbService.getCardService().getCard(8);
+                CardLogic card= dbService.getCardService(session).getCard(8);
 
                 for (EffectLogic e: card.getEffects()){
                     JSONObject json = new JSONObject(e.getValue());
@@ -37,6 +39,8 @@ public class Test {
         } catch (Exception e){
             LogFactory.getInstance().getLogger(this.getClass()).error("Test/test", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } finally {
+            session.close();
         }
     }
 }

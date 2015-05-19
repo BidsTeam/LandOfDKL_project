@@ -2,6 +2,7 @@ package util;
 
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
+import org.hibernate.Session;
 import service.DBService;
 import sun.rmi.runtime.Log;
 
@@ -18,14 +19,19 @@ public class UserCardsGenerator {
     }
 
     public void generate(int userID) {
-        UserLogic user = dbService.getUserService().getUserById(userID);
-        int cardCount = dbService.getCardService().getCardCounter();
-        LogFactory.getInstance().getLogger(this.getClass()).debug(cardCount);
-        Random random = new Random();
-        for (int i = 0; i < 15; i++) {
-            CardLogic card = dbService.getCardService().getRandomCard();
-            LogFactory.getInstance().getLogger(this.getClass()).debug("CARDID - " + card.getId());
-            dbService.getCardService().addCardToUser(user, card);
+        Session session = dbService.getSession();
+        try {
+            UserLogic user = dbService.getUserService(session).getUserById(userID);
+            int cardCount = dbService.getCardService(session).getCardCounter();
+            LogFactory.getInstance().getLogger(this.getClass()).debug(cardCount);
+            Random random = new Random();
+            for (int i = 0; i < 15; i++) {
+                CardLogic card = dbService.getCardService(session).getRandomCard();
+                LogFactory.getInstance().getLogger(this.getClass()).debug("CARDID - " + card.getId());
+                dbService.getCardService(session).addCardToUser(user, card);
+            }
+        }finally {
+            session.close();
         }
     }
 

@@ -24,30 +24,30 @@ public class User {
     HibernateUtil hibernateUtil = new HibernateUtil();
     SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
     DBService dbService = new DBServiceImpl(sessionFactory);
-
-    @Test
-    public void testGetUserByIdCorrect() throws Exception {
-        UserLogic user = dbService.getUserService().getUserById(1);
-        assertEquals(1, user.getId());
-    }
-
-    @Test
-    public void testGetUserByUsername() throws Exception {
-        UserLogic user = dbService.getUserService().getUserByUsername("admin");
-        assertEquals("admin", user.getUsername());
-    }
-
-    @Test
-    public void testGetUserByAuth() throws Exception {
-        UserLogic user = dbService.getUserService().getUserByAuth("admin", "admin");
-        assertEquals("admin", user.getUsername());
-    }
-
+//
+//    @Test
+//    public void testGetUserByIdCorrect() throws Exception {
+//        UserLogic user = dbService.getUserService().getUserById(1);
+//        assertEquals(1, user.getId());
+//    }
+//
+//    @Test
+//    public void testGetUserByUsername() throws Exception {
+//        UserLogic user = dbService.getUserService().getUserByUsername("admin");
+//        assertEquals("admin", user.getUsername());
+//    }
+//
 //    @Test
 //    public void testGetUserByAuth() throws Exception {
-//        UserLogic user = dbService.getUserService().
+//        UserLogic user = dbService.getUserService().getUserByAuth("admin", "admin");
+//        assertEquals("admin", user.getUsername());
 //    }
-
+//
+////    @Test
+////    public void testGetUserByAuth() throws Exception {
+////        UserLogic user = dbService.getUserService().
+////    }
+//
 //
 //    @Test
 //    public void testGetUserByIdWrongIdWithHighId(){

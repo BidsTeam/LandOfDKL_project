@@ -1,6 +1,7 @@
 package service.serviceImpl;
 
 
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.DBService;
 import service.DataBase.DBCardService;
@@ -11,20 +12,18 @@ import service.DataBase.DataBaseImpl.DBEffectServiceImpl;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 
 public class DBServiceImpl implements DBService {
-        private DBUserService userService;
-        private DBCardService cardService;
-        private DBEffectService effectService;
+        private SessionFactory sessionFactory;
 
         public DBServiceImpl(SessionFactory sessionFactory){
-            userService = new DBUserServiceImpl(sessionFactory);
-            cardService = new DBCardServiceImpl(sessionFactory);
-            effectService = new DBEffectServiceImpl(sessionFactory);
+            this.sessionFactory = sessionFactory;
         }
 
-        public DBUserService getUserService(){ return userService; }
+        public DBUserService getUserService(Session session){ return new DBUserServiceImpl(session); }
 
-        public DBCardService getCardService() { return cardService; }
+        public DBCardService getCardService(Session session) { return new DBCardServiceImpl(session); }
 
-        public DBEffectService getEffectService() { return effectService; }
+        public DBEffectService getEffectService(Session session) { return new DBEffectServiceImpl(session); }
+
+        public Session getSession(){ return sessionFactory.openSession(); }
 
 }

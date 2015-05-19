@@ -6,6 +6,7 @@ import DAO.EffectDAO;
 import DAO.Impl.CardDAOImpl;
 import DAO.Impl.EffectDAOImpl;
 import DAO.logic.EffectLogic;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBEffectService;
 
@@ -15,7 +16,7 @@ public class DBEffectServiceImpl implements DBEffectService {
 
     EffectDAO effectDAO;
 
-    public DBEffectServiceImpl(SessionFactory sessionFactory) { effectDAO = new EffectDAOImpl(sessionFactory); }
+    public DBEffectServiceImpl(Session session) { effectDAO = new EffectDAOImpl(session); }
 
     @Override
     public EffectLogic getEffect(int id) {

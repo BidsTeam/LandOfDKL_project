@@ -2,6 +2,7 @@ package app.Api;
 
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.hibernate.Session;
 import service.DBService;
 import util.LogFactory;
 
@@ -23,7 +24,15 @@ public class User {
             } catch (Exception e){
                 count = 10;
             }
-            List<UserLogic> userList = dbService.getUserService().getAllUserRating(count);
+            Session session = dbService.getSession();
+            List<UserLogic> userList = null;
+            try {
+                userList = dbService.getUserService(session).getAllUserRating(count);
+            } finally {
+                session.close();
+            }
+
+
             for (UserLogic user : userList) {
                 body.put(user.getId(), user.putAllUserInformation());
             }

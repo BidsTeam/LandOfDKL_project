@@ -82,7 +82,12 @@ public class CustomWebSocketService implements WebSocketService {
         response.put("action", "new_game");
         response.put("gameId", gameId);
         response.put("opponentName", opponentName);
-        response.put("deck", dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(userID)));
+        org.hibernate.Session session = dbService.getSession();
+        try {
+            response.put("deck", dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(userID)));
+        } finally {
+            session.close();
+        }
         return response;
     }
 
@@ -243,12 +248,15 @@ public class CustomWebSocketService implements WebSocketService {
 
     public void greetUser(int userID) {
         JSONObject json = new JSONObject();
+        org.hibernate.Session session = dbService.getSession();
         try {
             json.put("action", "hello");
-            json.put("cards", dbService.getCardService().getAllCardsInfo());
+            json.put("cards", dbService.getCardService(session).getAllCardsInfo());
             sendJson(userWebSockets.get(userID), json);
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("error in greeting user");
+        } finally {
+            session.close();
         }
     }
 

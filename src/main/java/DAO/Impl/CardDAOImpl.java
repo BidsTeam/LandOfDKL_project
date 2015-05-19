@@ -19,62 +19,34 @@ import java.util.List;
 
 public class CardDAOImpl implements CardDAO {
 
-    private SessionFactory sessionFactory;
+    private Session session;
 
-    public CardDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
+    public CardDAOImpl(Session session) {
+        this.session = session;
     }
 
     public void addCard(CardLogic card) {
-        Session session = null;
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
-            session.save(card);
-            session.getTransaction().commit();
-            session.close();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
+        session.save(card);
     }
 
     public CardLogic getCard(int id) {
-        Session session = null;
         CardLogic card = null;
-
-        try {
-            session = sessionFactory.openSession();
-            session.beginTransaction();
+        try{
             card = (CardLogic) session.get(CardLogic.class, id);
-            session.getTransaction().commit();
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getCard");
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
         }
         return card;
     }
 
     public void addCardToUser(UserLogic user, CardLogic card) {
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-
         user.getCards().add(card);
         session.update(user);
-
-        session.getTransaction().commit();
-        session.close();
     }
 
     public int getCardCounter() {
-        Session session = null;
         int counter = 0;
         try {
-            session = sessionFactory.openSession();
             CardLogic card = (CardLogic) session.createCriteria(CardLogic.class).
                     addOrder(Order.desc("id")).
                     setMaxResults(1).
@@ -83,43 +55,25 @@ public class CardDAOImpl implements CardDAO {
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getCardCounter");
         }
-        finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-        }
         return counter;
     }
 
     public CardLogic getRandomCard() {
-        Session session = null;
         CardLogic card = null;
         try {
-            session = sessionFactory.openSession();
             List<CardLogic> cards = session.createQuery("from CardLogic").list();
             Collections.shuffle(cards);
             LogFactory.getInstance().getLogger(this.getClass()).debug(cards.get(0).getName());
             return cards.get(0);
         } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
             LogFactory.getInstance().getLogger(this.getClass()).error("Could not find random card");
         }
     }
 
     public List<CardLogic> getAllCardsInfo() {
-        Session session = null;
         List<CardLogic> cards = new ArrayList<>();
-        try {
-            session = sessionFactory.openSession();
-            cards = session.createQuery("from CardLogic").list();
-        } finally {
-            if (session != null && session.isOpen()) {
-                session.close();
-            }
-            return cards;
-        }
+        cards = session.createQuery("from CardLogic").list();
+        return cards;
     }
 
     public List<Integer> getUserDeck(UserLogic user) {

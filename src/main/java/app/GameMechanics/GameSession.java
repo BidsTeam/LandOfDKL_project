@@ -3,6 +3,7 @@ package app.GameMechanics;
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
@@ -25,8 +26,13 @@ public class GameSession {
     public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService, DBService dbService) {
         firstPlayer = playerOne;
         secondPlayer = playerTwo;
-        firstPlayer.setUserDeck(dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(firstPlayer.getUserID())));
-        secondPlayer.setUserDeck(dbService.getCardService().getUserDeck(dbService.getUserService().getUserById(secondPlayer.getUserID())));
+        Session session = dbService.getSession();
+        try {
+            firstPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(firstPlayer.getUserID())));
+            secondPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(secondPlayer.getUserID())));
+        } finally {
+            session.close();
+        }
         gameID = id;
         firstPlayerCard = null;
         secondPlayerCard = null;
@@ -68,33 +74,43 @@ public class GameSession {
     }
 
     private void setGameAction(int playerNumber, int cardID) {
-        if (playerNumber == 1) {
-            if (firstPlayerCard == null) {
-                int realCardID = firstPlayer.getCard(cardID);
-                if (realCardID != -1) {
-                    firstPlayerCard = dbService.getCardService().getCard(realCardID);
-                    webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+        Session session = dbService.getSession();
+        try{
+            if (playerNumber == 1) {
+                if (firstPlayerCard == null) {
+                    int realCardID = firstPlayer.getCard(cardID);
+                    if (realCardID != -1) {
+                        try {
+                            firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
+                        } finally {
+                            session.close();
+                        }
+                        webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+                    }
+                } else {
+                    LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
+                }
+            } else if (playerNumber == 2) {
+                if (secondPlayerCard == null) {
+                    int realCardID = secondPlayer.getCard(cardID);
+                    if (realCardID != -1) {
+                        secondPlayerCard = dbService.getCardService(session).getCard(realCardID);
+                        webSocketService.notifyActionSet(secondPlayer, firstPlayer);
+                    }
+                }
+                else {
+                    LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
                 }
             } else {
-                LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
+                LogFactory.getInstance().getLogger(this.getClass()).error("really strange error in setGameAction()");
             }
-        } else if (playerNumber == 2) {
-            if (secondPlayerCard == null) {
-                int realCardID = secondPlayer.getCard(cardID);
-                if (realCardID != -1) {
-                    secondPlayerCard = dbService.getCardService().getCard(realCardID);
-                    webSocketService.notifyActionSet(secondPlayer, firstPlayer);
-                }
+            if (firstPlayerCard != null && secondPlayerCard != null) {
+                gameActionReveal();
             }
-            else {
-                LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
-            }
-        } else {
-            LogFactory.getInstance().getLogger(this.getClass()).error("really strange error in setGameAction()");
+        }finally {
+            session.close();
         }
-        if (firstPlayerCard != null && secondPlayerCard != null) {
-            gameActionReveal();
-        }
+
 
     }
 

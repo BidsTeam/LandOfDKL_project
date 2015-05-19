@@ -16,12 +16,12 @@ public class EffectLogic {
     private String name;
     @NotNull(message = "Описание эффекта не должно быть пустым")
     private String description;
-    //todo использовать GSON заранее заготовленную сущность.
-    private String value;
+
+    private int value;
 
     public EffectLogic() {}
 
-    public EffectLogic(String name, String description, String value) {
+    public EffectLogic(String name, String description, int value) {
         this.name = name;
         this.description = description;
         this.value = value;
@@ -45,8 +45,9 @@ public class EffectLogic {
     public void setDescription(String description) { this.description = description; }
 
     @Column(name = "value")
-    public String getValue() { return value; }
-    public void setValue(String value) { this.value = value; }
+    public int getValue() { return value; }
+    public void setValue(int value) { this.value = value; }
+
 
 //    @ManyToMany(mappedBy = "cards")
 //    private Set<UserLogic> users = new HashSet<>();

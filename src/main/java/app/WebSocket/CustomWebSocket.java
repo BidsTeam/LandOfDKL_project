@@ -42,8 +42,14 @@ public class CustomWebSocket {
                 }
 
                 case "privateMessage": {
-                    UserLogic receiver = webSocketService.getDbService().getUserService().
-                            getUserByUsername(request.getString("receiverName"));
+                    org.hibernate.Session session = webSocketService.getDbService().getSession();
+                    UserLogic receiver = null;
+                    try {
+                        receiver = webSocketService.getDbService().getUserService(session).
+                                getUserByUsername(request.getString("receiverName"));
+                    } finally {
+                        session.close();
+                    }
                     request.put("author", user.getUsername());
                     webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;

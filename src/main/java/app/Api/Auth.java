@@ -3,6 +3,7 @@ package app.Api;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import service.DBService;
@@ -17,6 +18,7 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class Auth {
@@ -49,8 +51,9 @@ public class Auth {
                 Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
+                    Session session = dbService.getSession();
                     try {
-                        if (dbService.getUserService().addUser(user)) {
+                        if (dbService.getUserService(session).addUser(user)) {
                         request.getSession().setAttribute("id", user.getId());
                         body.putAll(user.putAllUserInformation());
                         result.put("status", 200);
@@ -63,6 +66,8 @@ public class Auth {
                         body.put("error", MessageList.Message.UnknownErrorOnServer);
                         LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    } finally {
+                        session.close();
                     }
                 } else {
                     result.put("status", 400);
@@ -82,6 +87,7 @@ public class Auth {
                      HttpServletResponse response, DBService dbService) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
+        Session session = dbService.getSession();
         try {
             int id = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
             if (id == 0) {
@@ -92,7 +98,7 @@ public class Auth {
                 } else {
                     String login = request.getParameter("login");
                     String password = request.getParameter("password");
-                    UserLogic user = dbService.getUserService().getUserByAuth(login, password);
+                    UserLogic user = dbService.getUserService(session).getUserByAuth(login, password);
                     if (user == null){
                         result.put("status", 404);
                         body.put("error", MessageList.Message.WrongAuth);
@@ -107,7 +113,7 @@ public class Auth {
                 }
             } else {
                 //todo пользователь уже авторизован, а возврат данных о нем как-то подругому сделаем
-                UserLogic user = dbService.getUserService().getUserById(id);
+                UserLogic user = dbService.getUserService(session).getUserById(id);
                 if (user == null){
                     result.put("status", 500);
                     body.put("error", MessageList.Message.WrongSession);
@@ -123,6 +129,8 @@ public class Auth {
         } catch (Exception e){
             LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signin", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } finally{
+            session.close();
         }
     }
 
@@ -161,9 +169,14 @@ public class Auth {
     }
 
     public void checkDeck(int userID, DBService dbService) {
-        if (!dbService.getUserService().isDeckFull(userID)) {
-            UserCardsGenerator cardsGenerator = new UserCardsGenerator(dbService);
-            cardsGenerator.generate(userID);
+        Session session = dbService.getSession();
+        try {
+            if (!dbService.getUserService(session).isDeckFull(userID)) {
+                UserCardsGenerator cardsGenerator = new UserCardsGenerator(dbService);
+                cardsGenerator.generate(userID);
+            }
+        } finally {
+            session.close();
         }
     }
 }

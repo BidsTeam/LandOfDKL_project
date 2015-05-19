@@ -4,6 +4,7 @@ import DAO.CardDAO;
 import DAO.Impl.CardDAOImpl;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBCardService;
 
@@ -12,7 +13,7 @@ import java.util.List;
 public class DBCardServiceImpl implements DBCardService {
     CardDAO cardDAO;
 
-    public DBCardServiceImpl(SessionFactory sessionFactory) { cardDAO = new CardDAOImpl(sessionFactory); }
+    public DBCardServiceImpl(Session session) { cardDAO = new CardDAOImpl(session); }
 
     public CardLogic getCard(int id) {
         return cardDAO.getCard(id);
