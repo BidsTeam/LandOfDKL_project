@@ -124,10 +124,9 @@ public class UserLogic {
     @ManyToMany( fetch = FetchType.EAGER,
             cascade = { CascadeType.ALL } )
     @JoinTable(name = "user_card",
-            joinColumns = {@JoinColumn(name = "card_id")},
-            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "card_id")}
     )
-
     public Set<CardLogic> getCards() {
         return cards;
     }
@@ -135,6 +134,15 @@ public class UserLogic {
     public void setCards(Set<CardLogic> cards) {
         this.cards = cards;
     }
+
+    @Transient
+    private List<CardLogic> userHand = new ArrayList<>();
+
+    @Transient
+    public List<CardLogic> getUserHand() { return userHand; }
+
+    @Transient
+    public void setUserHand(List<CardLogic> userHand) { this.userHand = userHand; }
 
     public static HashMap<String,String> validate(Object object, Validator validator) {
         HashMap<String,String> result = new HashMap<>();
@@ -152,14 +160,14 @@ public class UserLogic {
         return result;
     }
 
-    public static Map<String, Object> putAllUserInformation(UserLogic user){
+    public Map<String, Object> putAllUserInformation(){
         Map<String,Object> result = new HashMap<>();
-        result.put("id",        user.getId());
-        result.put("username",  user.getUsername());
-        result.put("registration", user.getRegistration().getTime());
-        result.put("is_admin",  user.isAdmin());
-        result.put("email",     user.getEmail());
-        result.put("level",     user.getLevel());
+        result.put("id",        this.getId());
+        result.put("username",  this.getUsername());
+        result.put("registration", this.getRegistration().getTime());
+        result.put("is_admin",  this.isAdmin());
+        result.put("email",     this.getEmail());
+        result.put("level",     this.getLevel());
         return result;
     }
 }

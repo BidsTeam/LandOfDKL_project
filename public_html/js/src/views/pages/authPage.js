@@ -2,11 +2,11 @@ define(
     [
         "pageView",
         "templates/auth_page",
-        "config",
         "routers/page_router",
-        "models/User",
-        "views/loading"
-    ], function(pageView, authPageTmpl, Config, router, User, loading) {
+        "models/user",
+        "views/loading",
+        "api"
+    ], function(pageView, authPageTmpl, router, User, loading, API) {
 
     var authPage = pageView.extend({
 
@@ -15,9 +15,6 @@ define(
         },
 
         _construct : function(options) {
-            this.bind("changePage_"+this.pageId, function() {
-                $(".logo-container__logo").show();
-            }, this);
         },
 
         render : function() {
@@ -26,29 +23,24 @@ define(
         auth : function(e) {
             $(e.target).attr("disabled", "disabled");
             e.preventDefault();
-            var data = {
+
+            loading.showAfterTimeout(2000);
+
+            User.login({
                 login : $("#auth-login-field").val(),
                 password : $("#auth-password-field").val()
-            };
-
-            $.ajax({
-                type : "POST",
-                data : data,
-                url : Config.apiUrl+"/auth/signin",
-                beforeSend : function() {
-                    loading.show();
-                },
-                success : function(msg) {
-                    User.build(JSON.parse(msg).response);
+            }).then(function(msg) {
+                $(e.target).removeAttr("disabled");
+                loading.clearTimeoutAndCloseIfOpened();
+                if (msg.status == 404) {
+                    alert(msg.response.error);
+                    return;
+                } else {
                     router.navigate("game", {trigger: true, replace: true});
-                },
-                error : function(msg) {
-                    alert("Ошибка");
-                },
-                complete : function(msg) {
-                    $(e.target).removeAttr("disabled");
-                    loading.hide();
                 }
+            }, function(err) {
+                loading.clearTimeoutAndCloseIfOpened();
+                alert("Ошибка");
             });
 
         }

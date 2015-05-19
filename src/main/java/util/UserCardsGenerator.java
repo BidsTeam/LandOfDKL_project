@@ -3,6 +3,7 @@ package util;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import service.DBService;
+import sun.rmi.runtime.Log;
 
 import java.util.Random;
 
@@ -19,10 +20,11 @@ public class UserCardsGenerator {
     public void generate(int userID) {
         UserLogic user = dbService.getUserService().getUserById(userID);
         int cardCount = dbService.getCardService().getCardCounter();
+        LogFactory.getInstance().getLogger(this.getClass()).debug(cardCount);
         Random random = new Random();
         for (int i = 0; i < 15; i++) {
-            int cardNumber = random.nextInt(cardCount-1) + 1;
-            CardLogic card = dbService.getCardService().getCard(cardNumber);
+            CardLogic card = dbService.getCardService().getRandomCard();
+            LogFactory.getInstance().getLogger(this.getClass()).debug("CARDID - " + card.getId());
             dbService.getCardService().addCardToUser(user, card);
         }
     }

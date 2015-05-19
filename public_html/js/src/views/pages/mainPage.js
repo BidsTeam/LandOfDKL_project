@@ -3,9 +3,10 @@ define(
         "templates/main_page",
         "paginator",
         "pageView",
-        "models/User",
+        "models/user",
         "routers/page_router",
-        "views/loading"
+        "views/loading",
+        "views/backgroundVideo"
     ],
     function(
         mainPageTmpl,
@@ -13,7 +14,8 @@ define(
         PageView,
         User,
         router,
-        loading
+        loading,
+        backgroundVideoView
     ){
         var mainPageView = PageView.extend({
 
@@ -22,9 +24,6 @@ define(
             },
 
             _construct : function(options){
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").show();
-                }, this);
             },
 
             render: function(){
@@ -32,19 +31,7 @@ define(
 
             enterGame : function(e) {
                 e.preventDefault();
-                loading.show();
-                new Promise(function(resolve, reject) {
-                    User.isAuth(
-                        function(msg) {
-                            if (msg.isAuth) {
-                                router.navigate("game", {trigger: true, replace: true});
-                            } else {
-                                router.navigate("auth", {trigger : true, replace : true});
-                            }
-                            resolve();
-                        }
-                    );
-                }).then(function() {loading.hide()});
+                router.navigate("game", {trigger: true, replace: true});
             }
 
         });

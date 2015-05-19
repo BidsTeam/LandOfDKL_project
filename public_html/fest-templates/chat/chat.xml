@@ -1,0 +1,25 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <div class="chat">
+
+        <div class="chat__content-container">
+            <div class="border-left border-left_chat"></div>
+
+            <div class="content-container__content"></div>
+
+            <div class="border-right border-right_chat"></div>
+        </div>
+
+        <div class="chat__players-in-room-list"></div>
+
+        <div class="input-container input-container_chat">
+            <input type="text" class="input-container__input-field input-container__input-field_chat" placeholder="Сообщение" />
+        </div>
+
+        <input type="button" value="Написать" class="chat__send-button" />
+
+
+    </div>
+
+
+</fest:template>

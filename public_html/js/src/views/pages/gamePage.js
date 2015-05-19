@@ -2,57 +2,58 @@ define(
     [
         'pageView',
         'templates/game_page',
-        "models/sockets/chat",
+        "models/game/chat",
         "views/game/chat",
         "jquery",
-        "models/User",
-        "models/sockets/userList",
-        "views/game/userList"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView) {
+        "models/user",
+        "models/game/userList",
+        "views/game/userList",
+        "views/loading",
+        "routers/page_router"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter) {
 
         var gamePage = pageView.extend({
 
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
-                "keydown .chat__input" : "sendMsgToChat",
-                "click a[action=logout]" : "logout"
+                "keydown .input-container__input-field" : "sendMsgToChat",
+                "click a[action=logout]" : "logout",
+                "click a[action=findGame]" : "findBattle"
             },
 
             _construct : function() {
-                this.bind("changePage_"+this.pageId, function() {
-                    $(".logo-container__logo").hide();
-                }, this);
-
-                this.chatView = new chatView({chatContainerId : "chat-content"});
-                this.userListview = new userListView({listContainerId : "players-in-room-list"});
-                this.beginBattle();
+                this.chatView = new chatView({chatContainerSelector : ".chat"});
+                this.userListview = new userListView({listContainerSelector : ".chat__players-in-room-list"});
             },
 
             render : function() {
             },
 
-            beginBattle : function() {
-                require(['views/game/battle'], function(battleView) {
-                    battleView.beginBattle();
-                });
+            findBattle : function() {
+                require(
+                    [
+                        'models/game/battle',
+                        "views/game/battle"
+                    ],function(battleModel, battleView) {
+                        loading.show();
+                        battleModel.searchBattle();
+                        //battleModel.beginBattle({opponentName : "testPlayer"});
+                    }
+                );
             },
 
             sendMsgToChat : function(e) {
                 if(e.type === "click" || e.keyCode == 13) {
-                    var chatContainer = $(e.target).parent();
-                    var msg = $(chatContainer).find(".chat__input").val();
-                    if( $(chatContainer).hasClass("chat__input-container__private") ) {
-                        var receiver = $(chatContainer).find(".chat__receiver").val();
-                        chat.sendPrivate(msg, receiver);
-                    } else {
-                        chat.sendPublic(msg);
-                    }
-                    $(chatContainer).find("input[type=text]").val("");
+                    var chatContainer = $(".input-container__input-field");
+                    var msg = $(chatContainer).val();
+                    chat.send(msg);
+                    $(chatContainer).val("");
+                    $(".message-to").remove();
                 }
             },
 
             logout : function(e) {
-                User.logout();
+                User.logout().then(function() { pageRouter.navigate("/", {replace : true, trigger : true})});
             }
         });
 

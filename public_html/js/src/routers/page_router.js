@@ -1,11 +1,15 @@
 define(
     [
         "backbone",
-        "models/User"
+        "models/user",
+        "views/backgroundVideo",
+        "views/loading"
     ],
     function(
         Backbone,
-        User
+        User,
+        backgroundVideoView,
+        loading
     ) {
         Router = Backbone.Router.extend({
 
@@ -19,7 +23,6 @@ define(
             },
 
             initialize : function() {
-                User.bind("logout", this.mainPageInit, this);
             },
 
             mainPageInit : function() {
@@ -29,9 +32,20 @@ define(
             },
 
             gamePageInit : function() {
-                require(['views/pages/gamePage'], function(gamePageView) {
-                    gamePageView.go();
-                });
+                var _this = this;
+                loading.showAfterTimeout(1000);
+                User.isAuth()
+                    .then(function(msg) {
+                        msg = JSON.parse(msg);
+                        if (msg.isAuth) {
+                            require(['views/pages/gamePage'], function(gamePageView) {
+                                gamePageView.go();
+                            });
+                        } else {
+                            _this.navigate("auth", {trigger : true, replace : true});
+                        }
+                        loading.clearTimeoutAndCloseIfOpened();
+                    });
             },
 
             authPageInit : function() {

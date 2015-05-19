@@ -1,0 +1,111 @@
+$card-anim-speed : 0.3s;
+$upperLength : -50px;
+
+.softAnimate {
+  -webkit-transition: $card-anim-speed;
+  -moz-transition: $card-anim-speed;
+  -ms-transition: $card-anim-speed;
+  -o-transition: $card-anim-speed;
+  transition: $card-anim-speed;
+}
+
+.inDragPosition {
+  margin-top: $upperLength;
+}
+
+.card-container {
+  display: inline-block;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position : relative;
+}
+
+.card-container_in-deck {
+  width: 24%;
+  height: 70%;
+}
+
+.card-container_in-deck:not(:first-child) {
+  margin-left: -19%;
+}
+
+.card-container_highlight {
+  &:hover {
+    margin-top: $upperLength;
+  }
+}
+
+.card-container__card {
+  border-radius: 6px;
+  font-size: 15px;
+  display: inline-block;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+}
+
+.card__card-info-container {
+  display : none;
+  height: 50px;
+}
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 13px;
+}
+
+.card__image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 81%;
+  width: 100%;
+  border-radius: 15px;
+  &_knight {
+    background-image: url("../images/knight.jpg");
+  }
+  &_lady {
+    background-image: url("../images/princess.jpg");
+  }
+  &_dragon {
+    background-image: url("../images/dragon.jpg");
+  }
+  &:hover {
+    box-shadow: 0px 0px 43px -1px yellow;
+  }
+}
+
+.card__image_closed {
+  background-image: url("../images/closed.jpg");
+  border: solid black 3px;
+}
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%;
+}
+
+.temp-container {
+  display: inline-block;
+  width: 24%;
+  height: 70%;
+  vertical-align: top;
+}

@@ -44,6 +44,7 @@ public class CustomWebSocket {
                 case "privateMessage": {
                     UserLogic receiver = webSocketService.getDbService().getUserService().
                             getUserByUsername(request.getString("receiverName"));
+                    request.put("author", user.getUsername());
                     webSocketService.sendPrivateMessage(request, receiver.getId());
                     break;
                 }
@@ -77,6 +78,7 @@ public class CustomWebSocket {
             webSocketService.putNewSocket(userID, this);
             user = cache.getUser(userID);
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
+            webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).fatal("WebSocket.CustomWebSocket/onOpen: ", e);

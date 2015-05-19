@@ -23,6 +23,7 @@
         <property name="hibernate.c3p0.idle_test_period">4</property>
         <mapping class="DAO.logic.UserLogic" />
         <mapping class="DAO.logic.CardLogic" />
+        <mapping class="DAO.logic.EffectLogic" />
 
     </session-factory>
 </hibernate-configuration>

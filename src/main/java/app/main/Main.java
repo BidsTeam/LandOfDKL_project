@@ -1,5 +1,6 @@
 package app.main;
 
+import app.GameMechanics.GameFactory;
 import app.WebSocket.CustomWebSocketService;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import app.servlets.AdminServlet;
@@ -14,6 +15,7 @@ import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.server.handler.ResourceHandler;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.hibernate.SessionFactory;
 import service.DBService;
 import service.DataBase.DataBaseImpl.DBCardServiceImpl;
 import service.DataBase.DataBaseImpl.DBUserServiceImpl;
@@ -27,7 +29,7 @@ import java.lang.management.ManagementFactory;
 
 public class Main {
     public static void main(String[] args) throws Exception {
-        //Frontend frontend = new Frontend();
+
         String portString = "8080";
         if (args.length >= 1) {
             portString = args[0];
@@ -42,9 +44,11 @@ public class Main {
         mbs.registerMBean(serverStatistics, name);
 
         HibernateUtil hibernateUtil = new HibernateUtil();
-
-        DBService dbService= new DBServiceImpl(new DBUserServiceImpl(hibernateUtil.getSessionFactory()),new DBCardServiceImpl(hibernateUtil.getSessionFactory()));
+        SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
+        DBService dbService = new DBServiceImpl(sessionFactory);
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
+
+        GameFactory.initialize(dbService);
 
         Server server = new Server(port);
 
@@ -55,7 +59,8 @@ public class Main {
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
-        context.addServlet(new ServletHolder(adminServlet), "/admin/*");
+
+        context.addServlet(new ServletHolder(adminServlet), "/admin/");
         context.addServlet(new ServletHolder(router), "/api/*");
         context.addServlet(new ServletHolder(socketServlet), "/socket/*");
 

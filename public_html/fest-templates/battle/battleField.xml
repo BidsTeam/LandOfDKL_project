@@ -1,0 +1,21 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="game">
+
+    <fest:script>
+        var playerObj = {
+            type : "player",
+            name : game.playerName
+        };
+
+        var opponentObj = {
+            type : "opponent",
+            name : game.opponentName
+        };
+    </fest:script>
+
+    <div class="battlefield-container">
+        <fest:include src="player-field.xml" context="playerObj" />
+        <fest:include src="middle-field.xml" />
+        <fest:include src="player-field.xml" context="opponentObj" />
+    </div>
+
+</fest:template>

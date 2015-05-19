@@ -1,0 +1,25 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="player">
+
+    <div class="battlefield-container__field {player.type}-field">
+
+        <div class="player-face-container">
+            <div class="player-face">
+
+                <div class="player-face__image-container">
+                    <img class="player-face__image"/>
+                </div>
+
+                <div class="player-face__name">
+                    <fest:value>player.name</fest:value>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="game-deck {player.type}-deck">
+
+        </div>
+
+    </div>
+
+</fest:template>

@@ -5,9 +5,9 @@ package util;
 public class RPS {
 
     public enum Palm {
-        rock(0, 2),
-        paper(1, 0),
-        scissors(2, 1);
+        knight(0, 2),
+        lady(1, 0),
+        dragon(2, 1);
 
         private int number;
         private int better;
@@ -28,14 +28,14 @@ public class RPS {
         }
         public static Palm fromString(String palmString) {
             switch (palmString) {
-                case "scissors": {
-                    return Palm.scissors;
+                case "dragon": {
+                    return Palm.dragon;
                 }
-                case "rock": {
-                    return Palm.rock;
+                case "knight": {
+                    return Palm.knight;
                 }
-                case "paper": {
-                    return Palm.paper;
+                case "lady": {
+                    return Palm.lady;
                 }
                 default: {
                     throw new RuntimeException("Unknown: " + palmString);

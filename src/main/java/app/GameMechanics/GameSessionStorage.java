@@ -1,6 +1,7 @@
 package app.GameMechanics;
 
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import service.DBService;
 
 import java.util.HashMap;
 
@@ -20,9 +21,9 @@ public class GameSessionStorage {
 //        return idCounter;
 //    }
 
-    public int newGameSession(Player firstPlayer, Player secondPlayer, WebSocketService webSocketService) {
+    public int newGameSession(Player firstPlayer, Player secondPlayer, WebSocketService webSocketService, DBService dbService) {
         idCounter++;
-        GameSession gameSession = new GameSession(firstPlayer, secondPlayer, idCounter, webSocketService);
+        GameSession gameSession = new GameSession(firstPlayer, secondPlayer, idCounter, webSocketService, dbService);
         gameSessionHashMap.put(idCounter, gameSession);
         return idCounter;
     }

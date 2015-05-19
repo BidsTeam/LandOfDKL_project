@@ -3,10 +3,12 @@ package app.Api;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
+import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.MessageList;
+import util.UserCardsGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -50,7 +52,7 @@ public class Auth {
                     try {
                         if (dbService.getUserService().addUser(user)) {
                         request.getSession().setAttribute("id", user.getId());
-                        body.putAll(UserLogic.putAllUserInformation(user));
+                        body.putAll(user.putAllUserInformation());
                         result.put("status", 200);
                         response.setStatus(HttpServletResponse.SC_OK);
                         } else {
@@ -97,7 +99,8 @@ public class Auth {
                         response.setStatus(HttpServletResponse.SC_OK);
                     } else {
                         result.put("status", 200);
-                        body.putAll(UserLogic.putAllUserInformation(user));
+                        body.putAll(user.putAllUserInformation());
+                        //checkDeck(user.getId(), dbService);
                         request.getSession().setAttribute("id", user.getId());
                         response.setStatus(HttpServletResponse.SC_OK);
                     }
@@ -110,7 +113,7 @@ public class Auth {
                     body.put("error", MessageList.Message.WrongSession);
                     response.setStatus(HttpServletResponse.SC_OK);
                 } else {
-                    body.putAll(UserLogic.putAllUserInformation(user));
+                    body.putAll(user.putAllUserInformation());
                     response.setStatus(HttpServletResponse.SC_OK);
                 }
             }
@@ -146,13 +149,8 @@ public class Auth {
         JSONObject json = new JSONObject();
         try {
             int id = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
-            if (id != 0) {
-                json.put("status", 200);
-                json.put("isAuth", true);
-            } else {
-                json.put("status", 200);
-                json.put("isAuth", false);
-            }
+            json.put("status", 200);
+            json.put("isAuth", (id != 0) );
             response.getWriter().println(json.toString());
             response.setStatus(HttpServletResponse.SC_OK);
         } catch (Exception e) {
@@ -160,5 +158,12 @@ public class Auth {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    public void checkDeck(int userID, DBService dbService) {
+        if (!dbService.getUserService().isDeckFull(userID)) {
+            UserCardsGenerator cardsGenerator = new UserCardsGenerator(dbService);
+            cardsGenerator.generate(userID);
+        }
     }
 }

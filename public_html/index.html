@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 	<meta charset="utf-8">
+
+    <title>Land of DKL</title>
+
 	<link rel="stylesheet" type="text/css" href="css/lib/bootstrap.css">
 	<link rel="stylesheet" type="text/css" href="css/main.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
@@ -9,19 +13,36 @@
 
     <script data-main="js/init.js" src="js/lib/require.js"></script>
 </head>
+
 <body>
 
-<div id="app-container" class="col-md-12">
-    <div class="logo-container">
-        <img src="images/background_1.jpg" class="logo-container__logo">
-    </div>
-    <div id="main-container">
+<div id="bgndVideo" class="bgndVideo" data-property='{videoURL:"0W0Wc1E8ffk",containment:"#bgndVideo",autoPlay:true, mute:true, startAt:8,opacity:1, loop:true, stopAt:30, addRaster:false, showControls:false, stopMovieOnBlur: false}'>
+    <div class="background-video-overlayer"></div>
+</div>
+
+<div id="app-container" class="app">
+    <div id="main-container" class="main-container">
 
     </div>
 </div>
 
 <div class="loader-screen" id="loader-screen">
-    <p class="loader-screen__indicator-container"><img src="images/727.GIF"></p>
+    <div class="loader-screen__indicator-container">
+        <div class="preloader">
+            <div class="preloader-box">
+                <div>W</div>
+                <div>A</div>
+                <div>I</div>
+                <div>T</div>
+                <div>I</div>
+                <div>N</div>
+                <div>G</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="good-alert-container" id="good-alert-container">
 </div>
 
 <script src="//localhost:35729/livereload.js"></script>

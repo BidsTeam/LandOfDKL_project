@@ -1,3 +1,351 @@
+.softAnimate {
+  -webkit-transition: 0.3s;
+  -moz-transition: 0.3s;
+  -ms-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+
+.inDragPosition {
+  margin-top: -50px; }
+
+.card-container {
+  display: inline-block;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  position: relative; }
+
+.card-container_in-deck {
+  width: 24%;
+  height: 70%; }
+
+.card-container_in-deck:not(:first-child) {
+  margin-left: -19%; }
+
+.card-container_highlight:hover {
+  margin-top: -50px; }
+
+.card-container__card {
+  border-radius: 6px;
+  font-size: 15px;
+  display: inline-block;
+  text-align: center;
+  height: 100%;
+  width: 100%; }
+
+.card__card-info-container {
+  display: none;
+  height: 50px; }
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 13px; }
+
+.card__image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 81%;
+  width: 100%;
+  border-radius: 15px; }
+  .card__image_knight {
+    background-image: url("../images/knight.jpg"); }
+  .card__image_lady {
+    background-image: url("../images/princess.jpg"); }
+  .card__image_dragon {
+    background-image: url("../images/dragon.jpg"); }
+  .card__image:hover {
+    box-shadow: 0px 0px 43px -1px yellow; }
+
+.card__image_closed {
+  background-image: url("../images/closed.jpg");
+  border: solid black 3px; }
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center; }
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%; }
+
+.temp-container {
+  display: inline-block;
+  width: 24%;
+  height: 70%;
+  vertical-align: top; }
+
+.chat {
+  height: 100%;
+  background-image: url("../images/chat_background.gif"); }
+
+.chat__content-container {
+  display: inline-block;
+  width: 80%;
+  height: 80%;
+  word-wrap: break-word; }
+
+.content-container__content {
+  display: inline-block;
+  width: 98%;
+  height: 100%;
+  overflow-y: scroll; }
+
+.chat-message {
+  padding-left: 10px; }
+
+.author-name {
+  margin-right: 4px; }
+
+.chat-message__message {
+  margin-left: 10px; }
+
+.chat-message__message-time {
+  color: #0b97c4; }
+
+.chat-message:nth-child(odd) {
+  background-color: #ffffff; }
+
+.chat-message:nth-child(even) {
+  background-color: #e4e4e4; }
+
+.chat-message__private {
+  color: red; }
+
+.chat__send-button {
+  width: 10%;
+  height: 20%;
+  vertical-align: top;
+  background-image: url("../images/button_wood.png");
+  outline: none;
+  border: none;
+  box-shadow: 0px 2px 0px 0px #714305;
+  margin-top: -2px; }
+  .chat__send-button:active {
+    box-shadow: none;
+    position: relative;
+    top: 2px; }
+
+.input-container {
+  display: inline-block;
+  width: 70%;
+  background-color: #FFFFFF; }
+
+.input-container__message-to {
+  cursor: pointer;
+  background-color: #941D1D;
+  color: white;
+  border-radius: 5px;
+  padding: 2px;
+  margin-right: 5px; }
+
+.message-to__close-button {
+  border-radius: 50%;
+  background-color: #64593B;
+  font-weight: 500;
+  margin: 3px;
+  display: inline-block;
+  width: 16px;
+  text-align: center;
+  height: 16px;
+  line-height: 16px;
+  font-size: 15px; }
+  .message-to__close-button:hover {
+    color: #ff0002; }
+
+.input-container__input-field {
+  border: none;
+  margin-left: 10px;
+  background-color: transparent; }
+  .input-container__input-field:focus, .input-container__input-field:active {
+    outline: none; }
+
+.chat__players-in-room-list {
+  border: solid grey 1px;
+  display: inline-block;
+  width: 19.999%;
+  height: 80%;
+  vertical-align: top; }
+
+.border-top_chat, .border-bottom_chat {
+  height: 10px; }
+
+.border-left_chat, .border-right_chat {
+  width: 0.9%; }
+
+.border-left_chat {
+  background-image: url("../images/chat_content_border_left.gif"); }
+
+.border-right_chat {
+  background-image: url("../images/chat_content_border_right.gif"); }
+
+.input-container_chat {
+  height: 20%; }
+
+.input-container__input-field_chat {
+  height: 100%;
+  color: black; }
+
+.game-area-container {
+  height: 65%;
+  background-color: rgba(100, 100, 100, 0.5); }
+
+.game-container {
+  background-image: url(../images/battle_background_2.png); }
+
+.game__console {
+  background-color: white;
+  height: 30%; }
+
+.battlefield-container {
+  height: 100%;
+  display: block; }
+
+.battlefield-container__field {
+  display: inline-block;
+  width: 33%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  margin-left: 2px;
+  float: left;
+  font-size: 0px; }
+
+.middle-field.underlight {
+  background-color: #3c763d; }
+
+.middle-field.underlight.on-card-over {
+  background-color: #426943; }
+
+.player-field, .opponent-field {
+  overflow: hidden; }
+
+.step-place {
+  display: inline-block;
+  height: 50%;
+  width: 100%;
+  text-align: center;
+  padding-top: 7%; }
+
+.best-players-list {
+  display: inline-block;
+  text-align: left;
+  width: auto; }
+
+.user-list__common-user {
+  color: #000000; }
+
+.loader-screen {
+  display: table;
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  visibility: hidden;
+  top: 0px;
+  background: url("../images/loader_background.jpg") center;
+  -webkit-filter: blur(0px);
+  z-index: 10; }
+
+.loader-screen__indicator-container {
+  vertical-align: middle;
+  margin: auto auto;
+  display: table-cell; }
+
+.preloader {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: -webkit-radial-gradient(transparent 50%, rgba(0, 0, 0, 0.8));
+  z-index: 10; }
+
+.preloader > .preloader-box {
+  position: absolute;
+  width: 345px;
+  height: 30px;
+  top: 50%;
+  left: 50%;
+  margin: -15px 0 0 -150px;
+  -webkit-perspective: 200px; }
+
+.preloader .preloader-box > div {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  background: #CCC;
+  float: left;
+  text-align: center;
+  line-height: 30px;
+  font-family: Verdana;
+  font-size: 20px;
+  color: #FFF; }
+
+.preloader .preloader-box > div:nth-child(1) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 0ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(2) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 75ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(3) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 150ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(4) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 225ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(5) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 300ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(6) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 375ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(7) {
+  background: #3366FF;
+  margin-right: 15px;
+  -webkit-animation: movement 600ms ease 450ms infinite alternate; }
+
+.preloader .preloader-box > div:nth-child(8) {
+  background: #3366FF;
+  -webkit-animation: movement 600ms ease 525ms infinite alternate; }
+
+@-webkit-keyframes movement {
+  from {
+    -webkit-transform: scale(1) translateY(0px) rotateX(0deg);
+    box-shadow: 0 0 0 transparent; }
+  to {
+    -webkit-transform: scale(1.5) translateY(-25px) rotateX(45deg);
+    box-shadow: 0 25px 40px rgba(0, 0, 0, 0.4);
+    background: #3399FF; } }
+html, body, .app, .main-container {
+  height: 100%; }
+
+body {
+  overflow-y: hidden; }
+
 p {
   margin: 0px; }
 
@@ -7,19 +355,24 @@ p {
 .error {
   display: block; }
 
-.loader-screen {
-  display: table;
-  position: absolute;
-  text-align: center;
-  background-color: rgba(0, 0, 0, 0.5);
+.app {
+  position: relative; }
+
+.bgndVideo {
+  position: fixed;
   width: 100%;
   height: 100%;
-  visibility: hidden; }
+  top: 0px;
+  left: 0px;
+  background: none !important; }
 
-.loader-screen__indicator-container {
-  vertical-align: middle;
-  margin: auto auto;
-  display: table-cell; }
+.background-video-overlayer {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.3);
+  width: 100%;
+  height: 100%;
+  top: 0px;
+  left: 0px; }
 
 .ajax-loader-indicator {
   margin: 10px; }
@@ -28,7 +381,8 @@ p {
   display: none; }
 
 *[data-role=page].active {
-  display: block; }
+  display: block;
+  height: 100%; }
 
 a.underline {
   text-decoration: underline; }
@@ -38,7 +392,9 @@ a.underline {
 
 .menu-container__menu {
   display: inline-block;
-  width: 70%; }
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5); }
 
 .menu__menu-name {
   font-size: 20px;
@@ -47,14 +403,6 @@ a.underline {
 .menu__button {
   width: 300px;
   margin-bottom: 10px; }
-
-.logo-container {
-  text-align: center; }
-
-.logo-container__logo {
-  width: 700px;
-  height: 200px;
-  display: none; }
 
 .menu-name {
   font-size: 20px;
@@ -68,41 +416,6 @@ a.underline {
 
 .form-group__button-container {
   margin-top: 30px; }
-
-.nav-menu-container {
-  text-align: center; }
-
-.nav-menu__button-container {
-  display: inline-block; }
-
-.nav-menu__button {
-  padding: 10px; }
-
-.game-area-container {
-  height: 600px;
-  background-color: #69b5b4; }
-
-.console__chat {
-  float: left;
-  display: inline-block;
-  width: 80%; }
-
-.chat__content {
-  float: left;
-  width: 100%;
-  height: 100px;
-  overflow-y: auto;
-  word-wrap: break-word;
-  border: solid grey 1px; }
-
-.chat__input-container {
-  display: inline-block; }
-
-.console__players-in-room-list {
-  border: solid grey 1px;
-  display: inline-block;
-  width: 19.999%;
-  height: 100px; }
 
 .menu-header {
   text-align: center;
@@ -127,97 +440,53 @@ a.underline {
   display: inline-block;
   width: 300px; }
 
-.best-players-list {
-  display: inline-block;
-  text-align: left;
-  width: auto; }
-
-.chat-message {
-  padding-left: 10px; }
-
-.chat-message__author-name {
-  margin-right: 4px; }
-
-.chat-message__message {
-  margin-left: 10px; }
-
-.chat-message__message-time {
-  color: #0b97c4; }
-
-.chat-message:nth-child(odd) {
-  background-color: #ffffff; }
-
-.chat-message:nth-child(even) {
-  background-color: #e4e4e4; }
-
-.chat-message__private {
-  color: red; }
-
-.user-list__common-user {
-  color: #000000; }
-
-.card-container {
-  display: inline-block;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none; }
-  .card-container:hover {
-    z-index: 1; }
-
-.card-container__card {
-  background-image: url("../images/card_background.jpg");
-  border-radius: 6px;
-  display: inline-block;
-  margin-left: 2px;
-  padding: 20px 10px 13px 10px;
-  width: 230px;
-  box-shadow: black 0px 3px 42px -2px;
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s; }
-
-.card__header {
-  background-image: url("../images/card_title.jpg");
-  border: solid black 1px;
-  border-radius: 10px;
+.border-top, .border-bottom {
   display: block;
+  width: 100%; }
+.border-left, .border-right {
+  display: inline-block;
+  height: 100%; }
+  .border-left + *, * + .border-left, .border-right + *, * + .border-right {
+    vertical-align: top; }
+
+.game-deck {
+  display: block;
+  width: 100%;
+  height: 50%;
   text-align: center; }
 
-.card__image {
-  background-repeat: no-repeat;
-  background-size: cover;
-  display: block;
-  height: 142px;
-  margin: auto;
-  width: 94%; }
-  .card__image__knight {
-    background-image: url("../images/knight.jpg"); }
+.player-face-container {
+  width: 100%;
+  height: 40%; }
 
-.card__effect {
-  background-image: url("../images/card_title.jpg");
-  border: solid black 1px;
-  border-radius: 10px;
-  display: block;
-  text-align: center; }
+.nav-menu-container {
+  text-align: center;
+  height: 5%; }
 
-.card__description {
-  background-image: url("../images/card_description_background.jpg");
-  display: block;
-  height: 160px;
-  margin: 3px auto;
-  width: 94%; }
+.nav-menu__button-container {
+  display: inline-block; }
 
-.battlefield-container__field {
+.nav-menu__button {
   display: inline-block;
-  width: 33%;
-  background-color: rgba(0, 0, 0, 0.5);
-  margin-left: 2px;
-  float: left; }
-
-.middle-field.underlight {
-  background-color: #3c763d; }
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  padding: 0.5em 10px;
+  border: 1px solid #502000;
+  border-radius: 5px;
+  outline: none;
+  height: 100%;
+  background: #935024 linear-gradient(#6a3a1a, #935024 80%);
+  box-shadow: 0 6px #562606, 0 3px 15px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
+  transition: .2s; }
+  .nav-menu__button:hover {
+    background: #a75b29 linear-gradient(#7e451f, #a75b29 80%); }
+  .nav-menu__button:active {
+    background: #783f19 linear-gradient(#783f19 20%, #a75b29);
+    box-shadow: 0 2px #562606, 0 1px 6px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
+    -webkit-transform: translate(0, 4px);
+    transform: translate(0, 4px); }
 
 /*# sourceMappingURL=main.css.map */

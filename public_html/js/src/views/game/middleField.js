@@ -9,33 +9,36 @@ define(
         "jquery-ui"
     ], function(Backbone, $, Ui) {
 
+        function onStep(event, ui) {
+            var $dragObj = ui.draggable;
+            $dragObj.trigger("step");
+            this.$el.removeClass("on-card-over");
+        }
+
         return Backbone.View.extend({
 
-            el : ".middle-field",
+            initialize : function() {
 
-            initialize : function(options) {
-                var coords = this.$el.position();
                 this.$el.droppable({
+
                     activeClass : "underlight",
-                    drop : function(event, ui) {
-                        var $dragObj = ui.draggable;
-                        $dragObj.css("position", "absolute");
-                        $dragObj.animate({top: coords.top, left: coords.left}, "fast");
-                        this.trigger("STEP");
+                    drop : onStep.bind(this),
+
+                    out : function(event, ui) {
+                        ui.draggable.attr("prepareToDrop", "0");
+                        this.$el.removeClass("on-card-over");
                     }.bind(this),
 
-                    activate : function() {
-                    },
-
-                    deactivate : function() {
-                    },
-
-                    out : function() {
-                    },
-
-                    over : function() {
-                    }
+                    over : function(event, ui) {
+                        ui.draggable.attr("prepareToDrop", "1");
+                        this.$el.addClass("on-card-over");
+                    }.bind(this)
                 });
+            },
+
+            clear : function() {
+                this.$(".card-container").trigger("delete");
+                this.$(".step-place").html("");
             }
 
         });
