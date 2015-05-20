@@ -40,6 +40,10 @@ public class GameFactory {
         return GameFinder;
     }
 
+    public static void deleteGameFactory() {
+        GameFinder = null;
+    }
+
     public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
             if (inGameUsers.contains(user.getId())) {
@@ -51,11 +55,10 @@ public class GameFactory {
         } else {
             if (inGameUsers.contains(user.getId())) {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
-
             } else {
                 secondPlayer = new Player(user);
                 inGameUsers.add(user.getId());
-                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
+                gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
                 firstPlayer = null;
                 secondPlayer = null;
             }
@@ -70,4 +73,5 @@ public class GameFactory {
         return gameSessionStorage.getGameSessionByID(id);
     }
 
+    public GameSession getLastGame() { return gameSessionStorage.getLastGame(); }
 }

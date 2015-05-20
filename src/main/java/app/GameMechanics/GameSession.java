@@ -80,11 +80,7 @@ public class GameSession {
                 if (firstPlayerCard == null) {
                     int realCardID = firstPlayer.getCard(cardID);
                     if (realCardID != -1) {
-                        try {
-                            firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
-                        } finally {
-                            session.close();
-                        }
+                        firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
                         webSocketService.notifyActionSet(firstPlayer, secondPlayer);
                     }
                 } else {
@@ -165,12 +161,22 @@ public class GameSession {
         return damage;
     }
 
-    public void concede(int playerNumber) {
+    private void concede(int playerNumber) {
         if (playerNumber == 1) {
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.SECOND_WON);
         } else if (playerNumber == 2) {
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
         }
+    }
+
+    public JSONObject reportGameState() {
+        JSONObject json = new JSONObject();
+        json.put("firstHealth", firstPlayer.getHealth());
+        json.put("secondHealth", secondPlayer.getHealth());
+        json.put("cardAmount", cardCount);
+        json.put("firstName", firstPlayer.getUsername());
+        json.put("secondName", secondPlayer.getUsername());
+        return json;
     }
 
 }
