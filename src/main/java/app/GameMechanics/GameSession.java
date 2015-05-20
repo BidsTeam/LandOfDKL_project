@@ -172,5 +172,4 @@ public class GameSession {
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
         }
     }
-
 }
