@@ -4,7 +4,7 @@
         <div class="card-info-container__attack">
             Атака: <fest:value>data.attack</fest:value>
         </div>
-        <fest:if test="data.effects">
+        <fest:if test="data.effects[0]">
             <div class="card-info-container__effect">
                 Дополнительные эффекты: <fest:value>data.effects[0]['name']</fest:value> -
                 <fest:value>data.effects[0]['description']</fest:value>

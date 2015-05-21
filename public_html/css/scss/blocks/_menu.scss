@@ -1,0 +1,60 @@
+.menu-container {
+  text-align: center;
+  height: 100%;
+}
+
+.menu-container__menu {
+  display: inline-block;
+  width: 50%;
+  padding: 30px;
+  background-color: rgba(255, 255, 255, 0.5);
+  position: relative;
+  top: 50%;
+  transform: translateY(-70%);
+}
+
+.menu__menu-name {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+
+.menu__button {
+  width: 300px;
+  margin-bottom: 10px;
+}
+
+.menu-name {
+  font-size: 20px;
+  margin-bottom: 13px;
+}
+.menu-button-container {
+  display: block;
+}
+
+.menu-header {
+  text-align: center;
+  font-size: 18px;
+  padding: 10px;
+  border: solid black 1px;
+}
+
+.menu__form {
+  text-align: center;
+}
+
+.menu-form__fields-container {
+}
+
+.signup-form__form-group {
+  text-align: center;
+}
+
+.menu-form__field-name {
+  width: 200px;
+}
+
+.menu-form__field {
+  display: inline-block;
+  width: 300px;
+  text-align : center;
+}

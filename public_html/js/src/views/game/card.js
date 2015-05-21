@@ -60,6 +60,10 @@ define(
 
                         start : function(event, ui) {
                             this.$el.addClass("inDragPosition");
+                            this.$el.css({
+                                height : this.$el.height(),
+                                width : this.$el.width()
+                            });
                             this.$el.css("margin-left", this.$el.css("margin-left"));
                             this.startPosition = this.$el.position();
                             var $tempContainer = this.$el.wrap("<div class='temp-container'>").parent();
@@ -84,6 +88,10 @@ define(
                                 this.returnToStartPosition(function() {
                                     this.$el.addClass("softAnimate");
                                     this.$el.removeClass("inDragPosition");
+                                    this.$el.css({
+                                        height : "",
+                                        width : ""
+                                    });
                                 }.bind(this));
                             }
                         }.bind(this),
@@ -136,6 +144,10 @@ define(
                     this.$el.removeClass("softAnimate");
                     hasSoftAnimate = true;
                 }
+                this.$el.css({
+                    height : this.$el.height(),
+                    width : this.$el.width()
+                });
                 if (isAnimate) {
                     var position = this.$el.position();
 
@@ -160,7 +172,9 @@ define(
                             this.$el.css({
                                 position : "relative",
                                 top : 0,
-                                left : 0
+                                left : 0,
+                                height : "",
+                                width : ""
                             });
                             if (callback) {
                                 if (hasSoftAnimate) {

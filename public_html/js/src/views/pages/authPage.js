@@ -6,8 +6,9 @@ define(
         "models/user",
         "views/loading",
         "api",
-        "alert"
-    ], function(pageView, authPageTmpl, router, User, loading, API, Alert) {
+        "alert",
+        "jquery"
+    ], function(pageView, authPageTmpl, router, User, loading, API, Alert, $) {
 
     var authPage = pageView.extend({
 
@@ -16,10 +17,14 @@ define(
         },
 
         _construct : function(options) {
-
+            router.bind("changePage_auth-page", this.focus, this);
         },
 
         render : function() {
+        },
+
+        focus : function() {
+            $("#auth-login-field").focus();
         },
 
         auth : function(e) {

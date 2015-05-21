@@ -83,6 +83,10 @@ $infoContainerPointer : 10px;
   color: red;
 }
 
+.card-info-container__effect {
+  word-break: break-all;
+}
+
 .card__header {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;

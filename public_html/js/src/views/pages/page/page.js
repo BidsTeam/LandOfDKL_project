@@ -5,9 +5,10 @@
 define(
     [
         "backbone",
-        "paginator"
+        "paginator",
+        "routers/page_router"
     ],
-    function(Backbone, Paginator) {
+    function(Backbone, Paginator, pageRouter) {
 
 
         var pageView = Backbone.View.extend({
@@ -23,8 +24,8 @@ define(
 
             go : function() {
                 Paginator.changePage(this.pageId);
-                this.trigger("changePage");
-                this.trigger("changePage_"+this.pageId);
+                pageRouter.trigger("changePage");
+                pageRouter.trigger("changePage_"+this.pageId);
             }
 
         });

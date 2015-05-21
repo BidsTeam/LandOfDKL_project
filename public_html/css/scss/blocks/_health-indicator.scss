@@ -1,0 +1,19 @@
+.health {
+  display: inline-block;
+  vertical-align: top;
+  width: 69%;
+}
+
+.health__health-number {
+  display: inline-block;
+  font-size: 25px;
+  color: red;
+}
+
+.health__health-line-indicator {
+  height: 15px;
+  width: 100%;
+  transition: 0.7s;
+  background-color: red;
+  background-image: -webkit-linear-gradient(rgb(89, 0, 0), rgb(190, 0, 0) 50%, rgb(190, 0, 0) 51%, rgb(89, 0, 0));
+}
