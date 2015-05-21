@@ -31,7 +31,7 @@ public class GameSession {
             firstPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(firstPlayer.getUserID())));
             secondPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(secondPlayer.getUserID())));
         } finally {
-            session.close();
+            dbService.closeSession(session);
         }
         gameID = id;
         firstPlayerCard = null;
@@ -83,7 +83,7 @@ public class GameSession {
                         try {
                             firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
                         } finally {
-                            session.close();
+                            dbService.closeSession(session);
                         }
                         webSocketService.notifyActionSet(firstPlayer, secondPlayer);
                     }
@@ -108,7 +108,7 @@ public class GameSession {
                 gameActionReveal();
             }
         }finally {
-            session.close();
+            dbService.closeSession(session);
         }
 
 

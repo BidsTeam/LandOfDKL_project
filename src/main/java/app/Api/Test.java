@@ -29,7 +29,8 @@ public class Test {
                 result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-//                UserLogic card= dbService.getUserService(session).getUserById(1);
+                UserLogic user = new UserLogic("bla3","bla3","bla3@bk.ru");
+                dbService.getUserService(session).addUser(user);
             }
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
@@ -37,7 +38,7 @@ public class Test {
             LogFactory.getInstance().getLogger(this.getClass()).error("Test/test", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally {
-            session.close();
+            dbService.closeSession(session);
         }
     }
 }

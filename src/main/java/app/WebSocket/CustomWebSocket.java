@@ -48,7 +48,7 @@ public class CustomWebSocket {
                         receiver = webSocketService.getDbService().getUserService(session).
                                 getUserByUsername(request.getString("receiverName"));
                     } finally {
-                        session.close();
+                        webSocketService.getDbService().closeSession(session);
                     }
                     request.put("author", user.getUsername());
                     webSocketService.sendPrivateMessage(request, receiver.getId());

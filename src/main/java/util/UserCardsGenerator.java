@@ -31,7 +31,7 @@ public class UserCardsGenerator {
                 dbService.getCardService(session).addCardToUser(user, card);
             }
         }finally {
-            session.close();
+            dbService.closeSession(session);
         }
     }
 
