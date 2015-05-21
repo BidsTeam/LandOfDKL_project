@@ -8,6 +8,7 @@ import service.DBService;
 import util.RPS;
 
 import java.util.HashSet;
+import java.util.List;
 
 
 public interface WebSocketService {
@@ -25,6 +26,8 @@ public interface WebSocketService {
     public DBService getDbService();
     public void greetUser(int userID);
     public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth);
+    public void notifyReconnectPossibility(int userID);
+    public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID);
 //    public void sendPublicMessage();
 //    public void sendPrivateMessage();
 }

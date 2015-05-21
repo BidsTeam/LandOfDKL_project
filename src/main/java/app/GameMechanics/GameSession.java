@@ -179,4 +179,14 @@ public class GameSession {
         return json;
     }
 
+    public void reconnect(int userID) {
+        if (userID == firstPlayer.getUserID()) {
+            webSocketService.notifyReconnect(reportGameState(), firstPlayer.getUserDeck(), userID);
+        } else if (userID == secondPlayer.getUserID()) {
+            webSocketService.notifyReconnect(reportGameState(), secondPlayer.getUserDeck(), userID);
+        } else {
+            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user "+ userID);
+        }
+    }
+
 }

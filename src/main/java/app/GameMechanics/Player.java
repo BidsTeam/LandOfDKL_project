@@ -41,6 +41,8 @@ public class Player {
         deck = userDeck;
     }
 
+    public List<Integer> getUserDeck() { return deck; }
+
     public int getCard(int cardNumber) {
         int cardID = deck.get(cardNumber);
         deck.remove(cardNumber);

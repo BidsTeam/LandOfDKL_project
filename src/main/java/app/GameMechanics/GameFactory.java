@@ -5,6 +5,7 @@ import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import service.DBService;
 import util.LogFactory;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -18,10 +19,12 @@ public class GameFactory {
     private HashSet<Integer> inGameUsers;
     private static boolean isInitialized = false;
     private DBService dbService;
+    private HashMap<Integer, Integer> playersToGameMap;
 
     private GameFactory() {
         gameSessionStorage = new GameSessionStorage();
         inGameUsers = new HashSet<>();
+        playersToGameMap = new HashMap<>();
     }
 
     //Есть ли лучше идея как запустить базу данных на синглтоне?
@@ -58,7 +61,9 @@ public class GameFactory {
             } else {
                 secondPlayer = new Player(user);
                 inGameUsers.add(user.getId());
-                gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
+                int gameId = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
+                playersToGameMap.put(firstPlayer.getUserID(), gameId);
+                playersToGameMap.put(secondPlayer.getUserID(), gameId);
                 firstPlayer = null;
                 secondPlayer = null;
             }
@@ -67,6 +72,7 @@ public class GameFactory {
 
     public void freePlayer(int userID) {
         inGameUsers.remove(userID);
+        playersToGameMap.remove(userID);
     }
 
     public GameSession getGameSession(int id) {
@@ -74,4 +80,11 @@ public class GameFactory {
     }
 
     public GameSession getLastGame() { return gameSessionStorage.getLastGame(); }
+
+    public int getUserGame(int userID) {
+        if (inGameUsers.contains(userID)) {
+            return playersToGameMap.get(userID);
+        }
+        return 0;
+    }
 }

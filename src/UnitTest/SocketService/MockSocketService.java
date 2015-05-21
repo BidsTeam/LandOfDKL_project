@@ -8,6 +8,7 @@ import service.DBService;
 import util.RPS;
 
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * Created by andreybondar on 20.05.15.
@@ -81,6 +82,16 @@ public class MockSocketService implements WebSocketService {
 
     @Override
     public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth) {
+
+    }
+
+    @Override
+    public void notifyReconnectPossibility(int userID) {
+
+    }
+
+    @Override
+    public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID) {
 
     }
 }
