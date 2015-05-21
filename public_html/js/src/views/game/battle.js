@@ -12,9 +12,18 @@ define(
         "models/game/battle",
         "jquery-ui",
         "views/game/card",
-        "views/loading"
+        "views/loading",
+        "collections/socketsPool",
+        "alert",
+        "templates/card/card_additional_info"
     ],
-    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass, loading) {
+    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass, loading, socketsPool, Alert, CardAdditionalInfo) {
+
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
+
+        function _showInfoForPlayer() {
+            $(".card-info-container-player").html(CardAdditionalInfo(this.model.toJSON()));
+        }
 
         return new (Backbone.View.extend({
 
@@ -41,6 +50,9 @@ define(
 
             onBeginBattle : function() {
                 loading.hide();
+                Socket.bind("closed", function() {
+                    //todo обработка обрыва соединения и вывод ошибки
+                });
                 this.render();
             },
 
@@ -88,6 +100,7 @@ define(
                 var newCard = new CardViewClass({model : model});
                 this.cardViews.push(newCard);
                 this.playerDeck.append(newCard.$el);
+                newCard.$el.on("mouseenter", _showInfoForPlayer.bind(newCard));
                 newCard.$el.css({
                     height : newCard.$el.height(),
                     width : newCard.$el.width()
@@ -107,10 +120,14 @@ define(
 
             onEndBattle : function(result) {
                 this.clear();
+                var alertOptions = {
+                    effect : "fadeFromTop"
+                };
+
                 switch (result) {
-                    case 0 : alert("Ничья"); break;
-                    case 1 : alert("Ты чемпион!"); break;
-                    case -1 : alert("Ты проиграл..."); break;
+                    case 0 : Alert.alert("Ничья", alertOptions); break;
+                    case 1 : Alert.alert("Ты чемпион!", alertOptions); break;
+                    case -1 : Alert.alert("Ты проиграл...", alertOptions); break;
                 }
             },
 

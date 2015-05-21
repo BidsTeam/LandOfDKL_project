@@ -9,7 +9,8 @@ define(
         "jquery",
         "models/game/card",
         "templates/card/card",
-        "templates/card/card_info"
+        "templates/card/card_general_info",
+
     ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
 
         function _onStep() {
@@ -36,7 +37,6 @@ define(
         return Backbone.View.extend({
 
             startPosition : {},
-
 
             initialize : function(options) {
                 if (!options.model) {
@@ -177,6 +177,18 @@ define(
                         this.$el.addClass("softAnimate");
                     }
                 }
+            },
+
+            showInfo : function() {
+                this.$(".card__card-info-container").css({
+                    visibility : "visible"
+                });
+            },
+
+            hideInfo : function() {
+                this.$(".card__card-info-container").css({
+                    visibility : "hidden"
+                });
             }
         });
     }

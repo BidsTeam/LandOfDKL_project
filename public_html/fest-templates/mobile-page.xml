@@ -1,0 +1,7 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <div data-role="page" id="mobile-page">
+        Привет
+    </div>
+
+</fest:template>

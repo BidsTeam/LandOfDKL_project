@@ -2,18 +2,7 @@
 
     <div class="battlefield-container__field {player.type}-field">
 
-        <div class="player-face-container">
-            <div class="player-face">
-
-                <div class="player-face__image-container">
-                    <img class="player-face__image"/>
-                </div>
-
-                <div class="player-face__name">
-                    <fest:value>player.name</fest:value>
-                </div>
-
-            </div>
+        <div class="card-info-container card-info-container-{player.type}">
         </div>
 
         <div class="game-deck {player.type}-deck">

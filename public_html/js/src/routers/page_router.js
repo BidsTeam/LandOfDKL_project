@@ -19,7 +19,8 @@ define(
                 "auth(/)" : "authPageInit",
                 "signup(/)" : "signupPageInit",
                 "scoreboard" : "scoreboardPageInit",
-                "test" : "TestPage"
+                "test" : "TestPage",
+                "mobile-events" : "MobileEventsPageInit"
             },
 
             initialize : function() {
@@ -69,6 +70,12 @@ define(
             TestPage : function() {
                 require(['views/pages/TestPage'], function(TestPageView) {
                     TestPageView.go();
+                });
+            },
+
+            MobileEventsPageInit : function() {
+                require(['views/pages/MobileTestPage'], function(MobilePageView) {
+                    MobilePageView.go();
                 });
             }
         });

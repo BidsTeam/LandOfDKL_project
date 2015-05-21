@@ -5,11 +5,13 @@
 define(
     [
         "backbone",
-        "models/socket",
-        "models/game/cardCollection",
-        "models/user"
-    ], function(Backbone, Socket, cardCollection, User) {
+        "collections/cardCollection",
+        "collections/socketsPool",
+        "models/user",
+        "config"
+    ], function(Backbone, cardCollection, socketsPool, User, Config) {
 
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         function sendAction(cardIndex) {
             var request = JSON.stringify({
@@ -44,19 +46,21 @@ define(
 
                 this.trigger("BATTLE_BEGAN");
 
-                for (var key in msg.deck) {
-                    this.cardsInHand.add({cardId : msg.deck[key]});
-                    this.cardsInOpponentHand.add({cardType : "closed"});
+                if (Config.testMode) {
+
+                    for (var i = 0; i<15; i++) {
+                        this.cardsInHand.add({cardId : 11});
+                        this.cardsInOpponentHand.add({cardType : "closed"});
+                    }
+
+                } else {
+
+                    for (var key in msg.deck) {
+                        this.cardsInHand.add({cardId : msg.deck[key]});
+                        this.cardsInOpponentHand.add({cardType : "closed"});
+                    }
+
                 }
-
-                //============ Для тестирования верстки, чтоб каждый раз не искать игру =================
-
-                //for (var i = 0; i<15; i++) {
-                //    this.cardsInHand.add({cardId : 8});
-                //    this.cardsInOpponentHand.add({cardType : "closed"});
-                //}
-
-                //=======================================================================================
             },
 
             searchBattle : function() {

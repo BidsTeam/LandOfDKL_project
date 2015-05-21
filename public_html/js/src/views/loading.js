@@ -10,29 +10,47 @@ define(
 
         return new (Backbone.View.extend({
 
+            events : {
+                "click .cancel-button" : "cancel"
+            },
+
             el : "#loader-screen",
             showLoaderTimerId : 0,
+            cancelHandler : function(){},
 
             initialize : function(options) {},
 
-            show : function() {
+            show : function(options) {
+
+                if (options) {
+                    if (options.cancelHandler) {
+                        this.cancelHandler = options.cancelHandler;
+                    }
+                }
+
                 this.$el.css("visibility", "visible");
             },
 
             hide : function() {
                 this.$el.css("visibility", "hidden");
+                this.cancelHandler = function(){};
             },
 
             isOpened : function() {
                 return this.$el.css("visibility") == "visible";
             },
 
-            showAfterTimeout : function(secondsTimeout) {
-                this.showLoaderTimerId = setTimeout(this.show.bind(this), 2000);
+            showAfterTimeout : function(secondsTimeout, attrs) {
+                this.showLoaderTimerId = setTimeout(this.show.bind(this, attrs), secondsTimeout);
             },
 
             clearTimeoutAndCloseIfOpened : function() {
                 clearTimeout(this.showLoaderTimerId);
+                this.hide();
+            },
+
+            cancel : function(options) {
+                this.cancelHandler(options);
                 this.hide();
             }
         }))();

@@ -27,9 +27,10 @@ requirejs.config({
         "bootstrap.min" : "../lib.bootstrap.min",
         pageView : "views/pages/page/page",
         "jquery-ui" : "../lib/jquery-ui",
-        "jquery-video" : "../lib/jquery.mb.YTPlayer"
+        "jquery-video" : "../lib/jquery.mb.YTPlayer",
+        alert : "views/goodAlert"
     },
-    waitSeconds : 1
+    waitSeconds : 5
 });
 
 

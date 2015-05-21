@@ -18,7 +18,6 @@
 }
 
 .preloader {
-  position: absolute;
   top: 0px;
   left: 0px;
   right: 0px;
@@ -105,4 +104,9 @@
     box-shadow: 0 25px 40px rgba(0,0,0,0.4);
     background: #3399FF;
   }
+}
+
+.abort-button-container {
+  margin-top: 121px;
+  z-index: 12;
 }
