@@ -1,7 +1,7 @@
 package app.Api;
 
 import DAO.logic.UserLogic;
-import StubClasses.DBServiceStub;
+import StubClasses.DBSeviceStub;
 import TestSetups.TestsCore;
 import org.eclipse.jetty.client.HttpRequest;
 import org.hibernate.Session;
@@ -73,7 +73,7 @@ public class AuthTest extends TestsCore {
         when(request.getParameter("password")).thenReturn("testPassword");
         when(request.getParameter("email")).thenReturn("test@mail.ru");
         when(request.getMethod()).thenReturn("POST");
-        DBService dbServiceMock = new DBServiceStub();
+        DBService dbServiceMock = new DBSeviceStub();
 
         final StringWriter stringWriter = new StringWriter();
         HttpServletResponse response = getMockedResponse(stringWriter);
