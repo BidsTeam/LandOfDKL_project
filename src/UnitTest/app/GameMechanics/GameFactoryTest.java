@@ -1,18 +1,15 @@
 package app.GameMechanics;
 
 import DAO.logic.UserLogic;
-import SocketService.MockSocketService;
+import StubClasses.MockSocketService;
 import TestSetups.TestsCore;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
-import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import service.DBService;
 import service.serviceImpl.DBServiceImpl;
-import util.HibernateUtil;
 
 import static org.junit.Assert.*;
 

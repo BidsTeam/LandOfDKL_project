@@ -75,6 +75,10 @@ public class CustomWebSocket {
                     }
                     break;
                 }
+                case "exitQueue" : {
+                    GameFactory.getInstance().exitQueue(userID);
+                    break;
+                }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
                     break;

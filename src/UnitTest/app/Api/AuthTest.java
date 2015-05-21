@@ -1,11 +1,16 @@
 package app.Api;
 
+import DAO.logic.UserLogic;
+import StubClasses.DBServiceStub;
 import TestSetups.TestsCore;
 import org.eclipse.jetty.client.HttpRequest;
+import org.hibernate.Session;
+import org.json.JSONObject;
 import org.junit.*;
 import org.junit.Test;
 import org.mockito.Mockito;
 import service.DBService;
+import service.DataBase.DBUserService;
 import service.serviceImpl.DBServiceImpl;
 import util.LogFactory;
 
@@ -42,7 +47,7 @@ public class AuthTest extends TestsCore {
     }
 
     @Test
-    public void testSignup() throws Exception {
+    public void testSignin() throws Exception {
         HttpServletRequest request = getMockedRequest();
         HttpSession httpSession = mock(HttpSession.class);
         when(request.getSession()).thenReturn(httpSession);
@@ -55,9 +60,48 @@ public class AuthTest extends TestsCore {
         String CorrectResponse = "{\"response\":{\"is_admin\":true,\"level\":1,\"registration\":1429031051000,\"id\":1,\"email\":\"admin@mail.ru\",\"username\":\"admin\"}}\n";
         Auth auth = new Auth();
         auth.signin(request, response, dbService);
-        System.out.println(stringWriter.toString());
         assertEquals(CorrectResponse, stringWriter.toString());
     }
+
+    @Test
+    public void testSignup() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getAttribute("id")).thenReturn(0);
+        when(request.getParameter("username")).thenReturn("testUser");
+        when(request.getParameter("password")).thenReturn("testPassword");
+        when(request.getParameter("email")).thenReturn("test@mail.ru");
+        when(request.getMethod()).thenReturn("POST");
+        DBService dbServiceMock = new DBServiceStub();
+
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+        String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1432208706074,\"id\":0,\"email\":\"test@mail.ru\",\"username\":\"testUser\"},\"status\":200}\n";
+        Auth auth = new Auth();
+        auth.signup(request, response, dbServiceMock);
+        JSONObject correctJSON = new JSONObject(correctResponse);
+        JSONObject actualJSON = new JSONObject(stringWriter.toString());
+        correctJSON.getJSONObject("response").remove("registration");
+        actualJSON.getJSONObject("response").remove("registration");
+        assertEquals(correctJSON.toString(), actualJSON.toString());
+    }
+
+//    @Test
+//    public void testAlreadyExists() throws Exception {
+//        HttpServletRequest request = getMockedRequest();
+//        HttpSession httpSession = mock(HttpSession.class);
+//        when(request.getSession()).thenReturn(httpSession);
+//        when(httpSession.getAttribute("id")).thenReturn(0);
+//        when(request.getParameter("username")).thenReturn("admin");
+//        when(request.getParameter("password")).thenReturn("wrongAdminPassword");
+//        when(request.getParameter("email")).thenReturn("admin@mail.ru");
+//        when(request.getMethod()).thenReturn("POST");
+//        DBService dbServiceMock = new DBServiceStub();
+//
+//        final StringWriter stringWriter = new StringWriter();
+//        HttpServletResponse response = getMockedResponse(stringWriter);
+//    }
 
 //    @Test
 //    public void testSignin() throws Exception {

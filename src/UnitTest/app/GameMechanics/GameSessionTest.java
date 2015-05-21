@@ -1,15 +1,13 @@
 package app.GameMechanics;
 
-import SocketService.MockSocketService;
+import StubClasses.MockSocketService;
 import TestSetups.TestsCore;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import org.junit.Test;
 import service.DBService;
 import service.serviceImpl.DBServiceImpl;
-import util.HibernateUtil;
 
 import static org.junit.Assert.*;
 

@@ -1,4 +1,4 @@
-package SocketService;
+package StubClasses;
 
 import app.GameMechanics.Player;
 import app.WebSocket.CustomWebSocket;
