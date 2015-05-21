@@ -23,6 +23,7 @@ public class CardLogic {
     @NotNull(message = "Тип карты должен быть задан")
     private String cardType;
 
+    private Set<UserCardLogic> userCard = new HashSet<UserCardLogic>(0);
     private Set<EffectLogic> effects = new HashSet<>();
 
 
@@ -68,6 +69,15 @@ public class CardLogic {
 
     public void setEffects(Set<EffectLogic> effects) {
         this.effects = effects;
+    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.card")
+    public Set<UserCardLogic> getUserCard() {
+        return this.userCard;
+    }
+
+    public void setUserCard(Set<UserCardLogic> userCard) {
+        this.userCard = userCard;
     }
 
 //    @ManyToMany(mappedBy = "cards")

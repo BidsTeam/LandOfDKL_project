@@ -14,6 +14,7 @@ import java.util.*;
 
 @Entity
 @Table(name="user")
+
 public class UserLogic {
     private int id;
     @NotNull(message = "Имя пользователя должно быть задано")
@@ -27,7 +28,8 @@ public class UserLogic {
             message = "Введите настоящий email")
     private String email;
 
-    private Set<CardLogic> cards = new HashSet<>();
+
+    private Set<UserCardLogic> userCard = new HashSet<UserCardLogic>(0);
 
     private Date registration;
 
@@ -46,6 +48,14 @@ public class UserLogic {
         this.password = password;
         this.email = email;
         this.registration = new Date();
+    }
+
+    public UserLogic(String username,String password,String email, Set<UserCardLogic> userCard){
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.registration = new Date();
+        this.userCard = userCard;
     }
 
 //    public User(User u){
@@ -121,18 +131,27 @@ public class UserLogic {
         this.level = level;
     }
 
-    @ManyToMany( fetch = FetchType.EAGER,
-            cascade = { CascadeType.ALL } )
-    @JoinTable(name = "user_card",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "card_id")}
-    )
-    public Set<CardLogic> getCards() {
-        return cards;
+//    @ManyToMany( fetch = FetchType.EAGER,
+//            cascade = { CascadeType.ALL } )
+//    @JoinTable(name = "user_card",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "card_id")}
+//    )
+//    public Set<CardLogic> getCards() {
+//        return cards;
+//    }
+//
+//    public void setCards(Set<CardLogic> cards) {
+//        this.cards = cards;
+//    }
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "pk.user", cascade=CascadeType.ALL)
+    public Set<UserCardLogic> getUserCard() {
+        return this.userCard;
     }
 
-    public void setCards(Set<CardLogic> cards) {
-        this.cards = cards;
+    public void setUserCard(Set<UserCardLogic> userCard) {
+        this.userCard = userCard;
     }
 
     @Transient

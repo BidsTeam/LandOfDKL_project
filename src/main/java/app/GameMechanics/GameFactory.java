@@ -3,6 +3,7 @@ package app.GameMechanics;
 import DAO.logic.UserLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import service.DBService;
+import sun.rmi.runtime.Log;
 import util.LogFactory;
 
 import java.util.HashMap;
@@ -67,6 +68,17 @@ public class GameFactory {
                 firstPlayer = null;
                 secondPlayer = null;
             }
+        }
+    }
+
+    public void exitQueue(int userID) {
+        if (firstPlayer != null) {
+            if (firstPlayer.getUserID() == userID) {
+                freePlayer(userID);
+                firstPlayer = null;
+            }
+        } else {
+            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to exit queue while not queued from player " + userID);
         }
     }
 

@@ -39,6 +39,7 @@ public class GameSession {
         this.dbService = dbService;
         this.webSocketService = webSocketService;
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
+        this.webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
         cardCount = CARD_AMOUNT;
     }
 
@@ -119,6 +120,8 @@ public class GameSession {
                 damageCalc(firstPlayer, secondPlayer, firstPlayerCard, secondPlayerCard, result);
             } else if (result == RPS.RPSResult.SECOND_WON) {
                 damageCalc(secondPlayer, firstPlayer, secondPlayerCard, firstPlayerCard, result);
+            } else if (result == RPS.RPSResult.DRAW) {
+                webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
             }
             cardCount--;
             if (cardCount == 0) {
@@ -188,5 +191,4 @@ public class GameSession {
             LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user "+ userID);
         }
     }
-
 }
