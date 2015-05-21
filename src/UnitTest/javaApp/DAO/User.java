@@ -1,52 +1,79 @@
-package java.DAO;
+package javaApp.DAO;
 
 
 
 import DAO.logic.UserLogic;
-import org.hibernate.SessionFactory;
+import TestSetups.TestsCore;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.junit.Test;
 import service.DBService;
-import service.DataBase.DataBaseImpl.DBCardServiceImpl;
-import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
-import util.HibernateUtil;
 
 import java.lang.Exception;
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import static org.junit.Assert.*;
 
 //todo Спросить, правильно-ли мы понимаем идеологию тестов
-public class User {
+public class User extends TestsCore {
 
-    HibernateUtil hibernateUtil = new HibernateUtil();
-    SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
     DBService dbService = new DBServiceImpl(sessionFactory);
-//
-//    @Test
-//    public void testGetUserByIdCorrect() throws Exception {
-//        UserLogic user = dbService.getUserService().getUserById(1);
-//        assertEquals(1, user.getId());
-//    }
-//
-//    @Test
-//    public void testGetUserByUsername() throws Exception {
-//        UserLogic user = dbService.getUserService().getUserByUsername("admin");
-//        assertEquals("admin", user.getUsername());
-//    }
-//
+
+    @Test
+    public void testGetUserByIdCorrect() throws Exception {
+        UserLogic user = dbService.getUserService(dbService.getSession()).getUserById(1);
+        assertEquals(1, user.getId());
+    }
+
+    @Test
+    public void testGetUserByUsername() throws Exception {
+        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByUsername("admin");
+        assertEquals("admin", user.getUsername());
+    }
+
+    @Test
+    public void testGetUserByAuth() throws Exception {
+        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByAuth("admin", "admin");
+        assertEquals("admin", user.getUsername());
+    }
+
+    @Test
+    public void testAddUser() throws Exception {
+        Session session = dbService.getSession();
+        Transaction tx = session.beginTransaction();
+        UserLogic user = new UserLogic("TestUser", "TestPassword", "Test@mail.ru");
+        dbService.getUserService(session).addUser(user);
+        UserLogic resultUser = dbService.getUserService(session).getUserByUsername("TestUser");
+        tx.rollback();
+        session.close();
+        assertEquals(resultUser.getUsername(), "TestUser");
+    }
+
+    @Test
+    public void testDeleteUser() throws Exception {
+        Session session = dbService.getSession();
+        Transaction tx = session.beginTransaction();
+        UserLogic user = dbService.getUserService(session).getUserByUsername("helloworld");
+        dbService.getUserService(session).deleteUser(user);
+        UserLogic resultUser = dbService.getUserService(session).getUserByUsername("helloworld");
+        tx.rollback();
+        session.close();
+        assertNull(resultUser);
+    }
+
+    @Test
+    public void testGetAllUsers() throws Exception {
+        Session session = dbService.getSession();
+        List<UserLogic> userList = dbService.getUserService(session).getAllUsers();
+        UserLogic user = userList.get(0);
+        assertEquals(user.getId(), 1);
+    }
+
 //    @Test
 //    public void testGetUserByAuth() throws Exception {
-//        UserLogic user = dbService.getUserService().getUserByAuth("admin", "admin");
-//        assertEquals("admin", user.getUsername());
+//        UserLogic user = dbService.getUserService().
 //    }
-//
-////    @Test
-////    public void testGetUserByAuth() throws Exception {
-////        UserLogic user = dbService.getUserService().
-////    }
 //
 //
 //    @Test

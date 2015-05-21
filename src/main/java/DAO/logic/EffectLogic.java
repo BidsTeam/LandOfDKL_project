@@ -51,7 +51,7 @@ public class EffectLogic {
 
     public Map<String, Object> putAllEffectInformation(){
         Map<String,Object> result = new HashMap<>();
-        result.put("id",        this.getId());
+        result.put("id", this.getId());
         result.put("name",  this.getName());
         result.put("description", this.getDescription());
         result.put("value",  this.getValue());

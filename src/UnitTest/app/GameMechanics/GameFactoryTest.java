@@ -37,7 +37,7 @@ public class GameFactoryTest extends TestsCore {
     }
 
     @Test
-    public void testNewGame() {
+    public void testNewGame() throws Exception {
         GameSession gameSession = createNewGame(1, 2);
         JSONObject json = new JSONObject();
         json.put("firstHealth", 20);
@@ -60,7 +60,7 @@ public class GameFactoryTest extends TestsCore {
     }
 
     @Test
-    public void testTryQueueWithYourself() {
+    public void testTryQueueWithYourself() throws Exception{
         GameSession gameSession = createNewGame(1, 1);
         assertNull(gameSession);
     }
@@ -77,7 +77,7 @@ public class GameFactoryTest extends TestsCore {
     }
 
     @Test
-    public void testStartTwoGames() {
+    public void testStartTwoGames() throws Exception {
         createNewGame(1, 2);
         GameSession gameSession = createNewGame(4, 5);
         JSONObject json = new JSONObject();
