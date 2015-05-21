@@ -191,5 +191,4 @@ public class GameSession {
             LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user "+ userID);
         }
     }
-
 }

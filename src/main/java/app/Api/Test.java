@@ -3,6 +3,7 @@ package app.Api;
 
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
+import DAO.logic.UserLogic;
 import app.templater.PageGenerator;
 import org.hibernate.Session;
 import org.json.JSONArray;
@@ -23,16 +24,12 @@ public class Test {
         Session session = dbService.getSession();
         try{
             result.put("status",200);
+            UserLogic card= dbService.getUserService(session).getUserById(1);
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                CardLogic card= dbService.getCardService(session).getCard(8);
-
-                for (EffectLogic e: card.getEffects()){
-                    JSONObject json = new JSONObject(e.getValue());
-                    JSONArray result2 = (JSONArray)json.get("value");
-                }
+//                UserLogic card= dbService.getUserService(session).getUserById(1);
             }
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
