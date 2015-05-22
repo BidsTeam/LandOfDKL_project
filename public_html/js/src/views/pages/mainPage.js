@@ -4,18 +4,14 @@ define(
         "paginator",
         "pageView",
         "models/user",
-        "routers/page_router",
-        "views/loading",
-        "views/backgroundVideo"
+        "routers/page_router"
     ],
     function(
         mainPageTmpl,
         Paginator,
         PageView,
         User,
-        router,
-        loading,
-        backgroundVideoView
+        router
     ){
         var mainPageView = PageView.extend({
 
@@ -23,7 +19,7 @@ define(
                 "click a[action=enter]" : "enterGame"
             },
 
-            _construct : function(options){
+            _construct : function(options) {
             },
 
             render: function(){

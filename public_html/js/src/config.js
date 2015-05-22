@@ -3,7 +3,12 @@ define("config", [], function() {
     var Config = {
         name : "Land Of Lady, Dragon and Knight",
         apiUrl : "/api",
-        socketChatUrl : "ws://" + location.host + "/socket"
+        socketAddressList : {
+            socketActionsUrl : "ws://" + location.host + "/socket",
+            mobileUrl : "ws://" + location.host + "/socket"
+        },
+
+        testMode : false
     };
 
     return Config;

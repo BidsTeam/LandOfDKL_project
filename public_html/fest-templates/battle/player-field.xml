@@ -2,17 +2,14 @@
 
     <div class="battlefield-container__field {player.type}-field">
 
-        <div class="player-face-container">
-            <div class="player-face">
+        <div class="card-info-container card-info-container_{player.type}">
+        </div>
 
-                <div class="player-face__image-container">
-                    <img class="player-face__image"/>
-                </div>
+        <div class="health health_{player.type}">
+            <div class="health__health-number health__health-number_{player.type}">
+            </div>
 
-                <div class="player-face__name">
-                    <fest:value>player.name</fest:value>
-                </div>
-
+            <div class="health__health-line-indicator health__health-line-indicator_{player.type}">
             </div>
         </div>
 

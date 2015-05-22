@@ -22,7 +22,7 @@
 }
 
 .player-field, .opponent-field {
-  overflow: hidden;
+  overflow: visible;
 }
 
 .step-place {
@@ -30,5 +30,12 @@
   height: 50%;
   width: 100%;
   text-align: center;
-  padding-top: 7%;
+  margin-top: 7%;
+}
+
+.health-points {
+  display: inline-block;
+  vertical-align: top;
+  font-size : 40px;
+  color: red;
 }

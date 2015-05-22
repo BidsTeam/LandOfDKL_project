@@ -29,13 +29,21 @@ define(
         this.trigger("SOCKET_CONNECTED_OK");
     }
 
-    return new (Backbone.Model.extend({
+    return Backbone.Model.extend({
 
         connection : null,
+
+        defaults : {
+            name : ""
+        },
 
         initialize : function(options) {
 
             loading.show();
+
+            if (options.name) {
+                this.set({name : options.name});
+            }
 
             this.connect(options.address);
             User.bind("logout", this.close, this);
@@ -68,6 +76,6 @@ define(
             this.connection.close();
         }
 
-    }))({address : Config.socketChatUrl});
+    });
 
 });

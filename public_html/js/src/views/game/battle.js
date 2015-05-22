@@ -12,9 +12,19 @@ define(
         "models/game/battle",
         "jquery-ui",
         "views/game/card",
-        "views/loading"
+        "views/loading",
+        "collections/socketsPool",
+        "alert",
+        "templates/card/card_additional_info",
+        "models/game/player"
     ],
-    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass, loading) {
+    function(Backbone, gamePage, battlefieldTmpl, $, MiddleField, battleModel, Ui, CardViewClass, loading, socketsPool, Alert, CardAdditionalInfo, Player) {
+
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
+
+        function _showInfoForPlayer() {
+            $(".card-info-container_player").html(CardAdditionalInfo(this.model.toJSON()));
+        }
 
         return new (Backbone.View.extend({
 
@@ -23,6 +33,9 @@ define(
             playerDeck : {},
             opponentDeck : {},
             middleField : {},
+
+            player : new Player({type : "player"}),
+            opponentPlayer : new Player({type : "opponent"}),
 
             cardViews : [],
             opponentCardViews : [],
@@ -37,10 +50,15 @@ define(
                 this.model.cardsInHand.bind("add", this.addCardToHand, this);
                 this.model.cardsInOpponentHand.bind("add", this.addCardToOpponentHand, this);
                 this.model.bind("END_BATTLE", this.onEndBattle, this);
+                this.player.bind("change:health", this.updateHealth, this);
+                this.opponentPlayer.bind("change:health", this.updateHealth, this);
             },
 
             onBeginBattle : function() {
                 loading.hide();
+                Socket.bind("closed", function() {
+                    //todo обработка обрыва соединения и вывод ошибки
+                });
                 this.render();
             },
 
@@ -50,8 +68,6 @@ define(
 
                 this.setElement($html);
                 $gameArea.html(this.$el);
-
-                //this.$(".battlefield-container__field").css("height", $gameArea.height());
 
                 this.middleField = new MiddleField({el : ".middle-field"});
                 this.opponentDeck = this.$(".opponent-deck");
@@ -88,10 +104,7 @@ define(
                 var newCard = new CardViewClass({model : model});
                 this.cardViews.push(newCard);
                 this.playerDeck.append(newCard.$el);
-                newCard.$el.css({
-                    height : newCard.$el.height(),
-                    width : newCard.$el.width()
-                });
+                newCard.$el.on("mouseenter", _showInfoForPlayer.bind(newCard));
             },
 
             addCardToOpponentHand : function(model) {
@@ -99,18 +112,18 @@ define(
                 newCard.$el.removeClass("card-container_highlight"); //todo вынести отсюда
                 this.opponentCardViews.push(newCard);
                 this.opponentDeck.append(newCard.$el);
-                newCard.$el.css({
-                    height : newCard.$el.height(),
-                    width : newCard.$el.width()
-                });
             },
 
             onEndBattle : function(result) {
                 this.clear();
+                var alertOptions = {
+                    effect : "fadeFromTop"
+                };
+
                 switch (result) {
-                    case 0 : alert("Ничья"); break;
-                    case 1 : alert("Ты чемпион!"); break;
-                    case -1 : alert("Ты проиграл..."); break;
+                    case 0 : Alert.alert("Ничья", alertOptions); break;
+                    case 1 : Alert.alert("Ты чемпион!", alertOptions); break;
+                    case -1 : Alert.alert("Ты проиграл...", alertOptions); break;
                 }
             },
 
@@ -121,6 +134,13 @@ define(
                 this.opponentDeck = {};
                 this.middleField = {};
                 this.$el.remove();
+            },
+
+            updateHealth : function(model) {
+                var health = model.get("health");
+                this.$(".health__health-number_"+model.get("type")).html(health);
+                var healthPercent = (100/model.get("startHealth"))*health;
+                this.$(".health__health-line-indicator_"+model.get("type")).css({width : healthPercent+"%"});
             }
 
         }))();

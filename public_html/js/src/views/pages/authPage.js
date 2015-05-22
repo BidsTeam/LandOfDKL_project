@@ -5,8 +5,10 @@ define(
         "routers/page_router",
         "models/user",
         "views/loading",
-        "api"
-    ], function(pageView, authPageTmpl, router, User, loading, API) {
+        "api",
+        "alert",
+        "jquery"
+    ], function(pageView, authPageTmpl, router, User, loading, API, Alert, $) {
 
     var authPage = pageView.extend({
 
@@ -15,16 +17,25 @@ define(
         },
 
         _construct : function(options) {
+            router.bind("changePage_auth-page", this.focus, this);
         },
 
         render : function() {
+        },
+
+        focus : function() {
+            $("#auth-login-field").focus();
         },
 
         auth : function(e) {
             $(e.target).attr("disabled", "disabled");
             e.preventDefault();
 
-            loading.showAfterTimeout(2000);
+            loading.showAfterTimeout(2000, {
+                cancelHandler : function() {
+                    $(e.target).removeAttr("disabled");
+                }
+            });
 
             User.login({
                 login : $("#auth-login-field").val(),
@@ -33,14 +44,14 @@ define(
                 $(e.target).removeAttr("disabled");
                 loading.clearTimeoutAndCloseIfOpened();
                 if (msg.status == 404) {
-                    alert(msg.response.error);
-                    return;
+                    Alert.alert(msg.response.error);
                 } else {
                     router.navigate("game", {trigger: true, replace: true});
                 }
             }, function(err) {
+                $(e.target).removeAttr("disabled");
                 loading.clearTimeoutAndCloseIfOpened();
-                alert("Ошибка");
+                Alert.alert(err.statusText);
             });
 
         }

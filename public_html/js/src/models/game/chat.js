@@ -5,9 +5,11 @@
 define(
     [
         "backbone",
-        "models/socket"
+        "collections/socketsPool"
     ],
-    function(Backbone, Socket) {
+    function(Backbone, socketsPool) {
+
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         return new (Backbone.Model.extend({
 

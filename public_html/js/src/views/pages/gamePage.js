@@ -9,8 +9,9 @@ define(
         "models/game/userList",
         "views/game/userList",
         "views/loading",
-        "routers/page_router"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter) {
+        "routers/page_router",
+        "config"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config) {
 
         var gamePage = pageView.extend({
 
@@ -36,8 +37,11 @@ define(
                         "views/game/battle"
                     ],function(battleModel, battleView) {
                         loading.show();
-                        battleModel.searchBattle();
-                        //battleModel.beginBattle({opponentName : "testPlayer"});
+                        if (Config.testMode) {
+                            battleModel.beginBattle({opponentName : "testPlayer"});
+                        } else {
+                            battleModel.searchBattle();
+                        }
                     }
                 );
             },
