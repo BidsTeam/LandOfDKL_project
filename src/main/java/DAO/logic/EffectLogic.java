@@ -49,12 +49,9 @@ public class EffectLogic {
     public void setValue(int value) { this.value = value; }
 
 
-//    @ManyToMany(mappedBy = "cards")
-//    private Set<UserLogic> users = new HashSet<>();
-
     public Map<String, Object> putAllEffectInformation(){
         Map<String,Object> result = new HashMap<>();
-        result.put("id",        this.getId());
+        result.put("id", this.getId());
         result.put("name",  this.getName());
         result.put("description", this.getDescription());
         result.put("value",  this.getValue());

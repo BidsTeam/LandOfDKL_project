@@ -14,7 +14,6 @@ public class AccountMap {
     private static AccountMap AccountMap = null;
 
     private HashMap<Integer, UserLogic> cachedAccounts = new HashMap<>();
-    private HashMap<Integer, HashSet<Session>> connections = new HashMap<>();
 
     public static AccountMap getInstance(){
         if (AccountMap == null){
@@ -39,29 +38,7 @@ public class AccountMap {
         return cachedAccounts.size();
     }
 
-    public void putNewSession(int userID, Session newSession) {
-        HashSet bufSet = connections.get(userID);
-        if (bufSet == null) {
-            bufSet = new HashSet<>();
-            bufSet.add(newSession);
-            connections.put(userID, bufSet);
-        } else {
-            bufSet.add(newSession);
-        }
-    }
 
-    public void removeSession(int userID, Session session) {
-        Set sessions = connections.get(userID);
-        sessions.remove(session);
-    }
-
-    public HashMap<Integer, HashSet<Session>> getAllSessions() {
-        return connections;
-    }
-
-    public HashSet<Session> getUserSessions(int id) {
-        return connections.get(id);
-    }
 
 
 }

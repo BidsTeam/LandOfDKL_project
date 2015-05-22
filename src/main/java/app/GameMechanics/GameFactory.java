@@ -3,8 +3,10 @@ package app.GameMechanics;
 import DAO.logic.UserLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import service.DBService;
+import sun.rmi.runtime.Log;
 import util.LogFactory;
 
+import java.util.HashMap;
 import java.util.HashSet;
 
 
@@ -18,10 +20,12 @@ public class GameFactory {
     private HashSet<Integer> inGameUsers;
     private static boolean isInitialized = false;
     private DBService dbService;
+    private HashMap<Integer, Integer> playersToGameMap;
 
     private GameFactory() {
         gameSessionStorage = new GameSessionStorage();
         inGameUsers = new HashSet<>();
+        playersToGameMap = new HashMap<>();
     }
 
     //Есть ли лучше идея как запустить базу данных на синглтоне?
@@ -40,6 +44,10 @@ public class GameFactory {
         return GameFinder;
     }
 
+    public static void deleteGameFactory() {
+        GameFinder = null;
+    }
+
     public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
             if (inGameUsers.contains(user.getId())) {
@@ -51,23 +59,44 @@ public class GameFactory {
         } else {
             if (inGameUsers.contains(user.getId())) {
                 LogFactory.getInstance().getLogger(this.getClass()).error("Illegal try to search 2 games at once");
-
             } else {
                 secondPlayer = new Player(user);
                 inGameUsers.add(user.getId());
-                int gameID = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
+                int gameId = gameSessionStorage.newGameSession(firstPlayer, secondPlayer, webSocketService, dbService);
+                playersToGameMap.put(firstPlayer.getUserID(), gameId);
+                playersToGameMap.put(secondPlayer.getUserID(), gameId);
                 firstPlayer = null;
                 secondPlayer = null;
             }
         }
     }
 
+    public void exitQueue(int userID) {
+        if (firstPlayer != null) {
+            if (firstPlayer.getUserID() == userID) {
+                freePlayer(userID);
+                firstPlayer = null;
+            }
+        } else {
+            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to exit queue while not queued from player " + userID);
+        }
+    }
+
     public void freePlayer(int userID) {
         inGameUsers.remove(userID);
+        playersToGameMap.remove(userID);
     }
 
     public GameSession getGameSession(int id) {
         return gameSessionStorage.getGameSessionByID(id);
     }
 
+    public GameSession getLastGame() { return gameSessionStorage.getLastGame(); }
+
+    public int getUserGame(int userID) {
+        if (inGameUsers.contains(userID)) {
+            return playersToGameMap.get(userID);
+        }
+        return 0;
+    }
 }

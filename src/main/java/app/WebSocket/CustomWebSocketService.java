@@ -14,6 +14,7 @@ import util.RPS;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -280,4 +281,19 @@ public class CustomWebSocketService implements WebSocketService {
         return json;
     }
 
+    public void notifyReconnectPossibility(int userID) {
+        JSONObject json = new JSONObject();
+        json.put("action", "reconnect");
+        json.put("message", "You can reconnect to game");
+        HashSet<CustomWebSocket> sockets = userWebSockets.get(userID);
+        sendJson(sockets, json);
+    }
+
+    public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID) {
+        org.hibernate.Session session = dbService.getSession();
+        gameState.put("action", "currentGameState");
+        gameState.put("deck", deck);
+        HashSet<CustomWebSocket> sockets = userWebSockets.get(userID);
+        sendJson(sockets, gameState);
+    }
 }

@@ -36,4 +36,6 @@ public class GameSessionStorage {
         return gameSessionHashMap.get(userID);
     }
 
+    public GameSession getLastGame() { return gameSessionHashMap.get(idCounter); }
+
 }

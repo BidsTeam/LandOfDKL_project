@@ -67,6 +67,18 @@ public class CustomWebSocket {
                         break;
                     }
                 }
+                case "reconnect" : {
+                    if (gameID != 0) {
+                        GameFactory.getInstance().getGameSession(gameID).reconnect(userID);
+                    } else {
+                        LogFactory.getInstance().getLogger(this.getClass()).error("Try to reconnect to game while not in game from user " + userID);
+                    }
+                    break;
+                }
+                case "exitQueue" : {
+                    GameFactory.getInstance().exitQueue(userID);
+                    break;
+                }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
                     break;
@@ -86,6 +98,10 @@ public class CustomWebSocket {
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
             webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
+            gameID = GameFactory.getInstance().getUserGame(userID);
+            if (gameID != 0) {
+                webSocketService.notifyReconnectPossibility(userID);
+            }
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).fatal("WebSocket.CustomWebSocket/onOpen: ", e);
         }

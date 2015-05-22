@@ -124,7 +124,6 @@ public class Auth {
                 }
             }
             result.put("response", body);
-
             response.getWriter().println(PageGenerator.getJson(result));
         } catch (Exception e){
             LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signin", e);
