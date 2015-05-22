@@ -1,5 +1,6 @@
 package app.WebSocket;
 
+import DAO.logic.CardLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
@@ -251,7 +252,11 @@ public class CustomWebSocketService implements WebSocketService {
         org.hibernate.Session session = dbService.getSession();
         try {
             json.put("action", "hello");
-            json.put("cards", dbService.getCardService(session).getAllCardsInfo());
+            JSONArray cardJSONArray = new JSONArray();
+            for (CardLogic card : dbService.getCardService(session).getAllCardsInfo()){
+                cardJSONArray.put(card.putAllCardInformation());
+            }
+            json.put("cards", cardJSONArray);
             sendJson(userWebSockets.get(userID), json);
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("error in greeting user");

@@ -15,6 +15,7 @@ import util.MessageList;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
+import java.util.List;
 
 public class Test {
     public void test(HttpServletRequest request,
@@ -24,13 +25,15 @@ public class Test {
         Session session = dbService.getSession();
         try{
             result.put("status",200);
-            UserLogic card= dbService.getUserService(session).getUserById(1);
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 result.put("error", MessageList.Message.UsePost);
                 response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
             } else {
-                UserLogic user = new UserLogic("bla3","bla3","bla3@bk.ru");
-                dbService.getUserService(session).addUser(user);
+                List<CardLogic> cards= dbService.getCardService(session).getAllCardsInfo();
+                for (CardLogic card : cards){
+                    System.out.println(card.putAllCardInformation());
+                }
+//                dbService.getUserService(session).addUser(user);
             }
             result.put("response", body);
             response.getWriter().println(PageGenerator.getJson(result));
