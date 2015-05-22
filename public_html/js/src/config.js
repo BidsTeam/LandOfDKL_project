@@ -8,7 +8,7 @@ define("config", [], function() {
             mobileUrl : "ws://" + location.host + "/socket"
         },
 
-        testMode : true
+        testMode : false
     };
 
     return Config;
