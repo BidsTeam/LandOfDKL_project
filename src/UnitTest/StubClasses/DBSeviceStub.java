@@ -32,4 +32,9 @@ public class DBSeviceStub implements DBService {
         Session session = Mockito.mock(Session.class);
         return session;
     }
+
+    @Override
+    public void closeSession(Session session) {
+
+    }
 }
