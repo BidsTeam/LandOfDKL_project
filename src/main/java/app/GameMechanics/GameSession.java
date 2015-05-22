@@ -39,6 +39,7 @@ public class GameSession {
         this.dbService = dbService;
         this.webSocketService = webSocketService;
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
+        this.webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
         cardCount = CARD_AMOUNT;
     }
 
@@ -80,11 +81,7 @@ public class GameSession {
                 if (firstPlayerCard == null) {
                     int realCardID = firstPlayer.getCard(cardID);
                     if (realCardID != -1) {
-                        try {
-                            firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
-                        } finally {
-                            dbService.closeSession(session);
-                        }
+                        firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
                         webSocketService.notifyActionSet(firstPlayer, secondPlayer);
                     }
                 } else {
@@ -123,6 +120,8 @@ public class GameSession {
                 damageCalc(firstPlayer, secondPlayer, firstPlayerCard, secondPlayerCard, result);
             } else if (result == RPS.RPSResult.SECOND_WON) {
                 damageCalc(secondPlayer, firstPlayer, secondPlayerCard, firstPlayerCard, result);
+            } else if (result == RPS.RPSResult.DRAW) {
+                webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
             }
             cardCount--;
             if (cardCount == 0) {
@@ -165,11 +164,31 @@ public class GameSession {
         return damage;
     }
 
-    public void concede(int playerNumber) {
+    private void concede(int playerNumber) {
         if (playerNumber == 1) {
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.SECOND_WON);
         } else if (playerNumber == 2) {
             webSocketService.notifyGameOver(firstPlayer, secondPlayer, RPS.RPSResult.FIRST_WON);
+        }
+    }
+
+    public JSONObject reportGameState() {
+        JSONObject json = new JSONObject();
+        json.put("firstHealth", firstPlayer.getHealth());
+        json.put("secondHealth", secondPlayer.getHealth());
+        json.put("cardAmount", cardCount);
+        json.put("firstName", firstPlayer.getUsername());
+        json.put("secondName", secondPlayer.getUsername());
+        return json;
+    }
+
+    public void reconnect(int userID) {
+        if (userID == firstPlayer.getUserID()) {
+            webSocketService.notifyReconnect(reportGameState(), firstPlayer.getUserDeck(), userID);
+        } else if (userID == secondPlayer.getUserID()) {
+            webSocketService.notifyReconnect(reportGameState(), secondPlayer.getUserDeck(), userID);
+        } else {
+            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user "+ userID);
         }
     }
 }
