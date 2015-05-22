@@ -66,4 +66,8 @@ public class Card {
 //        }
 
 //    }
+
+    public void stop(HttpServletRequest request, HttpServletResponse response, DBService dbService) {
+        System.exit(0);
+    }
 }
