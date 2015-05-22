@@ -87,7 +87,7 @@ public class CustomWebSocketService implements WebSocketService {
         try {
             response.put("deck", dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(userID)));
         } finally {
-            session.close();
+            dbService.closeSession(session);
         }
         return response;
     }
@@ -257,7 +257,7 @@ public class CustomWebSocketService implements WebSocketService {
         } catch (Exception e) {
             LogFactory.getInstance().getLogger(this.getClass()).error("error in greeting user");
         } finally {
-            session.close();
+            dbService.closeSession(session);
         }
     }
 

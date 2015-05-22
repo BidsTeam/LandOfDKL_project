@@ -38,7 +38,9 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserLogic getUserById(int id)  {
         UserLogic user = null;
-        user = (UserLogic) session.get(UserLogic.class, id);
+        if (id != 0){
+            user = (UserLogic) session.get(UserLogic.class, id);
+        }
         return user;
     }
     @Override

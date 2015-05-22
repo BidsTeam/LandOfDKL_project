@@ -29,7 +29,7 @@ public class User {
             try {
                 userList = dbService.getUserService(session).getAllUserRating(count);
             } finally {
-                session.close();
+                dbService.closeSession(session);
             }
 
 
