@@ -34,10 +34,12 @@ public class UserCardLogicHelper implements java.io.Serializable {
 
         UserCardLogicHelper that = (UserCardLogicHelper) o;
 
-        if (user != null ? !user.equals(that.user) : that.user != null) return false;
-        if (card != null ? !card.equals(that.card) : that.card != null)
+        if (user != null ? !user.equals(that.user) : that.user != null){
             return false;
-
+        }
+        if (card != null ? !card.equals(that.card) : that.card != null){
+            return false;
+        }
         return true;
     }
 

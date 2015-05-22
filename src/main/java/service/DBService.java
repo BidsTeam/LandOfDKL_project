@@ -11,5 +11,6 @@ public interface DBService {
     public DBCardService getCardService(Session session);
     public DBEffectService getEffectService(Session session);
     public Session getSession();
+    public void closeSession(Session session);
 
 }

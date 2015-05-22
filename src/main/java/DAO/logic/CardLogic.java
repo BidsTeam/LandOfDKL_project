@@ -4,10 +4,14 @@ import com.sun.javafx.beans.IDProperty;
 import org.hibernate.annotations.Columns;
 //import org.hibernate.annotations.Table;
 import org.hibernate.annotations.GenericGenerator;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 
@@ -82,4 +86,19 @@ public class CardLogic {
 
 //    @ManyToMany(mappedBy = "cards")
 //    private Set<UserLogic> users = new HashSet<>();
+
+    public Map<String, Object> putAllCardInformation(){
+        Map<String,Object> result = new HashMap<>();
+        result.put("id",        this.getId());
+        result.put("name",  this.getName());
+        result.put("attack", this.getAttack());
+        result.put("cardType",  this.getCardType());
+        Set<EffectLogic> effects = this.getEffects();
+        JSONArray effectJSONArray = new JSONArray();
+        for (EffectLogic effect : effects){
+            effectJSONArray.put(effect.putAllEffectInformation());
+        }
+        result.put("effects",effectJSONArray);
+        return result;
+    }
 }

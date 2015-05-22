@@ -67,7 +67,7 @@ public class Auth {
                         LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     } finally {
-                        session.close();
+                        dbService.closeSession(session);
                     }
                 } else {
                     result.put("status", 400);
@@ -129,7 +129,7 @@ public class Auth {
             LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signin", e);
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         } finally{
-            session.close();
+            dbService.closeSession(session);
         }
     }
 
@@ -175,7 +175,7 @@ public class Auth {
                 cardsGenerator.generate(userID);
             }
         } finally {
-            session.close();
+            dbService.closeSession(session);
         }
     }
 }

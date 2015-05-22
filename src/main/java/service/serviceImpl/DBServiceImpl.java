@@ -26,4 +26,8 @@ public class DBServiceImpl implements DBService {
 
         public Session getSession(){ return sessionFactory.openSession(); }
 
+        public void closeSession(Session session) {
+            session.flush();
+            session.close();
+        }
 }

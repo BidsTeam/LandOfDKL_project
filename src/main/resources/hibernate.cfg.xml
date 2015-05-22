@@ -16,7 +16,7 @@
         <!--&lt;!&ndash; Есть недокументированная возможность none вместо validate, но вроде validate нас устраивает &ndash;&gt;-->
         <property name="hbm2ddl.auto">validate</property>
         <!-- Спросить у преподов, что значит Enables autocommit for JDBC pooled connection -->
-        <property name="hibernate.connection.autocommit">false</property>
+        <property name="hibernate.connection.autocommit">true</property>
 
         <property name="current_session_context_class">thread</property>
         <!-- Пингую базу данных каждые 4 секунды -->
