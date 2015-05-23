@@ -40,7 +40,7 @@ define(
                     deck : playerDeck,
                     type : "player",
                     name : User.get("name"),
-                    health : msg.firstHealth
+                    health : msg.yourHealth
                 });
 
                 var opponentDeck = [];
@@ -51,7 +51,7 @@ define(
                     deck : opponentDeck,
                     type : "opponent",
                     name : msg.opponentName,
-                    health : msg.secondHealth
+                    health : msg.opponentHealth
                 });
 
                 this.trigger("BATTLE_BEGAN");
