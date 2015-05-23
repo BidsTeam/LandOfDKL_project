@@ -10,8 +10,13 @@ define(
         "views/game/userList",
         "views/loading",
         "routers/page_router",
-        "config"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config) {
+        "config",
+        "collections/socketsPool",
+        'models/game/battle',
+        "views/game/battle"
+    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView) {
+
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         var gamePage = pageView.extend({
 
@@ -25,25 +30,24 @@ define(
             _construct : function() {
                 this.chatView = new chatView({chatContainerSelector : ".chat"});
                 this.userListview = new userListView({listContainerSelector : ".chat__players-in-room-list"});
+                Socket.bind("reconnect", this.reconnectToBattle, this);
+                Socket.bind("currentGameState", this.continueBattle, this);
             },
 
             render : function() {
             },
 
             findBattle : function() {
-                require(
-                    [
-                        'models/game/battle',
-                        "views/game/battle"
-                    ],function(battleModel, battleView) {
-                        loading.show();
-                        if (Config.testMode) {
-                            battleModel.beginBattle({opponentName : "testPlayer"});
-                        } else {
-                            battleModel.searchBattle();
-                        }
-                    }
-                );
+                loading.show();
+                if (Config.testMode) {
+                    battleModel.beginBattle({opponentName : "testPlayer"});
+                } else {
+                    battleModel.searchBattle();
+                }
+            },
+
+            continueBattle : function(msg) {
+                battleModel.beginBattle(msg);
             },
 
             sendMsgToChat : function(e) {
@@ -54,6 +58,12 @@ define(
                     $(chatContainer).val("");
                     $(".message-to").remove();
                 }
+            },
+
+            reconnectToBattle : function(msg) {
+                Socket.send(JSON.stringify({
+                    action : "reconnect"
+                }));
             },
 
             logout : function(e) {

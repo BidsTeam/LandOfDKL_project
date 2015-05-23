@@ -14,7 +14,7 @@ define(
     ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
 
         function _onStep() {
-            this.model.trigger("MY_STEP", this.model);
+            this.model.trigger("STEP", this.model);
             this.$el
                 .removeClass("inDragPosition")
                 .css("margin-left", "");

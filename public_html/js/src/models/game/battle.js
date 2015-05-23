@@ -8,59 +8,53 @@ define(
         "collections/cardCollection",
         "collections/socketsPool",
         "models/user",
-        "config"
-    ], function(Backbone, cardCollection, socketsPool, User, Config) {
+        "config",
+        "models/game/myPlayerInGame",
+        "models/game/opponentPlayerInGame",
+        "models/game/card",
+        "lodash"
+    ], function(Backbone, cardCollection, socketsPool, User, Config, MyPlayerInGameModelClass, OpponentPlayerInGameModelClass, CardModelClass, _) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
-        function sendAction(cardIndex) {
-            var request = JSON.stringify({
-                action : "gameAction",
-                gameAction : "setCard",
-                chosenCard : cardIndex
-            });
-            Socket.send(request);
-        }
-
         return new (Backbone.Model.extend({
 
-            cardsInHand : new cardCollection(),
-            cardsInOpponentHand : new cardCollection(),
+            player : {},
+            opponentPlayer : {},
 
             nextStepTimerId : 0,
 
             initialize : function() {
-                Socket.bind("game_action_set", this.setOpponentCard, this);
                 Socket.bind("gameCardsReveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);
                 Socket.bind("game_over", this.endBattle, this);
-                this.cardsInHand.bind("MY_STEP", this.myStep, this);
-                this.cardsInHand.bind("delete", this.removeCard, this);
             },
 
             beginBattle : function(msg) {
-                this.set({
-                    opponentName : msg.opponent_name,
-                    playerName : User.get("login") || User.get("username")
+
+                var playerDeck = [];
+                for (var key in msg.deck) {
+                    playerDeck.push(new CardModelClass({cardId : msg.deck[key]}));
+                }
+                this.player = new MyPlayerInGameModelClass({
+                    deck : playerDeck,
+                    type : "player",
+                    name : User.get("name"),
+                    health : msg.yourHealth
+                });
+
+                var opponentDeck = [];
+                for (var key in msg.deck) {
+                    opponentDeck.push(new CardModelClass({cardType : "closed"}));
+                }
+                this.opponentPlayer = new OpponentPlayerInGameModelClass({
+                    deck : opponentDeck,
+                    type : "opponent",
+                    name : msg.opponentName,
+                    health : msg.opponentHealth
                 });
 
                 this.trigger("BATTLE_BEGAN");
-
-                if (Config.testMode) {
-
-                    for (var i = 0; i<15; i++) {
-                        this.cardsInHand.add({cardId : 11});
-                        this.cardsInOpponentHand.add({cardType : "closed"});
-                    }
-
-                } else {
-
-                    for (var key in msg.deck) {
-                        this.cardsInHand.add({cardId : msg.deck[key]});
-                        this.cardsInOpponentHand.add({cardType : "closed"});
-                    }
-
-                }
             },
 
             searchBattle : function() {
@@ -70,15 +64,8 @@ define(
                 Socket.send(request);
             },
 
-            setOpponentCard : function(data) {
-                var isPlayerStep = data.isSetter;
-                if (!isPlayerStep) {
-                    this.trigger("OPPONENT_STEP");
-                }
-            },
-
             revealCards : function(data) {
-                var opponentCard = this.cardsInOpponentHand.shift();
+                var opponentCard = this.opponentPlayer.cardsInHand.shift();
                 opponentCard.updateById(data.opponentCard);
                 this.nextStepTimerId = setTimeout(this.nextStep.bind(this), 2000);
             },
@@ -89,21 +76,11 @@ define(
 
             endBattle : function(msg) {
                 clearTimeout(this.nextStepTimerId);
-                this.cardsInHand.reset();
-                this.cardsInOpponentHand.reset();
+                this.player.clear();
+                this.player = {};
+                this.opponentPlayer.clear();
+                this.opponentPlayer = {};
                 this.trigger("END_BATTLE", Number(msg.gameResult));
-            },
-
-            removeCard : function(model) {
-                this.trigger("REMOVE_CARD", model);
-            },
-
-            myStep : function(cardModel) {
-                this.trigger("MY_STEP");
-                var indexOfCard = _.findIndex(this.cardsInHand.models, function(card) {
-                    return cardModel.cid == card.cid;
-                });
-                sendAction(indexOfCard);
             }
 
         }))();
