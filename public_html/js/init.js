@@ -39,7 +39,7 @@ require(["config", "jquery", "jquery-video"], function(config, $, video) {
         timeout : 15000
     });
 
-    $("#bgndVideo").YTPlayer();
+    //$("#bgndVideo").YTPlayer();
 
     require(['routers/page_router'], function(router){});
 });
