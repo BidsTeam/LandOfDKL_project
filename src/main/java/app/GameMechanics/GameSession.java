@@ -182,13 +182,28 @@ public class GameSession {
         return json;
     }
 
+    private JSONObject reportOneSideGameState(int number) {
+        JSONObject json = new JSONObject();
+        if (number == 1) {
+            json.put("yourHealth", firstPlayer.getHealth());
+            json.put("opponentHealth", secondPlayer.getHealth());
+        } else if (number == 2) {
+            json.put("yourHealth", secondPlayer.getHealth());
+            json.put("opponentHealth", firstPlayer.getHealth());
+        }
+        json.put("cardAmount", cardCount);
+        json.put("firstName", firstPlayer.getUsername());
+        json.put("secondName", secondPlayer.getUsername());
+        return json;
+    }
+
     public void reconnect(int userID) {
         if (userID == firstPlayer.getUserID()) {
-            webSocketService.notifyReconnect(reportGameState(), firstPlayer.getUserDeck(), userID);
+            webSocketService.notifyReconnect(reportOneSideGameState(1), firstPlayer.getUserDeck(), userID);
         } else if (userID == secondPlayer.getUserID()) {
-            webSocketService.notifyReconnect(reportGameState(), secondPlayer.getUserDeck(), userID);
+            webSocketService.notifyReconnect(reportOneSideGameState(2), secondPlayer.getUserDeck(), userID);
         } else {
-            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user "+ userID);
+            LogFactory.getInstance().getLogger(this.getClass()).error("Trying to reconnect to wrong game from user " + userID);
         }
     }
 }

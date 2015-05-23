@@ -73,13 +73,13 @@ public class AuthTest extends TestsCore {
         when(request.getParameter("password")).thenReturn("testPassword");
         when(request.getParameter("email")).thenReturn("test@mail.ru");
         when(request.getMethod()).thenReturn("POST");
-        DBService dbServiceMock = new DBSeviceStub();
+        DBService dbServiceStub = new DBSeviceStub();
 
         final StringWriter stringWriter = new StringWriter();
         HttpServletResponse response = getMockedResponse(stringWriter);
         String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1432208706074,\"id\":0,\"email\":\"test@mail.ru\",\"username\":\"testUser\"},\"status\":200}\n";
         Auth auth = new Auth();
-        auth.signup(request, response, dbServiceMock);
+        auth.signup(request, response, dbServiceStub);
         JSONObject correctJSON = new JSONObject(correctResponse);
         JSONObject actualJSON = new JSONObject(stringWriter.toString());
         correctJSON.getJSONObject("response").remove("registration");
