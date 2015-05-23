@@ -96,13 +96,14 @@ define(
             _onEndBattle : function(result) {
                 this._clear();
                 var alertOptions = {
-                    effect : "fadeFromTop"
+                    effect : "fadeFromTop",
+                    textClass : ""
                 };
 
                 switch (result) {
                     case 0 : Alert.alert("Ничья", alertOptions); break;
-                    case 1 : Alert.alert("Ты чемпион!", alertOptions); break;
-                    case -1 : Alert.alert("Ты проиграл...", alertOptions); break;
+                    case 1 : alertOptions.textClass = "alert-box__text_winner"; Alert.alert("Ты чемпион!", alertOptions); break;
+                    case -1 : alertOptions.textClass = "alert-box__text_looser"; Alert.alert("Ты проиграл...", alertOptions); break;
                 }
             },
 

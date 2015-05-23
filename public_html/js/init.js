@@ -34,10 +34,12 @@ requirejs.config({
 });
 
 
-require(["config", "jquery"], function(config, $) {
+require(["config", "jquery", "jquery-video"], function(config, $, video) {
     $.ajaxSetup({
         timeout : 15000
     });
+
+    $("#bgndVideo").YTPlayer();
 
     require(['routers/page_router'], function(router){});
 });

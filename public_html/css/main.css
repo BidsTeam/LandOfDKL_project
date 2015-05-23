@@ -497,6 +497,13 @@ a.underline {
 .alert-box_on-top {
   top: -50%; }
 
+.alert-box__text {
+  font-size: 40px; }
+  .alert-box__text_winner {
+    color: #3fb21d; }
+  .alert-box__text_looser {
+    color: #b20c07; }
+
 .health {
   display: inline-block;
   vertical-align: top;

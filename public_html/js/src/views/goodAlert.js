@@ -50,7 +50,11 @@ define(
                     if (options.effect) {
                         effect = options.effect;
                     }
+                    if (options.textClass) {
+                        this.$(".alert-box__text").addClass(options.textClass);
+                    }
                 }
+
 
                 this.$(".alert-box__text").html(text);
                 if (effect) {
