@@ -4,7 +4,7 @@
         <div class="menu-container">
             <div class="menu-container__menu">
 
-                <div class="menu-name">Login</div>
+                <div class="menu-name">Авторизация</div>
 
                 <form class="menu__form form-group form-horizontal" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
                     <div class="menu-form__fields-container">

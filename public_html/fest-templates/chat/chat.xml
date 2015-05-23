@@ -16,7 +16,7 @@
             <input type="text" class="input-container__input-field input-container__input-field_chat" placeholder="Сообщение" />
         </div>
 
-        <input type="button" value="Написать" class="chat__send-button" />
+        <a class="chat__send-button game-button"> <span class="game-button__text">Написать</span> </a>
 
 
     </div>

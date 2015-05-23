@@ -39,8 +39,6 @@ define(
 
         initialize : function(options) {
 
-            loading.show();
-
             if (options.name) {
                 this.set({name : options.name});
             }
@@ -48,6 +46,15 @@ define(
             this.connect(options.address);
             User.bind("logout", this.close, this);
             this.bind("hello", this.saveCardsInformation, this);
+
+            require(['views/pages/gamePage'], function(gamePageView) {
+                this.bind("reconnect", gamePageView.reconnectToBattle.bind(gamePageView), this);
+                this.bind("currentGameState", gamePageView.continueBattle.bind(gamePageView), this);
+            }.bind(this));
+
+            require(['models/game/userList'], function(userList) {
+                this.bind("newChatUsers", userList.receive.bind(userList));
+            }.bind(this));
 
             this.connection.onopen = onOpen.bind(this);
             this.connection.onmessage = onEvent.bind(this);

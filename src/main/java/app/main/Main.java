@@ -48,14 +48,14 @@ public class Main {
         DBService dbService = new DBServiceImpl(sessionFactory);
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
-        GameFactory.initialize(dbService);
+        GameFactory gameFactory = new GameFactory(dbService);
 
         Server server = new Server(port);
 
         Router router = new Router(dbService);
         AdminServlet adminServlet = new AdminServlet(dbService);
 
-        SocketServlet socketServlet = new SocketServlet(webSocketService);
+        SocketServlet socketServlet = new SocketServlet(webSocketService, gameFactory);
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 

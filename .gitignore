@@ -5,8 +5,8 @@ classes
 node_modules
 npm-debug.log
 .sass-cache
-public_html/css/main.css
-public_html/css/main.css.map
-LandOfDKL.jar
-public_html/js/src/templates
-public_html/js/src/templates/**/
+#public_html/css/main.css
+#public_html/css/main.css.map
+#LandOfDKL.jar
+#public_html/js/src/templates
+#public_html/js/src/templates/**/

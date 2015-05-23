@@ -15,6 +15,7 @@ $upperLength : -50px;
 
 .inDragPosition {
   margin-top: $upperLength;
+  z-index: 999;
 }
 
 .card-container {

@@ -30,7 +30,14 @@
 //=============
 
 .alert-box__text {
+  font-size: 40px;
+  &_winner {
+    color: #3fb21d;
+  }
 
+  &_looser {
+    color: #b20c07;
+  }
 }
 
 .alert-box__controls {

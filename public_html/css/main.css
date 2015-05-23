@@ -9,7 +9,8 @@
   transition: 0.3s; }
 
 .inDragPosition {
-  margin-top: -50px; }
+  margin-top: -50px;
+  z-index: 999; }
 
 .card-container {
   display: inline-block;
@@ -152,7 +153,7 @@
 
 .chat__send-button {
   width: 10%;
-  height: 20%;
+  height: 18%;
   vertical-align: top;
   background-image: url("../images/button_wood.png");
   outline: none;
@@ -234,6 +235,36 @@
 .game__console {
   background-color: white;
   height: 30%; }
+
+.game-button {
+  text-align: center;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  color: #fff;
+  text-decoration: none;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+  user-select: none;
+  padding: 0.5em 10px;
+  border: 1px solid #502000;
+  border-radius: 5px;
+  outline: none;
+  background: #935024 linear-gradient(#6a3a1a, #935024 80%);
+  box-shadow: 0 6px #562606, 0 3px 15px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
+  transition: .2s; }
+  .game-button:hover {
+    background: #a75b29 linear-gradient(#7e451f, #a75b29 80%); }
+  .game-button:active {
+    background: #783f19 linear-gradient(#783f19 20%, #a75b29);
+    box-shadow: 0 2px #562606, 0 1px 6px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
+    -webkit-transform: translate(0, 4px);
+    transform: translate(0, 4px); }
+
+.game-button__text {
+  display: inline-block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
 
 .battlefield-container {
   height: 100%;
@@ -452,27 +483,7 @@ a.underline {
   display: inline-block; }
 
 .nav-menu__button {
-  display: inline-block;
-  font-weight: bold;
-  color: #fff;
-  text-decoration: none;
-  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
-  user-select: none;
-  padding: 0.5em 10px;
-  border: 1px solid #502000;
-  border-radius: 5px;
-  outline: none;
-  height: 100%;
-  background: #935024 linear-gradient(#6a3a1a, #935024 80%);
-  box-shadow: 0 6px #562606, 0 3px 15px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
-  transition: .2s; }
-  .nav-menu__button:hover {
-    background: #a75b29 linear-gradient(#7e451f, #a75b29 80%); }
-  .nav-menu__button:active {
-    background: #783f19 linear-gradient(#783f19 20%, #a75b29);
-    box-shadow: 0 2px #562606, 0 1px 6px rgba(0, 0, 0, 0.4), inset 0 1px rgba(255, 255, 255, 0.3), inset 0 0 3px rgba(255, 255, 255, 0.5);
-    -webkit-transform: translate(0, 4px);
-    transform: translate(0, 4px); }
+  height: 100%; }
 
 .alert {
   position: absolute;
@@ -495,6 +506,13 @@ a.underline {
 
 .alert-box_on-top {
   top: -50%; }
+
+.alert-box__text {
+  font-size: 40px; }
+  .alert-box__text_winner {
+    color: #3fb21d; }
+  .alert-box__text_looser {
+    color: #b20c07; }
 
 .health {
   display: inline-block;
