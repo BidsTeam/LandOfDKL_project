@@ -4,11 +4,11 @@
         <div class="menu-container">
             <div class="menu-container__menu">
 
-                <div class="menu__menu-name">Signup</div>
+                <div class="menu__menu-name">Регистрация</div>
 
                 <form id="signup-form" class="form-horizontal menu__form" action="/api/auth/signup" method="POST" enctype="application/x-www-form-urlencoded">
                     <div class="menu-form__fields-container">
-                        <label for="signup-username-field" class="menu-form__field-name"> Username </label>
+                        <label for="signup-username-field" class="menu-form__field-name"> Логин </label>
                         <div class="form-group menu-form__form-group">
                             <input type="text" name="username" class="form-control menu-form__field" id="signup-username-field" />
                         </div>

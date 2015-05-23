@@ -14,7 +14,7 @@ define(
         "collections/socketsPool",
         'models/game/battle',
         "views/game/battle"
-    ],function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView) {
+    ], function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
@@ -30,8 +30,6 @@ define(
             _construct : function() {
                 this.chatView = new chatView({chatContainerSelector : ".chat"});
                 this.userListview = new userListView({listContainerSelector : ".chat__players-in-room-list"});
-                Socket.bind("reconnect", this.reconnectToBattle, this);
-                Socket.bind("currentGameState", this.continueBattle, this);
             },
 
             render : function() {
@@ -47,6 +45,7 @@ define(
             },
 
             continueBattle : function(msg) {
+                this.go();
                 battleModel.beginBattle(msg);
             },
 

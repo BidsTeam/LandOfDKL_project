@@ -3,7 +3,7 @@
     <div data-role="page" id="scoreboard-page">
         <div class="menu-container">
             <div class="menu-container__menu">
-                <div class="menu__menu-name">Scoreboard</div>
+                <div class="menu__menu-name">Рейтинги</div>
                 <div class="menu__rating-container" id="rating-list">
 
                 </div>

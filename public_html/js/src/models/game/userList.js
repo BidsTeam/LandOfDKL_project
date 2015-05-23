@@ -12,7 +12,6 @@ define(
 
         return new (Backbone.Model.extend({
             initialize : function(options) {
-                Socket.bind("newChatUsers", this.receive, this);
             },
             receive : function(newUserList) {
                 this.trigger("newChatUsers", newUserList.usernames);

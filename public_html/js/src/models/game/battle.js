@@ -24,6 +24,7 @@ define(
 
             nextStepTimerId : 0,
 
+
             initialize : function() {
                 Socket.bind("gameCardsReveal", this.revealCards, this);
                 Socket.bind("new_game", this.beginBattle, this);

@@ -1,8 +1,8 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
 
     <div class="nav-menu-container">
-        <a action="findGame" class="nav-menu__button"> <span>Найти игру</span> </a>
-        <a action="logout" class="nav-menu__button"> <span>Выйти</span> </a>
+        <a action="findGame" class="nav-menu__button game-button"> <span class="game-button__text">Найти игру</span> </a>
+        <a action="logout" class="nav-menu__button game-button"> <span class="game-button__text">Выйти</span> </a>
     </div>
 
 </fest:template>
