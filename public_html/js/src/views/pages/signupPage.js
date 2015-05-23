@@ -6,9 +6,10 @@ define(
         "config",
         "jquery",
         "views/loading",
-        "models/user"
+        "models/user",
+        "routers/page_router"
     ],
-    function(pageView, signupModel, signupTmpl, Config, $, loading, User) {
+    function(pageView, signupModel, signupTmpl, Config, $, loading, User, router) {
 
         var SignupView = pageView.extend({
 
@@ -52,6 +53,7 @@ define(
                     .then(function(msg) {
                         loading.clearTimeoutAndCloseIfOpened();
                         _this.$("input[type=submit]").removeAttr("disabled");
+                        router.navigate("game", {trigger : true, replace : true});
                     }, function(err) {
 
                     });

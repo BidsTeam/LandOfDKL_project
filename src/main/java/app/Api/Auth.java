@@ -2,6 +2,7 @@ package app.Api;
 
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
+import app.AccountMap.AccountMap;
 import app.templater.PageGenerator;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -54,10 +55,11 @@ public class Auth {
                     Session session = dbService.getSession();
                     try {
                         if (dbService.getUserService(session).addUser(user)) {
-                        request.getSession().setAttribute("id", user.getId());
-                        body.putAll(user.putAllUserInformation());
-                        result.put("status", 200);
-                        response.setStatus(HttpServletResponse.SC_OK);
+                            request.getSession().setAttribute("id", user.getId());
+                            AccountMap.getInstance().putUser(user);
+                            body.putAll(user.putAllUserInformation());
+                            result.put("status", 200);
+                            response.setStatus(HttpServletResponse.SC_OK);
                         } else {
                             result.put("error", MessageList.Message.UserAlreadyExists);
                         }
