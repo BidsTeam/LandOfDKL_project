@@ -39,8 +39,6 @@ define(
 
         initialize : function(options) {
 
-            loading.show();
-
             if (options.name) {
                 this.set({name : options.name});
             }
