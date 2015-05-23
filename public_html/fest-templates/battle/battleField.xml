@@ -1,14 +1,12 @@
-<fest:template xmlns:fest="http://fest.mail.ru" context_name="game">
+<fest:template xmlns:fest="http://fest.mail.ru">
 
     <fest:script>
         var playerObj = {
-            type : "player",
-            name : game.playerName
+            type : "player"
         };
 
         var opponentObj = {
-            type : "opponent",
-            name : game.opponentName
+            type : "opponent"
         };
     </fest:script>
 

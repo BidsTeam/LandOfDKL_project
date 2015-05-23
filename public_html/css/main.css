@@ -9,7 +9,8 @@
   transition: 0.3s; }
 
 .inDragPosition {
-  margin-top: -50px; }
+  margin-top: -50px;
+  z-index: 999; }
 
 .card-container {
   display: inline-block;
