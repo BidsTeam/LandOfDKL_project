@@ -71,7 +71,7 @@ public class CardDAOImpl implements CardDAO {
     }
 
     public List<CardLogic> getAllCardsInfo() {
-        List<CardLogic> cards = new ArrayList<>();
+        List<CardLogic> cards;
         cards = session.createQuery("from CardLogic").list();
         return cards;
     }

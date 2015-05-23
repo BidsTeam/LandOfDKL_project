@@ -15,38 +15,45 @@ public class GameFactory {
     //private int idCounter;
     private Player firstPlayer;
     private Player secondPlayer;
-    private static GameFactory GameFinder = null;
+    //private static GameFactory GameFinder = null;
     private GameSessionStorage gameSessionStorage;
     private HashSet<Integer> inGameUsers;
     private static boolean isInitialized = false;
     private DBService dbService;
     private HashMap<Integer, Integer> playersToGameMap;
 
-    private GameFactory() {
+//    private GameFactory() {
+//        gameSessionStorage = new GameSessionStorage();
+//        inGameUsers = new HashSet<>();
+//        playersToGameMap = new HashMap<>();
+//    }
+//
+//    //Есть ли лучше идея как запустить базу данных на синглтоне?
+//    public static void initialize(DBService dbService) {
+//        GameFinder = new GameFactory();
+//        GameFinder.dbService = dbService;
+//        isInitialized = true;
+//    }
+//
+//    //TODO сделать проверку на isInitialized
+//    public static GameFactory getInstance() {
+//        if (GameFinder == null)
+//        {
+//            GameFinder = new GameFactory();
+//        }
+//        return GameFinder;
+//    }
+
+    public GameFactory(DBService dbService) {
         gameSessionStorage = new GameSessionStorage();
         inGameUsers = new HashSet<>();
         playersToGameMap = new HashMap<>();
+        this.dbService = dbService;
     }
 
-    //Есть ли лучше идея как запустить базу данных на синглтоне?
-    public static void initialize(DBService dbService) {
-        GameFinder = new GameFactory();
-        GameFinder.dbService = dbService;
-        isInitialized = true;
-    }
-
-    //TODO сделать проверку на isInitialized
-    public static GameFactory getInstance() {
-        if (GameFinder == null)
-        {
-            GameFinder = new GameFactory();
-        }
-        return GameFinder;
-    }
-
-    public static void deleteGameFactory() {
-        GameFinder = null;
-    }
+//    public static void deleteGameFactory() {
+//        GameFinder = null;
+//    }
 
     public void FindGameLobby(UserLogic user, WebSocketService webSocketService) {
         if (firstPlayer == null) {
