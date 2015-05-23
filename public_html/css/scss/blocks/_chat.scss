@@ -135,4 +135,6 @@ $shadow-size : 2px;
 .input-container__input-field_chat {
   height: 100%;
   color: black;
+  width: 50%;
+  overflow-x: scroll;
 }

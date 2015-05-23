@@ -223,7 +223,9 @@
 
 .input-container__input-field_chat {
   height: 100%;
-  color: black; }
+  color: black;
+  width: 50%;
+  overflow-x: scroll; }
 
 .game-area-container {
   height: 65%;
