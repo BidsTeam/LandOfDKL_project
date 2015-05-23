@@ -63,6 +63,9 @@
 .card-info-container__attack {
   color: red; }
 
+.card-info-container__name {
+  color: white; }
+
 .card-info-container__effect {
   word-break: break-all; }
 
@@ -72,7 +75,11 @@
   border-radius: 10px;
   display: inline-block;
   text-align: center;
-  padding: 2px 13px; }
+  padding: 2px 13px;
+  width: 100%; }
+  .card__header p {
+    overflow: hidden;
+    text-overflow: ellipsis; }
 
 .card__image {
   background-repeat: no-repeat;
