@@ -1,5 +1,6 @@
 package app.WebSocket;
 
+import app.GameMechanics.GameFactory;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeRequest;
 import org.eclipse.jetty.websocket.servlet.ServletUpgradeResponse;
@@ -10,9 +11,11 @@ import util.LogFactory;
 public class CustomWebSocketCreator implements WebSocketCreator {
 
     private WebSocketService webSocketService;
+    private GameFactory gameFactory;
 
-    public CustomWebSocketCreator(WebSocketService webSocketService) {
+    public CustomWebSocketCreator(WebSocketService webSocketService, GameFactory gameFactory) {
         this.webSocketService = webSocketService;
+        this.gameFactory = gameFactory;
     }
 
     @Override
@@ -27,7 +30,7 @@ public class CustomWebSocketCreator implements WebSocketCreator {
             return null;
         } else {
             System.out.println("create");
-            return new CustomWebSocket(sessionID, webSocketService);
+            return new CustomWebSocket(sessionID, webSocketService, gameFactory);
         }
     }
 

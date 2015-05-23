@@ -29,8 +29,7 @@ public class GameFactoryTest extends TestsCore {
 
     @Before
     public void beforeNewGame() {
-        GameFactory.initialize(dbService);
-        gameFactory = GameFactory.getInstance();
+        gameFactory = new GameFactory(dbService);
     }
 
     @Test
@@ -47,13 +46,12 @@ public class GameFactoryTest extends TestsCore {
 
     @After
     public void afterNewGame() {
-        GameFactory.deleteGameFactory();
+        gameFactory = null;
     }
 
     @Before
     public void beforeTryQueueWithYourself() {
-        GameFactory.initialize(dbService);
-        gameFactory = GameFactory.getInstance();
+        gameFactory = new GameFactory(dbService);
     }
 
     @Test
@@ -64,13 +62,12 @@ public class GameFactoryTest extends TestsCore {
 
     @After
     public void afterTryQueueWithYourself() {
-        GameFactory.deleteGameFactory();
+        gameFactory = null;
     }
 
     @Before
     public void beforeStartTwoGames() {
-        GameFactory.initialize(dbService);
-        gameFactory = GameFactory.getInstance();
+        gameFactory = new GameFactory(dbService);
     }
 
     @Test
@@ -88,7 +85,7 @@ public class GameFactoryTest extends TestsCore {
 
     @After
     public void afterStartTwoGames() {
-        GameFactory.deleteGameFactory();
+        gameFactory = null;
     }
 
 }

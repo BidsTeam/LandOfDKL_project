@@ -21,11 +21,13 @@ public class CustomWebSocket {
     private AccountMap cache = AccountMap.getInstance();
     private int gameID;
     private WebSocketService webSocketService;
+    private GameFactory gameFactory;
 
-    public CustomWebSocket(int ID, WebSocketService webSocketService) {
+    public CustomWebSocket(int ID, WebSocketService webSocketService, GameFactory gameFactory) {
         userID = ID;
         gameID = 0;
         this.webSocketService = webSocketService;
+        this.gameFactory = gameFactory;
     }
 
     @OnWebSocketMessage
@@ -56,27 +58,27 @@ public class CustomWebSocket {
                 }
 
                 case "findGame" : {
-                    GameFactory.getInstance().FindGameLobby(user, webSocketService);
+                    gameFactory.FindGameLobby(user, webSocketService);
                     break;
                 }
                 case "gameAction" : {
                     if (gameID == 0) {
                         LogFactory.getInstance().getLogger(this.getClass()).info("Try to make game move while not in game");
                     } else {
-                        GameFactory.getInstance().getGameSession(gameID).doGameAction(request, userID);
+                        gameFactory.getGameSession(gameID).doGameAction(request, userID);
                         break;
                     }
                 }
                 case "reconnect" : {
                     if (gameID != 0) {
-                        GameFactory.getInstance().getGameSession(gameID).reconnect(userID);
+                        gameFactory.getGameSession(gameID).reconnect(userID);
                     } else {
                         LogFactory.getInstance().getLogger(this.getClass()).error("Try to reconnect to game while not in game from user " + userID);
                     }
                     break;
                 }
                 case "exitQueue" : {
-                    GameFactory.getInstance().exitQueue(userID);
+                    gameFactory.exitQueue(userID);
                     break;
                 }
                 default: {
@@ -98,7 +100,7 @@ public class CustomWebSocket {
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
             webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
-            gameID = GameFactory.getInstance().getUserGame(userID);
+            gameID = gameFactory.getUserGame(userID);
             if (gameID != 0) {
                 webSocketService.notifyReconnectPossibility(userID);
             }
@@ -131,7 +133,7 @@ public class CustomWebSocket {
     public void setGameID(int gameID){
         this.gameID = gameID;
         if (gameID == 0) {
-            GameFactory.getInstance().freePlayer(userID);
+            gameFactory.freePlayer(userID);
         }
     }
     public int getGameID() {
