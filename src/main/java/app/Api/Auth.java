@@ -3,13 +3,17 @@ package app.Api;
 import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
+import app.AccountMap.messages.MessageAuthenticate;
 import app.templater.PageGenerator;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.MessageList;
+import util.ServiceWrapper;
 import util.UserCardsGenerator;
 
 import javax.servlet.ServletException;
@@ -25,9 +29,8 @@ import java.util.Map;
 public class Auth {
     private String login = "";
 
-
     public void main(HttpServletRequest request,
-                      HttpServletResponse response, DBService dbService) throws ServletException, IOException {
+                      HttpServletResponse response, ServiceWrapper serviceWrapper) throws ServletException, IOException {
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
@@ -39,9 +42,11 @@ public class Auth {
     }
 
     public void signup(HttpServletRequest request,
-                       HttpServletResponse response, DBService dbService) {
+                       HttpServletResponse response, ServiceWrapper serviceWrapper) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
+        DBService dbService = serviceWrapper.getDbService();
+        MessageSystem messageSystem = serviceWrapper.getMessageSystem();
         try{
 
             if (request.getMethod().equalsIgnoreCase("GET")) {
@@ -56,7 +61,8 @@ public class Auth {
                     try {
                         if (dbService.getUserService(session).addUser(user)) {
                             request.getSession().setAttribute("id", user.getId());
-                            AccountMap.getInstance().putUser(user);
+                            Message messageAuthenticate = new MessageAuthenticate(messageSystem.getAddressService().getAccountServiceAddress(), user.getId());
+                            messageSystem.sendMessage(messageAuthenticate);
                             body.putAll(user.putAllUserInformation());
                             result.put("status", 200);
                             response.setStatus(HttpServletResponse.SC_OK);
@@ -86,9 +92,10 @@ public class Auth {
     }
 
     public void signin(HttpServletRequest request,
-                     HttpServletResponse response, DBService dbService) {
+                     HttpServletResponse response, ServiceWrapper serviceWrapper) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
+        DBService dbService = serviceWrapper.getDbService();
         Session session = dbService.getSession();
         try {
             int id = (request.getSession().getAttribute("id") != null)?(int)request.getSession().getAttribute("id"):0;
@@ -100,7 +107,7 @@ public class Auth {
                 } else {
                     String login = request.getParameter("login");
                     String password = request.getParameter("password");
-                    UserLogic user = dbService.getUserService(session).getUserByAuth(login, password);
+                    UserLogic user = dbService.getUserService(session).getUserByAuth(login, password,serviceWrapper.getMessageSystem());
                     if (user == null){
                         result.put("status", 404);
                         body.put("error", MessageList.Message.WrongAuth);
@@ -136,7 +143,7 @@ public class Auth {
     }
 
     public void drop(HttpServletRequest request,
-                       HttpServletResponse response, DBService dbService) {
+                       HttpServletResponse response, ServiceWrapper serviceWrapper) {
 
         HashMap<String, Object> result = new HashMap<>();
         HashMap<String, Object> body = new HashMap<>();
@@ -154,7 +161,7 @@ public class Auth {
 
     }
 
-    public void isauth(HttpServletRequest request, HttpServletResponse response, DBService dbService) {
+    public void isauth(HttpServletRequest request, HttpServletResponse response, ServiceWrapper serviceWrapper) {
         JSONObject json = new JSONObject();
         try {
             int id = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
@@ -169,7 +176,8 @@ public class Auth {
 
     }
 
-    public void checkDeck(int userID, DBService dbService) {
+    public void checkDeck(int userID, ServiceWrapper serviceWrapper) {
+        DBService dbService = serviceWrapper.getDbService();
         Session session = dbService.getSession();
         try {
             if (!dbService.getUserService(session).isDeckFull(userID)) {

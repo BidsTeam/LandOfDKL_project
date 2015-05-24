@@ -48,6 +48,7 @@ define(
 
                 this.$("input[type=submit]").attr("disabled", "disabled");
 
+
                 loading.show();
                 User.signup(model.toJSON())
                     .then(function(msg) {

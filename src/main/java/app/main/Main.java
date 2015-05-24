@@ -9,6 +9,7 @@ import app.servlets.SocketServlet;
 import app.AccountMap.AccountMap;
 import app.AccountMap.AccountMapController;
 import app.AccountMap.AccountMapControllerMBean;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.HandlerList;
@@ -22,6 +23,7 @@ import service.DataBase.DataBaseImpl.DBUserServiceImpl;
 import service.serviceImpl.DBServiceImpl;
 import util.HibernateUtil;
 import util.LogFactory;
+import util.ServiceWrapper;
 
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
@@ -38,24 +40,34 @@ public class Main {
         int port = Integer.valueOf(portString);
 
         LogFactory.getInstance().getLogger(Main.class).info("Starting at port: " + portString);
-        AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
-        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
-        ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
-        mbs.registerMBean(serverStatistics, name);
+//        AccountMapControllerMBean serverStatistics = new AccountMapController(AccountMap.getInstance());
+//        MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+//        ObjectName name = new ObjectName("ServerManager:type=AccountServerController");
+//        mbs.registerMBean(serverStatistics, name);
+
 
         HibernateUtil hibernateUtil = new HibernateUtil();
         SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
         DBService dbService = new DBServiceImpl(sessionFactory);
         WebSocketService webSocketService = new CustomWebSocketService(dbService);
 
+        final MessageSystem messageSystem = new MessageSystem();
+
+        final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
+        accountServiceThread.setDaemon(true);
+        accountServiceThread.setName("Account Map");
+
+
+        ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
         GameFactory gameFactory = new GameFactory(dbService);
 
         Server server = new Server(port);
 
-        Router router = new Router(dbService);
-        AdminServlet adminServlet = new AdminServlet(dbService);
+        Router router = new Router(serviceWrapper);
+        AdminServlet adminServlet = new AdminServlet(serviceWrapper);
 
         SocketServlet socketServlet = new SocketServlet(webSocketService, gameFactory);
+
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
 
@@ -73,6 +85,7 @@ public class Main {
 
         server.setHandler(handlers);
 
+        accountServiceThread.start();
         server.start();
         server.join();
 

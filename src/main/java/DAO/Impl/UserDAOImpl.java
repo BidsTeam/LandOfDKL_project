@@ -3,6 +3,9 @@ package DAO.Impl;
 import DAO.UserDAO;
 import DAO.logic.UserLogic;
 import app.AccountMap.AccountMap;
+import app.AccountMap.messages.MessageAuthenticate;
+import messageSystem.Message;
+import messageSystem.MessageSystem;
 import org.hibernate.SessionFactory;
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -16,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
-    private AccountMap accountMap = AccountMap.getInstance();
+
     private Session session;
     private final int DECK_SIZE = 15;
 
@@ -53,7 +56,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserLogic getUserByAuth(String username, String password) {
+    public UserLogic getUserByAuth(String username, String password, MessageSystem messageSystem) {
         UserLogic user = null;
         List<UserLogic> result  =  session.createCriteria( UserLogic.class ).
                 add(Restrictions.eq("username", username)).
@@ -61,7 +64,8 @@ public class UserDAOImpl implements UserDAO {
                 list();
         if (result.size() > 0) {
             user = result.get(0);
-            accountMap.putUser(user);
+            Message msg = new MessageAuthenticate(messageSystem.getAddressService().getAccountServiceAddress(),user.getId());
+            messageSystem.sendMessage(msg);
         }
         return user;
     }

@@ -10,9 +10,7 @@ import util.RPS;
 import java.util.HashSet;
 import java.util.List;
 
-/**
- * Created by andreybondar on 20.05.15.
- */
+
 public class MockSocketService implements WebSocketService {
 
     @Override

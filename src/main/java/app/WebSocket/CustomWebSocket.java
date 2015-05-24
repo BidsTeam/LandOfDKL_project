@@ -18,7 +18,7 @@ public class CustomWebSocket {
     private Session session;
     private int userID;
     private UserLogic user;
-    private AccountMap cache = AccountMap.getInstance();
+    private AccountMap cache = new AccountMap();
     private int gameID;
     private WebSocketService webSocketService;
     private GameFactory gameFactory;

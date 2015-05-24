@@ -2,6 +2,7 @@ package service.DataBase;
 
 
 import DAO.logic.UserLogic;
+import messageSystem.MessageSystem;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface DBUserService {
 
     public UserLogic getUserByUsername(String username);    //получить стедента по username
 
-    public UserLogic getUserByAuth(String username, String password);
+    public UserLogic getUserByAuth(String username, String password, MessageSystem messageSystem);
 
     public List getAllUsers();              //получить всех студентов
 

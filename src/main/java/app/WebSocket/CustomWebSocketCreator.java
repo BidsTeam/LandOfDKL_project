@@ -25,11 +25,9 @@ public class CustomWebSocketCreator implements WebSocketCreator {
             sessionID = (request.getSession().getAttribute("id") != null) ? (int) request.getSession().getAttribute("id") : 0;
         }
         if (sessionID == 0) {
-            System.out.println("popal");
             LogFactory.getInstance().getLogger(this.getClass()).debug("Util.WebChatSocketCreator/createWebSocket Not Auth");
             return null;
         } else {
-            System.out.println("create");
             return new CustomWebSocket(sessionID, webSocketService, gameFactory);
         }
     }

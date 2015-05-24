@@ -30,7 +30,7 @@ public class CustomWebSocketService implements WebSocketService {
     public CustomWebSocketService(DBService dbService) {
         userWebSockets = new HashMap<>();
         onlineUsers = new HashSet<>();
-        accountMap = AccountMap.getInstance();
+        accountMap = new AccountMap();
         this.dbService = dbService;
     }
 

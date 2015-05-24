@@ -5,6 +5,7 @@ import app.templater.PageGenerator;
 import org.hibernate.Session;
 import service.DBService;
 import util.LogFactory;
+import util.ServiceWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,9 +15,10 @@ import java.util.List;
 
 public class User {
     public void top(HttpServletRequest request,
-                       HttpServletResponse response, DBService dbService) {
+                       HttpServletResponse response, ServiceWrapper serviceWrapper) {
         HashMap<String, Object> result = new HashMap<>();
         HashMap<Integer, Object> body = new HashMap<>();
+        DBService dbService = serviceWrapper.getDbService();
         try {
             int count;
             try{

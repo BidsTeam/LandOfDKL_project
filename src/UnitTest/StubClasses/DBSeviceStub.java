@@ -7,9 +7,7 @@ import service.DataBase.DBCardService;
 import service.DataBase.DBEffectService;
 import service.DataBase.DBUserService;
 
-/**
- * Created by andreybondar on 21.05.15.
- */
+
 public class DBSeviceStub implements DBService {
     @Override
     public DBUserService getUserService(Session session) {

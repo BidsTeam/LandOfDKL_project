@@ -5,6 +5,7 @@ import app.AccountMap.AccountMap;
 import app.templater.PageGenerator;
 import com.google.gson.Gson;
 import service.DBService;
+import util.ServiceWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -15,13 +16,12 @@ import java.util.Map;
 
 public class Profile {
     private UserLogic user = new UserLogic();
-    private AccountMap cacheAcc = AccountMap.getInstance();
 
-    public void main(HttpServletResponse request, HttpServletResponse response, DBService dbService) throws IOException {
+    public void main(HttpServletResponse request, HttpServletResponse response, ServiceWrapper serviceWrapper) throws IOException {
         response.sendRedirect("/Profile/show/");
     }
 
-    public void show(HttpServletRequest request, HttpServletResponse response, DBService dbService) throws IOException {
+    public void show(HttpServletRequest request, HttpServletResponse response, ServiceWrapper serviceWrapper) throws IOException {
         int userID;
         try {
             userID = (int) request.getSession().getAttribute("id");
@@ -35,6 +35,7 @@ public class Profile {
             if (request.getMethod().equalsIgnoreCase("GET")) {
                 try {
                     System.out.println("test1");
+                    AccountMap cacheAcc = new AccountMap();
                     UserLogic user = cacheAcc.getUser(userID);
                     body.put("username", user.getUsername());
                     body.put("email", user.getEmail());

@@ -5,9 +5,7 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import util.HibernateUtil;
 
-/**
- * Created by andreybondar on 20.05.15.
- */
+
 @Ignore
 public class TestsCore {
     static private HibernateUtil hibernateUtil;

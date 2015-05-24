@@ -8,9 +8,7 @@ import sun.rmi.runtime.Log;
 
 import java.util.Random;
 
-/**
- * Created by andreybondar on 14.04.15.
- */
+
 public class UserCardsGenerator {
     DBService dbService = null;
 

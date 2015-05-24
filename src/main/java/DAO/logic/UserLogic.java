@@ -10,12 +10,13 @@ import javax.validation.Validator;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.*;
 
 @Entity
 @Table(name="user")
 
-public class UserLogic {
+public class UserLogic implements Serializable{
     private int id;
     @NotNull(message = "Имя пользователя должно быть задано")
     private String username;

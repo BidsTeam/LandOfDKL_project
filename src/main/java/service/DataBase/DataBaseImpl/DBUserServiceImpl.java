@@ -4,6 +4,7 @@ package service.DataBase.DataBaseImpl;
 import DAO.logic.UserLogic;
 import DAO.UserDAO;
 import DAO.Impl.UserDAOImpl;
+import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import service.DataBase.DBUserService;
@@ -44,9 +45,9 @@ public class DBUserServiceImpl implements DBUserService {
         return result;
     }
 
-    public UserLogic getUserByAuth(String username, String password){
+    public UserLogic getUserByAuth(String username, String password, MessageSystem messageSystem){
         UserLogic result = null;
-        result = userDAO.getUserByAuth(username, password);
+        result = userDAO.getUserByAuth(username, password,messageSystem);
         return result;
     }
 

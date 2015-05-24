@@ -5,9 +5,7 @@ import service.DataBase.DBUserService;
 
 import java.util.List;
 
-/**
- * Created by andreybondar on 21.05.15.
- */
+
 public class DBUserServiceStub implements DBUserService {
     @Override
     public boolean addUser(UserLogic user) {

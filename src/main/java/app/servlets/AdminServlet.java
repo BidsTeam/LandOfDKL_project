@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import service.DBService;
 import util.LogFactory;
 import util.RouteHelper;
+import util.ServiceWrapper;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,11 +21,11 @@ import java.util.Map;
 
 public class AdminServlet extends HttpServlet {
 
-    private AccountMap accountMap = AccountMap.getInstance();
-    private DBService dbService;
+    private AccountMap accountMap = new AccountMap();
+    private ServiceWrapper serviceWrapper;
 
-    public AdminServlet(DBService dbService){
-        this.dbService = dbService;
+    public AdminServlet(ServiceWrapper serviceWrapper){
+        this.serviceWrapper = serviceWrapper;
     }
 
     public void doGet(HttpServletRequest request,
@@ -82,9 +83,9 @@ public class AdminServlet extends HttpServlet {
             LogFactory.getInstance().getLogger(this.getClass()).debug("Router.routeInvoke: app.Admin." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1)+"/"+urlParts[3].toLowerCase());
             Class<?> cls = Class.forName("app.Admin." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
             Object obj = cls.newInstance();
-            Class[] paramTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class, DBService.class};
+            Class[] paramTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class, ServiceWrapper.class};
             Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
-            Object[] args = new Object[]{request, response,dbService};
+            Object[] args = new Object[]{request, response,serviceWrapper};
             method.invoke(obj, args);
         } catch (Exception e){
             throw new Exception(e);
