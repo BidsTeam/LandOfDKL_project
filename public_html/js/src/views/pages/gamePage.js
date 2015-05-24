@@ -16,7 +16,7 @@ define(
         "views/game/battle"
     ], function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView) {
 
-        var Socket = socketsPool.getSocketByName("socketActionsUrl");
+        var Socket;
 
         var gamePage = pageView.extend({
 
@@ -28,8 +28,9 @@ define(
             },
 
             _construct : function() {
-                this.chatView = new chatView({chatContainerSelector : ".chat"});
-                this.userListview = new userListView({listContainerSelector : ".chat__players-in-room-list"});
+                new userListView({listContainerSelector : ".chat__players-in-room-list"});
+                new chatView({chatContainerSelector : ".chat"});
+                Socket = socketsPool.getSocketByName("socketActionsUrl");
             },
 
             render : function() {

@@ -17,6 +17,7 @@ define(
             },
 
             _onAddCardToHand : function(model, view) {
+                view.$el.draggable("disable");
                 view.$el.removeClass("card-container_highlight");
             },
 

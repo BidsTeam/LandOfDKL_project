@@ -84,6 +84,10 @@ $infoContainerPointer : 10px;
   color: red;
 }
 
+.card-info-container__name {
+  color : white;
+}
+
 .card-info-container__effect {
   word-break: break-all;
 }
@@ -95,6 +99,11 @@ $infoContainerPointer : 10px;
   display: inline-block;
   text-align: center;
   padding: 2px 13px;
+  width: 100%;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .card__image {

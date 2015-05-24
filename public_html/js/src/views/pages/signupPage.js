@@ -48,11 +48,10 @@ define(
 
                 this.$("input[type=submit]").attr("disabled", "disabled");
 
-
-                loading.show();
+                loading.showAfterTimeout(1000);
                 User.signup(model.toJSON())
                     .then(function(msg) {
-                        loading.hide();
+                        loading.clearTimeoutAndCloseIfOpened();
                         _this.$("input[type=submit]").removeAttr("disabled");
                         router.navigate("game", {trigger : true, replace : true});
                     }, function(err) {

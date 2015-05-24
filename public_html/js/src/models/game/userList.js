@@ -11,8 +11,10 @@ define(
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         return new (Backbone.Model.extend({
+
             initialize : function(options) {
             },
+
             receive : function(newUserList) {
                 this.trigger("newChatUsers", newUserList.usernames);
             }

@@ -15,15 +15,6 @@ define(
         var User = Backbone.Model.extend({
 
             initialize : function() {
-                API.apiRequest("GET", "profile/show", {})
-                    .then(function(msg) {
-                        msg = JSON.parse(msg);
-                        if (msg.status == "200") {
-                            this.set(msg.body);
-                        }
-                    }.bind(this), function(err) {
-                        console.log(err);
-                    });
             },
 
             sync : function(method, model, params) {
