@@ -4,11 +4,13 @@ package javaApp.DAO;
 
 import DAO.logic.UserLogic;
 import TestSetups.TestsCore;
+import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.junit.Test;
 import service.DBService;
 import service.serviceImpl.DBServiceImpl;
+import util.ServiceWrapper;
 
 import java.lang.Exception;
 import java.util.List;
@@ -19,6 +21,8 @@ import static org.junit.Assert.*;
 public class User extends TestsCore {
 
     DBService dbService = new DBServiceImpl(sessionFactory);
+    final MessageSystem messageSystem = new MessageSystem();
+    ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
 
     @Test
     public void testGetUserByIdCorrect() throws Exception {
@@ -34,7 +38,7 @@ public class User extends TestsCore {
 
     @Test
     public void testGetUserByAuth() throws Exception {
-        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByAuth("admin", "admin");
+        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByAuth("admin", "admin",messageSystem);
         assertEquals("admin", user.getUsername());
     }
 

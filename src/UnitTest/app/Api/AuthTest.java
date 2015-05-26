@@ -3,6 +3,7 @@ package app.Api;
 import DAO.logic.UserLogic;
 import StubClasses.DBSeviceStub;
 import TestSetups.TestsCore;
+import messageSystem.MessageSystem;
 import org.eclipse.jetty.client.HttpRequest;
 import org.hibernate.Session;
 import org.json.JSONObject;
@@ -13,6 +14,7 @@ import service.DBService;
 import service.DataBase.DBUserService;
 import service.serviceImpl.DBServiceImpl;
 import util.LogFactory;
+import util.ServiceWrapper;
 
 import static org.mockito.Mockito.*;
 
@@ -28,6 +30,9 @@ import static org.junit.Assert.*;
 public class AuthTest extends TestsCore {
 
     DBService dbService = new DBServiceImpl(sessionFactory);
+    final MessageSystem messageSystem = new MessageSystem();
+    ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
+
 
     private HttpServletRequest getMockedRequest() {
         HttpServletRequest request =  mock(HttpServletRequest.class);
@@ -59,7 +64,7 @@ public class AuthTest extends TestsCore {
         HttpServletResponse response = getMockedResponse(stringWriter);
         String CorrectResponse = "{\"response\":{\"is_admin\":true,\"level\":1,\"registration\":1429031051000,\"id\":1,\"email\":\"admin@mail.ru\",\"username\":\"admin\"}}\n";
         Auth auth = new Auth();
-        auth.signin(request, response, dbService);
+        auth.signin(request, response, serviceWrapper);
         assertEquals(CorrectResponse, stringWriter.toString());
     }
 
@@ -79,7 +84,7 @@ public class AuthTest extends TestsCore {
         HttpServletResponse response = getMockedResponse(stringWriter);
         String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1432208706074,\"id\":0,\"email\":\"test@mail.ru\",\"username\":\"testUser\"},\"status\":200}\n";
         Auth auth = new Auth();
-        auth.signup(request, response, dbServiceStub);
+        auth.signup(request, response, serviceWrapper);
         JSONObject correctJSON = new JSONObject(correctResponse);
         JSONObject actualJSON = new JSONObject(stringWriter.toString());
         correctJSON.getJSONObject("response").remove("registration");

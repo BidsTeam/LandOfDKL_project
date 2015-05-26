@@ -1,6 +1,7 @@
 package StubClasses;
 
 import DAO.logic.UserLogic;
+import messageSystem.MessageSystem;
 import service.DataBase.DBUserService;
 
 import java.util.List;
@@ -32,9 +33,10 @@ public class DBUserServiceStub implements DBUserService {
     }
 
     @Override
-    public UserLogic getUserByAuth(String username, String password) {
+    public UserLogic getUserByAuth(String username, String password, MessageSystem messageSystem) {
         return null;
     }
+    
 
     @Override
     public List getAllUsers() {
