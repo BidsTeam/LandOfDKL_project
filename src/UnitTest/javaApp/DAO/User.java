@@ -4,9 +4,11 @@ package javaApp.DAO;
 
 import DAO.logic.UserLogic;
 import TestSetups.TestsCore;
+import app.AccountMap.AccountMap;
 import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import service.DBService;
 import service.serviceImpl.DBServiceImpl;
@@ -20,9 +22,16 @@ import static org.junit.Assert.*;
 //todo Спросить, правильно-ли мы понимаем идеологию тестов
 public class User extends TestsCore {
 
-    DBService dbService = new DBServiceImpl(sessionFactory);
-    final MessageSystem messageSystem = new MessageSystem();
+    static DBService dbService = new DBServiceImpl(sessionFactory);
+    final static MessageSystem messageSystem = new MessageSystem();
     ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
+
+    @BeforeClass
+    public static void before(){
+        final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
+        accountServiceThread.setDaemon(true);
+        accountServiceThread.setName("Account Map");
+    }
 
     @Test
     public void testGetUserByIdCorrect() throws Exception {

@@ -66,7 +66,7 @@ public class AuthTest extends TestsCore {
 
         final StringWriter stringWriter = new StringWriter();
         HttpServletResponse response = getMockedResponse(stringWriter);
-        String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1429031051000,\"id\":0,\"email\":\"admin@mail.ru\",\"username\":\"admin\"}},\"status\":200}\n";
+        String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1429031051000,\"id\":0,\"email\":\"admin@mail.ru\",\"username\":\"admin\"},\"status\":200}\n";
         Auth auth = new Auth();
         auth.signin(request, response, serviceWrapper);
         JSONObject correctJSON = new JSONObject(correctResponse);
