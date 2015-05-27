@@ -3,6 +3,7 @@ package app.Api;
 import DAO.logic.UserLogic;
 import StubClasses.DBSeviceStub;
 import TestSetups.TestsCore;
+import app.AccountMap.AccountMap;
 import messageSystem.MessageSystem;
 import org.eclipse.jetty.client.HttpRequest;
 import org.hibernate.Session;
@@ -29,9 +30,16 @@ import static org.junit.Assert.*;
 
 public class AuthTest extends TestsCore {
 
-    DBService dbService = new DBServiceImpl(sessionFactory);
-    final MessageSystem messageSystem = new MessageSystem();
+    static DBService  dbService = new DBServiceImpl(sessionFactory);
+    static final MessageSystem messageSystem = new MessageSystem();
     ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
+
+    @BeforeClass
+    public static void before(){
+        final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
+        accountServiceThread.setDaemon(true);
+        accountServiceThread.setName("Account Map");
+    }
 
 
     private HttpServletRequest getMockedRequest() {
@@ -51,6 +59,7 @@ public class AuthTest extends TestsCore {
         return response;
     }
 
+
     @Test
     public void testSignin() throws Exception {
         HttpServletRequest request = getMockedRequest();
@@ -62,10 +71,14 @@ public class AuthTest extends TestsCore {
 
         final StringWriter stringWriter = new StringWriter();
         HttpServletResponse response = getMockedResponse(stringWriter);
-        String CorrectResponse = "{\"response\":{\"is_admin\":true,\"level\":1,\"registration\":1429031051000,\"id\":1,\"email\":\"admin@mail.ru\",\"username\":\"admin\"}}\n";
+        String correctResponse = "{\"response\":{\"is_admin\":true,\"level\":1,\"registration\":1429031051000,\"id\":1,\"email\":\"admin@mail.ru\",\"username\":\"admin\"}}\n";
         Auth auth = new Auth();
         auth.signin(request, response, serviceWrapper);
-        assertEquals(CorrectResponse, stringWriter.toString());
+        JSONObject correctJSON = new JSONObject(correctResponse);
+        JSONObject actualJSON = new JSONObject(stringWriter.toString());
+        correctJSON.getJSONObject("response").remove("registration");
+        actualJSON.getJSONObject("response").remove("registration");
+        assertEquals(correctResponse, stringWriter.toString());
     }
 
     @Test
