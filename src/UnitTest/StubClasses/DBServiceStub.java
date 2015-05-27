@@ -8,7 +8,7 @@ import service.DataBase.DBEffectService;
 import service.DataBase.DBUserService;
 
 
-public class DBSeviceStub implements DBService {
+public class DBServiceStub implements DBService {
     @Override
     public DBUserService getUserService(Session session) {
         DBUserService dbUserService = new DBUserServiceStub();

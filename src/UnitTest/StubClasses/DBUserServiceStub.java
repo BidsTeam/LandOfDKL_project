@@ -34,7 +34,7 @@ public class DBUserServiceStub implements DBUserService {
 
     @Override
     public UserLogic getUserByAuth(String username, String password, MessageSystem messageSystem) {
-        return null;
+        return new UserLogic("admin", "admin", "admin@mail.ru");
     }
     
 
