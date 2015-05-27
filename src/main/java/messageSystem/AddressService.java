@@ -8,9 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-/**
- * @author e.shubin
- */
+
 public final class AddressService {
 
     private List<Address> accountServiceList = new ArrayList<>();

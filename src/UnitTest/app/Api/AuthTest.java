@@ -86,8 +86,6 @@ public class AuthTest extends TestsCore {
         when(request.getParameter("password")).thenReturn("testPassword");
         when(request.getParameter("email")).thenReturn("test@mail.ru");
         when(request.getMethod()).thenReturn("POST");
-        DBService dbServiceStub = new DBServiceStub();
-
         final StringWriter stringWriter = new StringWriter();
         HttpServletResponse response = getMockedResponse(stringWriter);
         String correctResponse = "{\"response\":{\"is_admin\":false,\"level\":1,\"registration\":1432208706074,\"id\":0,\"email\":\"test@mail.ru\",\"username\":\"testUser\"},\"status\":200}\n";
@@ -100,6 +98,26 @@ public class AuthTest extends TestsCore {
         assertEquals(correctJSON.toString(), actualJSON.toString());
     }
 
+    @Test
+    public void testDrop() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+
+        String correctResponse = "{\"response\":{\"result\":\"ok\"},\"status\":200}\n";
+
+        Auth auth = new Auth();
+        auth.drop(request, response, serviceWrapper);
+        JSONObject correctJSON = new JSONObject(correctResponse);
+        JSONObject actualJSON = new JSONObject(stringWriter.toString());
+        correctJSON.getJSONObject("response");
+        actualJSON.getJSONObject("response");
+        assertEquals(correctJSON.toString(), actualJSON.toString());
+
+    }
+
 //    @Test
 //    public void testAlreadyExists() throws Exception {
 //        HttpServletRequest request = getMockedRequest();
@@ -108,7 +126,7 @@ public class AuthTest extends TestsCore {
 //        when(httpSession.getAttribute("id")).thenReturn(0);
 //        when(request.getParameter("username")).thenReturn("admin");
 //        when(request.getParameter("password")).thenReturn("wrongAdminPassword");
-//        when(request.getParameter("email")).thenReturn("admin@mail.ru");
+//        when(request.getParameter("email")).thenRe                                                            turn("admin@mail.ru");
 //        when(request.getMethod()).thenReturn("POST");
 //        DBService dbServiceMock = new DBServiceStub();
 //
