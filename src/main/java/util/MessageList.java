@@ -28,7 +28,7 @@ public class MessageList {
         if (aLanguage.equals(Locale.ENGLISH)) {
             fText = ResourceBundle.getBundle(this.getClass().getSimpleName(), Locale.ENGLISH);
         } else if (aLanguage.equals(LocaleRussia)) {
-            fText = ResourceBundle.getBundle(this.getClass().getSimpleName(), LocaleRussia);
+            fText = ResourceBundle.getBundle(this.getClass().getSimpleName(), new UTF8Control());
         } else {
             throw new IllegalStateException("Unknown language");
         }
