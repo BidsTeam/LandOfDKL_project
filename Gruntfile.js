@@ -48,7 +48,7 @@ module.exports = function (grunt) {
 		},
 
 		concurrent: {
-    	  	target: ['shell'],
+    	  	target: ["watch", 'shell'],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}
@@ -106,6 +106,38 @@ module.exports = function (grunt) {
                     'public_html/js/build.min.js' : ['public_html/js/build/concated.js']
                 }
             }
+        },
+
+        template : {
+            buildIndexFileDev : {
+                'options': {
+                    'data': {
+                        productionScriptInit : "",
+                        devScriptInit :
+                            "<script data-main='js/src/init.js' src='js/lib/require.js'></script>\n" +
+                            "<script src='//localhost:35729/livereload.js'></script>"
+                    }
+                },
+                'files': {
+                    'public_html/index.html': ['public_html/_index.tpl']
+                }
+            },
+
+            buildIndexFileProduction : {
+                'options': {
+                    'data': {
+                        productionScriptInit:
+                            "<script src='js/build.min.js'></script> \n" +
+                            "<script>\n" +
+                                "\trequire(['init'], function(init){});\n" +
+                            "</script>\n",
+                        devScriptInit : ""
+                    }
+                },
+                'files': {
+                    'public_html/index.html': ['public_html/_index.tpl']
+                }
+            }
         }
 	});
 
@@ -117,19 +149,21 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-requirejs');
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-template");
 
 	grunt.registerTask(
-        'default',
+        'dev_run',
         [
-            'shell'
+            "template:buildIndexFileDev", 'concurrent'
         ]
     );
 
     grunt.registerTask(
-        "build",
+        "production_build",
         [
             "sass", "fest",
-            "requirejs:build", "concat:build", "uglify:build"
+            "requirejs:build", "concat:build", "uglify:build",
+            "template:buildIndexFileProduction"
         ]
     )
 };

@@ -17,7 +17,7 @@ a {
 
 .error {
   display: block;
-  color: red; }
+  color: #ff0000; }
 
 .app {
   position: relative; }
