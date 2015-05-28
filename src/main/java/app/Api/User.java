@@ -33,8 +33,6 @@ public class User {
             } finally {
                 dbService.closeSession(session);
             }
-
-
             for (UserLogic user : userList) {
                 body.put(user.getId(), user.putAllUserInformation());
             }

@@ -2,7 +2,11 @@ package app.GameMechanics;
 
 
 import DAO.logic.UserLogic;
+import util.EffectList;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 
 public class Player {
@@ -11,6 +15,7 @@ public class Player {
     private int health;
     private final int MAX_HEALTH = 20;
     private List<Integer> deck;
+    private ArrayList<EffectList.Poison> posionList = new ArrayList<EffectList.Poison>(0);
     //private AccountMap cache = AccountMap.getInstance();
 
 
@@ -50,9 +55,11 @@ public class Player {
         return cardID;
     }
 
+    public void addPoision(EffectList.Poison effect){
+        posionList.add(effect);
+    }
 
-
-
-
-
+    public ArrayList<EffectList.Poison> getPoisionList(){
+        return posionList;
+    }
 }

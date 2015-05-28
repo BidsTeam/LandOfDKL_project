@@ -157,7 +157,7 @@ public class GameSession {
     private int effectCalc(Set<EffectLogic> effectLogicSet){
         int damage = 0;
         for (EffectLogic e : effectLogicSet){
-            if (e.getName().equals("poison")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
+            if (e.getName().equals("explode")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
                 damage = e.getValue();
             }
         }

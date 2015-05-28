@@ -34,8 +34,6 @@ public class Auth {
 
         Map<String, Object> pageVariables = new HashMap<>();
         pageVariables.put("lastLogin", login == null ? "" : login);
-
-
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_NOT_IMPLEMENTED);
 

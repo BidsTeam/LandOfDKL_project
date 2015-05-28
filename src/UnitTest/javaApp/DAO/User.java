@@ -19,7 +19,6 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-//todo Спросить, правильно-ли мы понимаем идеологию тестов
 public class User extends TestsCore {
 
     static DBService dbService = new DBServiceImpl(sessionFactory);
