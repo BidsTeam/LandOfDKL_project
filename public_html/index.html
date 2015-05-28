@@ -11,7 +11,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css">
 
-    <script data-main="js/init.js" src="js/lib/require.js"></script>
+    <!--<script data-main="js/src/init.js" src="js/lib/require.js"></script>-->
 </head>
 
 <body>
@@ -45,6 +45,11 @@
     </div>
 </div>
 
-<script src="//localhost:35729/livereload.js"></script>
+<script src="js/build.min.js"></script>
+
+<script>
+    require(["init"], function(init){});
+</script>
+
 </body>
 </html>

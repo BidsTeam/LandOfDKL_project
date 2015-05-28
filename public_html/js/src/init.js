@@ -33,13 +33,10 @@ requirejs.config({
     waitSeconds : 5
 });
 
-
-require(["config", "jquery", "jquery-video"], function(config, $, video) {
+define("init", ["config", "jquery"], function(config, $) {
     $.ajaxSetup({
         timeout : 15000
     });
-
-    //$("#bgndVideo").YTPlayer();
 
     require(['routers/page_router'], function(router){});
 });

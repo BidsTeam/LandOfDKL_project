@@ -46,12 +46,14 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+
 		concurrent: {
-    	  	target: ['watch', 'shell'],
+    	  	target: ['shell'],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}
     	},
+
     	sass: {
 			dist: {
 				files: [{
@@ -62,7 +64,40 @@ module.exports = function (grunt) {
 			        ext: '.css'
 			    }]
 			}
-		}
+		},
+
+        requirejs : {
+            build: {
+                options: {
+                    almond: true,
+                    baseUrl: "public_html/js/src",
+                    mainConfigFile: "public_html/js/src/init.js",
+                    findNestedDependencies: true, // Очень сука важная опция!
+                    name: "init",
+                    optimize: "none",
+                    out: "public_html/js/build/r-build.js"
+                }
+            }
+        },
+
+        concat : {
+            build : {
+                separator: ';\n',
+                src: [
+                    'public_html/js/lib/almond.js',
+                    'public_html/js/build/r-build.js'
+                ],
+                dest: 'public_html/js/build/concated.js'
+            }
+        },
+
+        uglify : {
+            build: {
+                files: {
+                    'public_html/js/build.min.js' : ['public_html/js/build/concated.js']
+                }
+            }
+        }
 	});
 
 	grunt.loadNpmTasks('grunt-shell');
@@ -70,7 +105,22 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
 
-	grunt.registerTask('default',['concurrent']);
+	grunt.registerTask(
+        'default',
+        [
+            'shell'
+        ]
+    );
+
+    grunt.registerTask(
+        "build",
+        [
+            "sass", "fest",
+            "requirejs:build", "concat:build", "uglify:build"
+        ]
+    )
 };
-
