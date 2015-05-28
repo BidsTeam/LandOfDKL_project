@@ -4,6 +4,7 @@ import DAO.logic.UserLogic;
 import messageSystem.MessageSystem;
 import service.DataBase.DBUserService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -55,7 +56,9 @@ public class DBUserServiceStub implements DBUserService {
 
     @Override
     public List<UserLogic> getAllUserRating(int count) {
-        return null;
+        List<UserLogic> userList = new ArrayList<>();
+        userList.add(new UserLogic("test", "test", "test@mail.ru"));
+        return userList;
     }
 
     @Override

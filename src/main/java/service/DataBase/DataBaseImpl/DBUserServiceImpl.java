@@ -52,8 +52,7 @@ public class DBUserServiceImpl implements DBUserService {
     }
 
     public List getAllUsers(){
-        List result = null;
-        result = userDAO.getAllUsers();
+        List result = userDAO.getAllUsers();
         return result;
     }
 
@@ -62,14 +61,12 @@ public class DBUserServiceImpl implements DBUserService {
     }
 
     public int getUserCounter(){
-        int result = -1;
-        result = userDAO.getUserCounter();
+        int result = userDAO.getUserCounter();
         return result;
     }
 
     public List<UserLogic> getAllUserRating(int count){
-        List<UserLogic> result = null;
-        result = userDAO.getAllUserRating(count);
+        List<UserLogic> result = userDAO.getAllUserRating(count);
         return result;
     }
 

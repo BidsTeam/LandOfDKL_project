@@ -118,21 +118,87 @@ public class AuthTest extends TestsCore {
 
     }
 
-//    @Test
-//    public void testAlreadyExists() throws Exception {
-//        HttpServletRequest request = getMockedRequest();
-//        HttpSession httpSession = mock(HttpSession.class);
-//        when(request.getSession()).thenReturn(httpSession);
-//        when(httpSession.getAttribute("id")).thenReturn(0);
-//        when(request.getParameter("username")).thenReturn("admin");
-//        when(request.getParameter("password")).thenReturn("wrongAdminPassword");
-//        when(request.getParameter("email")).thenRe                                                            turn("admin@mail.ru");
-//        when(request.getMethod()).thenReturn("POST");
-//        DBService dbServiceMock = new DBServiceStub();
-//
-//        final StringWriter stringWriter = new StringWriter();
-//        HttpServletResponse response = getMockedResponse(stringWriter);
-//    }
+    @Test
+    public void testAlreadyExists() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getAttribute("id")).thenReturn(0);
+        when(request.getParameter("username")).thenReturn("admin");
+        when(request.getParameter("password")).thenReturn("wrongAdminPassword");
+        when(request.getParameter("email")).thenReturn("admin@mail.ru");
+        when(request.getMethod()).thenReturn("POST");
+
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+
+        String correctResponse = "{\"response\":{},\"error\":\"Пользователь уже существует\"}\n";
+
+        Auth auth = new Auth();
+        auth.signup(request, response, serviceWrapper);
+        JSONObject correctJSON = new JSONObject(correctResponse);
+        JSONObject actualJSON = new JSONObject(stringWriter.toString());
+        correctJSON.getJSONObject("response");
+        actualJSON.getJSONObject("response");
+        assertEquals(correctJSON.toString(), actualJSON.toString());
+    }
+
+    @Test
+    public void testUserTop() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+
+        String correctResponse = " {\"response\":{\"0\":{\"is_admin\":false,\"level\":1,\"registration\":1432820819656,\"id\":0,\"email\":\"test@mail.ru\",\"username\":\"test\"}},\"status\":200}";
+
+        User user = new User();
+        user.top(request, response, serviceWrapper);
+
+        JSONObject correctJSON = new JSONObject(correctResponse);
+        JSONObject actualJSON = new JSONObject(stringWriter.toString());
+        correctJSON.getJSONObject("response").getJSONObject("0").remove("registration");
+        actualJSON.getJSONObject("response").getJSONObject("0").remove("registration");
+        assertEquals(correctJSON.toString(), actualJSON.toString());
+    }
+
+    @Test
+    public void testIsAuthUnauth() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getAttribute("id")).thenReturn(0);
+
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+
+        String correctResponse = "{\"isAuth\":false,\"status\":200}\n";
+        Auth auth = new Auth();
+        auth.isauth(request, response, serviceWrapper);
+
+        assertEquals(correctResponse, stringWriter.toString());
+    }
+
+    @Test
+    public void testIsAuth() throws Exception {
+        HttpServletRequest request = getMockedRequest();
+        HttpSession httpSession = mock(HttpSession.class);
+        when(request.getSession()).thenReturn(httpSession);
+        when(httpSession.getAttribute("id")).thenReturn(1);
+
+        final StringWriter stringWriter = new StringWriter();
+        HttpServletResponse response = getMockedResponse(stringWriter);
+
+        String correctResponse = "{\"isAuth\":true,\"status\":200}\n";
+        Auth auth = new Auth();
+        auth.isauth(request, response, serviceWrapper);
+
+        assertEquals(correctResponse, stringWriter.toString());
+    }
+
+
 
 //    @Test
 //    public void testSignin() throws Exception {

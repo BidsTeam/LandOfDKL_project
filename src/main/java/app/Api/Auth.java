@@ -173,17 +173,4 @@ public class Auth {
         }
 
     }
-
-    public void checkDeck(int userID, ServiceWrapper serviceWrapper) {
-        DBService dbService = serviceWrapper.getDbService();
-        Session session = dbService.getSession();
-        try {
-            if (!dbService.getUserService(session).isDeckFull(userID)) {
-                UserCardsGenerator cardsGenerator = new UserCardsGenerator(dbService);
-                cardsGenerator.generate(userID);
-            }
-        } finally {
-            dbService.closeSession(session);
-        }
-    }
 }
