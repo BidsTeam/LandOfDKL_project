@@ -34,9 +34,12 @@ requirejs.config({
 });
 
 define("init", ["config", "jquery"], function(config, $) {
+
     $.ajaxSetup({
         timeout : 15000
     });
 
-    require(['routers/page_router'], function(router){});
+    require(["app"], function(App){
+        App.start();
+    });
 });

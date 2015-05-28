@@ -11,7 +11,7 @@ define(
         backgroundVideoView,
         loading
     ) {
-        Router = Backbone.Router.extend({
+        return new (Backbone.Router.extend({
 
             routes: {
                 "(#)(/)" : "mainPageInit",
@@ -78,10 +78,6 @@ define(
                     MobilePageView.go();
                 });
             }
-        });
-
-        var router = new Router();
-        Backbone.history.start();
-        return router;
+        }))();
     }
 );

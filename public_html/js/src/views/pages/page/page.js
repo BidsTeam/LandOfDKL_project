@@ -6,12 +6,13 @@ define(
     [
         "backbone",
         "paginator",
-        "routers/page_router"
+        "app"
     ],
-    function(Backbone, Paginator, pageRouter) {
+    function(Backbone, Paginator, App) {
 
+        var pageRouter = App.getRouter();
 
-        var pageView = Backbone.View.extend({
+        return Backbone.View.extend({
 
             pageId : "",
 
@@ -19,7 +20,9 @@ define(
                 var id = Paginator.appendPage(options.pageHtml);
                 this.setElement("#"+id);
                 this.pageId = id;
-                this._construct(options);
+                if (this._construct) {
+                    this._construct(options);
+                }
             },
 
             go : function() {
@@ -29,7 +32,5 @@ define(
             }
 
         });
-
-        return pageView;
     }
 );

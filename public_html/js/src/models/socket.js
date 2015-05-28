@@ -43,9 +43,9 @@ define(
                 this.set({name : options.name});
             }
 
-            this.connect(options.address);
             User.bind("logout", this.close, this);
             this.bind("hello", this.saveCardsInformation, this);
+            this.connect(options.address);
 
             require(['views/pages/gamePage'], function(gamePageView) {
                 this.bind("reconnect", gamePageView.reconnectToBattle.bind(gamePageView), this);

@@ -1,5 +1,7 @@
 html, body, .app, .main-container {
   height: 100%;
+  margin: 0px;
+  width: 100%;
 }
 
 body {
@@ -10,12 +12,17 @@ p {
   margin: 0px;
 }
 
+a {
+  text-decoration: none;
+}
+
 .hide{
   display:none;
 }
 
 .error {
   display: block;
+  color: red;
 }
 
 .app {
