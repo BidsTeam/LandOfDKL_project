@@ -30,7 +30,7 @@ public class EffectDAOImpl implements EffectDAO {
     @Override
     public EffectLogic getEffectByName(String name) {
         EffectLogic effect = null;
-        effect = (EffectLogic) session.createCriteria( UserLogic.class ).
+        effect = (EffectLogic) session.createCriteria( EffectLogic.class ).
                 add( Restrictions.eq("name", name) ).
                 uniqueResult();
         return effect;
