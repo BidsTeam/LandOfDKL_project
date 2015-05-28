@@ -40,34 +40,8 @@ public class CardDAOImpl implements CardDAO {
     }
 
     public void addCardToUser(UserLogic user, CardLogic card) {
-//        user.getCards().add(card);
+//      user.getCards().add(card);
         session.update(user);
-    }
-
-    public int getCardCounter() {
-        int counter = 0;
-        try {
-            CardLogic card = (CardLogic) session.createCriteria(CardLogic.class).
-                    addOrder(Order.desc("id")).
-                    setMaxResults(1).
-                    uniqueResult();
-            counter = card.getId();
-        } catch (Exception e) {
-            LogFactory.getInstance().getLogger(this.getClass()).error("SQL error in getCardCounter");
-        }
-        return counter;
-    }
-
-    public CardLogic getRandomCard() {
-        CardLogic card = null;
-        try {
-            List<CardLogic> cards = session.createQuery("from CardLogic").list();
-            Collections.shuffle(cards);
-            LogFactory.getInstance().getLogger(this.getClass()).debug(cards.get(0).getName());
-            return cards.get(0);
-        } finally {
-            LogFactory.getInstance().getLogger(this.getClass()).error("Could not find random card");
-        }
     }
 
     public List<CardLogic> getAllCardsInfo() {

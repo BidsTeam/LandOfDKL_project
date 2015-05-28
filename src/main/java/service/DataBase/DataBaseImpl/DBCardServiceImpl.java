@@ -27,14 +27,6 @@ public class DBCardServiceImpl implements DBCardService {
         cardDAO.addCardToUser(user, card);
     }
 
-    public int getCardCounter() {
-        return cardDAO.getCardCounter();
-    }
-
-    public CardLogic getRandomCard() {
-        return cardDAO.getRandomCard();
-    }
-
     public List<Integer> getUserDeck(UserLogic user) {
         return cardDAO.getUserDeck(user);
     }
