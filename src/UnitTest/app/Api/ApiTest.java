@@ -21,7 +21,7 @@ import java.io.StringWriter;
 
 import static org.junit.Assert.*;
 
-public class AuthTest extends TestsCore {
+public class ApiTest extends TestsCore {
 
     static DBService  dbService = new DBServiceStub();
     static final MessageSystem messageSystem = new MessageSystem();

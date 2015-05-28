@@ -1,10 +1,15 @@
 package javaApp.DAO;
 
 
-
+/*
+DISCLAIMER - тесты классов DAO интеграционные, то есть зависят и от базы данных
+Пытался сделать их максимально абстрагированными от содержимиого бд, сложно сказать
+насколько мне это удалось
+ */
 import DAO.logic.UserLogic;
 import TestSetups.TestsCore;
 import app.AccountMap.AccountMap;
+import jdk.nashorn.internal.runtime.ECMAException;
 import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -40,13 +45,17 @@ public class User extends TestsCore {
 
     @Test
     public void testGetUserByUsername() throws Exception {
-        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByUsername("admin");
+        Session session = dbService.getSession();
+        UserLogic user = dbService.getUserService(session).getUserByUsername("admin");
+        session.close();
         assertEquals("admin", user.getUsername());
     }
 
     @Test
     public void testGetUserByAuth() throws Exception {
-        UserLogic user = dbService.getUserService(dbService.getSession()).getUserByAuth("admin", "admin",messageSystem);
+        Session session = dbService.getSession();
+        UserLogic user = dbService.getUserService(session).getUserByAuth("admin", "admin",messageSystem);
+        session.close();
         assertEquals("admin", user.getUsername());
     }
 
@@ -79,7 +88,24 @@ public class User extends TestsCore {
         Session session = dbService.getSession();
         List<UserLogic> userList = dbService.getUserService(session).getAllUsers();
         UserLogic user = userList.get(0);
+        session.close();
         assertEquals(user.getId(), 1);
+    }
+
+    @Test
+    public void testGetCounter() throws Exception {
+        Session session = dbService.getSession();
+        int result = dbService.getUserService(session).getUserCounter();
+        session.close();
+        assertNotNull(result); //Тест интеграционный, смысла проверять на конкретное число нет
+    }
+
+    @Test
+    public void testGetUserRate() throws Exception {
+        Session session = dbService.getSession();
+        List<UserLogic> userRatings = dbService.getUserService(session).getAllUserRating(1);
+        session.close();
+        assertNotNull(userRatings);
     }
 
 //    @Test

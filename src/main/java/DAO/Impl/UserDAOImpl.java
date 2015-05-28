@@ -102,14 +102,4 @@ public class UserDAOImpl implements UserDAO {
         return userList;
     }
 
-    public boolean isDeckFull(int userID) {
-        int cardCounter = ((Long) session.createSQLQuery("select count(*) from user_card where user_id =" + userID).
-        uniqueResult()).intValue();
-        if (cardCounter >= DECK_SIZE) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
 }
