@@ -60,9 +60,4 @@ public class DBUserServiceStub implements DBUserService {
         userList.add(new UserLogic("test", "test", "test@mail.ru"));
         return userList;
     }
-
-    @Override
-    public boolean isDeckFull(int userID) {
-        return false;
-    }
 }

@@ -16,5 +16,4 @@ public interface UserDAO {
     public void deleteUser(UserLogic user);//удалить студента
     public int getUserCounter();
     public List<UserLogic> getAllUserRating(int count);
-    public boolean isDeckFull(int userID);
 }

@@ -24,6 +24,4 @@ public interface DBUserService {
     public int getUserCounter();
 
     public List<UserLogic> getAllUserRating(int count);
-
-    public boolean isDeckFull(int userID);
 }
