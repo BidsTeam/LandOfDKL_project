@@ -1,5 +1,6 @@
 package app.GameMechanics;
 
+import DAO.logic.UserLogic;
 import StubClasses.MockSocketService;
 import TestSetups.TestsCore;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
@@ -13,17 +14,22 @@ import static org.junit.Assert.*;
 
 public class GameSessionTest extends TestsCore {
     DBService dbService = new DBServiceImpl(sessionFactory);
+    final int MAX_HEALTH = 20;
+    final int KNIGHT_ATTACK = 5;
+    final String FIRST_PLAYER_NAME = "admin";
+    final String SECOND_PLAYER_NAME = "blabla";
+    final int CARD_AMOUNT = 15;
 
-    private Player getPlayer(int id) {
-        Session session = dbService.getSession();
-        Player player = new Player(dbService.getUserService(session).getUserById(id));
-        session.close();
+    private Player getPlayer(String name, int id) {
+        UserLogic user = new UserLogic(name, "12345", "aa@aa.ru");
+        user.setId(id);
+        Player player = new Player(user);
         return player;
     }
 
     private GameSession createNewGameSession() {
         WebSocketService webSocketService = new MockSocketService();
-        GameSession gameSession = new GameSession(getPlayer(1), getPlayer(2), 1, webSocketService, dbService);
+        GameSession gameSession = new GameSession(getPlayer(FIRST_PLAYER_NAME, 1), getPlayer(SECOND_PLAYER_NAME, 2), 1, webSocketService, dbService);
         return gameSession;
     }
 
@@ -39,11 +45,11 @@ public class GameSessionTest extends TestsCore {
     public void testGameStart() throws Exception {
         GameSession gameSession = createNewGameSession();
         JSONObject json = new JSONObject();
-        json.put("firstHealth", 20);
-        json.put("secondHealth", 20);
-        json.put("cardAmount", 15);
-        json.put("firstName", "admin");
-        json.put("secondName", "blabla"); //можно оставить как основу мира что первые два юзера у нас должны быть
+        json.put("firstHealth", MAX_HEALTH);
+        json.put("secondHealth", MAX_HEALTH);
+        json.put("cardAmount", CARD_AMOUNT);
+        json.put("firstName", FIRST_PLAYER_NAME);
+        json.put("secondName", SECOND_PLAYER_NAME); //можно оставить как основу мира что первые два юзера у нас должны быть
                                     //именно такими, а можно сделать по-другому, тут по желанию
         assertEquals(json.toString(), gameSession.reportGameState().toString());
     }
@@ -55,11 +61,11 @@ public class GameSessionTest extends TestsCore {
         gameSession.doGameAction(putCardOnTable(1), 1);
         gameSession.doGameAction(putCardOnTable(6), 2);
         JSONObject json = new JSONObject();
-        json.put("firstHealth", 20);
-        json.put("secondHealth", 15);
-        json.put("cardAmount", 14);
-        json.put("firstName", "admin");
-        json.put("secondName", "blabla");
+        json.put("firstHealth", MAX_HEALTH);
+        json.put("secondHealth", MAX_HEALTH - KNIGHT_ATTACK);
+        json.put("cardAmount", CARD_AMOUNT - 1);
+        json.put("firstName", FIRST_PLAYER_NAME);
+        json.put("secondName", SECOND_PLAYER_NAME);
         assertEquals(json.toString(), gameSession.reportGameState().toString());
     }
 
@@ -69,11 +75,11 @@ public class GameSessionTest extends TestsCore {
         gameSession.doGameAction(putCardOnTable(1), 1);
         gameSession.doGameAction(putCardOnTable(1), 2);
         JSONObject json = new JSONObject();
-        json.put("firstHealth", 20);
-        json.put("secondHealth", 20);
-        json.put("cardAmount", 14);
-        json.put("firstName", "admin");
-        json.put("secondName", "blabla");
+        json.put("firstHealth", MAX_HEALTH);
+        json.put("secondHealth", MAX_HEALTH);
+        json.put("cardAmount", CARD_AMOUNT - 1);
+        json.put("firstName", FIRST_PLAYER_NAME);
+        json.put("secondName", SECOND_PLAYER_NAME);
         assertEquals(json.toString(), gameSession.reportGameState().toString());
     }
 
@@ -85,11 +91,11 @@ public class GameSessionTest extends TestsCore {
             gameSession.doGameAction(putCardOnTable(5 + i), 2);
         }
         JSONObject json = new JSONObject();
-        json.put("firstHealth", 20);
+        json.put("firstHealth", MAX_HEALTH);
         json.put("secondHealth", 0);
-        json.put("cardAmount", 11);
-        json.put("firstName", "admin");
-        json.put("secondName", "blabla");
+        json.put("cardAmount", CARD_AMOUNT - 4);
+        json.put("firstName", FIRST_PLAYER_NAME);
+        json.put("secondName", SECOND_PLAYER_NAME);
         assertEquals(json.toString(), gameSession.reportGameState().toString());
     }
 
