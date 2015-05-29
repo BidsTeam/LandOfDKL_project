@@ -59,11 +59,6 @@ public class UserLogic implements Serializable{
         this.userCard = userCard;
     }
 
-//    public User(User u){
-//        username = u.getUsername();н
-//    }
-
-
     @Id
     @GeneratedValue(generator="increment")
     @GenericGenerator(name="increment", strategy = "increment")

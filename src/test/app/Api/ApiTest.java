@@ -198,20 +198,4 @@ public class ApiTest extends TestsCore {
         assertEquals(correctResponse, stringWriter.toString());
     }
 
-
-
-//    @Test
-//    public void testSignin() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testDrop() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testIsauth() throws Exception {
-//
-//    }
 }

@@ -28,6 +28,4 @@ public interface WebSocketService {
     public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth);
     public void notifyReconnectPossibility(int userID);
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID);
-//    public void sendPublicMessage();
-//    public void sendPrivateMessage();
 }

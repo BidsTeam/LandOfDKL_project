@@ -84,9 +84,6 @@ public class CardLogic {
         this.userCard = userCard;
     }
 
-//    @ManyToMany(mappedBy = "cards")
-//    private Set<UserLogic> users = new HashSet<>();
-
     public Map<String, Object> putAllCardInformation(){
         Map<String,Object> result = new HashMap<>();
         result.put("id",        this.getId());
