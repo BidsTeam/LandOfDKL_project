@@ -24,17 +24,6 @@ public class PageGenerator {
     private static MessageList messageList = new MessageList(MessageList.LocaleRussia);
 
 
-    public static String getPage(String filename, Map<String, Object> data) {
-        Writer stream = new StringWriter();
-        try {
-            Template template = CFG.getTemplate(HTML_DIR + File.separator + filename);
-            template.process(data, stream);
-        } catch (IOException | TemplateException e) {
-            LogFactory.getInstance().getLogger(PageGenerator.class).error("Templater/PageGenerator/getPage",e);
-        }
-        return stream.toString();
-    }
-
     public static String getJson(HashMap<String,Object> result){
         translate(result);
         Gson gson = new Gson();
