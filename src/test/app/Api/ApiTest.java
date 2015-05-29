@@ -29,9 +29,7 @@ public class ApiTest extends TestsCore {
 
     @BeforeClass
     public static void before(){
-        final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
-        accountServiceThread.setDaemon(true);
-        accountServiceThread.setName("Account Map");
+        final AccountMap accountServiceThread = new AccountMap(dbService,messageSystem);
     }
 
 
