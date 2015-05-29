@@ -30,7 +30,7 @@ public class UserLogic implements Serializable{
     private String email;
 
 
-    private Set<UserCardLogic> userCard = new HashSet<UserCardLogic>(0);
+    private Set<UserCardLogic> userCard = new HashSet<>(0);
 
     private Date registration;
 
