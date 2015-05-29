@@ -51,11 +51,11 @@ public class Router extends HttpServlet {
     private void routeInvoke(String[] urlParts,HttpServletRequest request,
                              HttpServletResponse response) throws Exception {
         try {
-            LogFactory.getInstance().getLogger(this.getClass()).debug("Router.routeInvoke: app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1)+"/"+urlParts[3].toLowerCase());
-            Class<?> cls = Class.forName("app.Api." + urlParts[2].substring(0, 1).toUpperCase() + urlParts[2].substring(1));
+            LogFactory.getInstance().getLogger(this.getClass()).debug("Router.routeInvoke: app.Api." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1)+"/"+urlParts[2].toLowerCase());
+            Class<?> cls = Class.forName("app.Api." + urlParts[1].substring(0, 1).toUpperCase() + urlParts[1].substring(1));
             Object obj = cls.newInstance();
             Class[] paramTypes = new Class[]{HttpServletRequest.class, HttpServletResponse.class, ServiceWrapper.class};
-            Method method = cls.getMethod(urlParts[3].toLowerCase(), paramTypes);
+            Method method = cls.getMethod(urlParts[2].toLowerCase(), paramTypes);
             Object[] args = new Object[]{request, response, serviceWrapper};
             method.invoke(obj, args);
         } catch (Exception e){

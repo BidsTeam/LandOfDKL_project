@@ -13,6 +13,12 @@ public class RouteHelper {
         } else {
             urlParts = urlBuf;
         }
+        if (urlParts[0].equals("")){
+            for (int i = 0; i < urlParts.length-1; i++){
+                urlParts[i] = urlParts[i+1];
+            }
+            urlParts[urlParts.length-1] = "";
+        }
         return urlParts;
     }
 }
