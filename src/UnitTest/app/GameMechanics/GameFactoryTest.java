@@ -44,30 +44,10 @@ public class GameFactoryTest extends TestsCore {
         assertEquals(json.toString(), gameSession.reportGameState().toString());
     }
 
-    @After
-    public void afterNewGame() {
-        gameFactory = null;
-    }
-
-    @Before
-    public void beforeTryQueueWithYourself() {
-        gameFactory = new GameFactory(dbService);
-    }
-
     @Test
     public void testTryQueueWithYourself() throws Exception{
         GameSession gameSession = createNewGame(1, 1);
         assertNull(gameSession);
-    }
-
-    @After
-    public void afterTryQueueWithYourself() {
-        gameFactory = null;
-    }
-
-    @Before
-    public void beforeStartTwoGames() {
-        gameFactory = new GameFactory(dbService);
     }
 
     @Test
@@ -81,11 +61,6 @@ public class GameFactoryTest extends TestsCore {
         json.put("firstName", "Player1");
         json.put("secondName", "Player2");
         assertEquals(json.toString(), gameSession.reportGameState().toString());
-    }
-
-    @After
-    public void afterStartTwoGames() {
-        gameFactory = null;
     }
 
 }
