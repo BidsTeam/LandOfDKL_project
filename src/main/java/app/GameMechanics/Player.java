@@ -16,8 +16,6 @@ public class Player {
     private final int MAX_HEALTH = 20;
     private List<Integer> deck;
     private ArrayList<EffectList.Poison> posionList = new ArrayList<EffectList.Poison>(0);
-    //private AccountMap cache = AccountMap.getInstance();
-
 
     public Player(UserLogic user) {
         username = user.getUsername();

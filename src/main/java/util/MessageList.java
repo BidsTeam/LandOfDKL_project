@@ -7,7 +7,7 @@ import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
 public class MessageList {
-    public static final Locale LocaleRussia = new Locale("ru",""); // почему-то у меня нету Locale.RUSSIA.
+    public static final Locale LocaleRussia = new Locale("ru","");
     private ResourceBundle fText;
 
     /* LANG CONSTANT LIST */

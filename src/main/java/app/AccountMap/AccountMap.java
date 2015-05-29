@@ -44,10 +44,6 @@ public class AccountMap implements Abonent, Runnable {
         session.close();
     }
 
-//    public void putUser(UserLogic user) {
-//        int userID = user.getId();
-//        cachedAccounts.put(userID, user);
-//    }
 
     public UserLogic getUser(int id) {
         return cachedAccounts.get(id);

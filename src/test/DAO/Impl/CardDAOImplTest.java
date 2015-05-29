@@ -26,7 +26,6 @@ public class CardDAOImplTest extends TestsCore {
     public void testAddCard() throws Exception {
         Session session = dbService.getSession();
         Transaction tx = session.beginTransaction();
-        //(String name, int attack, String cardType
         CardLogic card = new CardLogic("butthurt",10,"dragon");
         dbService.getCardService(session).addCard(card);
         CardLogic resultCard = dbService.getCardService(session).getCard(card.getId());

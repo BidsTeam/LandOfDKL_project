@@ -29,9 +29,7 @@ public class ApiTest extends TestsCore {
 
     @BeforeClass
     public static void before(){
-        final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
-        accountServiceThread.setDaemon(true);
-        accountServiceThread.setName("Account Map");
+        final AccountMap accountServiceThread = new AccountMap(dbService,messageSystem);
     }
 
 
@@ -198,20 +196,4 @@ public class ApiTest extends TestsCore {
         assertEquals(correctResponse, stringWriter.toString());
     }
 
-
-
-//    @Test
-//    public void testSignin() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testDrop() throws Exception {
-//
-//    }
-//
-//    @Test
-//    public void testIsauth() throws Exception {
-//
-//    }
 }

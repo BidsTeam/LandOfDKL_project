@@ -1,6 +1,7 @@
 package messageSystem;
 
 
+
 public abstract class Message {
 
     private final Address to;

@@ -20,7 +20,6 @@ public class PageGenerator {
     private static final String HTML_DIR = "templates";
     private static final Configuration CFG = new Configuration();
 
-    //todo Очень плохое решение. Побоялся плодить объекты pageGenerator'a. Есть какие-нибудь идеи?
     private static MessageList messageList = new MessageList(MessageList.LocaleRussia);
 
 

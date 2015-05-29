@@ -16,10 +16,6 @@ public class GameSessionStorage {
         idCounter = 0;
     }
 
-//    public int putGameSession(GameSession gameSession) {
-//        gameSessionHashMap.put(++idCounter, gameSession);
-//        return idCounter;
-//    }
 
     public int newGameSession(Player firstPlayer, Player secondPlayer, WebSocketService webSocketService, DBService dbService) {
         idCounter++;

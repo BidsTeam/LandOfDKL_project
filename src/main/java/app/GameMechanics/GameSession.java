@@ -46,10 +46,8 @@ public class GameSession {
     public void doGameAction(JSONObject json, int userID) {
         int playerNumber = 0;
         if (userID == firstPlayer.getUserID()) {
-            //firstPlayerCard = json.get("gameAction")
             playerNumber = 1;
         } else if (userID == secondPlayer.getUserID()) {
-            //secondPlayerCard = json.get("game_action").toString();
             playerNumber = 2;
         } else {
             LogFactory.getInstance().getLogger(this.getClass()).error("Error on comparasion of player of game and socket user");

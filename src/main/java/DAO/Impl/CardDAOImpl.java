@@ -40,7 +40,6 @@ public class CardDAOImpl implements CardDAO {
     }
 
     public void addCardToUser(UserLogic user, CardLogic card) {
-//      user.getCards().add(card);
         session.update(user);
     }
 
