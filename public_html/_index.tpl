@@ -23,11 +23,14 @@
     <div class="background-video-overlayer"></div>
 </div>
 
+<!-- ========== Application content ======================== -->
 <div id="app-container" class="app">
     <div id="main-container" class="main-container">
 
     </div>
 </div>
+<!-- ======================================================= -->
+
 
 <div class="loader-screen" id="loader-screen">
     <div class="loader-screen__indicator-container">

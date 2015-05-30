@@ -13,10 +13,11 @@ define(
         return new (PageView.extend({
 
             _construct : function(options) {
+                require(['views/mobile/cards-controller'], function(cardsControllerView){});
                 var card;
                 for (var i = 0; i < 15; i++) {
                     card = new cardView({cardId : 9});
-                    this.$(".cards-container").append(card.$el);
+                    this.$(".action-field__cards-container").append(card.$el);
                 }
             }
 

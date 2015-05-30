@@ -1,10 +1,14 @@
+@media (max-width: 800px) {
+  .mobile-hidden {
+    display: none; } }
 html, body, .app, .main-container {
   height: 100%;
   margin: 0px;
   width: 100%; }
 
-body {
-  overflow-y: hidden; }
+body, html {
+  overflow-y: hidden;
+  overflow-x: hidden; }
 
 p {
   margin: 0px; }
@@ -213,29 +217,50 @@ a.underline {
   font-size: 40px;
   margin-bottom: 13px; }
 
-.menu__button-container_mobile-hidden {
-  display: none; }
-
 .drop-field {
   display: block;
-  height: 70%; }
+  height: 50%; }
 
-.cards-container {
+.action-field {
   display: block;
-  height: 30%;
-  overflow-x: scroll;
+  height: 95%; }
+
+.cards-mobile-controller {
+  height: 45%; }
+
+.action-field__cards-container {
+  display: inline-block;
+  height: 100%;
+  width: 70%;
+  overflow-x: hidden;
   word-break: normal;
   white-space: nowrap; }
 
+.action-field__left-arrow, .action-field__right-arrow {
+  display: inline-block;
+  vertical-align: top;
+  width: 15%;
+  height: 100%;
+  background-color: grey;
+  transition: 0.2s; }
+  .action-field__left-arrow:hover, .action-field__right-arrow:hover {
+    background-color: rgba(100, 100, 100, 0.5); }
+
+.arrow__image {
+  width: 100%;
+  height: 20%;
+  display: inline-block;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.counter-field {
+  display: block;
+  height: 5%;
+  text-align: center; }
+
 .invisible {
   visibility: hidden !important; }
-
-.softAnimate {
-  -webkit-transition: 0.3s;
-  -moz-transition: 0.3s;
-  -ms-transition: 0.3s;
-  -o-transition: 0.3s;
-  transition: 0.3s; }
 
 .inDragPosition {
   margin-top: -50px;
@@ -251,60 +276,31 @@ a.underline {
   margin-right: 10px; }
 
 .card-container_in-deck {
-  width: 25%;
-  height: 100%; }
-
-.card-container_highlight:hover {
-  margin-top: -50px; }
+  width: 50%;
+  height: 84%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 2%; }
 
 .card-container__card {
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 0px;
   display: inline-block;
   text-align: center;
   height: 100%;
   width: 100%;
   position: relative; }
 
-.card-info-container {
-  font-size: 15px;
-  text-align: center;
-  display: inline-block;
-  width: 30%;
-  height: 50%;
-  padding: 1%;
-  z-index: 990;
-  background-image: url("../images/card-info-border.jpg");
-  border: solid #000000 4px;
-  border-radius: 0px 12px 12px 12px;
-  margin-bottom: 50px; }
-
-.card-info-container__content {
-  display: inline-block;
-  width: 100%;
-  height: 100%;
-  background-color: #22150D;
-  border: solid #000000 4px;
-  border-radius: 12px; }
-
-.card-info-container__attack {
-  color: red; }
-
-.card-info-container__name {
-  color: white; }
-
-.card-info-container__effect {
-  word-break: break-all; }
-
 .card__header {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
-  border-radius: 10px;
+  border-radius: 5px 5px 0px 0px;
   display: inline-block;
   text-align: center;
   padding: 2px 13px;
   width: 100%;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-size: 15px; }
   .card__header p {
     overflow: hidden;
     text-overflow: ellipsis; }
@@ -315,15 +311,13 @@ a.underline {
   display: block;
   height: 100%;
   width: 100%;
-  border-radius: 15px; }
+  border-radius: 0px 0px 5px 5px; }
   .card__image_knight {
     background-image: url("../images/knight.jpg"); }
   .card__image_lady {
     background-image: url("../images/princess.jpg"); }
   .card__image_dragon {
     background-image: url("../images/dragon.jpg"); }
-  .card__image:hover {
-    box-shadow: 0px 0px 43px -1px yellow; }
 
 .card__image_closed {
   background-image: url("../images/closed.jpg");

@@ -37,6 +37,13 @@ module.exports = function (grunt) {
 					livereload: true
 				}
 			},
+            template: {
+                files: ['public_html/_index.tpl'],
+                tasks: ['template:buildIndexFileDev'],
+                options: {
+                    atBegin: true
+                }
+            },
 			css: {
 				files: ['public_html/css/scss/**/*.scss', "public_html/css/scss/*.scss"],
 				tasks: ['sass'],
@@ -48,7 +55,7 @@ module.exports = function (grunt) {
 		},
 
 		concurrent: {
-    	  	target: ["watch", 'shell'],
+    	  	target: ["watch", 'shell', "template:buildIndexFileDev"],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}

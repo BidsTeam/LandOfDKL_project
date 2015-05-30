@@ -16,7 +16,8 @@ define(
         "collections/socketsPool",
         "alert",
         "views/game/myPlayerInGame",
-        "views/game/opponentPlayerInGame"
+        "views/game/opponentPlayerInGame",
+        "views/game/healthIndicator"
     ],
     function(
         Backbone,
@@ -31,17 +32,19 @@ define(
         socketsPool,
         Alert,
         MyPlayerInGameClass,
-        OpponentPlayerInGameClass
+        OpponentPlayerInGameClass,
+        HealthIndicatorClass
     ) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         return new (Backbone.View.extend({
 
-            template : battlefieldTmpl,
             middleField : {},
             player : {},
             opponentPlayer : {},
+            playerHealth : {},
+            opponentHealth : {},
 
             initialize : function() {
                 this.model = battleModel;
@@ -62,31 +65,31 @@ define(
                     model : this.model.player,
                     $deckElem : this.$(".player-deck")
                 });
+                this.playerHealth = new HealthIndicatorClass({
+                    model : this.player.model
+                });
 
                 this.opponentPlayer = new OpponentPlayerInGameClass({
                     model : this.model.opponentPlayer,
                     $deckElem : this.$(".opponent-deck")
                 });
+                this.opponentHealth = new HealthIndicatorClass({
+                    model : this.opponentPlayer.model
+                });
 
                 this.middleField = new MiddleField({el : ".middle-field"});
-
-                this.model.player.bind("change:health", this.updateHealth, this);
-                this.model.opponentPlayer.bind("change:health", this.updateHealth, this);
 
                 this.renderContent();
             },
 
             render : function() {
-                var $html = $(this.template());
-                var $gameArea = $("#game-area");
-
-                this.setElement($html);
-                $gameArea.html(this.$el);
+                this.setElement(battlefieldTmpl());
+                $("#game-area").html(this.$el);
             },
 
             renderContent : function() {
-                this.model.player.trigger("change:health", this.model.player);
-                this.model.opponentPlayer.trigger("change:health", this.model.opponentPlayer);
+                this.$(".health-container__player").html(this.playerHealth.$el);
+                this.$(".health-container__opponent").html(this.opponentHealth.$el);
             },
 
             _onNextStep : function() {
@@ -109,8 +112,11 @@ define(
 
             _clear : function() {
                 this.middleField = {};
+                delete this.middleField;
                 this.player = {};
+                delete this.player;
                 this.opponentPlayer = {};
+                delete this.opponentPlayer;
                 this.$el.remove();
             }
 
