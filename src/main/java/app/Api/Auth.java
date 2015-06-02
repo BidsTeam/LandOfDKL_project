@@ -14,7 +14,6 @@ import service.DBService;
 import util.LogFactory;
 import util.MessageList;
 import util.ServiceWrapper;
-import util.UserCardsGenerator;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;

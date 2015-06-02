@@ -13,6 +13,7 @@ import jdk.nashorn.internal.runtime.ECMAException;
 import messageSystem.MessageSystem;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import service.DBService;
@@ -26,12 +27,13 @@ import static org.junit.Assert.*;
 
 public class User extends TestsCore {
 
-    static DBService dbService = new DBServiceImpl(sessionFactory);
-    final static MessageSystem messageSystem = new MessageSystem();
-    ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
+    private final DBService dbService = new DBServiceImpl(sessionFactory);
+    private final MessageSystem messageSystem = new MessageSystem();
 
-    @BeforeClass
-    public static void before(){
+
+    @Before
+    public void before(){
+      //  ServiceWrapper serviceWrapper = new ServiceWrapper(dbService,messageSystem);
         final Thread accountServiceThread = new Thread(new AccountMap(dbService,messageSystem));
         accountServiceThread.setDaemon(true);
         accountServiceThread.setName("Account Map");
