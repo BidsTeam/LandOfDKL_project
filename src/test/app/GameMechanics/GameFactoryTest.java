@@ -14,9 +14,9 @@ import service.serviceImpl.DBServiceImpl;
 import static org.junit.Assert.*;
 
 public class GameFactoryTest extends TestsCore {
-    DBService dbService = new DBServiceImpl(sessionFactory);
-    GameFactory gameFactory;
-    WebSocketService webSocketService = new MockSocketService();
+    private DBService dbService = new DBServiceImpl(sessionFactory);
+    private GameFactory gameFactory;
+    private WebSocketService webSocketService = new MockSocketService();
 
 
     private GameSession createNewGame(int firstID, int secondID) {

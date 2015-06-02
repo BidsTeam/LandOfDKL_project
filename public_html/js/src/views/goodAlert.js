@@ -45,6 +45,7 @@ define(
             },
 
             alert : function(text, options) {
+                this._clear();
                 var effect = "";
                 if (options) {
                     if (options.effect) {
@@ -52,6 +53,9 @@ define(
                     }
                     if (options.textClass) {
                         this.$(".alert-box__text").addClass(options.textClass);
+                    }
+                    if (options.boxClass) {
+                        this.$(".alert__alert-box").addClass(options.boxClass);
                     }
                 }
 
@@ -72,6 +76,12 @@ define(
             hide : function(options) {
                 this.$(".alert__alert-box").removeClass("softAnimate");
                 this.$el.css("visibility", "hidden"); //todo ...и скрытия
+            },
+
+            _clear : function() {
+                this.$el.detach();
+                this.setElement(goodAlertTmpl());
+                $("body").append(this.$el);
             }
 
         }))();

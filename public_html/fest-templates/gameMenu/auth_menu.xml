@@ -1,0 +1,38 @@
+<fest:template xmlns:fest="http://fest.mail.ru">
+
+    <div class="menu-container">
+        <div class="menu-container__menu">
+
+            <div class="menu-name">Авторизация</div>
+
+            <form class="menu__form" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
+
+                <div class="menu-form__fields-container">
+
+                    <label for="auth-login-field" class="menu-form__field-name"> Логин </label>
+                    <div class="form-group menu-form__form-group">
+                        <input type="text" name="login" class="form-control menu-form__field" id="auth-login-field"/>
+                    </div>
+
+                    <label class="menu-form__field-name" for="auth-password-field"> Пароль </label>
+                    <div class="form-group menu-form__form-group">
+                        <input type="password" name="password" class="form-control menu-form__field" id="auth-password-field"/>
+                    </div>
+
+                </div>
+
+                <div class="menu__button-container">
+                    <input type="submit" id="auth-submit-button" value="Войти" class="menu__button menu__button_ok" />
+                </div>
+
+                <div class="menu__button-container menu__button-container mobile-hidden">
+                    <a href="#">
+                        <input type="button" value="Назад" class="menu__button menu__button_cancel" />
+                    </a>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</fest:template>

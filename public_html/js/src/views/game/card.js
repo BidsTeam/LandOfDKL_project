@@ -10,8 +10,11 @@ define(
         "models/game/card",
         "templates/card/card",
         "templates/card/card_general_info",
+        "collections/socketsPool"
 
-    ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo) {
+    ], function(Backbone, Ui, $, CardModel, CardTemplate, CardInfo, socketsPool) {
+
+        var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         function _onStep() {
             this.model.trigger("STEP", this.model);

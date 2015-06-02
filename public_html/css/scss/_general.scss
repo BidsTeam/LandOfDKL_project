@@ -1,13 +1,26 @@
-html, body, .app, .main-container {
-  height: 100%;
+@media (max-width: 800px) {
+  .mobile-hidden {
+    display: none;
+  }
 }
 
-body {
+html, body, .app, .main-container {
+  height: 100%;
+  margin: 0px;
+  width: 100%;
+}
+
+body, html {
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 p {
   margin: 0px;
+}
+
+a {
+  text-decoration: none;
 }
 
 .hide{
@@ -16,6 +29,7 @@ p {
 
 .error {
   display: block;
+  color: #ff0000;
 }
 
 .app {

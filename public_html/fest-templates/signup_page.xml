@@ -31,11 +31,11 @@
                     </div>
 
                     <div class="menu__button-container">
-                        <input type="submit" value="Зарегистрироваться" class="btn btn-large btn-success menu__button" disabled="disabled"/>
+                        <input type="submit" value="Зарегистрироваться" class="menu__button menu__button_ok" disabled="disabled"/>
                     </div>
 
                     <div class="menu__button-container">
-                        <a href="#" class="btn btn-large btn-primary menu__button"> Назад </a>
+                        <a href="#" class="menu__button menu__button_cancel"> Назад </a>
                     </div>
 
                 </form>

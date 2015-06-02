@@ -10,3 +10,5 @@ npm-debug.log
 #LandOfDKL.jar
 #public_html/js/src/templates
 #public_html/js/src/templates/**/
+public_html/js/build
+public_html/js/build.min.js

@@ -4,7 +4,9 @@
 
         <div class="alert__alert-box">
             <div class="alert-box__text">
-                <fest:value>data.text</fest:value>
+                <fest:if test="data.text">
+                    <fest:value>data.text</fest:value>
+                </fest:if>
             </div>
 
             <div class="alert-box__controls">

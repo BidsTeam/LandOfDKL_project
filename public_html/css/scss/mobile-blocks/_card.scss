@@ -1,0 +1,106 @@
+$card-anim-speed : 0.3s;
+$upperLength : -50px;
+
+.invisible {
+  visibility : hidden !important;
+}
+
+.inDragPosition {
+  margin-top: $upperLength;
+  z-index: 999;
+}
+
+.card-container {
+  display: inline-block;
+  vertical-align: top;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  margin-right: 10px;
+}
+
+.card-container_in-deck {
+  width: 50%;
+  height: 84%;
+  margin-left: 25%;
+  margin-right: 25%;
+  margin-top: 2%;
+}
+
+.card-container__card {
+  border-radius: 6px;
+  font-size: 0px;
+  display: inline-block;
+  text-align: center;
+  height: 100%;
+  width: 100%;
+  position: relative;
+}
+
+$infoContainerBorderColor : #000000;
+$infoContainerBorderSize : 4px;
+$infoContainerBorderRadius : 12px;
+$infoContainerPointer : 10px;
+
+.card__header {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 5px 5px 0px 0px;
+  display: inline-block;
+  text-align: center;
+  padding: 2px 13px;
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
+  p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.card__image {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+  height: 100%;
+  width: 100%;
+  border-radius: 0px 0px 5px 5px;
+  &_knight {
+    background-image: url("../images/knight.jpg");
+  }
+  &_lady {
+    background-image: url("../images/princess.jpg");
+  }
+  &_dragon {
+    background-image: url("../images/dragon.jpg");
+  }
+}
+
+.card__image_closed {
+  background-image: url("../images/closed.jpg");
+  border: solid black 3px;
+}
+
+.card__effect {
+  background-image: url("../images/card_title.jpg");
+  border: solid black 1px;
+  border-radius: 10px;
+  display: block;
+  text-align: center;
+}
+
+.card__description {
+  background-image: url("../images/card_description_background.jpg");
+  display: block;
+  height: 160px;
+  margin: 3px auto;
+  width: 94%;
+}
+
+.temp-container {
+  display: inline-block;
+  width: 25%;
+  height: 100%;
+  vertical-align: top;
+}
