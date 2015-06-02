@@ -13,6 +13,7 @@ public class EffectList {
 
     public int getLoserEffectDamage(Player loser, CardLogic winnerCard, CardLogic loserCard) {
         int damage = 0;
+        int duration = 3;
         for (EffectLogic e : winnerCard.getEffects()) {
             switch (e.getName()) {
                 case "explode" : {
@@ -21,9 +22,13 @@ public class EffectList {
                     break;
                 }
                 case "poison" : {
-                    int duration = 3;
                     Poison poison = new Poison(duration, e.getValue());
                     loser.addEffect(poison);
+                    break;
+                }
+                case "preparedstrike" : {
+                    PreparedStrike preparedStrike = new PreparedStrike(e.getValue());
+                    damage += preparedStrike.getDamage();
                     break;
                 }
             }
@@ -34,6 +39,10 @@ public class EffectList {
                     Explode explode = new Explode(e.getValue());
                     damage += explode.getExplodeDamage();
                     break;
+                }
+                case "restoration" : {
+                    Restoration restoration = new Restoration(duration, e.getValue());
+                    loser.addEffect(restoration);
                 }
             }
         }
@@ -45,15 +54,31 @@ public class EffectList {
 
     public int getWinnerEffectDamage(Player winner, CardLogic winnerCard, CardLogic loserCard) {
         int damage = 0;
+        int duration = 3;
         for (EffectLogic e : winnerCard.getEffects()) {
             switch (e.getName()) {
 //                TODO если появятся эффекты которые действуют на победителя, то добавлять сюда
+                case "restoration" : {
+                    Restoration restoration = new Restoration(duration, e.getValue());
+                    winner.addEffect(restoration);
+                    break;
+                }
             }
         }
         for (EffectLogic e : loserCard.getEffects()) {
             switch (e.getName()) {
 
                 //TODO и сюда
+                case "healorharm" : {
+                    HealOrHarm healOrHarm = new HealOrHarm(e.getValue());
+                    damage += healOrHarm.getHealAmount();
+                    break;
+                }
+                case "preparedstrike" : {
+                    PreparedStrike preparedStrike = new PreparedStrike(e.getValue());
+                    damage += preparedStrike.getDamage();
+                    break;
+                }
             }
         }
         for (StepEffect e : winner.getEffectList()) {
@@ -68,9 +93,10 @@ public class EffectList {
             private int poisonDamage;
             private String name;
 
-            public Poison( int duration, int poisonDamage){
+            public Poison(int duration, int poisonDamage) {
                     this.duration = duration;
                     this.poisonDamage = poisonDamage;
+                    name = "Poison";
             }
 
             public int getDuration() {
@@ -87,6 +113,7 @@ public class EffectList {
                 return oldValue;
             }
 
+            @Override
             public int doStep() {
                 int dmg = 0;
                 if (duration > 0){
@@ -96,12 +123,50 @@ public class EffectList {
                 return dmg;
             }
 
+            @Override
             public JSONObject getDescription() {
                 JSONObject json = new JSONObject();
                 json.put("name", name);
                 json.put("damage", poisonDamage);
                 json.put("duration", duration);
                 json.put("type", "poison");
+                return json;
+            }
+        }
+
+        public class Restoration implements StepEffect {
+            private int duration;
+            private int healValue;
+            private String name;
+
+            public Restoration(int duration, int healValue) {
+                this.duration = duration;
+                this.healValue = healValue;
+                name = "Restoration";
+            }
+
+            private int getRestoration() {
+                return -healValue;
+            }
+
+
+            @Override
+            public int doStep() {
+                int heal = 0;
+                if (duration > 0){
+                    duration--;
+                    heal = getRestoration();
+                }
+                return heal;
+            }
+
+            @Override
+            public JSONObject getDescription() {
+                JSONObject json = new JSONObject();
+                json.put("name", name);
+                json.put("damage", healValue);
+                json.put("duration", duration);
+                json.put("type", "heal");
                 return json;
             }
         }
@@ -116,6 +181,25 @@ public class EffectList {
             public int getExplodeDamage() {
                 return explodeDamage;
             }
+
+    }
+
+    public class HealOrHarm {
+        private int healAmount;
+
+        public HealOrHarm(int healAmount) { this.healAmount = healAmount; }
+
+        public int getHealAmount() { return -healAmount; }
+    }
+
+    public class PreparedStrike {
+        private int damage;
+
+        public PreparedStrike(int damage) {
+            this.damage = damage;
+        }
+
+        public int getDamage() { return damage; }
 
     }
 }
