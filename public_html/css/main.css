@@ -543,7 +543,7 @@ a.underline {
 .health__health-number {
   display: inline-block;
   font-size: 25px;
-  color: red; }
+  color: #FFF; }
 
 .health__health-line-indicator {
   height: 15px;
@@ -557,6 +557,16 @@ a.underline {
   font-size: 20px;
   margin-left: 10px;
   color: red; }
+
+.effect {
+  display: block; }
+
+.effect__poison {
+  background-image: url(../images/poison_effect.png);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
 
 .menu-container {
   text-align: center;
@@ -644,7 +654,7 @@ a.underline {
 .health__health-number {
   display: inline-block;
   font-size: 25px;
-  color: red; }
+  color: #FFF; }
 
 .health__health-line-indicator {
   height: 15px;
@@ -658,5 +668,15 @@ a.underline {
   font-size: 20px;
   margin-left: 10px;
   color: red; }
+
+.effect {
+  display: block; }
+
+.effect__poison {
+  background-image: url(../images/poison_effect.png);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
 
 /*# sourceMappingURL=main.css.map */

@@ -10,5 +10,7 @@
         <div class="health__health-line-indicator health__health-line-indicator_{player.type}">
         </div>
     </div>
+    <div class="effect">
+    </div>
 
 </fest:template>

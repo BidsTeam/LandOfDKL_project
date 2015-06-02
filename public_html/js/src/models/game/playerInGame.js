@@ -57,7 +57,8 @@ define(
 
             updateHealth : function(msg) {
                 var health = msg[this.get("type")+"Health"];
-                this.set({health : health});
+                this.set({health : health,effectList:[{"name":"poison",value:5,time:2,description:"blabla",type:"poison"}]});
+                console.log("PlayerInGame MSG",msg);
             },
 
             _sendCardStep : function(cardModel) {
