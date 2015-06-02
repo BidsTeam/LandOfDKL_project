@@ -14,21 +14,18 @@
 }
 
 .menu__menu-name {
-  font-size: 20px;
+  font-size: 40px;
   margin-bottom: 5px;
 }
 
-.menu__button {
-  width: 300px;
-  margin-bottom: 10px;
-}
-
 .menu-name {
-  font-size: 20px;
+  font-size: 40px;
   margin-bottom: 13px;
 }
-.menu-button-container {
-  display: block;
+
+.menu__button-container {
+  margin-bottom: 15px;
+  width: 100%;
 }
 
 .menu-header {
@@ -40,9 +37,6 @@
 
 .menu__form {
   text-align: center;
-}
-
-.menu-form__fields-container {
 }
 
 .signup-form__form-group {
@@ -57,4 +51,43 @@
   display: inline-block;
   width: 300px;
   text-align : center;
+  outline: none;
+  height: 30px;
+  background-color: #949494;
+  border: none;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
+$shadowSize : 0px 5px 0px 0px;
+.menu__button {
+  display: inline-block;
+  padding: 16px 0px;
+  width: 300px;
+  margin-bottom: 10px;
+  outline: none;
+  border-radius: 5px;
+  border: none;
+  font-size: 20px;
+  color: white;
+  &:active {
+    position: relative;
+    top: 5px;
+    box-shadow: 0px 0px 0px 0px;
+  }
+}
+
+.menu__button_ok {
+  background-color: #41b26d;
+  box-shadow: $shadowSize green;
+}
+
+.menu__button_cancel {
+  background-color: #b23933;
+  box-shadow: $shadowSize red;
+}
+
+.menu__button_neutral {
+  background-color: #204d74;
+  box-shadow: $shadowSize blue;
 }

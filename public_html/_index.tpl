@@ -13,8 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css">
 
-    <script data-main='js/src/init.js' src='js/lib/require.js'></script>
-<script src='//localhost:35729/livereload.js'></script>
+    <%= devScriptInit %>
 
 </head>
 
@@ -49,7 +48,7 @@
     </div>
 </div>
 
-
+<%= productionScriptInit %>
 
 </body>
 </html>

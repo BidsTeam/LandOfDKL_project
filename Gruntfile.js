@@ -46,23 +46,99 @@ module.exports = function (grunt) {
 				}
 			}
 		},
+
 		concurrent: {
-    	  	target: ['watch', 'shell'],
+    	  	target: ["watch", 'shell'],
     	  	options: {
     	  		logConcurrentOutput: true
     	  	}
     	},
+
     	sass: {
 			dist: {
-				files: [{
-			        expand: true,
-			        cwd: 'public_html/css/scss',
-			        src: ['*.scss'],
-			        dest: 'public_html/css',
-			        ext: '.css'
-			    }]
+				files: [
+                    {
+                        expand: true,
+                        cwd: 'public_html/css/scss',
+                        src: ['main.scss'],
+                        dest: 'public_html/css',
+                        ext: '.css'
+                    },
+                    {
+                        expand: true,
+                        cwd: 'public_html/css/scss',
+                        src: ['mobile.scss'],
+                        dest: 'public_html/css',
+                        ext: '.css'
+                    }
+                ]
 			}
-		}
+		},
+
+        requirejs : {
+            build: {
+                options: {
+                    almond: true,
+                    baseUrl: "public_html/js/src",
+                    mainConfigFile: "public_html/js/src/init.js",
+                    findNestedDependencies: true, // Очень сука важная опция!
+                    name: "init",
+                    optimize: "none",
+                    out: "public_html/js/build/r-build.js"
+                }
+            }
+        },
+
+        concat : {
+            build : {
+                separator: ';\n',
+                src: [
+                    'public_html/js/lib/almond.js',
+                    'public_html/js/build/r-build.js'
+                ],
+                dest: 'public_html/js/build/concated.js'
+            }
+        },
+
+        uglify : {
+            build: {
+                files: {
+                    'public_html/js/build.min.js' : ['public_html/js/build/concated.js']
+                }
+            }
+        },
+
+        template : {
+            buildIndexFileDev : {
+                'options': {
+                    'data': {
+                        productionScriptInit : "",
+                        devScriptInit :
+                            "<script data-main='js/src/init.js' src='js/lib/require.js'></script>\n" +
+                            "<script src='//localhost:35729/livereload.js'></script>"
+                    }
+                },
+                'files': {
+                    'public_html/index.html': ['public_html/_index.tpl']
+                }
+            },
+
+            buildIndexFileProduction : {
+                'options': {
+                    'data': {
+                        productionScriptInit:
+                            "<script src='js/build.min.js'></script> \n" +
+                            "<script>\n" +
+                                "\trequire(['init'], function(init){});\n" +
+                            "</script>\n",
+                        devScriptInit : ""
+                    }
+                },
+                'files': {
+                    'public_html/index.html': ['public_html/_index.tpl']
+                }
+            }
+        }
 	});
 
 	grunt.loadNpmTasks('grunt-shell');
@@ -70,7 +146,24 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-concurrent');
 	grunt.loadNpmTasks('grunt-contrib-sass');
+    grunt.loadNpmTasks('grunt-contrib-requirejs');
+    grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-uglify');
+    grunt.loadNpmTasks("grunt-template");
 
-	grunt.registerTask('default',['concurrent']);
+	grunt.registerTask(
+        'dev_run',
+        [
+            "template:buildIndexFileDev", 'concurrent'
+        ]
+    );
+
+    grunt.registerTask(
+        "production_build",
+        [
+            "sass", "fest",
+            "requirejs:build", "concat:build", "uglify:build",
+            "template:buildIndexFileProduction"
+        ]
+    )
 };
-
