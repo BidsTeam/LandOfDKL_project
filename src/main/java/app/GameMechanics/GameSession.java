@@ -41,7 +41,7 @@ public class GameSession {
         this.dbService = dbService;
         this.webSocketService = webSocketService;
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
-        this.webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
+        this.webSocketService.notifyGameState(firstPlayer, secondPlayer);
         cardCount = CARD_AMOUNT;
         effectList = new EffectList();
     }
@@ -160,7 +160,7 @@ public class GameSession {
             webSocketService.notifyGameOver(winner, loser, RPS.RPSResult.SECOND_WON);
         } else {
 //            System.out.println(loser.getHealth());
-            webSocketService.notifyGameState(winner, loser, winner.getHealth(), loser.getHealth());
+            webSocketService.notifyGameState(winner, loser);
         }
     }
 

@@ -4,6 +4,7 @@ package util;
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
 import app.GameMechanics.Player;
+import org.json.JSONObject;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -65,10 +66,11 @@ public class EffectList {
         public class Poison implements StepEffect {
             private int duration;
             private int poisonDamage;
+            private String name;
 
-            public Poison( int key, int value){
-                    this.duration = key;
-                    this.poisonDamage = value;
+            public Poison( int duration, int poisonDamage){
+                    this.duration = duration;
+                    this.poisonDamage = poisonDamage;
             }
 
             public int getDuration() {
@@ -92,6 +94,15 @@ public class EffectList {
                     dmg = getPoisonDamage();
                 }
                 return dmg;
+            }
+
+            public JSONObject getDescription() {
+                JSONObject json = new JSONObject();
+                json.put("name", name);
+                json.put("damage", poisonDamage);
+                json.put("duration", duration);
+                json.put("type", "poison");
+                return json;
             }
         }
 
