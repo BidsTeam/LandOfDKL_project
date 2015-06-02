@@ -159,7 +159,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks("grunt-template");
 
 	grunt.registerTask(
-        'dev_run',
+        'default',
         [
             "template:buildIndexFileDev", 'concurrent'
         ]

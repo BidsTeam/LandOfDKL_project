@@ -7,7 +7,7 @@
 .health__health-number {
   display: inline-block;
   font-size: 25px;
-  color: red;
+  color: #FFF;
 }
 
 .health__health-line-indicator {
@@ -23,4 +23,16 @@
   font-size: 20px;
   margin-left:10px;
   color:red;
+}
+
+.effect {
+  display:block;
+}
+
+.effect__poison {
+  background-image: url(../images/poison_effect.png);
+  display:block;
+  float:left;
+  width:32px;
+  height:32px;
 }
