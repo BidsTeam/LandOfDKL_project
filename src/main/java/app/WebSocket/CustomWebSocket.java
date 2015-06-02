@@ -13,7 +13,7 @@ import util.LogFactory;
 import java.util.Set;
 
 
-@WebSocket
+@WebSocket(maxIdleTime = 100000000)
 public class CustomWebSocket {
     private Session session;
     private int userID;

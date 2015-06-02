@@ -11,6 +11,7 @@ import service.DBService;
 import sun.rmi.runtime.Log;
 import util.LogFactory;
 import util.RPS;
+import util.StepEffect;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -266,19 +267,31 @@ public class CustomWebSocketService implements WebSocketService {
         }
     }
 
-    public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth) {
-        JSONObject json = generateGameStateJson(firstPlayerHealth, secondPlayerHealth);
+    public void notifyGameState(Player firstPlayer, Player secondPlayer) {
+        JSONObject json = generateGameStateJson(firstPlayer, secondPlayer);
         sendJson(userWebSockets.get(firstPlayer.getUserID()), json);
-        json = generateGameStateJson(secondPlayerHealth, firstPlayerHealth);
+        json = generateGameStateJson(secondPlayer, firstPlayer);
         sendJson(userWebSockets.get(secondPlayer.getUserID()), json);
     }
 
-    private JSONObject generateGameStateJson(int playerHealth, int opponentHealth) {
+    private JSONObject generateGameStateJson(Player player, Player opponent) {
         JSONObject json = new JSONObject();
         json.put("action", "newGameState");
-        json.put("playerHealth", playerHealth);
-        json.put("opponentHealth", opponentHealth);
+        json.put("player", formPlayerJSON(player));
+        json.put("opponent", formPlayerJSON(opponent));
         return json;
+    }
+
+    private JSONObject formPlayerJSON(Player player) {
+        JSONObject playerJSON = new JSONObject();
+        playerJSON.put("name", player.getUsername());
+        playerJSON.put("health", player.getHealth());
+        Set<JSONObject> effectSet = new HashSet<>();
+        for (StepEffect e : player.getEffectList()) {
+            effectSet.add(e.getDescription());
+        }
+        playerJSON.put("effectList", effectSet);
+        return playerJSON;
     }
 
     public void notifyReconnectPossibility(int userID) {

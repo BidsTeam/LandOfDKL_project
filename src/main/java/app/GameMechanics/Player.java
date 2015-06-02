@@ -3,6 +3,7 @@ package app.GameMechanics;
 
 import DAO.logic.UserLogic;
 import util.EffectList;
+import util.StepEffect;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +16,7 @@ public class Player {
     private int health;
     private final int MAX_HEALTH = 20;
     private List<Integer> deck;
-    private ArrayList<EffectList.Poison> posionList = new ArrayList<EffectList.Poison>(0);
+    private ArrayList<StepEffect> effectList = new ArrayList<>(0);
 
     public Player(UserLogic user) {
         username = user.getUsername();
@@ -53,11 +54,11 @@ public class Player {
         return cardID;
     }
 
-    public void addPoision(EffectList.Poison effect){
-        posionList.add(effect);
+    public void addEffect(StepEffect effect){
+        effectList.add(effect);
     }
 
-    public ArrayList<EffectList.Poison> getPoisionList(){
-        return posionList;
+    public ArrayList<StepEffect> getEffectList(){
+        return effectList;
     }
 }

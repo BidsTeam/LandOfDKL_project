@@ -25,7 +25,7 @@ public interface WebSocketService {
     public void notifyUserExit(int userID);
     public DBService getDbService();
     public void greetUser(int userID);
-    public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth);
+    public void notifyGameState(Player firstPlayer, Player secondPlayer);
     public void notifyReconnectPossibility(int userID);
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID);
 }
