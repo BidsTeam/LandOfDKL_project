@@ -31,11 +31,11 @@ define(
             },
 
             beginBattle : function(msg) {
-
                 var playerDeck = [];
                 for (var key in msg.deck) {
                     playerDeck.push(new CardModelClass({cardId : msg.deck[key]}));
                 }
+                User.set("name",msg.firstName);
                 this.player = new MyPlayerInGameModelClass({
                     deck : playerDeck,
                     type : "player",
@@ -50,7 +50,7 @@ define(
                 this.opponentPlayer = new OpponentPlayerInGameModelClass({
                     deck : opponentDeck,
                     type : "opponent",
-                    name : msg.opponentName,
+                    name : msg.secondName,
                     health : msg.opponentHealth
                 });
 

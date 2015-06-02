@@ -11,8 +11,9 @@ define(
         return Backbone.View.extend({
 
             initialize : function(options) {
-                this.setElement(Template());
+                this.setElement(Template(options.model.toJSON()));
                 this.model.bind("change:health", this.updateHealth, this);
+                this.updateHealth();
             },
 
             updateHealth : function() {

@@ -17,3 +17,10 @@
   background-color: red;
   background-image: -webkit-linear-gradient(rgb(89, 0, 0), rgb(190, 0, 0) 50%, rgb(190, 0, 0) 51%, rgb(89, 0, 0));
 }
+
+.health__player-name {
+  display:inline-block;
+  font-size: 20px;
+  margin-left:10px;
+  color:red;
+}

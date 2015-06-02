@@ -552,6 +552,12 @@ a.underline {
   background-color: red;
   background-image: -webkit-linear-gradient(#590000, #be0000 50%, #be0000 51%, #590000); }
 
+.health__player-name {
+  display: inline-block;
+  font-size: 20px;
+  margin-left: 10px;
+  color: red; }
+
 .menu-container {
   text-align: center;
   height: 100%; }
@@ -646,5 +652,11 @@ a.underline {
   transition: 0.7s;
   background-color: red;
   background-image: -webkit-linear-gradient(#590000, #be0000 50%, #be0000 51%, #590000); }
+
+.health__player-name {
+  display: inline-block;
+  font-size: 20px;
+  margin-left: 10px;
+  color: red; }
 
 /*# sourceMappingURL=main.css.map */
