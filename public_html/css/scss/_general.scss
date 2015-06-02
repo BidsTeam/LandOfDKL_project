@@ -1,11 +1,18 @@
+@media (max-width: 800px) {
+  .mobile-hidden {
+    display: none;
+  }
+}
+
 html, body, .app, .main-container {
   height: 100%;
   margin: 0px;
   width: 100%;
 }
 
-body {
+body, html {
   overflow-y: hidden;
+  overflow-x: hidden;
 }
 
 p {

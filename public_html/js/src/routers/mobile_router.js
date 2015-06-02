@@ -37,7 +37,7 @@ define(
                     function(msg) {
                         msg = JSON.parse(msg);
                         if (msg.isAuth) {
-                            require(['views/pages/mobile/gamePage'], function(gamePageView) {
+                            require(['views/mobile/gamePage'], function(gamePageView) {
                                 gamePageView.go();
                             });
                         } else {

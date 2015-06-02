@@ -40,22 +40,19 @@ define(
             initialize : function(attrs) {
                 this.bind("change:health", _onChangeHealth.bind(this));
                 Socket.bind("newGameState", this.updateHealth, this);
+
                 require(['models/game/battle'], function(BattleModel) {
                     BattleModel.bind("END_BATTLE", this._onBattleEnd, this);
                 }.bind(this));
+
                 this.cardsInHand = new cardCollectionClass();
+
                 if (attrs['deck']) {
                         this.cardsInHand.add(attrs['deck']);
                 }
+
                 this.cardsInHand.bind("delete", this._deleteCard, this);
                 this._construct(attrs);
-            },
-
-            decreaseHealth : function(minusHp) {
-                var currentHealth = this.get("health");
-                this.set({
-                    health : currentHealth - minusHp
-                });
             },
 
             updateHealth : function(msg) {

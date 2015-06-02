@@ -1,0 +1,11 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="player">
+
+    <div class="health">
+        <div class="health__health-number health__health-number_{player.type}">
+        </div>
+
+        <div class="health__health-line-indicator health__health-line-indicator_{player.type}">
+        </div>
+    </div>
+
+</fest:template>

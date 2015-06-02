@@ -1,10 +1,12 @@
 <fest:template xmlns:fest="http://fest.mail.ru">
+
     <div class="menu-container">
         <div class="menu-container__menu">
 
             <div class="menu-name">Авторизация</div>
 
-            <form class="menu__form form-group form-horizontal" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
+            <form class="menu__form" id="auth-form" action="/api/auth/signin" method="POST" enctype="application/x-www-form-urlencoded">
+
                 <div class="menu-form__fields-container">
 
                     <label for="auth-login-field" class="menu-form__field-name"> Логин </label>
@@ -23,7 +25,7 @@
                     <input type="submit" id="auth-submit-button" value="Войти" class="menu__button menu__button_ok" />
                 </div>
 
-                <div class="menu__button-container menu__button-container_mobile-hidden">
+                <div class="menu__button-container menu__button-container mobile-hidden">
                     <a href="#">
                         <input type="button" value="Назад" class="menu__button menu__button_cancel" />
                     </a>

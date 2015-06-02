@@ -1,0 +1,23 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+
+    <div class="cards-mobile-controller">
+
+        <div class="action-field">
+
+            <div class="action-field__left-arrow"> <img class="arrow__image arrow__image_left" src="images/left.png"/> </div>
+            <div class="action-field__cards-container"></div>
+            <div class="action-field__right-arrow"> <img class="arrow__image arrow__image_right" src="images/right.png"/> </div>
+
+        </div>
+
+        <div class="counter-field">
+
+            <span class="counter-field__curr-num-of-card">15</span>
+            /
+            <span class="counter-field__amount-num-of-cards">15</span>
+
+        </div>
+
+    </div>
+
+</fest:template>

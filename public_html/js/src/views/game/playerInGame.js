@@ -16,7 +16,6 @@ define(
             initialize : function(options) {
                 this.$deck = options.$deckElem;
                 this.cardViews = [];
-                this.$healthBar = $(".health_"+this.model.get("type"));
 
                 var playerCardsModels = this.model.cardsInHand.models;
                 for (var key in playerCardsModels) {
@@ -24,7 +23,6 @@ define(
                 }
 
                 this.model.cardsInHand.bind("delete", this._removeCardFromHand, this);
-                this.model.bind("change:health", this._updateHealth, this);
                 BattleModel.bind("NEXT_STEP", this._onNextStepBegin, this);
                 BattleModel.bind("END_BATTLE", this._clean, this);
                 this.model.trigger("change:health");
@@ -48,13 +46,6 @@ define(
                         return true;
                     }
                 });
-            },
-
-            _updateHealth : function() {
-                var health = this.model.get("health");
-                this.$healthBar.find(".health__health-number").html(health);
-                var healthPercent = (100 / this.model.get("startHealth")) * health;
-                this.$healthBar.find(".health__health-line-indicator").css({width : healthPercent+"%"});
             },
 
             _clean : function() {

@@ -16,16 +16,22 @@ define(
 
             el : "#loader-screen",
             showLoaderTimerId : 0,
-            cancelHandler : function(){},
 
             initialize : function(options) {},
 
             show : function(options) {
 
                 if (options) {
+
                     if (options.cancelHandler) {
                         this.cancelHandler = options.cancelHandler;
+                        this.$(".cancel-button").css("visibility", "visible");
                     }
+
+                    if (options.showCancelButton === false) {
+                        this.$(".cancel-button").css("visibility", "hidden");
+                    }
+
                 }
 
                 this.$el.css("visibility", "visible");

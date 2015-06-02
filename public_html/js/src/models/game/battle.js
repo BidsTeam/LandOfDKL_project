@@ -8,12 +8,11 @@ define(
         "collections/cardCollection",
         "collections/socketsPool",
         "models/user",
-        "config",
         "models/game/myPlayerInGame",
         "models/game/opponentPlayerInGame",
         "models/game/card",
         "lodash"
-    ], function(Backbone, cardCollection, socketsPool, User, Config, MyPlayerInGameModelClass, OpponentPlayerInGameModelClass, CardModelClass, _) {
+    ], function(Backbone, cardCollection, socketsPool, User, MyPlayerInGameModelClass, OpponentPlayerInGameModelClass, CardModelClass, _) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
@@ -79,8 +78,10 @@ define(
                 clearTimeout(this.nextStepTimerId);
                 this.player.clear();
                 this.player = {};
+                delete this.player;
                 this.opponentPlayer.clear();
                 this.opponentPlayer = {};
+                delete this.opponentPlayer;
                 this.trigger("END_BATTLE", Number(msg.gameResult));
             }
 
