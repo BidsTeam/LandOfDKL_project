@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
+import util.EffectList;
 import util.LogFactory;
 import util.RPS;
 
@@ -22,6 +23,7 @@ public class GameSession {
     private DBService dbService;
     private int cardCount;
     private final int CARD_AMOUNT = 15;
+    EffectList effectList;
 
     public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService, DBService dbService) {
         firstPlayer = playerOne;
@@ -41,6 +43,7 @@ public class GameSession {
         this.webSocketService.notifyNewGame(firstPlayer, secondPlayer, gameID);
         this.webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
         cardCount = CARD_AMOUNT;
+        effectList = new EffectList();
     }
 
     public void doGameAction(JSONObject json, int userID) {
@@ -115,11 +118,11 @@ public class GameSession {
             RPS.RPSResult result = RPS.Palm.fromString(firstPlayerCard.getCardType())
                     .fight(RPS.Palm.fromString(secondPlayerCard.getCardType()));
             if (result == RPS.RPSResult.FIRST_WON) {
-                damageCalc(firstPlayer, secondPlayer, firstPlayerCard, secondPlayerCard, result);
+                damageCalc(firstPlayer, secondPlayer, firstPlayerCard, secondPlayerCard, false);
             } else if (result == RPS.RPSResult.SECOND_WON) {
-                damageCalc(secondPlayer, firstPlayer, secondPlayerCard, firstPlayerCard, result);
+                damageCalc(secondPlayer, firstPlayer, secondPlayerCard, firstPlayerCard, false);
             } else if (result == RPS.RPSResult.DRAW) {
-                webSocketService.notifyGameState(firstPlayer, secondPlayer, firstPlayer.getHealth(), secondPlayer.getHealth());
+                damageCalc(firstPlayer, secondPlayer, secondPlayerCard, firstPlayerCard, true);
             }
             cardCount--;
             if (cardCount == 0) {
@@ -139,20 +142,29 @@ public class GameSession {
     }
 
     //todo Не нравится разделение на winner и winnerCard: 1)Лишние почти дублирующие свойства 2) Можно легко перепутать порядок
-    private void damageCalc(Player winner, Player loser, CardLogic winnerCard, CardLogic loserCard, RPS.RPSResult result){
-        int damage = winnerCard.getAttack();
-        damage += effectCalc(winnerCard.getEffects());
-        damage += effectCalc(loserCard.getEffects());
-        System.out.println(damage);
-        if (!loser.takeDamage(damage)){
-            webSocketService.notifyGameOver(winner, loser, result);
+    private void damageCalc(Player winner, Player loser, CardLogic winnerCard, CardLogic loserCard, boolean isDraw) {
+        int loserTakenDamage = isDraw ? 0 : winnerCard.getAttack();
+        loserTakenDamage += effectList.getLoserEffectDamage(loser, winnerCard, loserCard);
+        int winnerTakenDamage = 0;
+        winnerTakenDamage += effectList.getWinnerEffectDamage(winner, winnerCard, loserCard);
+        boolean isLoserAlive = loser.takeDamage(loserTakenDamage);
+        boolean isWinnerAlive = winner.takeDamage(winnerTakenDamage);
+
+        if (!isLoserAlive) {
+            if (!isWinnerAlive) {
+                webSocketService.notifyGameOver(winner, loser, RPS.RPSResult.DRAW);
+            } else {
+                webSocketService.notifyGameOver(winner, loser, RPS.RPSResult.FIRST_WON);
+            }
+        } else if(!isWinnerAlive) {
+            webSocketService.notifyGameOver(winner, loser, RPS.RPSResult.SECOND_WON);
         } else {
-            System.out.println(loser.getHealth());
+//            System.out.println(loser.getHealth());
             webSocketService.notifyGameState(winner, loser, winner.getHealth(), loser.getHealth());
         }
     }
 
-    private int effectCalc(Set<EffectLogic> effectLogicSet){
+    private int effectCalc(Set<EffectLogic> effectLogicSet) {
         int damage = 0;
         for (EffectLogic e : effectLogicSet){
             if (e.getName().equals("explode")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
