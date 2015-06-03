@@ -67,7 +67,8 @@
   color: white; }
 
 .card-info-container__effect {
-  word-break: break-all; }
+  color: white;
+  word-break: break-word; }
 
 .card__header {
   background-image: url("../images/card_title.jpg");
@@ -562,7 +563,8 @@ a.underline {
   color: red; }
 
 .effect {
-  display: block; }
+  display: block;
+  position: relative; }
 
 .effect__poison {
   background-image: url(../images/poison_effect.png);
@@ -570,6 +572,17 @@ a.underline {
   float: left;
   width: 32px;
   height: 32px; }
+  .effect__poison:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
+.effect__popup {
+  display: none; }
 
 .menu-container {
   text-align: center;
@@ -673,7 +686,8 @@ a.underline {
   color: red; }
 
 .effect {
-  display: block; }
+  display: block;
+  position: relative; }
 
 .effect__poison {
   background-image: url(../images/poison_effect.png);
@@ -681,5 +695,16 @@ a.underline {
   float: left;
   width: 32px;
   height: 32px; }
+  .effect__poison:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
+.effect__popup {
+  display: none; }
 
 /*# sourceMappingURL=main.css.map */

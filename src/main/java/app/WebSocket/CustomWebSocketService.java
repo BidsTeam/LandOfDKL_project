@@ -76,11 +76,11 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameId) {
-        notify(secondPlayer, generateResponseNewGame(firstPlayer.getUsername(), gameId, firstPlayer.getUserID()), gameId);
-        notify(firstPlayer, generateResponseNewGame(secondPlayer.getUsername(), gameId, secondPlayer.getUserID()), gameId);
+        notify(secondPlayer, generateResponseNewGame(secondPlayer.getUsername(), firstPlayer.getUsername(), gameId, firstPlayer.getUserID()), gameId);
+        notify(firstPlayer, generateResponseNewGame(firstPlayer.getUsername(), secondPlayer.getUsername(), gameId, secondPlayer.getUserID()), gameId);
     }
 
-    private JSONObject generateResponseNewGame(String opponentName, int gameId, int userID) {
+    private JSONObject generateResponseNewGame(String playerName, String opponentName, int gameId, int userID) {
         JSONObject response = new JSONObject();
         response.put("action", "new_game");
         response.put("gameId", gameId);

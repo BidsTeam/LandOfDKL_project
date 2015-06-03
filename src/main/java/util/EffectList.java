@@ -22,7 +22,7 @@ public class EffectList {
                     break;
                 }
                 case "poison" : {
-                    Poison poison = new Poison(duration, e.getValue());
+                    Poison poison = new Poison(e.getDuration(), e.getValue(), e.getDescription());
                     loser.addEffect(poison);
                     break;
                 }
@@ -41,13 +41,13 @@ public class EffectList {
                     break;
                 }
                 case "restoration" : {
-                    Restoration restoration = new Restoration(duration, e.getValue());
+                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
                     loser.addEffect(restoration);
                 }
             }
         }
         for (StepEffect e : loser.getEffectList()) {
-            e.doStep();
+            damage += e.doStep();
         }
         return damage;
     }
@@ -59,7 +59,7 @@ public class EffectList {
             switch (e.getName()) {
 //                TODO если появятся эффекты которые действуют на победителя, то добавлять сюда
                 case "restoration" : {
-                    Restoration restoration = new Restoration(duration, e.getValue());
+                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
                     winner.addEffect(restoration);
                     break;
                 }
@@ -82,7 +82,7 @@ public class EffectList {
             }
         }
         for (StepEffect e : winner.getEffectList()) {
-            e.doStep();
+            damage += e.doStep();
         }
         return damage;
     }
@@ -92,11 +92,13 @@ public class EffectList {
             private int duration;
             private int poisonDamage;
             private String name;
+            private String description;
 
-            public Poison(int duration, int poisonDamage) {
-                    this.duration = duration;
-                    this.poisonDamage = poisonDamage;
-                    name = "Poison";
+            public Poison(int duration, int poisonDamage, String description) {
+                this.duration = duration;
+                this.poisonDamage = poisonDamage;
+                name = "Poison";
+                this.description = description;
             }
 
             public int getDuration() {
@@ -127,8 +129,9 @@ public class EffectList {
             public JSONObject getDescription() {
                 JSONObject json = new JSONObject();
                 json.put("name", name);
-                json.put("damage", poisonDamage);
+                json.put("value", poisonDamage);
                 json.put("duration", duration);
+                json.put("description", description);
                 json.put("type", "poison");
                 return json;
             }
@@ -138,11 +141,13 @@ public class EffectList {
             private int duration;
             private int healValue;
             private String name;
+            private String description;
 
-            public Restoration(int duration, int healValue) {
+            public Restoration(int duration, int healValue, String description) {
                 this.duration = duration;
                 this.healValue = healValue;
                 name = "Restoration";
+                this.description = description;
             }
 
             private int getRestoration() {
@@ -164,8 +169,9 @@ public class EffectList {
             public JSONObject getDescription() {
                 JSONObject json = new JSONObject();
                 json.put("name", name);
-                json.put("damage", healValue);
+                json.put("value", healValue);
                 json.put("duration", duration);
+                json.put("description", description);
                 json.put("type", "heal");
                 return json;
             }

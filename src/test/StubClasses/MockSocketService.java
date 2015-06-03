@@ -79,7 +79,7 @@ public class MockSocketService implements WebSocketService {
     }
 
     @Override
-    public void notifyGameState(Player firstPlayer, Player secondPlayer, int firstPlayerHealth, int secondPlayerHealth) {
+    public void notifyGameState(Player firstPlayer, Player secondPlayer) {
 
     }
 

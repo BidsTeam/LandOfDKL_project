@@ -19,6 +19,8 @@ public class EffectLogic {
 
     private int value;
 
+    private int duration;
+
     public EffectLogic() {}
 
     public EffectLogic(String name, String description, int value) {
@@ -48,6 +50,9 @@ public class EffectLogic {
     public int getValue() { return value; }
     public void setValue(int value) { this.value = value; }
 
+    @Column(name = "duration")
+    public int getDuration() { return duration; }
+    public void setDuration(int duration) { this.duration = duration; }
 
     public Map<String, Object> putAllEffectInformation(){
         Map<String,Object> result = new HashMap<>();
@@ -55,6 +60,7 @@ public class EffectLogic {
         result.put("name",  this.getName());
         result.put("description", this.getDescription());
         result.put("value",  this.getValue());
+        result.put("duration", this.getDuration());
         return result;
     }
 }

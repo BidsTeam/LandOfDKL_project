@@ -38,26 +38,27 @@ define(
             cardsInHand : {},
 
             initialize : function(attrs) {
-                Socket.bind("newGameState", this._updateHealth, this);
                 this.bind("change:health", _onChangeHealth.bind(this));
+                Socket.bind("newGameState", this.updateHealth, this);
 
                 require(['models/game/battle'], function(BattleModel) {
-                        BattleModel.bind("END_BATTLE", this._onBattleEnd, this);
+                    BattleModel.bind("END_BATTLE", this._onBattleEnd, this);
                 }.bind(this));
 
                 this.cardsInHand = new cardCollectionClass();
-                this.cardsInHand.bind("delete", this._deleteCard, this);
 
                 if (attrs['deck']) {
-                    this.cardsInHand.add(attrs['deck']);
+                        this.cardsInHand.add(attrs['deck']);
                 }
 
+                this.cardsInHand.bind("delete", this._deleteCard, this);
                 this._construct(attrs);
             },
 
-            _updateHealth : function(msg) {
-                var health = msg[this.get("type")]['health'];
-                this.set({health : health,effectList:[{"name":"poison",value:5,time:2,description:"blabla",type:"poison"}]});
+            updateHealth : function(msg) {
+                var health = msg[this.get("type")].health;
+                //this.set({health : health,effectList:[{"name":"poison",value:5,time:2,description:"blabla",type:"poison"}]});
+                this.set({health : health,effectList:msg[this.get("type")].effectList});
                 console.log("PlayerInGame MSG",msg);
             },
 
