@@ -92,4 +92,14 @@ public class MockSocketService implements WebSocketService {
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID) {
 
     }
+
+    @Override
+    public void notifyBadDeck(int userID) {
+
+    }
+
+    @Override
+    public void notifyGoodDeck(int userID) {
+
+    }
 }

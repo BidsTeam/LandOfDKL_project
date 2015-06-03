@@ -12,6 +12,7 @@ import service.DBService;
 import service.serviceImpl.DBServiceImpl;
 import util.ServiceWrapper;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.*;

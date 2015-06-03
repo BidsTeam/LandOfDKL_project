@@ -12,4 +12,5 @@ public interface DBCardService {
     public void addCard(CardLogic card);
     public List<Integer> getUserDeck(UserLogic user);
     public List<CardLogic> getAllCardsInfo();
+    public void setUserDeck(int userID, List<Integer> deck);
 }

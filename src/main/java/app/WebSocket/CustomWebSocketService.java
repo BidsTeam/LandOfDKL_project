@@ -303,10 +303,23 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID) {
-        org.hibernate.Session session = dbService.getSession();
         gameState.put("action", "currentGameState");
         gameState.put("deck", deck);
         HashSet<CustomWebSocket> sockets = userWebSockets.get(userID);
         sendJson(sockets, gameState);
+    }
+
+    public void notifyBadDeck(int userID) {
+        JSONObject json = new JSONObject();
+        json.put("action", "deckBuilder");
+        json.put("result", "wrong");
+        sendJson(userWebSockets.get(userID), json);
+    }
+
+    public void notifyGoodDeck(int userID) {
+        JSONObject json = new JSONObject();
+        json.put("action", "deckBuilder");
+        json.put("result", "ok");
+        sendJson(userWebSockets.get(userID), json);
     }
 }

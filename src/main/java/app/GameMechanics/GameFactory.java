@@ -2,8 +2,9 @@ package app.GameMechanics;
 
 import DAO.logic.UserLogic;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import service.DBService;
-import sun.rmi.runtime.Log;
 import util.LogFactory;
 
 import java.util.HashMap;
@@ -21,6 +22,7 @@ public class GameFactory {
     private static boolean isInitialized = false;
     private DBService dbService;
     private HashMap<Integer, Integer> playersToGameMap;
+    private DeckBuilder deckBuilder;
 
 //    private GameFactory() {
 //        gameSessionStorage = new GameSessionStorage();
@@ -49,6 +51,7 @@ public class GameFactory {
         inGameUsers = new HashSet<>();
         playersToGameMap = new HashMap<>();
         this.dbService = dbService;
+        deckBuilder = new DeckBuilder(dbService);
     }
 
 //    public static void deleteGameFactory() {
@@ -99,6 +102,14 @@ public class GameFactory {
     }
 
     public GameSession getLastGame() { return gameSessionStorage.getLastGame(); }
+
+    public void buildDeck(int userID, JSONArray jsonArray, WebSocketService webSocketService) {
+        if (deckBuilder.buildDeck(userID, jsonArray)) {
+            webSocketService.notifyGoodDeck(userID);
+        } else {
+            webSocketService.notifyBadDeck(userID);
+        }
+    }
 
     public int getUserGame(int userID) {
         if (inGameUsers.contains(userID)) {
