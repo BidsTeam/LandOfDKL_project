@@ -1,6 +1,0 @@
-<fest:template xmlns:fest="http://fest.mail.ru">
-    <div class="battlefield-container__field middle-field">
-        <div class="step-place step-place_player"></div>
-        <div class="step-place step-place_opponent"></div>
-    </div>
-</fest:template>

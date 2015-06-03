@@ -22,7 +22,7 @@ define(
             opponentPlayer : {},
 
             nextStepTimerId : 0,
-
+            battleBegan : false,
 
             initialize : function() {
                 Socket.bind("gameCardsReveal", this.revealCards, this);
@@ -50,10 +50,11 @@ define(
                 this.opponentPlayer = new OpponentPlayerInGameModelClass({
                     deck : opponentDeck,
                     type : "opponent",
-                    name : msg.secondName,
+                    name : msg.opponentName,
                     health : msg.opponentHealth
                 });
 
+                this.battleBegan = true;
                 this.trigger("BATTLE_BEGAN");
             },
 
@@ -83,6 +84,7 @@ define(
                 this.opponentPlayer = {};
                 delete this.opponentPlayer;
                 this.trigger("END_BATTLE", Number(msg.gameResult));
+                this.battleBegan = false;
             }
 
         }))();

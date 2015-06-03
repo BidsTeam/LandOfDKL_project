@@ -7,8 +7,9 @@ define(
         "backbone",
         "config",
         "views/loading",
-        "models/user"
-    ], function(Backbone, Config, loading, User) {
+        "models/user",
+        "utils"
+    ], function(Backbone, Config, loading, User, Utils) {
 
     function onEvent(event) {
         var data = JSON.parse(event.data);
@@ -47,10 +48,18 @@ define(
             this.bind("hello", this.saveCardsInformation, this);
             this.connect(options.address);
 
-            require(['views/pages/gamePage'], function(gamePageView) {
-                this.bind("reconnect", gamePageView.reconnectToBattle.bind(gamePageView), this);
-                this.bind("currentGameState", gamePageView.continueBattle.bind(gamePageView), this);
-            }.bind(this));
+            // если не мобила -
+            if (!Utils.isMobileDevice()) {
+                require(['views/pages/gamePage'], function(gamePageView) {
+                    this.bind("reconnect", gamePageView.reconnectToBattle.bind(gamePageView), this);
+                    this.bind("currentGameState", gamePageView.continueBattle.bind(gamePageView), this);
+                }.bind(this));
+            } else {
+                require(['views/mobile/gamePage'], function(mobileGamePageView) {
+                    this.bind("reconnect", mobileGamePageView.reconnectToBattle.bind(mobileGamePageView), this);
+                    this.bind("currentGameState", mobileGamePageView.continueBattle.bind(mobileGamePageView), this);
+                }.bind(this));
+            }
 
             require(['models/game/userList'], function(userList) {
                 this.bind("newChatUsers", userList.receive.bind(userList));

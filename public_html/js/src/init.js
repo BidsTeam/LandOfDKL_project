@@ -11,6 +11,9 @@ requirejs.config({
         "jquery.form" : {
             deps : ["jquery"]
         },
+        "jquery-touch" : {
+            deps : ['jquery-ui']
+        },
         "bootstrap.min" : {
             deps : ['jquery']
         },
@@ -28,7 +31,8 @@ requirejs.config({
         pageView : "views/pages/page/page",
         "jquery-ui" : "../lib/jquery-ui",
         "jquery-video" : "../lib/jquery.mb.YTPlayer",
-        alert : "views/goodAlert"
+        alert : "views/goodAlert",
+        "jquery-touch" : "../lib/jquery.ui.touch-punch"
     },
     waitSeconds : 5
 });

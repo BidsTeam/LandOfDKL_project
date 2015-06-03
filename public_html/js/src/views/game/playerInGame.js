@@ -14,6 +14,10 @@ define(
 
 
             initialize : function(options) {
+                BattleModel.bind("NEXT_STEP", this._onNextStepBegin, this);
+                BattleModel.bind("END_BATTLE", this._clean, this);
+                this.model.cardsInHand.bind("delete", this._removeCardFromHand, this);
+
                 this.$deck = options.$deckElem;
                 this.cardViews = [];
 
@@ -22,10 +26,6 @@ define(
                     this._addCardToHand(playerCardsModels[key]);
                 }
 
-                this.model.cardsInHand.bind("delete", this._removeCardFromHand, this);
-                BattleModel.bind("NEXT_STEP", this._onNextStepBegin, this);
-                BattleModel.bind("END_BATTLE", this._clean, this);
-                this.model.trigger("change:health");
                 this._construct(options);
             },
 

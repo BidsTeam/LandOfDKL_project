@@ -20,6 +20,7 @@ define(
         return PlayerInGameClass.extend({
 
             _construct : function(attrs) {
+                console.trace();
                 Socket.bind("game_action_set", _onAcceptStepEvent.bind(this));
             }
 

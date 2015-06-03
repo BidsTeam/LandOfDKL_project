@@ -12,7 +12,7 @@
 
     <div class="battlefield-container">
         <fest:include src="player-field.xml" context="playerObj" />
-        <fest:include src="middle-field.xml" />
+        <fest:include src="drop-field.xml" />
         <fest:include src="player-field.xml" context="opponentObj" />
     </div>
 

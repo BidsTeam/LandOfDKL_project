@@ -23,7 +23,6 @@ define(
                 this.$el.find(".health__health-line-indicator").css({width : healthPercent+"%"});
                 this.$el.parent().find(".effect").html("");
                 _.forEach(this.model.get("effectList"),function(value,key){
-                    console.log(this.$el.parent().find(".effect"));
                     this.$el.parent().find(".effect").append('<div class="effect__'+value.type+'"></div>');
 
                 },this);

@@ -12,9 +12,9 @@
 
         <div class="counter-field">
 
-            <span class="counter-field__curr-num-of-card">15</span>
+            <span class="counter-field__curr-num-of-card">0</span>
             /
-            <span class="counter-field__amount-num-of-cards">15</span>
+            <span class="counter-field__amount-num-of-cards">0</span>
 
         </div>
 

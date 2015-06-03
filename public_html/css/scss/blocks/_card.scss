@@ -1,6 +1,9 @@
 $card-anim-speed : 0.3s;
 $upperLength : -50px;
 
+$cardSizeWidth : 24%;
+$cardSizeHeight : 70%;
+
 .invisible {
   visibility : hidden !important;
 }
@@ -20,6 +23,9 @@ $upperLength : -50px;
 
 .card-container {
   display: inline-block;
+  position: relative;
+  top: 0px;
+  left: 0px;
   vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -28,8 +34,8 @@ $upperLength : -50px;
 }
 
 .card-container_in-deck {
-  width: 24%;
-  height: 70%;
+  width: $cardSizeWidth;
+  height: $cardSizeHeight;
 }
 
 .card-container_in-deck:not(:first-child) {
@@ -44,7 +50,7 @@ $upperLength : -50px;
 
 .card-container__card {
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 0px;
   display: inline-block;
   text-align: center;
   height: 100%;
@@ -58,26 +64,23 @@ $infoContainerBorderRadius : 12px;
 $infoContainerPointer : 10px;
 
 .card-info-container {
-  font-size: 15px;
-  text-align: center;
   display: inline-block;
   width: 30%;
   height: 50%;
-  padding: 1%;
   z-index : 990;
-  background-image: url("../images/card-info-border.jpg");
-  border: solid $infoContainerBorderColor $infoContainerBorderSize;
-  border-radius : 0px $infoContainerBorderRadius $infoContainerBorderRadius $infoContainerBorderRadius;
+  border: solid black 4px;
   margin-bottom: -$upperLength;
+  background-color: #22150D;
+  border-radius: $infoContainerBorderRadius;
 }
 
 .card-info-container__content {
   display: inline-block;
+  font-size: 15px;
+  text-align: center;
   width: 100%;
   height: 100%;
   background-color: #22150D;
-  border: solid $infoContainerBorderColor $infoContainerBorderSize;
-  border-radius : $infoContainerBorderRadius;
 }
 
 .card-info-container__attack {
@@ -95,11 +98,14 @@ $infoContainerPointer : 10px;
 .card__header {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
-  border-radius: 10px;
+  border-bottom: none;
+  border-radius: 5px 5px 0px 0px;
   display: inline-block;
   text-align: center;
   padding: 2px 13px;
   width: 100%;
+  box-sizing: border-box;
+  font-size: 15px;
   p {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -112,7 +118,7 @@ $infoContainerPointer : 10px;
   display: block;
   height: 81%;
   width: 100%;
-  border-radius: 15px;
+  border-radius: 0px 0px 5px 5px;
   &_knight {
     background-image: url("../images/knight.jpg");
   }
@@ -150,7 +156,7 @@ $infoContainerPointer : 10px;
 
 .temp-container {
   display: inline-block;
-  width: 24%;
-  height: 70%;
+  width: $cardSizeWidth;
+  height: $cardSizeHeight;
   vertical-align: top;
 }

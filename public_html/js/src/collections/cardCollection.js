@@ -5,11 +5,22 @@
 define(
     [
         "backbone",
-        "models/game/card"
-    ], function(Backbone, cardModel) {
+        "models/game/card",
+        "lodash"
+    ], function(Backbone, cardModel, _) {
 
         return Backbone.Collection.extend({
-            model : cardModel
+            model : cardModel,
+
+            getLength : function() {
+                var length = 0;
+                _.forEach(this.models, function(Model, key) {
+                    if (!Model.get("deleted")) {
+                        length++;
+                    }
+                });
+                return length;
+            }
         });
     }
 );

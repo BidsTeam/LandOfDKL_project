@@ -14,6 +14,9 @@
 
 .card-container {
   display: inline-block;
+  position: relative;
+  top: 0px;
+  left: 0px;
   vertical-align: top;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -32,7 +35,7 @@
 
 .card-container__card {
   border-radius: 6px;
-  font-size: 15px;
+  font-size: 0px;
   display: inline-block;
   text-align: center;
   height: 100%;
@@ -40,25 +43,22 @@
   position: relative; }
 
 .card-info-container {
-  font-size: 15px;
-  text-align: center;
   display: inline-block;
   width: 30%;
   height: 50%;
-  padding: 1%;
   z-index: 990;
-  background-image: url("../images/card-info-border.jpg");
-  border: solid #000000 4px;
-  border-radius: 0px 12px 12px 12px;
-  margin-bottom: 50px; }
+  border: solid black 4px;
+  margin-bottom: 50px;
+  background-color: #22150D;
+  border-radius: 12px; }
 
 .card-info-container__content {
   display: inline-block;
+  font-size: 15px;
+  text-align: center;
   width: 100%;
   height: 100%;
-  background-color: #22150D;
-  border: solid #000000 4px;
-  border-radius: 12px; }
+  background-color: #22150D; }
 
 .card-info-container__attack {
   color: red; }
@@ -72,11 +72,14 @@
 .card__header {
   background-image: url("../images/card_title.jpg");
   border: solid black 1px;
-  border-radius: 10px;
+  border-bottom: none;
+  border-radius: 5px 5px 0px 0px;
   display: inline-block;
   text-align: center;
   padding: 2px 13px;
-  width: 100%; }
+  width: 100%;
+  box-sizing: border-box;
+  font-size: 15px; }
   .card__header p {
     overflow: hidden;
     text-overflow: ellipsis; }
@@ -87,7 +90,7 @@
   display: block;
   height: 81%;
   width: 100%;
-  border-radius: 15px; }
+  border-radius: 0px 0px 5px 5px; }
   .card__image_knight {
     background-image: url("../images/knight.jpg"); }
   .card__image_lady {
@@ -288,10 +291,10 @@
   float: left;
   font-size: 0px; }
 
-.middle-field.underlight {
+.drop-field.underlight {
   background-color: #3c763d; }
 
-.middle-field.underlight.on-card-over {
+.drop-field.underlight.on-card-over {
   background-color: #426943; }
 
 .player-field, .opponent-field {
@@ -307,7 +310,7 @@
 .health-container {
   display: inline-block;
   vertical-align: top;
-  width: 66%; }
+  width: 68%; }
 
 .best-players-list {
   display: inline-block;

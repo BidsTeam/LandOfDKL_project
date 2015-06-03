@@ -217,7 +217,7 @@ a.underline {
   font-size: 40px;
   margin-bottom: 13px; }
 
-.drop-field {
+.drop-field-container {
   display: block;
   height: 50%; }
 
@@ -263,7 +263,6 @@ a.underline {
   visibility: hidden !important; }
 
 .inDragPosition {
-  margin-top: -50px;
   z-index: 999; }
 
 .card-container {
@@ -273,7 +272,10 @@ a.underline {
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  margin-right: 10px; }
+  margin-right: 10px;
+  position: relative;
+  top: 0px;
+  left: 0px; }
 
 .card-container_in-deck {
   width: 50%;
@@ -339,8 +341,8 @@ a.underline {
 
 .temp-container {
   display: inline-block;
-  width: 25%;
-  height: 100%;
+  width: 50%;
+  height: 84%;
   vertical-align: top; }
 
 .alert {
@@ -374,5 +376,23 @@ a.underline {
     color: #3fb21d; }
   .alert-box__text_looser {
     color: #b20c07; }
+
+.drop-field {
+  display: inline-block;
+  height: 100%;
+  width: 100%; }
+
+.drop-field.underlight {
+  background-color: #3c763d; }
+
+.drop-field.underlight.on-card-over {
+  background-color: #426943; }
+
+.step-place_player {
+  display: inline-block;
+  height: 50%;
+  width: 100%;
+  text-align: center;
+  margin-top: 7%; }
 
 /*# sourceMappingURL=mobile.css.map */

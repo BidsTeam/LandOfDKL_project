@@ -8,7 +8,7 @@ define(
         "views/pages/gamePage",
         "templates/battle/battleField",
         "jquery",
-        "views/game/middleField",
+        "views/game/dropField",
         "models/game/battle",
         "jquery-ui",
         "views/game/card",
@@ -24,7 +24,7 @@ define(
         gamePage,
         battlefieldTmpl,
         $,
-        MiddleField,
+        DropField,
         battleModel,
         Ui,
         CardViewClass,
@@ -40,7 +40,7 @@ define(
 
         return new (Backbone.View.extend({
 
-            middleField : {},
+            dropField : {},
             player : {},
             opponentPlayer : {},
             playerHealth : {},
@@ -54,10 +54,8 @@ define(
             },
 
             _onBeginBattle : function() {
+
                 loading.hide();
-                Socket.bind("closed", function() {
-                    //todo обработка обрыва соединения и вывод ошибки
-                });
 
                 this.render();
 
@@ -65,19 +63,19 @@ define(
                     model : this.model.player,
                     $deckElem : this.$(".player-deck")
                 });
-                this.playerHealth = new HealthIndicatorClass({
-                    model : this.player.model
-                });
-
                 this.opponentPlayer = new OpponentPlayerInGameClass({
                     model : this.model.opponentPlayer,
                     $deckElem : this.$(".opponent-deck")
+                });
+
+                this.playerHealth = new HealthIndicatorClass({
+                    model : this.player.model
                 });
                 this.opponentHealth = new HealthIndicatorClass({
                     model : this.opponentPlayer.model
                 });
 
-                this.middleField = new MiddleField({el : ".middle-field"});
+                this.dropField = new DropField({el : ".drop-field"});
 
                 this.renderContent();
             },
@@ -93,7 +91,7 @@ define(
             },
 
             _onNextStep : function() {
-                this.middleField.clear();
+                this.dropField.clear();
             },
 
             _onEndBattle : function(result) {
@@ -111,8 +109,8 @@ define(
             },
 
             _clear : function() {
-                this.middleField = {};
-                delete this.middleField;
+                this.dropField = {};
+                delete this.dropField;
                 this.player = {};
                 delete this.player;
                 this.opponentPlayer = {};

@@ -1,12 +1,14 @@
 $card-anim-speed : 0.3s;
 $upperLength : -50px;
 
+$cardSizeWidth : 50%;
+$cardSizeHeight : 84%;
+
 .invisible {
   visibility : hidden !important;
 }
 
 .inDragPosition {
-  margin-top: $upperLength;
   z-index: 999;
 }
 
@@ -18,11 +20,14 @@ $upperLength : -50px;
   -ms-user-select: none;
   user-select: none;
   margin-right: 10px;
+  position: relative;
+  top: 0px;
+  left: 0px;
 }
 
 .card-container_in-deck {
-  width: 50%;
-  height: 84%;
+  width: $cardSizeWidth;
+  height: $cardSizeHeight;
   margin-left: 25%;
   margin-right: 25%;
   margin-top: 2%;
@@ -100,7 +105,7 @@ $infoContainerPointer : 10px;
 
 .temp-container {
   display: inline-block;
-  width: 25%;
-  height: 100%;
+  width: $cardSizeWidth;
+  height: $cardSizeHeight;
   vertical-align: top;
 }

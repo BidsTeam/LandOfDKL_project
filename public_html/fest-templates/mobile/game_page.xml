@@ -2,7 +2,7 @@
 
     <div data-role="page" id="game-page" class="game-container">
 
-        <div class="drop-field"></div>
+        <div class="drop-field-container"></div>
 
         <fest:include src="cards-controller.xml" />
 

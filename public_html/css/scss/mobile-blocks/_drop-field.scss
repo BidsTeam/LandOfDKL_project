@@ -1,0 +1,21 @@
+.drop-field {
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+}
+
+.drop-field.underlight {
+  background-color: #3c763d;
+}
+
+.drop-field.underlight.on-card-over {
+  background-color: #426943;
+}
+
+.step-place_player {
+  display : inline-block;
+  height: 50%;
+  width: 100%;
+  text-align: center;
+  margin-top: 7%;
+}
