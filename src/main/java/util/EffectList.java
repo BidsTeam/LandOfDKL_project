@@ -22,7 +22,7 @@ public class EffectList {
                     break;
                 }
                 case "poison" : {
-                    Poison poison = new Poison(duration, e.getValue(), e.getDescription());
+                    Poison poison = new Poison(e.getDuration(), e.getValue(), e.getDescription());
                     loser.addEffect(poison);
                     break;
                 }
@@ -41,7 +41,7 @@ public class EffectList {
                     break;
                 }
                 case "restoration" : {
-                    Restoration restoration = new Restoration(duration, e.getValue(), e.getDescription());
+                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
                     loser.addEffect(restoration);
                 }
             }
@@ -59,7 +59,7 @@ public class EffectList {
             switch (e.getName()) {
 //                TODO если появятся эффекты которые действуют на победителя, то добавлять сюда
                 case "restoration" : {
-                    Restoration restoration = new Restoration(duration, e.getValue(), e.getDescription());
+                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
                     winner.addEffect(restoration);
                     break;
                 }
