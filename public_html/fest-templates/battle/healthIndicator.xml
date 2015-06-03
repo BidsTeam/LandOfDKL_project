@@ -11,6 +11,9 @@
         </div>
     </div>
     <div class="effect">
+        <!--<div class="effect__poison">-->
+            <!--<div class="effect__popup"></div>-->
+        <!--</div>-->
     </div>
 
 </fest:template>

@@ -9,10 +9,15 @@ define(
         "models/game/battle",
         "views/game/playerInGame",
         "templates/card/card_additional_info",
-        "jquery"
-    ], function(Backbone, CardViewClass, BattleModel, PlayerInGameViewsAbstractClass, CardAdditionalInfo, $) {
+        "jquery",
+        "sprintf"
+    ], function(Backbone, CardViewClass, BattleModel, PlayerInGameViewsAbstractClass, CardAdditionalInfo, $, Sprintf) {
 
         function _showInfoForPlayer() {
+            var effectList = this.model.get("effects");
+            _.forEach(effectList,function(val,key) {
+                effectList[key].description = sprintf(val.description,val.value,val.value)
+            });
             $(".card-info-container_player").html(CardAdditionalInfo(this.model.toJSON()));
         }
 
