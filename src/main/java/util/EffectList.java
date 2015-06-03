@@ -47,7 +47,7 @@ public class EffectList {
             }
         }
         for (StepEffect e : loser.getEffectList()) {
-            e.doStep();
+            damage += e.doStep();
         }
         return damage;
     }
@@ -82,7 +82,7 @@ public class EffectList {
             }
         }
         for (StepEffect e : winner.getEffectList()) {
-            e.doStep();
+            damage += e.doStep();
         }
         return damage;
     }
