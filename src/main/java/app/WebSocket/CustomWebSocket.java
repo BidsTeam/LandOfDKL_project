@@ -83,12 +83,15 @@ public class CustomWebSocket {
                 }
                 case "newDeck" : {
                     gameFactory.buildDeck(userID, request.getJSONArray("deck"), webSocketService);
+                    break;
                 }
                 case "getDeck" : {
                     webSocketService.getDeck(userID);
+                    break;
                 }
                 case "getAllCards" : {
                     webSocketService.greetUser(userID);
+                    break;
                 }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
