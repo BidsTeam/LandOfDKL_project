@@ -325,21 +325,21 @@ public class CustomWebSocketService implements WebSocketService {
     public void getDeck(int userID) {
         org.hibernate.Session dbSession = dbService.getSession();
         List<CardLogic> cardList = dbService.getCardService(dbSession).getUserDeck(userID);
+        List<CardLogic> allCardsInfo = dbService.getCardService(dbSession).getAllCardsInfo();
         dbSession.close();
         JSONObject json = new JSONObject();
         json.put("action", "getDeck");
         JSONArray cardJSONArrayKnight = new JSONArray();
         JSONArray cardJSONArrayLady = new JSONArray();
         JSONArray cardJSONArrayDragon = new JSONArray();
-        List<CardLogic> allCardsInfo = dbService.getCardService(dbSession).getAllCardsInfo();
         for (CardLogic userCard: cardList) {
             for (CardLogic card : allCardsInfo) {
                 if (userCard.getId() == card.getId()) {
-                    if (card.getCardType() == "knight") {
+                    if (card.getCardType().equals("knight")) {
                         cardJSONArrayKnight.put(card.putAllCardInformation());
-                    } else if (card.getCardType() == "lady") {
+                    } else if (card.getCardType().equals("lady")) {
                         cardJSONArrayLady.put(card.putAllCardInformation());
-                    } else if (card.getCardType() == "dragon") {
+                    } else if (card.getCardType().equals("dragon")) {
                         cardJSONArrayDragon.put(card.putAllCardInformation());
                     }
                 }
