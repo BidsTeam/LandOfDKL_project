@@ -13,8 +13,9 @@ define(
         "config",
         "collections/socketsPool",
         'models/game/battle',
-        "views/game/battle"
-    ], function(pageView, gamePageTmpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView) {
+        "views/game/battle",
+        "views/game/deckBuilder"
+    ], function(pageView, gamePageTpl, chat, chatView, $, User, userList, userListView, loading, pageRouter, Config, socketsPool, battleModel, battleView,deckBuilder) {
 
         var Socket;
 
@@ -24,7 +25,8 @@ define(
                 "click .chat__send-button" : "sendMsgToChat",
                 "keydown .input-container__input-field" : "sendMsgToChat",
                 "click a[action=logout]" : "logout",
-                "click a[action=findGame]" : "findBattle"
+                "click a[action=findGame]" : "findBattle",
+                "click a[action=buildDeck]" : "buildDeck"
             },
 
             _construct : function() {
@@ -43,6 +45,10 @@ define(
                 } else {
                     battleModel.searchBattle();
                 }
+            },
+
+            buildDeck : function() {
+                deckBuilder.render();
             },
 
             continueBattle : function(msg) {
@@ -71,6 +77,6 @@ define(
             }
         });
 
-        return new gamePage({pageHtml : gamePageTmpl()});
+        return new gamePage({pageHtml : gamePageTpl()});
     }
 );
