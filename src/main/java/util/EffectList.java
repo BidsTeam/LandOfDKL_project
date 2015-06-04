@@ -3,6 +3,7 @@ package util;
 
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
+import app.Admin.Card;
 import app.GameMechanics.Player;
 import org.json.JSONObject;
 
@@ -31,6 +32,15 @@ public class EffectList {
                     damage += preparedStrike.getDamage();
                     break;
                 }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    loser.addEffect(timebomb);
+                    break;
+                }
+                case "molest" : {
+                    damage += loserCard.getAttack();
+                    break;
+                }
             }
         }
         for (EffectLogic e : loserCard.getEffects()) {
@@ -40,9 +50,10 @@ public class EffectList {
                     damage += explode.getExplodeDamage();
                     break;
                 }
-                case "restoration" : {
-                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
-                    loser.addEffect(restoration);
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    loser.addEffect(timebomb);
+                    break;
                 }
             }
         }
@@ -63,6 +74,11 @@ public class EffectList {
                     winner.addEffect(restoration);
                     break;
                 }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    winner.addEffect(timebomb);
+                    break;
+                }
             }
         }
         for (EffectLogic e : loserCard.getEffects()) {
@@ -79,9 +95,49 @@ public class EffectList {
                     damage += preparedStrike.getDamage();
                     break;
                 }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    winner.addEffect(timebomb);
+                    break;
+                }
             }
         }
         for (StepEffect e : winner.getEffectList()) {
+            damage += e.doStep();
+        }
+        return damage;
+    }
+
+    public int getDrawDamage(Player player, CardLogic playerCard, CardLogic opponentCard) {
+        int damage = 0;
+        int duration = 3;
+        for (EffectLogic e : playerCard.getEffects()) {
+            switch (e.getName()) {
+//                TODO если появятся эффекты которые действуют на победителя, то добавлять сюда
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    player.addEffect(timebomb);
+                    break;
+                }
+            }
+        }
+        for (EffectLogic e : opponentCard.getEffects()) {
+            switch (e.getName()) {
+
+                //TODO и сюда
+                case "preparedstrike" : {
+                    PreparedStrike preparedStrike = new PreparedStrike(e.getValue());
+                    damage += preparedStrike.getDamage();
+                    break;
+                }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    player.addEffect(timebomb);
+                    break;
+                }
+            }
+        }
+        for (StepEffect e : player.getEffectList()) {
             damage += e.doStep();
         }
         return damage;
@@ -206,6 +262,44 @@ public class EffectList {
         }
 
         public int getDamage() { return damage; }
+    }
 
+    public class Timebomb implements StepEffect {
+        private int damage;
+        private int duration;
+        String description;
+        String name;
+
+        public Timebomb(int duration, int damage, String description) {
+            this.damage = damage;
+            this.duration = duration;
+            this.description = description;
+            name = "Timebomb";
+        }
+
+        private int getDamage() {
+            return damage;
+        }
+
+        @Override
+        public int doStep() {
+            int damage = 0;
+            if (duration > 0){
+                duration--;
+                damage = getDamage();
+            }
+            return damage;
+        }
+
+        @Override
+        public JSONObject getDescription() {
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+            json.put("value", damage);
+            json.put("duration", duration);
+            json.put("description", description);
+            json.put("type", "heal");
+            return json;
+        }
     }
 }

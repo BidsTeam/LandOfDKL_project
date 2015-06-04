@@ -1,0 +1,79 @@
+.deck-builder{
+  height:100%;
+  width:100%;
+  .card{
+    width:120px;
+    height:140px;
+    background-size:cover;
+    &.knight{
+      background-image: url("../images/knight.jpg");
+    }
+    &.lady{
+      background-image: url("../images/princess.jpg");
+    }
+    &.dragon{
+      background-image: url("../images/dragon.jpg");
+    }
+    &.empty{
+      background-color:lightblue;
+    }
+  }
+  .deck{
+    width:66%;
+    height:100%;
+    float:left;
+    .line{
+      margin: 0 auto;
+//      width:265px;
+      height:140px;
+      clear:both;
+      display:table;
+
+    }
+    .deck__card{
+      &.first{
+        float:left;
+      }
+      &.second{
+        float:left;
+        margin-left:25px;
+        margin-bottom:2px;
+      }
+      &.third {
+        margin: 2px auto;
+        clear:both;
+      }
+      &.four {
+        float:left;
+      }
+      &.five {
+        float:left;
+        margin-left:25px;
+      }
+    }
+
+    .deck__type{
+      width:32%;
+      height:100%;
+      border-style: solid;
+      border-width: 0px 4px;
+      border-color:black;
+      float:left;
+    }
+  }
+  .card-list{
+    float:left;
+    width:33%;
+    height:100%;
+    .card-list__available-cards{
+      .card-list__card{
+        .card{
+          float:left;
+          margin-top:2px;
+          margin-left:5px;
+        }
+
+      }
+    }
+  }
+}

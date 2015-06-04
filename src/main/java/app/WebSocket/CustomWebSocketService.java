@@ -4,7 +4,6 @@ import DAO.logic.CardLogic;
 import app.AccountMap.AccountMap;
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
-import org.eclipse.jetty.websocket.api.Session;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import service.DBService;
@@ -303,10 +302,34 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID) {
-        org.hibernate.Session session = dbService.getSession();
         gameState.put("action", "currentGameState");
         gameState.put("deck", deck);
         HashSet<CustomWebSocket> sockets = userWebSockets.get(userID);
         sendJson(sockets, gameState);
     }
+
+    public void notifyBadDeck(int userID) {
+        JSONObject json = new JSONObject();
+        json.put("action", "deckBuilder");
+        json.put("result", "wrong");
+        sendJson(userWebSockets.get(userID), json);
+    }
+
+    public void notifyGoodDeck(int userID) {
+        JSONObject json = new JSONObject();
+        json.put("action", "deckBuilder");
+        json.put("result", "ok");
+        sendJson(userWebSockets.get(userID), json);
+    }
+
+    public void getDeck(int userID) {
+        org.hibernate.Session dbSession = dbService.getSession();
+        List cardList = dbService.getCardService(dbSession).getUserDeck(userID);
+        dbSession.close();
+        JSONObject json = new JSONObject();
+        json.put("action", "getUserDeck");
+        json.put("deck", cardList);
+        sendJson(userWebSockets.get(userID), json);
+    }
+
 }
