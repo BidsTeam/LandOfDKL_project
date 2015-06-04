@@ -28,6 +28,7 @@ requirejs.config({
         "pageView" : "views/pages/page/page",
         "jquery-ui" : "../lib/jquery-ui",
         "jquery-video" : "../lib/jquery.mb.YTPlayer",
+        "jquery-touch" : "../lib/jquery.ui.touch-punch",
         "alert" : "views/goodAlert",
         "sprintf" : "../lib/sprintf"
     },
