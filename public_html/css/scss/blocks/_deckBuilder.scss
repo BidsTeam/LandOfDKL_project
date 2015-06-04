@@ -5,6 +5,7 @@
     width:120px;
     height:140px;
     background-size:cover;
+    background-color:lightblue;
     &.knight{
       background-image: url("../images/knight.jpg");
     }
@@ -13,9 +14,6 @@
     }
     &.dragon{
       background-image: url("../images/dragon.jpg");
-    }
-    &.empty{
-      background-color:lightblue;
     }
   }
   .deck{

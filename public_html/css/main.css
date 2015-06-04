@@ -710,15 +710,14 @@ a.underline {
   .deck-builder .card {
     width: 120px;
     height: 140px;
-    background-size: cover; }
+    background-size: cover;
+    background-color: lightblue; }
     .deck-builder .card.knight {
       background-image: url("../images/knight.jpg"); }
     .deck-builder .card.lady {
       background-image: url("../images/princess.jpg"); }
     .deck-builder .card.dragon {
       background-image: url("../images/dragon.jpg"); }
-    .deck-builder .card.empty {
-      background-color: lightblue; }
   .deck-builder .deck {
     width: 66%;
     height: 100%;
