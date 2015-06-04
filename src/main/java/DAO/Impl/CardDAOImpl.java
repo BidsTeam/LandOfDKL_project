@@ -51,32 +51,33 @@ public class CardDAOImpl implements CardDAO {
         return cards;
     }
 
-    public List<Integer> getUserDeck(UserLogic user) {
-        //TODO - это временная заглушка отдающая станадартные карты - когда доделаем работу бд переделаю
-        CardLogic mockKnight = getCard(8);
-        CardLogic mockDragon = getCard(9);
-        CardLogic mockLady = getCard(10);
-        List<Integer> deck = new ArrayList<>();
-        for (int i = 0; i < 5; i++) {
-            deck.add(mockKnight.getId());
-        }
-        for (int i = 0; i < 5; i++) {
-            deck.add(mockDragon.getId());
-        }
-        for (int i = 0; i < 5; i++) {
-            deck.add(mockLady.getId());
-        }
-        return deck;
-    }
+//    public List<Integer> getUserDeck(UserLogic user) {
+//        //TODO - это временная заглушка отдающая станадартные карты - когда доделаем работу бд переделаю
+//        CardLogic mockKnight = getCard(8);
+//        CardLogic mockDragon = getCard(9);
+//        CardLogic mockLady = getCard(10);
+//        List<Integer> deck = new ArrayList<>();
+//        for (int i = 0; i < 5; i++) {
+//            deck.add(mockKnight.getId());
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            deck.add(mockDragon.getId());
+//        }
+//        for (int i = 0; i < 5; i++) {
+//            deck.add(mockLady.getId());
+//        }
+//        return deck;
+//    }
 
     public List<CardLogic> getUserDeck(int userID) {
         List<UserCardLogic> userCard = session.createQuery("from UserCardLogic UCL where UCL.pk.user.id = " + userID).list();
         List<CardLogic> cardList = new ArrayList<>();
         for(UserCardLogic ucl  : userCard) {
             int length = ucl.getCount();
+            CardLogic card = (CardLogic)session
+                    .createQuery("from CardLogic C where C.id = " + ucl.getPk().getCard().getId()).uniqueResult();
             for (int i = 0; i < length; i++) {
-                cardList.add((CardLogic)session
-                        .createQuery("from CardLogic C where C.id = " + ucl.getPk().getCard().getId()).uniqueResult());
+                cardList.add(card);
             }
         }
         return cardList;

@@ -2,6 +2,7 @@ package app.WebSocket;
 
 import DAO.logic.CardLogic;
 import app.AccountMap.AccountMap;
+import app.Admin.Card;
 import app.GameMechanics.Player;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONArray;
@@ -75,18 +76,23 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameId) {
-        notify(secondPlayer, generateResponseNewGame(secondPlayer.getUsername(), firstPlayer.getUsername(), gameId, firstPlayer.getUserID()), gameId);
-        notify(firstPlayer, generateResponseNewGame(firstPlayer.getUsername(), secondPlayer.getUsername(), gameId, secondPlayer.getUserID()), gameId);
+        notify(secondPlayer, generateResponseNewGame(secondPlayer, firstPlayer.getUsername(), gameId, firstPlayer.getUserID()), gameId);
+        notify(firstPlayer, generateResponseNewGame(firstPlayer, secondPlayer.getUsername(), gameId, secondPlayer.getUserID()), gameId);
     }
 
-    private JSONObject generateResponseNewGame(String playerName, String opponentName, int gameId, int userID) {
+    private JSONObject generateResponseNewGame(Player player, String opponentName, int gameId, int userID) {
         JSONObject response = new JSONObject();
         response.put("action", "new_game");
         response.put("gameId", gameId);
         response.put("opponentName", opponentName);
         org.hibernate.Session session = dbService.getSession();
         try {
-            response.put("deck", dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(userID)));
+            List<CardLogic> deck = dbService.getCardService(session).getUserDeck(player.getUserID());
+            JSONArray array = new JSONArray();
+            for (CardLogic card : deck) {
+                array.put(card.getId());
+            }
+            response.put("deck", array);
         } finally {
             dbService.closeSession(session);
         }
