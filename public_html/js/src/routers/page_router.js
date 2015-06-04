@@ -18,6 +18,7 @@ define(
                 "game(/)" : "gamePageInit",
                 "auth(/)" : "authPageInit",
                 "signup(/)" : "signupPageInit",
+                "deckbuilder(/)" : "deckBuilderPageInit",
                 "scoreboard" : "scoreboardPageInit",
                 "test" : "TestPage",
                 "mobile-events" : "MobileEventsPageInit"
@@ -61,6 +62,13 @@ define(
                 });
 
             },
+
+            deckBuilderPageInit: function(){
+                require(['../views/game/deckBuilder'],function (deckBuilderPageView){
+                    deckBuilderPageView.go();
+                })
+            },
+
             scoreboardPageInit : function() {
                 require(['views/pages/scoreboardPage'], function(scoreboardPageView) {
                     scoreboardPageView.go();
