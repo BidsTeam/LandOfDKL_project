@@ -109,6 +109,7 @@ public class CustomWebSocket {
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
             webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
+            webSocketService.getDeck(userID);
             gameID = gameFactory.getUserGame(userID);
             if (gameID != 0) {
                 webSocketService.notifyReconnectPossibility(userID);
