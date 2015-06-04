@@ -37,14 +37,18 @@ public class CardDAOImplTest extends TestsCore {
 
     @Test
     public void testGetCard() throws Exception {
-        CardLogic cardlogic = dbService.getCardService(dbService.getSession()).getCard(1);
+        Session session = dbService.getSession();
+        CardLogic cardlogic = dbService.getCardService(session).getCard(1);
+        session.close();
         assertEquals("123", cardlogic.getName());
     }
 
 
     @Test
     public void testGetAllCardsInfo() throws Exception {
-        List<CardLogic> cardList= dbService.getCardService(dbService.getSession()).getAllCardsInfo();
+        Session session = dbService.getSession();
+        List<CardLogic> cardList= dbService.getCardService(session).getAllCardsInfo();
+        session.close();
         assertFalse(cardList.isEmpty());
     }
 

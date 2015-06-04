@@ -2,9 +2,8 @@ package app.GameMechanics;
 
 
 import DAO.logic.CardLogic;
-import app.Admin.Card;
+import org.hibernate.Session;
 import org.json.JSONArray;
-import org.json.JSONObject;
 import service.DBService;
 
 import java.util.*;
@@ -23,7 +22,9 @@ public class DeckBuilder {
         List<Integer> userDeck= new ArrayList<>(0);
 
         for (int i = 0; i < jsonArray.length(); i++) {
-            CardLogic card = dbService.getCardService(dbService.getSession()).getCard((int) (jsonArray.get(i)));
+            Session session = dbService.getSession();
+            CardLogic card = dbService.getCardService(session).getCard((int) (jsonArray.get(i)));
+            session.close();
             userDeck.add(card.getId());
             switch (card.getCardType()) {
                 case "dragon": {
@@ -43,7 +44,9 @@ public class DeckBuilder {
         if (ladyCounter > 5 || knightCounter > 5 || dragonCounter > 5) {
             return false;
         } else if ((ladyCounter + knightCounter + dragonCounter) == 15) {
-            dbService.getCardService(dbService.getSession()).setUserDeck(userID, userDeck);
+            Session session = dbService.getSession();
+            dbService.getCardService(session).setUserDeck(userID, userDeck);
+            session.close();
             return true;
         } else {
             return false;

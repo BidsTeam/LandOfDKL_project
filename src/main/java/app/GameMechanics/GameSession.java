@@ -23,7 +23,7 @@ public class GameSession {
     private DBService dbService;
     private int cardCount;
     private final int CARD_AMOUNT = 15;
-    EffectList effectList;
+    private EffectList effectList;
 
     public GameSession(Player playerOne, Player playerTwo, int id, WebSocketService webSocketService, DBService dbService) {
         firstPlayer = playerOne;
@@ -143,10 +143,16 @@ public class GameSession {
 
     //todo Не нравится разделение на winner и winnerCard: 1)Лишние почти дублирующие свойства 2) Можно легко перепутать порядок
     private void damageCalc(Player winner, Player loser, CardLogic winnerCard, CardLogic loserCard, boolean isDraw) {
-        int loserTakenDamage = isDraw ? 0 : winnerCard.getAttack();
-        loserTakenDamage += effectList.getLoserEffectDamage(loser, winnerCard, loserCard);
+        int loserTakenDamage = 0;
         int winnerTakenDamage = 0;
-        winnerTakenDamage += effectList.getWinnerEffectDamage(winner, winnerCard, loserCard);
+        if (isDraw) {
+            loserTakenDamage += effectList.getDrawDamage(loser, loserCard, winnerCard);
+            winnerTakenDamage += effectList.getDrawDamage(winner, winnerCard, loserCard);
+        } else {
+            loserTakenDamage = winnerCard.getAttack();
+            loserTakenDamage += effectList.getLoserEffectDamage(loser, winnerCard, loserCard);
+            winnerTakenDamage += effectList.getWinnerEffectDamage(winner, winnerCard, loserCard);
+        }
         boolean isLoserAlive = loser.takeDamage(loserTakenDamage);
         boolean isWinnerAlive = winner.takeDamage(winnerTakenDamage);
 
@@ -159,19 +165,8 @@ public class GameSession {
         } else if(!isWinnerAlive) {
             webSocketService.notifyGameOver(winner, loser, RPS.RPSResult.SECOND_WON);
         } else {
-//            System.out.println(loser.getHealth());
             webSocketService.notifyGameState(winner, loser);
         }
-    }
-
-    private int effectCalc(Set<EffectLogic> effectLogicSet) {
-        int damage = 0;
-        for (EffectLogic e : effectLogicSet){
-            if (e.getName().equals("explode")){ //todo Когда будет много эффектов, вынести в отдельные классы и супер класс
-                damage = e.getValue();
-            }
-        }
-        return damage;
     }
 
     private void concede(int playerNumber) {

@@ -3,6 +3,7 @@ package util;
 
 import DAO.logic.CardLogic;
 import DAO.logic.EffectLogic;
+import app.Admin.Card;
 import app.GameMechanics.Player;
 import org.json.JSONObject;
 
@@ -34,6 +35,10 @@ public class EffectList {
                 case "timebomb" : {
                     Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
                     loser.addEffect(timebomb);
+                    break;
+                }
+                case "molest" : {
+                    damage += loserCard.getAttack();
                     break;
                 }
             }
@@ -98,6 +103,41 @@ public class EffectList {
             }
         }
         for (StepEffect e : winner.getEffectList()) {
+            damage += e.doStep();
+        }
+        return damage;
+    }
+
+    public int getDrawDamage(Player player, CardLogic playerCard, CardLogic opponentCard) {
+        int damage = 0;
+        int duration = 3;
+        for (EffectLogic e : playerCard.getEffects()) {
+            switch (e.getName()) {
+//                TODO если появятся эффекты которые действуют на победителя, то добавлять сюда
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    player.addEffect(timebomb);
+                    break;
+                }
+            }
+        }
+        for (EffectLogic e : opponentCard.getEffects()) {
+            switch (e.getName()) {
+
+                //TODO и сюда
+                case "preparedstrike" : {
+                    PreparedStrike preparedStrike = new PreparedStrike(e.getValue());
+                    damage += preparedStrike.getDamage();
+                    break;
+                }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    player.addEffect(timebomb);
+                    break;
+                }
+            }
+        }
+        for (StepEffect e : player.getEffectList()) {
             damage += e.doStep();
         }
         return damage;

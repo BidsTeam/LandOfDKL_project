@@ -3,6 +3,7 @@ package app.GameMechanics;
 import DAO.logic.UserLogic;
 import TestSetups.TestsCore;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
+import org.hibernate.Session;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
@@ -20,8 +21,10 @@ public class GameFactoryTest extends TestsCore {
 
 
     private GameSession createNewGame(int firstID, int secondID) {
-        UserLogic userOne = dbService.getUserService(dbService.getSession()).getUserById(firstID);
-        UserLogic userTwo = dbService.getUserService(dbService.getSession()).getUserById(secondID);
+        Session session = dbService.getSession();
+        UserLogic userOne = dbService.getUserService(session).getUserById(firstID);
+        UserLogic userTwo = dbService.getUserService(session).getUserById(secondID);
+        session.close();
         gameFactory.FindGameLobby(userOne, webSocketService);
         gameFactory.FindGameLobby(userTwo, webSocketService);
         return gameFactory.getLastGame();
