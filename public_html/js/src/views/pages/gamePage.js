@@ -26,7 +26,8 @@ define(
                 "keydown .input-container__input-field" : "sendMsgToChat",
                 "click a[action=logout]" : "logout",
                 "click a[action=findGame]" : "findBattle",
-                "click a[action=buildDeck]" : "buildDeck"
+                "click a[action=buildDeck]" : "buildDeck",
+                "click a[action=concede]" : "concede"
             },
 
             _construct : function() {
@@ -45,6 +46,13 @@ define(
                 } else {
                     battleModel.searchBattle();
                 }
+            },
+
+            concede : function() {
+                Socket.send(JSON.stringify({
+                    action : "gameAction",
+                    gameAction : "concede"
+                }));
             },
 
             buildDeck : function() {
@@ -77,6 +85,6 @@ define(
             }
         });
 
-        return new gamePage({pageHtml : gamePageTpl()});
+        return new gamePage({pageHtml : gamePageTpl({})});
     }
 );

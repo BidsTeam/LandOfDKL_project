@@ -13,13 +13,14 @@ import settings.ThreadSettings;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 public class AccountMap implements Abonent, Runnable {
 
     private final Address address = new Address();
 
-    private static volatile HashMap<Integer, UserLogic> cachedAccounts = new HashMap<>();
+    private static volatile ConcurrentHashMap<Integer, UserLogic> cachedAccounts = new ConcurrentHashMap<>();
 
     private final MessageSystem messageSystem;
 
@@ -41,11 +42,13 @@ public class AccountMap implements Abonent, Runnable {
         Session session = dbservice.getSession();
         UserLogic user = dbservice.getUserService(session).getUserById(userId);
         cachedAccounts.put(userId, user);
+        System.out.println("putted");
         session.close();
     }
 
 
     public UserLogic getUser(int id) {
+        System.out.println("getted");
         return cachedAccounts.get(id);
     }
 

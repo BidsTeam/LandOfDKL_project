@@ -4,6 +4,7 @@ import DAO.CardDAO;
 import DAO.logic.CardLogic;
 import DAO.logic.UserCardLogic;
 import DAO.logic.UserLogic;
+import freemarker.ext.beans.HashAdapter;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -15,9 +16,7 @@ import util.LogFactory;
 
 import javax.smartcardio.Card;
 import javax.swing.*;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 
 public class CardDAOImpl implements CardDAO {
@@ -93,24 +92,43 @@ public class CardDAOImpl implements CardDAO {
             for (Object ucl : result) {
                 session.delete(ucl);
             }
-            List<Integer> alreadyExists = new ArrayList<>();
+            Map<Integer, Integer> cardCounter = new HashMap<>();
             for (int cardID : deck) {
-                if (alreadyExists.contains(cardID)) {
-                    UserCardLogic userCardLogic = (UserCardLogic) session.createQuery("from UserCardLogic UCL WHERE UCL.pk.card.id = " + cardID +
-                            " and UCL.pk.user.id = " + userID).uniqueResult();
-                    userCardLogic.setCount(userCardLogic.getCount() + 1);
-                    session.save(userCardLogic);
+                if (cardCounter.containsKey(cardID)) {
+                    cardCounter.put(cardID, cardCounter.get(cardID) + 1);
                 } else {
-                    CardLogic card = (CardLogic) session.createQuery("from CardLogic C WHERE C.id =" + cardID).uniqueResult();
-                    UserCardLogic userCard = new UserCardLogic();
-                    userCard.setUser(user);
-                    userCard.setCard(card);
-                    userCard.setCount(1);
-                    userCard.setInHand(true);
-                    session.save(userCard);
-                    alreadyExists.add(cardID);
+                    cardCounter.put(cardID, 1);
                 }
             }
+
+            for (int key  : cardCounter.keySet()) {
+                UserCardLogic userCard = new UserCardLogic();
+                userCard.setUser(user);
+                CardLogic card = (CardLogic) session.createQuery("from CardLogic C WHERE C.id =" + key).uniqueResult();
+                userCard.setCard(card);
+                userCard.setCount(cardCounter.get(key));
+                userCard.setInHand(true);
+                session.save(userCard);
+            }
+
+//            List<Integer> alreadyExists = new ArrayList<>();
+//            for (int cardID : deck) {
+//                if (alreadyExists.contains(cardID)) {
+//                    UserCardLogic userCardLogic = (UserCardLogic) session.createQuery("from UserCardLogic UCL WHERE UCL.pk.card.id = " + cardID +
+//                            " and UCL.pk.user.id = " + userID).uniqueResult();
+//                    userCardLogic.setCount(userCardLogic.getCount() + 1);
+//                    session.save(userCardLogic);
+//                } else {
+//                    CardLogic card = (CardLogic) session.createQuery("from CardLogic C WHERE C.id =" + cardID).uniqueResult();
+//                    UserCardLogic userCard = new UserCardLogic();
+//                    userCard.setUser(user);
+//                    userCard.setCard(card);
+//                    userCard.setCount(1);
+//                    userCard.setInHand(true);
+//                    session.save(userCard);
+//                    alreadyExists.add(cardID);
+//                }
+//            }
             tx.commit();
         } catch (Exception e) {
             e.printStackTrace();

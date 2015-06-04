@@ -87,6 +87,9 @@ public class CustomWebSocket {
                 case "getDeck" : {
                     webSocketService.getDeck(userID);
                 }
+                case "getAllCards" : {
+                    webSocketService.greetUser(userID);
+                }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
                     break;
