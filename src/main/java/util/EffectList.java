@@ -31,6 +31,11 @@ public class EffectList {
                     damage += preparedStrike.getDamage();
                     break;
                 }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    loser.addEffect(timebomb);
+                    break;
+                }
             }
         }
         for (EffectLogic e : loserCard.getEffects()) {
@@ -40,9 +45,10 @@ public class EffectList {
                     damage += explode.getExplodeDamage();
                     break;
                 }
-                case "restoration" : {
-                    Restoration restoration = new Restoration(e.getDuration(), e.getValue(), e.getDescription());
-                    loser.addEffect(restoration);
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    loser.addEffect(timebomb);
+                    break;
                 }
             }
         }
@@ -63,6 +69,11 @@ public class EffectList {
                     winner.addEffect(restoration);
                     break;
                 }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    winner.addEffect(timebomb);
+                    break;
+                }
             }
         }
         for (EffectLogic e : loserCard.getEffects()) {
@@ -77,6 +88,11 @@ public class EffectList {
                 case "preparedstrike" : {
                     PreparedStrike preparedStrike = new PreparedStrike(e.getValue());
                     damage += preparedStrike.getDamage();
+                    break;
+                }
+                case "timebomb" : {
+                    Timebomb timebomb = new Timebomb(e.getDuration(), e.getValue(), e.getDescription());
+                    winner.addEffect(timebomb);
                     break;
                 }
             }
@@ -206,6 +222,44 @@ public class EffectList {
         }
 
         public int getDamage() { return damage; }
+    }
 
+    public class Timebomb implements StepEffect {
+        private int damage;
+        private int duration;
+        String description;
+        String name;
+
+        public Timebomb(int duration, int damage, String description) {
+            this.damage = damage;
+            this.duration = duration;
+            this.description = description;
+            name = "Timebomb";
+        }
+
+        private int getDamage() {
+            return damage;
+        }
+
+        @Override
+        public int doStep() {
+            int damage = 0;
+            if (duration > 0){
+                duration--;
+                damage = getDamage();
+            }
+            return damage;
+        }
+
+        @Override
+        public JSONObject getDescription() {
+            JSONObject json = new JSONObject();
+            json.put("name", name);
+            json.put("value", damage);
+            json.put("duration", duration);
+            json.put("description", description);
+            json.put("type", "heal");
+            return json;
+        }
     }
 }

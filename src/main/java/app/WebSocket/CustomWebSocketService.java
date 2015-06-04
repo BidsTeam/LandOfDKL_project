@@ -322,4 +322,13 @@ public class CustomWebSocketService implements WebSocketService {
         json.put("result", "ok");
         sendJson(userWebSockets.get(userID), json);
     }
+
+    public void getDeck(int userID) {
+        List cardList = dbService.getCardService(dbService.getSession()).getUserDeck(userID);
+        JSONObject json = new JSONObject();
+        json.put("action", "getUserDeck");
+        json.put("deck", cardList);
+        sendJson(userWebSockets.get(userID), json);
+    }
+
 }

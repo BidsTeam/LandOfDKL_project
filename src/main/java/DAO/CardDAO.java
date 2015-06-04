@@ -12,4 +12,5 @@ public interface CardDAO {
     public List<Integer> getUserDeck(UserLogic user);
     public List<CardLogic> getAllCardsInfo();
     public void setUserDeck(int userID, List<Integer> deck);
+    public List<CardLogic> getUserDeck(int userID);
 }

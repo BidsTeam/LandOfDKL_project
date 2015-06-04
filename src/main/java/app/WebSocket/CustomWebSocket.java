@@ -33,7 +33,7 @@ public class CustomWebSocket {
     @OnWebSocketMessage
     public void onMessage(String data) {
         try {
-            LogFactory.getInstance().getLogger(this.getClass()).debug("WebChatSocket/onMessage: " + data + "in user +" + user.getUsername());
+            LogFactory.getInstance().getLogger(this.getClass()).debug("WebChatSocket/onMessage: " + data + "in user " + user.getUsername());
             JSONObject request = new JSONObject(data);
 
             switch (request.getString("action")) {
@@ -83,6 +83,9 @@ public class CustomWebSocket {
                 }
                 case "newDeck" : {
                     gameFactory.buildDeck(userID, request.getJSONArray("deck"), webSocketService);
+                }
+                case "getDeck" : {
+                    webSocketService.getDeck(userID);
                 }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");

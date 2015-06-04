@@ -30,4 +30,5 @@ public interface WebSocketService {
     public void notifyReconnect(JSONObject gameState, List<Integer> deck, int userID);
     public void notifyBadDeck(int userID);
     public void notifyGoodDeck(int userID);
+    public void getDeck(int userID);
 }

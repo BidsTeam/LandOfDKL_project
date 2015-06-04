@@ -1,13 +1,13 @@
 package app.GameMechanics;
 
 import DAO.logic.UserLogic;
-import StubClasses.MockSocketService;
 import TestSetups.TestsCore;
 import app.WebSocket.WebSocketInterfaces.WebSocketService;
 import org.json.JSONObject;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mockito;
 import service.DBService;
 import service.serviceImpl.DBServiceImpl;
 
@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
 public class GameFactoryTest extends TestsCore {
     private DBService dbService = new DBServiceImpl(sessionFactory);
     private GameFactory gameFactory;
-    private WebSocketService webSocketService = new MockSocketService();
+    private WebSocketService webSocketService = Mockito.mock(WebSocketService.class);
 
 
     private GameSession createNewGame(int firstID, int secondID) {

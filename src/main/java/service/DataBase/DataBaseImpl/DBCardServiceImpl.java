@@ -37,4 +37,8 @@ public class DBCardServiceImpl implements DBCardService {
     public void setUserDeck(int userID, List<Integer> deck) {
         cardDAO.setUserDeck(userID, deck);
     }
+
+    public List<CardLogic> getUserDeck(int userID) {
+        return cardDAO.getUserDeck(userID);
+    }
 }

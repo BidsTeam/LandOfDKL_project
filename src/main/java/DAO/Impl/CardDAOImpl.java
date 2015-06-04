@@ -70,6 +70,19 @@ public class CardDAOImpl implements CardDAO {
         return deck;
     }
 
+    public List<CardLogic> getUserDeck(int userID) {
+        List<UserCardLogic> userCard = session.createQuery("from UserCardLogic UCL where UCL.pk.user.id = " + userID).list();
+        List<CardLogic> cardList = new ArrayList<>();
+        for(UserCardLogic ucl  : userCard) {
+            int length = ucl.getCount();
+            for (int i = 0; i < length; i++) {
+                cardList.add((CardLogic)session
+                        .createQuery("from CardLogic C where C.id = " + ucl.getPk().getCard().getId()).uniqueResult());
+            }
+        }
+        return cardList;
+    }
+
     public void setUserDeck(int userID, List<Integer> deck) {
         Transaction tx = session.getTransaction();
         try {
