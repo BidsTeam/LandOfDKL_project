@@ -324,11 +324,39 @@ public class CustomWebSocketService implements WebSocketService {
 
     public void getDeck(int userID) {
         org.hibernate.Session dbSession = dbService.getSession();
-        List cardList = dbService.getCardService(dbSession).getUserDeck(userID);
+        List<CardLogic> cardList = dbService.getCardService(dbSession).getUserDeck(userID);
         dbSession.close();
         JSONObject json = new JSONObject();
-        json.put("action", "getUserDeck");
-        json.put("deck", cardList);
+        json.put("action", "getDeck");
+        JSONArray cardJSONArrayKnight = new JSONArray();
+        JSONArray cardJSONArrayLady = new JSONArray();
+        JSONArray cardJSONArrayDragon = new JSONArray();
+        List<CardLogic> allCardsInfo = dbService.getCardService(dbSession).getAllCardsInfo();
+        for (CardLogic userCard: cardList) {
+            for (CardLogic card : allCardsInfo) {
+                if (userCard.getId() == card.getId()) {
+                    if (card.getCardType() == "knight") {
+                        cardJSONArrayKnight.put(card.putAllCardInformation());
+                    } else if (card.getCardType() == "lady") {
+                        cardJSONArrayLady.put(card.putAllCardInformation());
+                    } else if (card.getCardType() == "dragon") {
+                        cardJSONArrayDragon.put(card.putAllCardInformation());
+                    }
+                }
+            }
+        }
+        JSONObject deckJSON = new JSONObject();
+        deckJSON.put("dragon", cardJSONArrayDragon);
+        deckJSON.put("knight", cardJSONArrayKnight);
+        deckJSON.put("lady", cardJSONArrayLady);
+        json.put("deck", deckJSON);
+
+        JSONArray cardJSONArray = new JSONArray();
+        for (CardLogic card : allCardsInfo){
+            cardJSONArray.put(card.putAllCardInformation());
+        }
+
+        json.put("cardList", cardJSONArray);
         sendJson(userWebSockets.get(userID), json);
     }
 

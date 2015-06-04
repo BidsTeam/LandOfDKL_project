@@ -3,6 +3,9 @@
     <div class="nav-menu-container">
         <a action="buildDeck" class="nav-menu__button game-button"> <span class="game-button__text">Составить деку</span> </a>
         <a action="findGame" class="nav-menu__button game-button"> <span class="game-button__text">Найти игру</span> </a>
+        <a action="concede" class="nav-menu__button game-button" style="display:none;">
+            <span class="game-button__text">Сдаться</span>
+        </a>
         <a action="logout" class="nav-menu__button game-button"> <span class="game-button__text">Выйти</span> </a>
     </div>
 

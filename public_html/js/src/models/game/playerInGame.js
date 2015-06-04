@@ -56,7 +56,6 @@ define(
             },
 
             updateHealth : function(msg) {
-                log("updateHealth",msg);
                 var health = msg[this.get("type")].health;
                 //this.set({health : health,effectList:[{"name":"poison",value:5,time:2,description:"blabla",type:"poison"}]});
                 this.set({health : health,effectList:msg[this.get("type")].effectList});

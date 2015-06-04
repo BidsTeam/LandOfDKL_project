@@ -56,13 +56,15 @@ public class Auth {
                 HashMap<String,String> validateResult = UserLogic.validate(user, validator);
                 if (validateResult.isEmpty()){
                     Session session = dbService.getSession();
+                    boolean isSuccess = dbService.getUserService(session).addUser(user);
                     try {
-                        if (dbService.getUserService(session).addUser(user)) {
+                        dbService.closeSession(session);
+                        if (isSuccess) {
                             request.getSession().setAttribute("id", user.getId());
                             Message messageAuthenticate = new MessageAuthenticate(messageSystem.getAddressService().getAccountServiceAddress(), user.getId());
                             messageSystem.sendMessage(messageAuthenticate);
-                            body.putAll(user.putAllUserInformation());
                             DeckGenerator.generateDeckForNewUser(user.getId(), dbService);
+                            body.putAll(user.putAllUserInformation());
                             result.put("status", 200);
                             response.setStatus(HttpServletResponse.SC_OK);
                         } else {
@@ -73,8 +75,7 @@ public class Auth {
                         body.put("error", MessageList.Message.UnknownErrorOnServer);
                         LogFactory.getInstance().getLogger(this.getClass()).error("Auth/signup Error with registration User", e);
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    } finally {
-                        dbService.closeSession(session);
+                        session.close();
                     }
                 } else {
                     result.put("status", 400);

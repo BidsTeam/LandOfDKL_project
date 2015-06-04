@@ -85,6 +85,9 @@ define(
             render : function() {
                 this.setElement(battlefieldTmpl());
                 $("#game-area").html(this.$el);
+                $("[action=concede]").show();
+                $("[action=findGame]").hide();
+                $("[action=buildDeck]").hide();
             },
 
             renderContent : function() {
@@ -108,6 +111,10 @@ define(
                     case 1 : alertOptions.textClass = "alert-box__text_winner"; Alert.alert("Ты чемпион!", alertOptions); break;
                     case -1 : alertOptions.textClass = "alert-box__text_looser"; Alert.alert("Ты проиграл...", alertOptions); break;
                 }
+
+                $("[action=concede]").hide();
+                $("[action=findGame]").show();
+                $("[action=buildDeck]").show();
             },
 
             _clear : function() {

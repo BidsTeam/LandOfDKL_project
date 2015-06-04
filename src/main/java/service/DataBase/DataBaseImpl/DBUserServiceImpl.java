@@ -21,7 +21,7 @@ public class DBUserServiceImpl implements DBUserService {
     }
 
     public boolean addUser(UserLogic user){
-        if (getUserById(user.getId()) != null) {
+        if (getUserByUsername(user.getUsername()) != null) {
            return false;
         } else {
             userDAO.addUser(user);
