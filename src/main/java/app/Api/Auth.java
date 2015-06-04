@@ -11,6 +11,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.json.JSONObject;
 import service.DBService;
+import util.DeckGenerator;
 import util.LogFactory;
 import util.MessageList;
 import util.ServiceWrapper;
@@ -61,6 +62,7 @@ public class Auth {
                             Message messageAuthenticate = new MessageAuthenticate(messageSystem.getAddressService().getAccountServiceAddress(), user.getId());
                             messageSystem.sendMessage(messageAuthenticate);
                             body.putAll(user.putAllUserInformation());
+                            DeckGenerator.generateDeckForNewUser(user.getId(), dbService);
                             result.put("status", 200);
                             response.setStatus(HttpServletResponse.SC_OK);
                         } else {
