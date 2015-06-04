@@ -31,31 +31,33 @@ define(
             },
 
             beginBattle : function(msg) {
-                var playerDeck = [];
-                for (var key in msg.deck) {
-                    playerDeck.push(new CardModelClass({cardId : msg.deck[key]}));
-                }
-                User.set("name",msg.firstName);
-                this.player = new MyPlayerInGameModelClass({
-                    deck : playerDeck,
-                    type : "player",
-                    name : User.get("name"),
-                    health : msg.yourHealth
-                });
+                if (!this.battleBegan) {
+                    var playerDeck = [];
+                    for (var key in msg.deck) {
+                        playerDeck.push(new CardModelClass({cardId : msg.deck[key]}));
+                    }
+                    User.set("name",msg.firstName);
+                    this.player = new MyPlayerInGameModelClass({
+                        deck : playerDeck,
+                        type : "player",
+                        name : User.get("name"),
+                        health : msg.yourHealth
+                    });
 
-                var opponentDeck = [];
-                for (var key in msg.deck) {
-                    opponentDeck.push(new CardModelClass({cardType : "closed"}));
-                }
-                this.opponentPlayer = new OpponentPlayerInGameModelClass({
-                    deck : opponentDeck,
-                    type : "opponent",
-                    name : msg.opponentName,
-                    health : msg.opponentHealth
-                });
+                    var opponentDeck = [];
+                    for (var key in msg.deck) {
+                        opponentDeck.push(new CardModelClass({cardType : "closed"}));
+                    }
+                    this.opponentPlayer = new OpponentPlayerInGameModelClass({
+                        deck : opponentDeck,
+                        type : "opponent",
+                        name : msg.opponentName,
+                        health : msg.opponentHealth
+                    });
 
-                this.battleBegan = true;
-                this.trigger("BATTLE_BEGAN");
+                    this.battleBegan = true;
+                    this.trigger("BATTLE_BEGAN");
+                }
             },
 
             searchBattle : function() {

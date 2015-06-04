@@ -48,10 +48,8 @@ define(
             },
 
             continueBattle : function(msg) {
-                if (!BattleModel.battleBegan) {
-                    this.go();
-                    BattleModel.beginBattle(msg);
-                }
+                this.go();
+                BattleModel.beginBattle(msg);
             },
 
             reconnectToBattle : function(msg) {
