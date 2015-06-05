@@ -12,7 +12,7 @@ define(
         "views/game/myPlayerInGame",
         "views/game/dropField",
         "collections/socketsPool",
-        "Alert"
+        "alert"
     ], function(Backbone, PageView, MobileGamePageTemplate, cardView, BattleModel, C_MyPlayerInGame, C_DropField, socketsPool, Alert) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");

@@ -22,6 +22,10 @@ define(
             "STEP" : function() {
                 this.model.trigger("STEP", this.model);
 
+                if (this.$el.parent().hasClass("temp-container")) {
+                    this.$el.unwrap();
+                }
+
                 this.replaceToDOMElem(
                     $(".step-place_player"),
                     true,
@@ -76,15 +80,27 @@ define(
 
                         start : function(event, ui) {
 
+                            var elemWidth = this.$el.width();
+                            var elemHeight = this.$el.height();
+                            var elemMarginLeft = this.$el.css("margin-left");
+
+                            this.$el
+                                .css({
+                                    width : elemWidth,
+                                    height : elemHeight,
+                                    "margin-left" : "0"
+                                })
+                                .wrap("<div class='temp-container'></div>")
+                                .parent()
+                                .css({
+                                    width : elemWidth,
+                                    height : elemHeight,
+                                    "margin-left" : elemMarginLeft
+                                });
+
                             this.$el
                                 .addClass("inDragPosition")
-                                .removeClass("softAnimate")
-                                .css(
-                                {
-                                    height : this.$el.height(),
-                                    width : this.$el.width(),
-                                    "margin-left" : this.$el.css("margin-left")
-                                });
+                                .removeClass("softAnimate");
 
                             this.startPosition = this.$el.position();
 
@@ -131,6 +147,7 @@ define(
                         top : this.startPosition.top,
                         left : this.startPosition.left
                     }, true, function() {
+                        this.$el.unwrap();
                         this._clearStyles();
                         if (callback) {
                             callback();
