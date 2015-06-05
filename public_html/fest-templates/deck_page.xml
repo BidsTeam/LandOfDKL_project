@@ -20,7 +20,7 @@
             <div class="card-list__available-cards">
                 <div class="card-list__card">
                     <fest:each iterate="obj.cardList" index="i" value="v">
-                        <div class="card card__draggable {v.img}" data-cid="{v.id}" data-name="{v.name}" data-type="{v.type}" data-img="{v.img}"></div>
+                        <div class="card in-all-cards-list card__draggable {v.img}" data-cid="{v.id}" data-name="{v.name}" data-type="{v.type}" data-img="{v.img}" data-index="{i}"></div>
                     </fest:each>
 
                     <!--<div class="card card__draggable dragon"></div>-->
