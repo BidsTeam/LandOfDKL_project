@@ -893,4 +893,29 @@ a.underline {
       margin-top: 2px;
       margin-left: 5px; }
 
+.card-info-popup {
+  display: inline-block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: rgba(200, 200, 200, 0.6);
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  visibility: hidden;
+  z-index: 999; }
+
+.card-info-popup__content {
+  background-color: white;
+  display: inline-block;
+  width: 50%;
+  margin-top: 10%;
+  position: relative;
+  transform: translateY(-50%); }
+
+.card-info-popup__card-image {
+  display: inline-block;
+  width: 100px;
+  height: 100px; }
+
 /*# sourceMappingURL=main.css.map */

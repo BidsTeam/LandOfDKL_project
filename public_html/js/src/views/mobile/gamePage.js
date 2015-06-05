@@ -1,6 +1,6 @@
 /**
  * Created by rikimaru on 26.05.15.
- */
+ * */
 
 define(
     [
@@ -80,7 +80,6 @@ define(
             },
 
             _clear : function() {
-                console.log("clear...");
                 this.dropField = {};
                 delete this.dropField;
                 this.player = {};

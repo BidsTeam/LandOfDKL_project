@@ -1,0 +1,8 @@
+<fest:template xmlns:fest="http://fest.mail.ru" context_name="data">
+
+    <div class="card-info-popup__card-image card {data.img}"></div>
+    <div class="card-info-popup__card-attack"><fest:value>data.attack</fest:value></div>
+    <div class="card-info-popup__card-name"><fest:value>data.name</fest:value></div>
+    <div class="card-info-popup__card-type"><fest:value>data.type</fest:value></div>
+
+</fest:template>

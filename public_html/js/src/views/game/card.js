@@ -229,6 +229,9 @@ define(
                     true,
                     function() {
                         this._clearStyles();
+                        this.$el
+                            .removeClass("card-container_highlight")
+                            .removeClass("card-container_in-deck");
                     }.bind(this)
                 );
             }
