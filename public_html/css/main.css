@@ -89,15 +89,30 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: block;
-  height: 81%;
-  width: 100%;
+  width: 120px;
+  height: 140px;
   border-radius: 0px 0px 5px 5px; }
-  .card__image_knight {
-    background-image: url("../images/knight.jpg"); }
-  .card__image_lady {
-    background-image: url("../images/princess.jpg"); }
-  .card__image_dragon {
-    background-image: url("../images/dragon.jpg"); }
+  .card__image.card__image_vanillaknight {
+    background-image: url("../images/cards/240x280/vanilla_knight.jpg"); }
+  .card__image.card__image_reddragon {
+    background-image: url("../images/cards/240x280/red_dragon.jpg"); }
+  .card__image.card__image_priestess {
+    background-image: url("../images/cards/240x280/priestess.jpg"); }
+  .card__image.card__image_covardknight {
+    background-image: url("../images/cards/240x280/covard_knight.jpg"); }
+  .card__image.card__image_instabledragon {
+    background-image: url("../images/cards/240x280/instable_dragon.jpg"); }
+  .card__image.card__image_paladin {
+    background-image: url("../images/cards/240x280/paladin.jpg"); }
+  .card__image.card__image_assassin {
+    background-image: url("../images/cards/240x280/assassin.jpg"); }
+  .card__image.card__image_doomdragon {
+    background-image: url("../images/cards/240x280/doom_dragon.jpg"); }
+  .card__image.card__image_succubus {
+    background-image: url("../images/cards/240x280/succubus.jpg"); }
+  .card__image.card__image_ {
+    background-image: url("../images/closed.jpg");
+    border: solid black 3px; }
   .card__image:hover {
     box-shadow: 0px 0px 43px -1px yellow; }
 
