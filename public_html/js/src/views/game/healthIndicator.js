@@ -24,10 +24,19 @@ define(
                 this.$el.find(".health__health-line-indicator").css({width : healthPercent+"%"});
                 this.$el.parent().find(".effect").html('');
                 _.forEach(this.model.get("effectList"),function(value,key){
-                    console.log(this.$el.parent().find(".effect"));
-                    this.$el.parent().find(".effect").append('<div class="effect__'+value.type+'">' +
-                        '<div class="effect_popup">'+sprintf(value.description,value.value,value.duration)+'</div>' +
-                    '</div>');
+                    if (value.duration != 0) {
+                        var effectDescription = "";
+                        if (value.type == "poison") {
+                            effectDescription = "Hits for %d damage for next %d turns";
+                        } else if (value.type == "restoration") {
+                            effectDescription = "Heals for %d health for next %d turns";
+                        } else if (value.type == "timebomb") {
+                            effectDescription = "Hits for %d damage for next %d turns";
+                        }
+                        this.$el.parent().find(".effect").append('<div class="effect__' + value.type + '">' +
+                        '<div class="effect__popup">' + sprintf.sprintf(effectDescription, value.value, value.duration) + '</div>' +
+                        '</div>');
+                    }
                 },this);
             },
 

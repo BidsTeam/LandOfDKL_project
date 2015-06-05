@@ -64,7 +64,12 @@
   color: red; }
 
 .card-info-container__name {
-  color: white; }
+  color: #ffffff;
+  font-size: 20px; }
+
+.card-info-container__effectname {
+  color: #93ff7a;
+  word-break: break-word; }
 
 .card-info-container__effect {
   color: white;
@@ -87,17 +92,35 @@
 
 .card__image {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center center;
+  border: 2px solid rgba(107, 107, 119, 0.97);
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
   display: block;
-  height: 81%;
-  width: 100%;
-  border-radius: 0px 0px 5px 5px; }
-  .card__image_knight {
-    background-image: url("../images/knight.jpg"); }
-  .card__image_lady {
-    background-image: url("../images/princess.jpg"); }
-  .card__image_dragon {
-    background-image: url("../images/dragon.jpg"); }
+  background-size: cover;
+  width: 120px;
+  height: 140px; }
+  .card__image.card__image_vanillaknight {
+    background-image: url("../images/cards/240x280/vanilla_knight.jpg"); }
+  .card__image.card__image_reddragon {
+    background-image: url("../images/cards/240x280/red_dragon.jpg"); }
+  .card__image.card__image_priestess {
+    background-image: url("../images/cards/240x280/priestess.jpg"); }
+  .card__image.card__image_covardknight {
+    background-image: url("../images/cards/240x280/covard_knight.jpg"); }
+  .card__image.card__image_instabledragon {
+    background-image: url("../images/cards/240x280/instable_dragon.jpg"); }
+  .card__image.card__image_paladin {
+    background-image: url("../images/cards/240x280/paladin.jpg"); }
+  .card__image.card__image_assassin {
+    background-image: url("../images/cards/240x280/assassin.jpg"); }
+  .card__image.card__image_doomdragon {
+    background-image: url("../images/cards/240x280/doom_dragon.jpg"); }
+  .card__image.card__image_succubus {
+    background-image: url("../images/cards/240x280/succubus.jpg"); }
+  .card__image.card__image_ {
+    background-image: url("../images/closed.jpg");
+    border: solid black 3px; }
   .card__image:hover {
     box-shadow: 0px 0px 43px -1px yellow; }
 
@@ -145,7 +168,9 @@
   padding-left: 10px; }
 
 .author-name {
-  margin-right: 4px; }
+  margin-right: 4px;
+  margin-left: 6px;
+  font-family: sans-serif; }
 
 .chat-message__message {
   margin-left: 10px; }
@@ -153,20 +178,13 @@
 .chat-message__message-time {
   color: #0b97c4; }
 
-.chat-message:nth-child(odd) {
-  background-color: #ffffff; }
-
-.chat-message:nth-child(even) {
-  background-color: #e4e4e4; }
-
 .chat-message__private {
   color: red; }
 
 .chat__send-button {
   width: 10%;
-  height: 18%;
+  height: 10%;
   vertical-align: top;
-  background-image: url("../images/button_wood.png");
   outline: none;
   border: none;
   box-shadow: 0px 2px 0px 0px #714305;
@@ -277,6 +295,7 @@
   display: inline-block;
   position: relative;
   top: 50%;
+  color: #cfcfcf;
   transform: translateY(-50%); }
 
 .battlefield-container {
@@ -319,7 +338,11 @@
   width: auto; }
 
 .user-list__common-user {
-  color: #000000; }
+  margin-top: 2px;
+  color: #000000;
+  list-style: none; }
+  .user-list__common-user:hover {
+    background-color: rgba(163, 163, 163, 0.5); }
 
 .loader-screen {
   display: table;
@@ -499,13 +522,15 @@ a.underline {
 
 .nav-menu-container {
   text-align: center;
-  height: 5%; }
+  height: 40px; }
 
 .nav-menu__button-container {
   display: inline-block; }
 
 .nav-menu__button {
-  height: 25%; }
+  height: 25%;
+  display: inline-block;
+  margin-top: 3px; }
 
 .alert {
   position: absolute;
@@ -558,58 +583,73 @@ a.underline {
 
 .health__player-name {
   display: inline-block;
-  font-size: 20px;
+  font-size: 25px;
   margin-left: 10px;
-  color: red; }
+  color: #fffefa; }
 
 .effect {
   display: block;
   position: relative; }
 
 .effect__poison {
-  background-image: url(../images/poison_effect.png);
+  background-image: url(../images/effects/poison_effect.png);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__poison:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__restoration {
-  background-image: url(../images/restoration_effect.jpg);
+  background-image: url(../images/effects/restoration_effect.jpg);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__restoration:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__timebomb {
-  background-image: url(../images/bomb_effect.jpg);
+  background-image: url(../images/effects/bomb_effect.jpg);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__timebomb:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__popup {
   display: none; }
@@ -711,58 +751,73 @@ a.underline {
 
 .health__player-name {
   display: inline-block;
-  font-size: 20px;
+  font-size: 25px;
   margin-left: 10px;
-  color: red; }
+  color: #fffefa; }
 
 .effect {
   display: block;
   position: relative; }
 
 .effect__poison {
-  background-image: url(../images/poison_effect.png);
+  background-image: url(../images/effects/poison_effect.png);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__poison:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__restoration {
-  background-image: url(../images/restoration_effect.jpg);
+  background-image: url(../images/effects/restoration_effect.jpg);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__restoration:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__timebomb {
-  background-image: url(../images/bomb_effect.jpg);
+  background-image: url(../images/effects/bomb_effect.jpg);
   display: block;
   float: left;
   width: 32px;
   height: 32px; }
   .effect__timebomb:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__popup {
   display: none; }
@@ -771,6 +826,11 @@ a.underline {
   height: 100%;
   width: 100%; }
   .deck-builder .card {
+    background-repeat: no-repeat;
+    background-position: center center;
+    border: 2px solid rgba(107, 107, 119, 0.97);
+    box-shadow: 0 5px 2px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
     width: 120px;
     height: 140px;
     background-size: cover;
@@ -820,7 +880,8 @@ a.underline {
       width: 32%;
       height: 100%;
       border-style: solid;
-      border-width: 0px 4px;
+      border-width: 0px;
+      border-right-width: 4px;
       border-color: black;
       float: left; }
   .deck-builder .card-list {

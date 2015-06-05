@@ -14,7 +14,6 @@
                         <div class="deck__card card five {v[4].img}" data-cid="{v[4].id}" data-name="{v[4].name}" data-type="{v[4].type}" data-img="{v[4].img}" data-index="4"></div>
                     </div>
                </div>
-
             </fest:each>
         </div>
         <div class="card-list">

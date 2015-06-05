@@ -51,7 +51,6 @@ define(
                 if (!options.model) {
                     this.model = new CardModel({cardId : options.cardId});
                 }
-
                 var $htmlEl = $(CardTemplate(
                     this.model.toJSON()
                 ));

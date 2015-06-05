@@ -228,7 +228,7 @@ public class EffectList {
                 json.put("value", healValue);
                 json.put("duration", duration);
                 json.put("description", description);
-                json.put("type", "heal");
+                json.put("type", "restoration");
                 return json;
             }
         }
@@ -298,7 +298,7 @@ public class EffectList {
             json.put("value", damage);
             json.put("duration", duration);
             json.put("description", description);
-            json.put("type", "heal");
+            json.put("type", "timebomb");
             return json;
         }
     }

@@ -23,7 +23,8 @@
 
 .author-name {
   margin-right: 4px;
-
+  margin-left: 6px;
+  font-family: sans-serif;
 }
 
 .chat-message__message {
@@ -34,13 +35,13 @@
   color: #0b97c4;
 }
 
-.chat-message:nth-child(odd) {
-  background-color: #ffffff;
-}
-
-.chat-message:nth-child(even) {
-  background-color: #e4e4e4
-}
+//.chat-message:nth-child(odd) {
+//  background-color: #ffffff;
+//}
+//
+//.chat-message:nth-child(even) {
+//  background-color: #e4e4e4
+//}
 
 .chat-message__private {
   color: red;
@@ -49,9 +50,8 @@
 $shadow-size : 2px;
 .chat__send-button {
   width: 10%;
-  height: 18%;
+  height: 10%;
   vertical-align: top;
-  background-image : url("../images/button_wood.png");
   outline: none;
   border: none;
   box-shadow: 0px $shadow-size 0px 0px rgb(113, 67, 5);

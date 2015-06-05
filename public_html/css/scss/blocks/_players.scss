@@ -8,5 +8,10 @@
 }
 
 .user-list__common-user {
+  margin-top: 2px;
   color: #000000;
+  list-style: none;
+  &:hover {
+    background-color: rgba(163, 163, 163, 0.5);
+  }
 }

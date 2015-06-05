@@ -203,6 +203,7 @@ public class GameSession {
     }
 
     public void reconnect(int userID) {
+        webSocketService.notifyGameState(firstPlayer, secondPlayer);
         if (userID == firstPlayer.getUserID()) {
             webSocketService.notifyReconnect(reportOneSideGameState(1), firstPlayer.getUserDeck(), userID);
         } else if (userID == secondPlayer.getUserID()) {

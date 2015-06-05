@@ -12,6 +12,20 @@
   height: 30%;
 }
 
+//.game-button {
+//  -webkit-border-radius: 8;
+//  -moz-border-radius: 8;
+//  border-radius: 8px;
+//  font-family: Georgia;
+//  color: #a5a5a5;
+//  font-size: 20px;
+//  padding: 10px 20px 10px 20px;
+//  text-decoration: none;
+//  &:hover {
+//    background: #769094;
+//    text-decoration: none;
+//  }
+
 .game-button {
   text-align: center;
   cursor: pointer;
@@ -53,5 +67,6 @@
   display: inline-block;
   position: relative;
   top: 50%;
+  color: #cfcfcf;
   transform: translateY(-50%);
 }
