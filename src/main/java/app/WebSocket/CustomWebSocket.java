@@ -93,6 +93,12 @@ public class CustomWebSocket {
                     webSocketService.greetUser(userID);
                     break;
                 }
+                case "ping" : {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("action", "pong");
+                    this.getSession().getRemote().sendString(jsonObject.toString());
+                    break;
+                }
                 default: {
                     LogFactory.getInstance().getLogger(this.getClass()).debug("Wrong json in socket");
                     break;

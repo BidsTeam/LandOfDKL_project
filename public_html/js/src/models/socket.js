@@ -28,6 +28,7 @@ define(
     function onOpen() {
         loading.hide();
         this.trigger("SOCKET_CONNECTED_OK");
+
     }
 
     return Backbone.Model.extend({
@@ -69,6 +70,13 @@ define(
             this.connection.onmessage = onEvent.bind(this);
             this.connection.onerror = onError.bind(this);
             this.connection.onclose = onClose.bind(this);
+            setInterval(function(){
+                console.log(this);
+                console.log(this.send);
+                this.send(JSON.stringify({
+                    action : "ping"
+                }))
+            }.bind(this),30000);
         },
 
         saveCardsInformation : function(cards) {
