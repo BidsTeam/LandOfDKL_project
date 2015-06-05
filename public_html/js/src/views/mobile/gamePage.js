@@ -38,9 +38,12 @@ define(
                     $deckElem : this.cardsControllerView.$cardsContainer
                 });
 
+                this.$(".counter-field__amount-num-of-cards").html(BattleModel.player.cardsInHand.length);
+                this.$(".counter-field__curr-num-of-cards").html(BattleModel.player.cardsInHand.getLength());
+
                 BattleModel.player.cardsInHand.bind("change", function() {
                     var cardsCount = BattleModel.player.cardsInHand.getLength();
-                    this.$(".counter-field__amount-num-of-cards").html(cardsCount);
+                    this.$(".counter-field__curr-num-of-cards").html(cardsCount);
                 }.bind(this));
 
                 this.dropField = new C_DropField();
@@ -77,6 +80,7 @@ define(
             },
 
             _clear : function() {
+                console.log("clear...");
                 this.dropField = {};
                 delete this.dropField;
                 this.player = {};
