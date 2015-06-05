@@ -69,6 +69,10 @@ define(
             this.connection.onmessage = onEvent.bind(this);
             this.connection.onerror = onError.bind(this);
             this.connection.onclose = onClose.bind(this);
+
+            setInterval(this.send(JSON.stringify({
+                action : "ping"
+            })), 30 * 1000);
         },
 
         saveCardsInformation : function(cards) {
