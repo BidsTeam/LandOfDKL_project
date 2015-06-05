@@ -81,10 +81,8 @@ define(
                 clearTimeout(this.nextStepTimerId);
                 this.player.clear();
                 this.player = {};
-                delete this.player;
                 this.opponentPlayer.clear();
                 this.opponentPlayer = {};
-                delete this.opponentPlayer;
                 this.trigger("END_BATTLE", Number(msg.gameResult));
                 this.battleBegan = false;
             }

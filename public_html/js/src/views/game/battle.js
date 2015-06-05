@@ -117,11 +117,8 @@ define(
 
             _clear : function() {
                 this.dropField = {};
-                delete this.dropField;
                 this.player = {};
-                delete this.player;
                 this.opponentPlayer = {};
-                delete this.opponentPlayer;
                 this.$el.remove();
             }
 

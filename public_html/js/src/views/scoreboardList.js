@@ -32,7 +32,6 @@ define(["backbone", "templates/scoreboard_list"], function(Backbone, listTmpl) {
                 },
 
                 error : function(msg) {
-                    console.log(msg);
                     getThis().$el.html("Error!");
                 },
 

@@ -90,7 +90,6 @@ define(
             },
 
             getDeck:function(msg){
-                console.log("getDeck",msg);
                 this.data = msg;
             },
 
