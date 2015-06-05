@@ -9,7 +9,7 @@
             </div>
         </fest:if>
 
-        <div class="card__image card__image_{data.cardType}">
+        <div class="card__image card__image_{data.img}">
         </div>
     </div>
 

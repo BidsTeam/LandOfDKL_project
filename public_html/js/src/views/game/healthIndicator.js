@@ -24,10 +24,15 @@ define(
                 this.$el.find(".health__health-line-indicator").css({width : healthPercent+"%"});
                 this.$el.parent().find(".effect").html('');
                 _.forEach(this.model.get("effectList"),function(value,key){
-                    console.log(this.$el.parent().find(".effect"));
-                    this.$el.parent().find(".effect").append('<div class="effect__'+value.type+'">' +
-                        '<div class="effect_popup">'+sprintf(value.description,value.value,value.duration)+'</div>' +
-                    '</div>');
+                    if (value.duration != 0) {
+                        this.$el.parent().find(".effect").append('<div class="effect__' + value.type + '">' +
+                        '<div class="effect__popup">' + sprintf.sprintf(value.description, value.value, value.duration) + '</div>' +
+                        '</div>');
+                    } else {
+                        this.$el.parent().find(".effect").append('<div class="effect__' + value.type + '">' +
+                        '<div class="effect__popup">' + sprintf.sprintf(value.description, value.value) + '</div>' +
+                        '</div>');
+                    }
                 },this);
             },
 

@@ -35,7 +35,6 @@ define(
                 //Socket.send('{"action":"getDeck"}');
                 $("body").on("contextmenu",".card",function(event){
                     event.preventDefault();
-
                 })
             },
 
