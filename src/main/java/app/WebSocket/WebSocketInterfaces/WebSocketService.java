@@ -19,7 +19,7 @@ public interface WebSocketService {
     public void sendJson(HashSet<CustomWebSocket> userSockets, JSONObject json);
     public void notifyNewGame(Player firstPlayer, Player secondPlayer, int gameID);
     public void notifyGameOver(Player firstPlayer, Player secondPlayer, RPS.RPSResult winner);
-    public void notifyActionSet(Player playerSetter, Player playerObserver);
+    public void notifyActionSet(Player playerSetter, Player playerObserver, int cardID);
     public void notifyActionsReveal(Player firstPlayer, int firstCardID, Player secondPlayer, int secondCardID);
     public void notifyUserEnter(int userID);
     public void notifyUserExit(int userID);

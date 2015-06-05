@@ -83,7 +83,7 @@ public class GameSession {
                     int realCardID = firstPlayer.getCard(cardID);
                     if (realCardID != -1) {
                         firstPlayerCard = dbService.getCardService(session).getCard(realCardID);
-                        webSocketService.notifyActionSet(firstPlayer, secondPlayer);
+                        webSocketService.notifyActionSet(firstPlayer, secondPlayer, cardID);
                     }
                 } else {
                     LogFactory.getInstance().getLogger(this.getClass()).error("Try for selecting action second time");
@@ -93,7 +93,7 @@ public class GameSession {
                     int realCardID = secondPlayer.getCard(cardID);
                     if (realCardID != -1) {
                         secondPlayerCard = dbService.getCardService(session).getCard(realCardID);
-                        webSocketService.notifyActionSet(secondPlayer, firstPlayer);
+                        webSocketService.notifyActionSet(secondPlayer, firstPlayer, cardID);
                     }
                 }
                 else {
