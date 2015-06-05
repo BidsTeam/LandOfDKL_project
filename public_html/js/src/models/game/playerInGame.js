@@ -50,6 +50,9 @@ define(
                 if (attrs['deck']) {
                         this.cardsInHand.add(attrs['deck']);
                 }
+                if (attrs['health']) {
+                    this.set({startHealth : attrs['health']});
+                }
 
                 this.cardsInHand.bind("delete", this._deleteCard, this);
                 this._construct(attrs);

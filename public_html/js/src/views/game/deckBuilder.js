@@ -12,7 +12,8 @@ define(
         "views/loading",
         "collections/socketsPool",
         "alert",
-        "templates/deck_page"
+        "templates/deck_page",
+        "templates/card/card-info-popup"
     ],
     function(
         Backbone,
@@ -23,20 +24,30 @@ define(
         loading,
         socketsPool,
         Alert,
-        deckBuilderTpl
+        deckBuilderTpl,
+        T_cardInfoPopup
     ) {
 
         var Socket = socketsPool.getSocketByName("socketActionsUrl");
 
         return new (Backbone.View.extend({
+
+            events : {
+                "click .card-info-popup__button_ok" : "hidePopup"
+            },
+
             initialize : function() {
                 //this.model = battleModel;
                 Socket.bind("getDeck", this.getDeck, this);
                 //Socket.send('{"action":"getDeck"}');
-                $("body").on("contextmenu",".card",function(event){
+                $("body").on("contextmenu", ".card", function(event){
                     event.preventDefault();
-
-                })
+                    var type = $(event.currentTarget).attr("data-type");
+                    var index = $(event.currentTarget).attr("data-index");
+                    var cardData = this.data.deck[type][index];
+                    this.$(".card-info-popup__content").html(T_cardInfoPopup(cardData));
+                    this.$(".card-info-popup").css("visibility", "visible");
+                }.bind(this));
             },
 
             getDeck:function(msg){
@@ -44,6 +55,9 @@ define(
                 this.data = msg;
             },
 
+            hidePopup : function() {
+                this.$(".card-info-popup").css("visibility", "hidden");
+            },
 
             //    this.data = {
             //        deck:{

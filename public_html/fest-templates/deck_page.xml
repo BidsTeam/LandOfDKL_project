@@ -5,13 +5,13 @@
             <fest:each iterate="obj.deck" index="i" value="v">
                 <div class="deck__type deck__{i}">
                     <div class="line">
-                        <div class="deck__card card first {v[0].img}" data-cid="{v[0].id}" data-name="{v[0].name}" data-type="{v[0].type}" data-img="{v[0].img}"></div>
-                        <div class="deck__card card second {v[1].img}" data-cid="{v[1].id}" data-name="{v[1].name}" data-type="{v[1].type}" data-img="{v[1].img}"></div>
+                        <div class="deck__card card first {v[0].img}" data-cid="{v[0].id}" data-name="{v[0].name}" data-type="{v[0].type}" data-img="{v[0].img}" data-index="0"></div>
+                        <div class="deck__card card second {v[1].img}" data-cid="{v[1].id}" data-name="{v[1].name}" data-type="{v[1].type}" data-img="{v[1].img}" data-index="1"></div>
                     </div>
-                    <div class="deck__card card third {v[2].img}" data-cid="{v[2].id}" data-name="{v[2].name}" data-type="{v[2].type}" data-img="{v[2].img}"></div>
+                    <div class="deck__card card third {v[2].img}" data-cid="{v[2].id}" data-name="{v[2].name}" data-type="{v[2].type}" data-img="{v[2].img}" data-index="2"></div>
                     <div class="line">
-                        <div class="deck__card card four {v[3].img}" data-cid="{v[3].id}" data-name="{v[3].name}" data-type="{v[3].type}" data-img="{v[3].img}"></div>
-                        <div class="deck__card card five {v[4].img}" data-cid="{v[4].id}" data-name="{v[4].name}" data-type="{v[4].type}" data-img="{v[4].img}"></div>
+                        <div class="deck__card card four {v[3].img}" data-cid="{v[3].id}" data-name="{v[3].name}" data-type="{v[3].type}" data-img="{v[3].img}" data-index="3"></div>
+                        <div class="deck__card card five {v[4].img}" data-cid="{v[4].id}" data-name="{v[4].name}" data-type="{v[4].type}" data-img="{v[4].img}" data-index="4"></div>
                     </div>
                </div>
 
@@ -34,6 +34,13 @@
                     <!--<div class="card card__draggable lady"></div>-->
 
                 </div>
+            </div>
+        </div>
+
+        <div class="card-info-popup">
+            <div class="card-info-popup__content"> </div>
+            <div class="card-info-popup__button-container">
+                <input type="button" class="card-info-popup__button_ok" value="Закрыть"/>
             </div>
         </div>
     </div>
