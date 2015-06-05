@@ -7,6 +7,7 @@ import app.templater.PageGenerator;
 import service.DBService;
 import util.LogFactory;
 import util.MessageList;
+import util.ServiceWrapper;
 import util.ValidatorSBT;
 
 
@@ -19,7 +20,7 @@ import java.util.HashMap;
 
 public class Card {
 
-    public void stop(HttpServletRequest request, HttpServletResponse response, DBService dbService) {
+    public void stop(HttpServletRequest request, HttpServletResponse response, ServiceWrapper serviceWrapper) {
         System.exit(0);
     }
 }
