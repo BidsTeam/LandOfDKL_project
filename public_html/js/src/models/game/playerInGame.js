@@ -38,11 +38,11 @@ define(
             cardsInHand : {},
 
             initialize : function(attrs) {
-                this.bind("change:health", _onChangeHealth.bind(this));
-                Socket.bind("newGameState", this.updateHealth, this);
+                this.listenTo(this, "change:health", _onChangeHealth.bind(this));
+                this.listenTo(Socket, "newGameState", this.updateHealth.bind(this));
 
                 require(['models/game/battle'], function(BattleModel) {
-                    BattleModel.bind("END_BATTLE", this._onBattleEnd, this);
+                    this.listenTo(BattleModel, "END_BATTLE", this._onBattleEnd.bind(this));
                 }.bind(this));
 
                 this.cardsInHand = new cardCollectionClass();
@@ -54,7 +54,7 @@ define(
                     this.set({startHealth : attrs['health']});
                 }
 
-                this.cardsInHand.bind("delete", this._deleteCard, this);
+                this.listenTo(this.cardsInHand, "delete", this._deleteCard.bind(this));
                 this._construct(attrs);
             },
 
