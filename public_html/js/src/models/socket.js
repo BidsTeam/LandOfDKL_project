@@ -46,7 +46,6 @@ define(
 
             User.bind("logout", this.close, this);
             this.bind("hello", this.saveCardsInformation, this);
-            this.connect(options.address);
 
             // если не мобила -
             if (!Utils.isMobileDevice()) {
@@ -60,6 +59,8 @@ define(
                     this.bind("currentGameState", mobileGamePageView.continueBattle.bind(mobileGamePageView), this);
                 }.bind(this));
             }
+
+            this.connect(options.address);
 
             require(['models/game/userList'], function(userList) {
                 this.bind("newChatUsers", userList.receive.bind(userList));

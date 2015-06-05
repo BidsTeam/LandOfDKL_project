@@ -7,9 +7,11 @@ define(
         "jquery",
         "views/loading",
         "models/user",
-        "routers/page_router"
+        "app"
     ],
-    function(pageView, signupModel, signupTmpl, Config, $, loading, User, router) {
+    function(pageView, signupModel, signupTmpl, Config, $, loading, User, app) {
+
+        var router = app.getRouter();
 
         var SignupView = pageView.extend({
 
