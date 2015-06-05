@@ -64,7 +64,12 @@
   color: red; }
 
 .card-info-container__name {
-  color: white; }
+  color: #ffffff;
+  font-size: 20px; }
+
+.card-info-container__effectname {
+  color: #93ff7a;
+  word-break: break-word; }
 
 .card-info-container__effect {
   color: white;
@@ -87,11 +92,14 @@
 
 .card__image {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center center;
+  border: 2px solid rgba(107, 107, 119, 0.97);
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
   display: block;
+  background-size: cover;
   width: 120px;
-  height: 140px;
-  border-radius: 0px 0px 5px 5px; }
+  height: 140px; }
   .card__image.card__image_vanillaknight {
     background-image: url("../images/cards/240x280/vanilla_knight.jpg"); }
   .card__image.card__image_reddragon {
@@ -575,9 +583,9 @@ a.underline {
 
 .health__player-name {
   display: inline-block;
-  font-size: 20px;
+  font-size: 25px;
   margin-left: 10px;
-  color: red; }
+  color: #fffefa; }
 
 .effect {
   display: block;
@@ -590,13 +598,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__poison:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__restoration {
   background-image: url(../images/effects/restoration_effect.jpg);
@@ -605,13 +618,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__restoration:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__timebomb {
   background-image: url(../images/effects/bomb_effect.jpg);
@@ -620,13 +638,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__timebomb:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__popup {
   display: none; }
@@ -728,9 +751,9 @@ a.underline {
 
 .health__player-name {
   display: inline-block;
-  font-size: 20px;
+  font-size: 25px;
   margin-left: 10px;
-  color: red; }
+  color: #fffefa; }
 
 .effect {
   display: block;
@@ -743,13 +766,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__poison:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__restoration {
   background-image: url(../images/effects/restoration_effect.jpg);
@@ -758,13 +786,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__restoration:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__timebomb {
   background-image: url(../images/effects/bomb_effect.jpg);
@@ -773,13 +806,18 @@ a.underline {
   width: 32px;
   height: 32px; }
   .effect__timebomb:hover .effect__popup {
+    padding: 8px;
     display: block;
-    width: 100px;
+    width: 250px;
     position: absolute;
-    font-size: 20px;
-    background-color: #FFF;
-    top: -30px;
-    border-color: #000; }
+    font-size: 15px;
+    font-family: Helvetica;
+    background-color: rgba(128, 128, 128, 0.6);
+    top: 40px;
+    left: 5px;
+    border-color: #67ed55;
+    border-width: 2px;
+    border-radius: 8px; }
 
 .effect__popup {
   display: none; }

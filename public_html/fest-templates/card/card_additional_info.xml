@@ -2,14 +2,16 @@
 
     <div class="card-info-container__content">
         <div class="card-info-container__name">
-            Название: <fest:value>data.name</fest:value>
+            <fest:value>data.name</fest:value>
         </div>
         <div class="card-info-container__attack">
             Атака: <fest:value>data.attack</fest:value>
         </div>
         <fest:if test="data.effects[0]">
+            <div class="card-info-container__effectname">
+                Эффект
+            </div>
             <div class="card-info-container__effect">
-                Дополнительные эффекты: <fest:value>data.effects[0]['name']</fest:value> -
                 <fest:value>data.effects[0]['description']</fest:value>
             </div>
         </fest:if>

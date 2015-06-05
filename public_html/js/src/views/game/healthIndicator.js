@@ -25,12 +25,16 @@ define(
                 this.$el.parent().find(".effect").html('');
                 _.forEach(this.model.get("effectList"),function(value,key){
                     if (value.duration != 0) {
+                        var effectDescription = "";
+                        if (value.type == "poison") {
+                            effectDescription = "Hits for %d damage for next %d turns";
+                        } else if (value.type == "restoration") {
+                            effectDescription = "Heals for %d health for next %d turns";
+                        } else if (value.type == "timebomb") {
+                            effectDescription = "Hits for %d damage for next %d turns";
+                        }
                         this.$el.parent().find(".effect").append('<div class="effect__' + value.type + '">' +
-                        '<div class="effect__popup">' + sprintf.sprintf(value.description, value.value, value.duration) + '</div>' +
-                        '</div>');
-                    } else {
-                        this.$el.parent().find(".effect").append('<div class="effect__' + value.type + '">' +
-                        '<div class="effect__popup">' + sprintf.sprintf(value.description, value.value) + '</div>' +
+                        '<div class="effect__popup">' + sprintf.sprintf(effectDescription, value.value, value.duration) + '</div>' +
                         '</div>');
                     }
                 },this);

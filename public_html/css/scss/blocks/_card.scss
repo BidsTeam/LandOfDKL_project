@@ -88,7 +88,13 @@ $infoContainerPointer : 10px;
 }
 
 .card-info-container__name {
-  color : white;
+  color : #ffffff;
+  font-size: 20px;
+}
+
+.card-info-container__effectname {
+  color: #93ff7a;
+  word-break: break-word;
 }
 
 .card-info-container__effect {
@@ -115,13 +121,16 @@ $infoContainerPointer : 10px;
 
 .card__image {
   background-repeat: no-repeat;
-  background-size: cover;
+  background-position: center center;
+  border: 2px solid rgba(107, 107, 119, 0.97);
+  box-shadow: 0 5px 2px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
   display: block;
+  background-size:cover;
 //  height: 81%;
 //  width: 100%;
   width:120px;
   height:140px;
-  border-radius: 0px 0px 5px 5px;
   &.card__image_vanillaknight {
     background-image: url("../images/cards/240x280/vanilla_knight.jpg");
   }
