@@ -108,7 +108,7 @@ public class CustomWebSocket {
         setSession(session);
         try {
             webSocketService.putNewSocket(userID, this);
-            UserLogic user = null;
+            user = null;
             for (int i = 0; i < 5; i++) {
                 Thread.sleep(100);
                 user = cache.getUser(userID);
