@@ -122,7 +122,7 @@ module.exports = function (grunt) {
                         productionScriptInit : "",
                         devScriptInit :
                             "<script data-main='js/src/init.js' src='js/lib/require.js'></script>\n" +
-                            "<script src='//localhost:35729/livereload.js'></script>"
+                            ""
                     }
                 },
                 'files': {

@@ -48,6 +48,44 @@
     }
   }
 }
+
+.effect__restoration {
+  background-image: url(../images/restoration_effect.jpg);
+  display:block;
+  float:left;
+  width:32px;
+  height:32px;
+  &:hover{
+    .effect__popup {
+      display:block;
+      width: 100px;
+      position: absolute;
+      font-size: 20px;
+      background-color: #FFF;
+      top: -30px;
+      border-color: #000;
+    }
+  }
+}
+
+.effect__timebomb {
+  background-image: url(../images/bomb_effect.jpg);
+  display:block;
+  float:left;
+  width:32px;
+  height:32px;
+  &:hover{
+    .effect__popup {
+      display:block;
+      width: 100px;
+      position: absolute;
+      font-size: 20px;
+      background-color: #FFF;
+      top: -30px;
+      border-color: #000;
+    }
+  }
+}
 .effect__popup {
   display:none;
 }

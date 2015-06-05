@@ -30,8 +30,8 @@ public class GameSession {
         secondPlayer = playerTwo;
         Session session = dbService.getSession();
         try {
-            firstPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(firstPlayer.getUserID())));
-            secondPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(dbService.getUserService(session).getUserById(secondPlayer.getUserID())));
+            firstPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(firstPlayer.getUserID()));
+            secondPlayer.setUserDeck(dbService.getCardService(session).getUserDeck(secondPlayer.getUserID()));
         } finally {
             dbService.closeSession(session);
         }

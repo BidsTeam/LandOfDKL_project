@@ -1,6 +1,7 @@
 package app.GameMechanics;
 
 
+import DAO.logic.CardLogic;
 import DAO.logic.UserLogic;
 import util.EffectList;
 import util.StepEffect;
@@ -22,6 +23,7 @@ public class Player {
         username = user.getUsername();
         userID = user.getId();
         health = MAX_HEALTH;
+        deck = new ArrayList<>();
     }
 
 
@@ -41,8 +43,10 @@ public class Player {
         }
     }
 
-    public void setUserDeck(List<Integer> userDeck) {
-        deck = userDeck;
+    public void setUserDeck(List<CardLogic> userDeck) {
+        for (CardLogic card : userDeck) {
+            deck.add(card.getId());
+        }
     }
 
     public List<Integer> getUserDeck() { return deck; }

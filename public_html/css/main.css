@@ -581,6 +581,36 @@ a.underline {
     top: -30px;
     border-color: #000; }
 
+.effect__restoration {
+  background-image: url(../images/restoration_effect.jpg);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
+  .effect__restoration:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
+.effect__timebomb {
+  background-image: url(../images/bomb_effect.jpg);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
+  .effect__timebomb:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
 .effect__popup {
   display: none; }
 
@@ -704,6 +734,36 @@ a.underline {
     top: -30px;
     border-color: #000; }
 
+.effect__restoration {
+  background-image: url(../images/restoration_effect.jpg);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
+  .effect__restoration:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
+.effect__timebomb {
+  background-image: url(../images/bomb_effect.jpg);
+  display: block;
+  float: left;
+  width: 32px;
+  height: 32px; }
+  .effect__timebomb:hover .effect__popup {
+    display: block;
+    width: 100px;
+    position: absolute;
+    font-size: 20px;
+    background-color: #FFF;
+    top: -30px;
+    border-color: #000; }
+
 .effect__popup {
   display: none; }
 
@@ -713,15 +773,14 @@ a.underline {
   .deck-builder .card {
     width: 120px;
     height: 140px;
-    background-size: cover; }
+    background-size: cover;
+    background-color: lightblue; }
     .deck-builder .card.knight {
       background-image: url("../images/knight.jpg"); }
     .deck-builder .card.lady {
       background-image: url("../images/princess.jpg"); }
     .deck-builder .card.dragon {
       background-image: url("../images/dragon.jpg"); }
-    .deck-builder .card.empty {
-      background-color: lightblue; }
   .deck-builder .deck {
     width: 66%;
     height: 100%;

@@ -89,7 +89,7 @@ public class CardLogic {
         result.put("id",        this.getId());
         result.put("name",  this.getName());
         result.put("attack", this.getAttack());
-        result.put("cardType",  this.getCardType());
+        result.put("type",  this.getCardType());
         Set<EffectLogic> effects = this.getEffects();
         JSONArray effectJSONArray = new JSONArray();
         for (EffectLogic effect : effects){
