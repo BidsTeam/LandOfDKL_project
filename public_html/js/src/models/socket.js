@@ -71,6 +71,8 @@ define(
             this.connection.onerror = onError.bind(this);
             this.connection.onclose = onClose.bind(this);
             setInterval(function(){
+                console.log(this);
+                console.log(this.send);
                 this.send(JSON.stringify({
                     action : "ping"
                 }))
