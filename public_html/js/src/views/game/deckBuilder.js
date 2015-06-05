@@ -44,8 +44,12 @@ define(
                     event.preventDefault();
                     var type = $(event.currentTarget).attr("data-type");
                     var index = $(event.currentTarget).attr("data-index");
-                    var cardData = this.data.deck[type][index];
-                    this.$(".card-info-popup__content").html(T_cardInfoPopup(cardData));
+                    if (!$(event.currentTarget).hasClass("in-all-cards-list")) {
+                        var cardData = this.data.deck[type][index];
+                    } else {
+                        cardData = this.data.cardList[index];
+                    }
+                    this.$(".card-info-popup__content").html(   T_cardInfoPopup(cardData));
                     this.$(".card-info-popup").css("visibility", "visible");
                 }.bind(this));
             },
