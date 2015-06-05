@@ -108,7 +108,14 @@ public class CustomWebSocket {
         setSession(session);
         try {
             webSocketService.putNewSocket(userID, this);
-            user = cache.getUser(userID);
+            UserLogic user = null;
+            for (int i = 0; i < 5; i++) {
+                Thread.sleep(100);
+                user = cache.getUser(userID);
+                if (user != null) {
+                    break;
+                }
+            }
             LogFactory.getInstance().getLogger(this.getClass()).debug("WebSocket.CustomWebSocket/onOpen: " + user.getUsername());
             webSocketService.greetUser(userID);
             webSocketService.notifyUserEnter(userID);
