@@ -133,25 +133,28 @@ public class CustomWebSocketService implements WebSocketService {
     }
 
     //Уведомляет о том, что игрок сделал ход. playerSetter: тот кто сделал, playerObserver, тот кого ждут
-    public void notifyActionSet(Player playerSetter, Player playerObserver) {
+    public void notifyActionSet(Player playerSetter, Player playerObserver, int cardID) {
         JSONObject response;
         for(int i = 0; i < 2; i++) {
             HashSet<CustomWebSocket> userSockets;
             if (i == 0) {
-                response = generateResponseActionSet(true);
+                response = generateResponseActionSet(true, cardID);
                 userSockets = userWebSockets.get(playerSetter.getUserID());
             } else {
-                response = generateResponseActionSet(false);
+                response = generateResponseActionSet(false, 0);
                 userSockets = userWebSockets.get(playerObserver.getUserID());
             }
             sendJson(userSockets, response);
         }
     }
 
-    private JSONObject generateResponseActionSet(boolean status){
+    private JSONObject generateResponseActionSet(boolean status, int cardID){
         JSONObject response = new JSONObject();
         response.put("action", "game_action_set");
         response.put("isSetter", status);
+        if (status) {
+            response.put("cardNumber", cardID);
+        }
         return response;
     }
 
