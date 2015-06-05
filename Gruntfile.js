@@ -2,7 +2,7 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		shell: {
 			server: {
-	      		 command: 'java -cp LandOfDKL.jar app.main.Main'
+	      		 command: 'mvn compile assembly:single\n cp target/LandOfDKL-1.0-SNAPSHOT-jar-with-dependencies.jar LandOfDKL.jar\n java -cp LandOfDKL.jar app.main.Main'
 			}
 		},
 		fest: {
