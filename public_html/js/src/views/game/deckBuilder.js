@@ -8,6 +8,7 @@ define(
         "../pages/gamePage",
         "jquery",
         "jquery-ui",
+        "sprintf",
         "views/game/card",
         "views/loading",
         "collections/socketsPool",
@@ -20,6 +21,7 @@ define(
         gamePage,
         $,
         Ui,
+        sprintf,
         CardViewClass,
         loading,
         socketsPool,
@@ -48,6 +50,39 @@ define(
                         var cardData = this.data.deck[type][index];
                     } else {
                         cardData = this.data.cardList[index];
+                    }
+                    for (num in cardData.effects ){
+                        switch (cardData.effects[num].name){
+                            case "boom":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value);
+                                break;
+                            }
+                            case "healorharm":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value);
+                                break;
+                            }
+                            case "molest":{
+                                break;
+                            }
+                            case "poison":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value,cardData.effects[num].duration);
+                                break;
+                            }
+                            case "preparedstrike":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value);
+                                break;
+                            }
+                            case "restoration":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value,cardData.effects[num].duration);
+                                break;
+                            }
+                            case "timebomb":{
+                                cardData.effects[num].description = sprintf.sprintf(cardData.effects[num].description,cardData.effects[num].value,cardData.effects[num].duration);
+                                break;
+                            }
+
+                        }
+                        cardData.effects[num].name
                     }
                     this.$(".card-info-popup__content").html(   T_cardInfoPopup(cardData));
                     this.$(".card-info-popup").css("visibility", "visible");

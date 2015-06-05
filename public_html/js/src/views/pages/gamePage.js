@@ -37,6 +37,7 @@ define(
             },
 
             render : function() {
+
             },
 
             findBattle : function() {
