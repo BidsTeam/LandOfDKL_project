@@ -1,6 +1,6 @@
 .nav-menu-container {
   text-align: center;
-  height: 5%;
+  height: 40px;
 }
 
 .nav-menu__button-container {
@@ -9,4 +9,6 @@
 
 .nav-menu__button {
   height: 25%;
+  display: inline-block;
+  margin-top: 3px;
 }

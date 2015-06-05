@@ -24,10 +24,10 @@ define(
             events : {
                 "click .chat__send-button" : "sendMsgToChat",
                 "keydown .input-container__input-field" : "sendMsgToChat",
-                "click a[action=logout]" : "logout",
-                "click a[action=findGame]" : "findBattle",
-                "click a[action=buildDeck]" : "buildDeck",
-                "click a[action=concede]" : "concede"
+                "click [action=logout]" : "logout",
+                "click [action=findGame]" : "findBattle",
+                "click [action=buildDeck]" : "buildDeck",
+                "click [action=concede]" : "concede"
             },
 
             _construct : function() {
