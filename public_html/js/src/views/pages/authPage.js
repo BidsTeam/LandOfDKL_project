@@ -46,7 +46,7 @@ define(
                     $(e.target).removeAttr("disabled");
                     loading.clearTimeoutAndCloseIfOpened();
                     if (msg.status == 404) {
-                        Alert.alert(msg.response.error, {boxClass : "alert__alert-box_err"});
+                        Alert.alert("Неправильная пара логин пароль", {boxClass : "alert__alert-box_err"});
                     } else {
                         router.navigate("game", {trigger: true, replace: true});
                     }

@@ -24,7 +24,7 @@ define(
         return PlayerInGameViewsAbstractClass.extend({
 
             _construct : function(options) {
-                this.model.cardsInHand.bind("STEP", this._onStep, this);
+                this.model.bind("STEP", this._onStep, this);
             },
 
             _onAddCardToHand : function(model, view) {
@@ -33,13 +33,18 @@ define(
 
             _onNextStepBegin : function() {
                 for (var key in this.cardViews) {
-                    this.cardViews[key].$el.draggable("enable");
+                    if (!this.cardViews[key].model.get("deleted")) {
+                        this.cardViews[key].$el.draggable("enable");
+                    }
                 }
             },
 
-            _onStep : function() {
+            _onStep : function(cardNumber) {
+                this.cardViews[cardNumber].replaceToDropField();
                 for (var key in this.cardViews) {
-                    this.cardViews[key].$el.draggable("disable");
+                    if (!this.cardViews[key].model.get("deleted")) {
+                        this.cardViews[key].$el.draggable("disable");
+                    }
                 }
             }
         });

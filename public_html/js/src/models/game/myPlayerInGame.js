@@ -13,7 +13,7 @@ define(
 
         function _onAcceptStepEvent(msg) {
             if (msg.isSetter) {
-                this.trigger("STEP");
+                this.trigger("STEP", msg.cardNumber);
             }
         }
 

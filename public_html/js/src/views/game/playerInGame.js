@@ -40,10 +40,9 @@ define(
             },
 
             _removeCardFromHand : function(model) {
-                _.remove(this.cardViews, function(cardView) {
+                _.forEach(this.cardViews, function(cardView) {
                     if (cardView.model.cid == model.cid) {
-                        cardView.remove();
-                        return true;
+                        cardView.$el.remove();
                     }
                 });
             },

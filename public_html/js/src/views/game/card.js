@@ -21,18 +21,6 @@ define(
 
             "STEP" : function() {
                 this.model.trigger("STEP", this.model);
-
-                if (this.$el.parent().hasClass("temp-container")) {
-                    this.$el.unwrap();
-                }
-
-                this.replaceToDOMElem(
-                    $(".step-place_player"),
-                    true,
-                    function() {
-                        this._clearStyles();
-                    }.bind(this)
-                );
             },
 
             "DELETE" : function() {
@@ -230,6 +218,20 @@ define(
                         .detach()
                         .appendTo($elemTo)
                 }
+            },
+
+            replaceToDropField : function() {
+                if (this.$el.parent().hasClass("temp-container")) {
+                    this.$el.unwrap();
+                }
+
+                this.replaceToDOMElem(
+                    $(".step-place_player"),
+                    true,
+                    function() {
+                        this._clearStyles();
+                    }.bind(this)
+                );
             }
         });
     }
