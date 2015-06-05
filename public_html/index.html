@@ -13,8 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css">
 
-    <script data-main='js/src/init.js' src='js/lib/require.js'></script>
-
+    
 
 </head>
 
@@ -52,6 +51,10 @@
     </div>
 </div>
 
+<script src='js/build.min.js'></script> 
+<script>
+	require(['init'], function(init){});
+</script>
 
 
 </body>

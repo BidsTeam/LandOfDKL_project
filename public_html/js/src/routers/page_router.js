@@ -75,12 +75,6 @@ define(
                 });
             },
 
-            TestPage : function() {
-                require(['views/pages/TestPage'], function(TestPageView) {
-                    TestPageView.go();
-                });
-            },
-
             MobileEventsPageInit : function() {
                 require(['views/pages/MobileTestPage'], function(MobilePageView) {
                     MobilePageView.go();

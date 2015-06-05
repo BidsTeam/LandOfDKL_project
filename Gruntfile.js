@@ -3,7 +3,10 @@ module.exports = function (grunt) {
 		shell: {
 			server: {
 	      		 command: 'mvn compile assembly:single\n cp target/LandOfDKL-1.0-SNAPSHOT-jar-with-dependencies.jar LandOfDKL.jar\n java -cp LandOfDKL.jar app.main.Main'
-			}
+			},
+            buildJar : {
+                command: "mvn compile assembly:single\n cp target/LandOfDKL-1.0-SNAPSHOT-jar-with-dependencies.jar LandOfDKL.jar\n"
+            }
 		},
 		fest: {
 			templates: {
@@ -170,7 +173,7 @@ module.exports = function (grunt) {
         [
             "sass", "fest",
             "requirejs:build", "concat:build", "uglify:build",
-            "template:buildIndexFileProduction"
+            "template:buildIndexFileProduction", "shell:buildJar"
         ]
     )
 };
