@@ -775,12 +775,24 @@ a.underline {
     height: 140px;
     background-size: cover;
     background-color: lightblue; }
-    .deck-builder .card.knight {
-      background-image: url("../images/knight.jpg"); }
-    .deck-builder .card.lady {
-      background-image: url("../images/princess.jpg"); }
-    .deck-builder .card.dragon {
-      background-image: url("../images/dragon.jpg"); }
+    .deck-builder .card.assassin {
+      background-image: url("../images/cards/120x140/assassin.jpg"); }
+    .deck-builder .card.doomdragon {
+      background-image: url("../images/cards/120x140/doom_dragon.jpg"); }
+    .deck-builder .card.instabledragon {
+      background-image: url("../images/cards/120x140/instable_dragon.jpg"); }
+    .deck-builder .card.vanillaknight {
+      background-image: url("../images/cards/120x140/vanilla_knight.jpg"); }
+    .deck-builder .card.paladin {
+      background-image: url("../images/cards/120x140/paladin.jpg"); }
+    .deck-builder .card.covardknight {
+      background-image: url("../images/cards/120x140/poison_knight.jpg"); }
+    .deck-builder .card.priestess {
+      background-image: url("../images/cards/120x140/priestess.jpg"); }
+    .deck-builder .card.reddragon {
+      background-image: url("../images/cards/120x140/red_dragon.jpg"); }
+    .deck-builder .card.succubus {
+      background-image: url("../images/cards/120x140/succubus.jpg"); }
   .deck-builder .deck {
     width: 66%;
     height: 100%;

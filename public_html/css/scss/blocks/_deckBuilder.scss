@@ -6,14 +6,32 @@
     height:140px;
     background-size:cover;
     background-color:lightblue;
-    &.knight{
-      background-image: url("../images/knight.jpg");
+    &.assassin {
+      background-image: url("../images/cards/120x140/assassin.jpg");
     }
-    &.lady{
-      background-image: url("../images/princess.jpg");
+    &.doomdragon {
+      background-image: url("../images/cards/120x140/doom_dragon.jpg");
     }
-    &.dragon{
-      background-image: url("../images/dragon.jpg");
+    &.instabledragon {
+      background-image: url("../images/cards/120x140/instable_dragon.jpg");
+    }
+    &.vanillaknight {
+      background-image: url("../images/cards/120x140/vanilla_knight.jpg");
+    }
+    &.paladin {
+      background-image: url("../images/cards/120x140/paladin.jpg");
+    }
+    &.covardknight {
+      background-image: url("../images/cards/120x140/poison_knight.jpg");
+    }
+    &.priestess {
+      background-image: url("../images/cards/120x140/priestess.jpg");
+    }
+    &.reddragon {
+      background-image: url("../images/cards/120x140/red_dragon.jpg");
+    }
+    &.succubus {
+      background-image: url("../images/cards/120x140/succubus.jpg");
     }
   }
   .deck{

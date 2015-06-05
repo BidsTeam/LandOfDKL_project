@@ -27,6 +27,8 @@ public class CardLogic {
     @NotNull(message = "Тип карты должен быть задан")
     private String cardType;
 
+    private String img;
+
     private Set<UserCardLogic> userCard = new HashSet<UserCardLogic>(0);
     private Set<EffectLogic> effects = new HashSet<>();
 
@@ -71,6 +73,15 @@ public class CardLogic {
         return effects;
     }
 
+    @Column(name = "img")
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public void setEffects(Set<EffectLogic> effects) {
         this.effects = effects;
     }
@@ -90,6 +101,7 @@ public class CardLogic {
         result.put("name",  this.getName());
         result.put("attack", this.getAttack());
         result.put("type",  this.getCardType());
+        result.put("img",  this.getImg());
         Set<EffectLogic> effects = this.getEffects();
         JSONArray effectJSONArray = new JSONArray();
         for (EffectLogic effect : effects){

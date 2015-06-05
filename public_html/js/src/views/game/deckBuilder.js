@@ -33,6 +33,10 @@ define(
                 //this.model = battleModel;
                 Socket.bind("getDeck", this.getDeck, this);
                 //Socket.send('{"action":"getDeck"}');
+                $("body").on("contextmenu",".card",function(event){
+                    event.preventDefault();
+
+                })
             },
 
             getDeck:function(msg){
@@ -89,18 +93,27 @@ define(
                 var self = this;
                 _.forEach(["knight","lady","dragon"],function(val,key){
                     this.$el.find(".deck__"+val+" .deck__card").droppable({
-                        accept: "." + val,
+                        accept: function(e){
+                            if (e.data("type") == val){
+                                return true;
+                            }
+                        },
                         drop: function (e) {
-                            $(e.target).addClass(val);
+                            $(e.target).removeClass($(e.target).data("img"));
                             $(e.target).data("cid",$(e.toElement).data("cid"));
                             $(e.target).data("name",$(e.toElement).data("name"));
                             $(e.target).data("type",$(e.toElement).data("type"));
+                            $(e.target).data("img",$(e.toElement).data("img"));
+
+                            $(e.target).addClass($(e.toElement).data("img"));
+
                             _.forEach(["first", "second", "third", "four", "five"], function (v, k) {
                                 if ($(e.target).hasClass(v)) {
                                     self.data.deck[val][k]= {
                                         id: $(e.target).data("cid"),
                                         name: $(e.target).data("name"),
-                                        type: $(e.target).data("type")
+                                        type: $(e.target).data("type"),
+                                        img: $(e.target).data("img")
                                     }
                                 };
                             });
