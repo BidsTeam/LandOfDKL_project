@@ -853,6 +853,42 @@ a.underline {
       background-image: url("../images/cards/120x140/red_dragon.jpg"); }
     .deck-builder .card.succubus {
       background-image: url("../images/cards/120x140/succubus.jpg"); }
+    .deck-builder .card.assassin_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/assassin.jpg"); }
+    .deck-builder .card.doomdragon_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/doom_dragon.jpg"); }
+    .deck-builder .card.instabledragon_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/instable_dragon.jpg"); }
+    .deck-builder .card.vanillaknight_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/vanilla_knight.jpg"); }
+    .deck-builder .card.paladin_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/paladin.jpg"); }
+    .deck-builder .card.covardknight_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/poison_knight.jpg"); }
+    .deck-builder .card.priestess_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/priestess.jpg"); }
+    .deck-builder .card.reddragon_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/red_dragon.jpg"); }
+    .deck-builder .card.succubus_big {
+      width: 240px;
+      height: 280px;
+      background-image: url("../images/cards/240x280/succubus.jpg"); }
   .deck-builder .deck {
     width: 66%;
     height: 100%;
@@ -898,7 +934,7 @@ a.underline {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: rgba(200, 200, 200, 0.6);
+  background-color: rgba(26, 26, 26, 0.8);
   width: 100%;
   height: 100%;
   text-align: center;
@@ -906,16 +942,42 @@ a.underline {
   z-index: 999; }
 
 .card-info-popup__content {
-  background-color: gray;
+  background-color: rgba(40, 28, 3, 0.95);
   display: inline-block;
   width: 50%;
   margin-top: 10%;
   position: relative;
-  transform: translateY(-50%); }
+  border-radius: 15px;
+  color: white;
+  font-family: fantasy; }
 
 .card-info-popup__card-image {
   display: inline-block;
   width: 100px;
-  height: 100px; }
+  height: 100px;
+  float: right;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-bottom: 15px; }
+
+.card-info-popup__card-name {
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 10px; }
+
+.card-info-popup__card-attack {
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 10px; }
+
+.card-info-popup__card-type {
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 10px; }
+
+.card-info-popup__card-effects {
+  text-align: left;
+  margin-top: 10px;
+  margin-left: 10px; }
 
 /*# sourceMappingURL=main.css.map */
