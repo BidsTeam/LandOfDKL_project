@@ -15,6 +15,13 @@
   position: relative;
   top: 50%;
   transform: translateY(-50%);
+  .easter_egg{
+    float:right;
+    color:greenyellow;
+  }
+  .alert-box__controls{
+    clear:both;
+  }
 }
 
 .alert__alert-box_err {

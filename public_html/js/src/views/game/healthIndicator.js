@@ -20,7 +20,17 @@ define(
             updateHealth : function() {
                 var health = this.model.get("health");
                 this.$el.find(".health__health-number").html(health);
+                if (health > 20){
+                    console.log("test1",this.$el.find(".health__health-line-indicator"));
+                    this.$el.find(".health__health-line-indicator").css("background-image","-webkit-linear-gradient(top, rgb(0, 89, 0), rgb(0, 128, 0) 50%, rgb(0, 190, 0) 51%, rgb(0, 89, 0))");
+                } else {
+                    this.$el.find(".health__health-line-indicator").css("background-image","-webkit-linear-gradient(top, rgb(89, 0, 0), rgb(128, 0, 0) 50%, rgb(190, 0, 0) 51%, rgb(33, 0, 0))");
+                }
+
                 var healthPercent = (100 / this.model.get("startHealth")) * health;
+                if (health > 20){
+                    healthPercent = 100;
+                }
                 this.$el.find(".health__health-line-indicator").css({width : healthPercent+"%"});
                 this.$el.parent().find(".effect").html('');
                 _.forEach(this.model.get("effectList"),function(value,key){

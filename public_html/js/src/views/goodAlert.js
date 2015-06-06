@@ -56,6 +56,9 @@ define(
                     }
                     if (options.boxClass) {
                         this.$(".alert__alert-box").addClass(options.boxClass);
+                        if(options.boxClass == "alert__alert-box_err"){
+                            this.$(".easter_egg").text("(это фича)")
+                        }
                     }
                 }
 
@@ -74,6 +77,7 @@ define(
             },
 
             hide : function(options) {
+                this.$(".easter_egg").text("");
                 this.$(".alert__alert-box").removeClass("softAnimate");
                 this.$el.css("visibility", "hidden"); //todo ...и скрытия
             },
