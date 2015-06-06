@@ -84,7 +84,7 @@ define(
                         }
                         cardData.effects[num].name
                     }
-                    this.$(".card-info-popup__content").html(   T_cardInfoPopup(cardData));
+                    this.$(".card-info-popup__content").html(T_cardInfoPopup(cardData));
                     this.$(".card-info-popup").css("visibility", "visible");
                 }.bind(this));
             },

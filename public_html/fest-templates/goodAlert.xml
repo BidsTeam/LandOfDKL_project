@@ -8,7 +8,7 @@
                     <fest:value>data.text</fest:value>
                 </fest:if>
             </div>
-
+            <div class="easter_egg"></div>
             <div class="alert-box__controls">
                 <button class="btn ok">Ок</button>
             </div>
