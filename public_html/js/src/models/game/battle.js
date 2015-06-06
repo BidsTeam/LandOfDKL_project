@@ -36,11 +36,11 @@ define(
                     for (var key in msg.deck) {
                         playerDeck.push(new CardModelClass({cardId : msg.deck[key]}));
                     }
-                    User.set("name",msg.firstName);
+                    User.set("name",msg.playerName);
                     this.player = new MyPlayerInGameModelClass({
                         deck : playerDeck,
                         type : "player",
-                        name : User.get("name"),
+                        name : msg.playerName,
                         health : msg.yourHealth
                     });
 

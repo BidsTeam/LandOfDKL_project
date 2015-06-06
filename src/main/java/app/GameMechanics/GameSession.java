@@ -190,15 +190,17 @@ public class GameSession {
     private JSONObject reportOneSideGameState(int number) {
         JSONObject json = new JSONObject();
         if (number == 1) {
+            json.put("playerName", firstPlayer.getUsername());
+            json.put("opponentName", secondPlayer.getUsername());
             json.put("yourHealth", firstPlayer.getHealth());
             json.put("opponentHealth", secondPlayer.getHealth());
         } else if (number == 2) {
+            json.put("playerName", secondPlayer.getUsername());
+            json.put("opponentName", firstPlayer.getUsername());
             json.put("yourHealth", secondPlayer.getHealth());
             json.put("opponentHealth", firstPlayer.getHealth());
         }
         json.put("cardAmount", cardCount);
-        json.put("firstName", firstPlayer.getUsername());
-        json.put("secondName", secondPlayer.getUsername());
         return json;
     }
 
