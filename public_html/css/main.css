@@ -918,4 +918,22 @@ a.underline {
   width: 100px;
   height: 100px; }
 
+.preloader-screen {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: #000000; }
+
+.preloader-container {
+  position: relative;
+  display: block;
+  text-align: center;
+  top: 50%;
+  transform: translateY(-50%); }
+
+.preloader {
+  display: inline-block; }
+
 /*# sourceMappingURL=main.css.map */

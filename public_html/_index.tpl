@@ -51,6 +51,20 @@
     </div>
 </div>
 
+<div class="preloader-screen">
+    <div class="preloader-container">
+        <img class="preloader" src="images/727.GIF">
+    </div>
+</div>
+
+<script>
+    (function () {
+        window.onload = function () {
+            document.getElementsByClassName("preloader-screen")[0].style.display = "none";
+        };
+    })();
+</script>
+
 <%= productionScriptInit %>
 
 </body>

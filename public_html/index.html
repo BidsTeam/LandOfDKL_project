@@ -13,7 +13,8 @@
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.css">
 	<link rel="stylesheet" type="text/css" href="css/jquery-ui.structure.css">
 
-    
+    <script data-main='js/src/init.js' src='js/lib/require.js'></script>
+
 
 </head>
 
@@ -51,10 +52,20 @@
     </div>
 </div>
 
-<script src='js/build.min.js'></script> 
+<div class="preloader-screen">
+    <div class="preloader-container">
+        <img class="preloader" src="images/727.GIF">
+    </div>
+</div>
+
 <script>
-	require(['init'], function(init){});
+    (function () {
+        window.onload = function () {
+            document.getElementsByClassName("preloader-screen")[0].style.display = "none";
+        };
+    })();
 </script>
+
 
 
 </body>
