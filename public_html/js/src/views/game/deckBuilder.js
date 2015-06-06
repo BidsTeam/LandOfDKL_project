@@ -38,7 +38,6 @@ define(
                 "click .card-info-popup__button_ok" : "hidePopup"
             },
 
-            data : null,
 
             initialize : function() {
                 //this.model = battleModel;
@@ -93,10 +92,6 @@ define(
 
             getDeck:function(msg) {
                 this.data = msg;
-                document.getElementsByClassName("preloader-screen")[0].style.display = "none";
-                if (this.renderingProcess) {
-                    this.render();
-                }
             },
 
             hidePopup : function() {
@@ -136,66 +131,59 @@ define(
             //},
 
             render : function() {
-                this.renderingProcess = true;
-                if (this.data) {
+                this.setElement(deckBuilderTpl(this.data));
+                $("#game-area").html(this.$el);
+                this.$el.find(".card__draggable").draggable({
+                    helper: "clone",
+                    revert: function(isValidDrop){
+                        if (!isValidDrop){
+                            return true;
+                        }
+                        return false;
+                    }
 
-                    this.setElement(deckBuilderTpl(this.data));
-                    $("#game-area").html(this.$el);
-                    this.$el.find(".card__draggable").draggable({
-                        helper: "clone",
-                        revert: function(isValidDrop){
-                            if (!isValidDrop){
+                });
+                var self = this;
+                _.forEach(["knight","lady","dragon"],function(val,key){
+                    this.$el.find(".deck__"+val+" .deck__card").droppable({
+                        accept: function(e){
+                            if (e.data("type") == val){
                                 return true;
                             }
-                            return false;
+                        },
+                        drop: function (e) {
+                            $(e.target).removeClass($(e.target).data("img"));
+                            $(e.target).data("cid",$(e.toElement).data("cid"));
+                            $(e.target).data("name",$(e.toElement).data("name"));
+                            $(e.target).data("type",$(e.toElement).data("type"));
+                            $(e.target).data("img",$(e.toElement).data("img"));
+
+                            $(e.target).addClass($(e.toElement).data("img"));
+
+                            _.forEach(["first", "second", "third", "four", "five"], function (v, k) {
+                                if ($(e.target).hasClass(v)) {
+                                    self.data.deck[val][k]= {
+                                        id: $(e.target).data("cid"),
+                                        name: $(e.target).data("name"),
+                                        type: $(e.target).data("type"),
+                                        img: $(e.target).data("img")
+                                    }
+                                };
+                            });
+
+                            var deck = [];
+                            _.forEach(self.data.deck,function(val,key){
+                                _.forEach(val,function(v,k){
+                                    deck.push(v.id);
+                                });
+                            });
+                            Socket.send(JSON.stringify({
+                                "action": "newDeck",
+                                "deck": deck
+                            }))
                         }
-
                     });
-                    var self = this;
-                    _.forEach(["knight","lady","dragon"],function(val,key){
-                        this.$el.find(".deck__"+val+" .deck__card").droppable({
-                            accept: function(e){
-                                if (e.data("type") == val){
-                                    return true;
-                                }
-                            },
-                            drop: function (e) {
-                                $(e.target).removeClass($(e.target).data("img"));
-                                $(e.target).data("cid",$(e.toElement).data("cid"));
-                                $(e.target).data("name",$(e.toElement).data("name"));
-                                $(e.target).data("type",$(e.toElement).data("type"));
-                                $(e.target).data("img",$(e.toElement).data("img"));
-
-                                $(e.target).addClass($(e.toElement).data("img"));
-
-                                _.forEach(["first", "second", "third", "four", "five"], function (v, k) {
-                                    if ($(e.target).hasClass(v)) {
-                                        self.data.deck[val][k]= {
-                                            id: $(e.target).data("cid"),
-                                            name: $(e.target).data("name"),
-                                            type: $(e.target).data("type"),
-                                            img: $(e.target).data("img")
-                                        }
-                                    };
-                                });
-
-                                var deck = [];
-                                _.forEach(self.data.deck,function(val,key){
-                                    _.forEach(val,function(v,k){
-                                        deck.push(v.id);
-                                    });
-                                });
-                                Socket.send(JSON.stringify({
-                                    "action": "newDeck",
-                                    "deck": deck
-                                }))
-                            }
-                        });
-                    },this);
-
-                } else {
-                    document.getElementsByClassName("preloader-screen")[0].style.display = "block";
-                }
+                },this);
             }
         }))();
     }
